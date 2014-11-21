@@ -1,0 +1,209 @@
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="../css/admin.css">
+    </head>
+    <body>
+        <div class="container">
+
+            <div class="header">
+
+                <div class="logo">
+                    <img class="logo" src="../plaatjes/logo.png">
+                </div>
+                <div class="login">
+                    <form>
+                        <table>
+                            <tr><td></td></tr>
+                            <tr><td>Gebruikersnaam:</td><td><input class="gebruikersnaam"type="text" value="naam"><br></td></tr>
+                            <tr><td>Wachtwoord:</td><td><input class="wachtwoord" type="text" value="wachtwoord"></td></tr>
+                            <tr><td><input type="submit" value="login"></td></tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+
+            <div class="menu">
+                <ul class="menu">
+                    <li class="menu"><a class="ajax-link" href="userstory6_1.php">Home</a></li>
+                    <li class="menu"><a href="#">Papier</a></li>
+                    <li class="menu"><a href="#">Dispencers</a></li>
+                    <li class="menu"><a href="#">Reinigingsmiddelen</a></li>
+                    <li class="menu"><a href="#">Schoonmaakmateriaal</a></li>
+                </ul>
+
+            </div>
+
+            <div class="content">
+                <script>
+                    function checkDelete(){
+                        return confirm("Weet u zeker dat u dit product wilt verwijderen?");
+                    }
+                </script>
+                <div class="body" id="main_content">
+                    <?php
+                    $link = mysqli_connect("localhost", "root", "usbw", "vvtissue", 3307);
+                    if (mysqli_connect_error($link)) {
+                        print(mysqli_connect_error($link));
+                    }
+
+                    if (isset($_GET["actie"])) {
+                        $actie = $_GET["actie"];
+                        if ($actie == "Toevoegen") {
+                            $productnaam = $_GET["productnaam"];
+                            $categorie = $_GET["categorie"];
+                            $merk = $_GET["merk"];
+                            $omschrijving = $_GET["omschrijving"];
+                            $voorraad = $_GET["voorraad"];
+                            $prijs = $_GET["prijs"];
+                            $afbeelding = $_GET["afbeelding"];
+                            
+                            mysqli_query($link, "INSERT INTO product(productnaam,categorie,merk,omschrijving,voorraad,prijs,afbeelding) VALUES('".$productnaam."', '".$categorie."', '".$merk."','". $omschrijving."', '".$voorraad."', '".$prijs."', '".$afbeelding."');");
+                            
+                        }
+                        
+                        if ($actie == "Verwijderen") {
+                                    $productnr = $_GET["productnr"];
+                                           mysqli_query($link, 'DELETE FROM product WHERE productnr = "' . $productnr . '";'); 
+                        }
+
+                        if ($actie == "Bijwerken") {
+                            $productnaam = $_GET["productnaam"];
+                            $categorie = $_GET["categorie"];
+                            $merk = $_GET["merk"];
+                            $omschrijving = $_GET["omschrijving"];
+                            $voorraad = $_GET["voorraad"];
+                            $prijs = $_GET["prijs"];
+                            $afbeelding = $_GET["afbeelding"];
+
+                            mysqli_query($link, 'UPDATE product SET productnaam = "' . $productnaam . '", categorie = "' . $categorie . '", merk = "' . $merk . '", omschrijving = "' . $omschrijving . '", voorraad = "' . $voorraad . '", prijs = "' . $prijs . '", afbeelding = "' . $afbeelding . '" WHERE productnaam = "' . $productnaam . '";');
+                            print(mysqli_error($link));
+                        }
+                    }
+
+                    if (isset($_GET["actie"])) {
+                        $actie = $_GET["actie"];
+                    } else {
+                        $actie = "";
+                    }
+
+
+
+                    if ($actie == "Aanpassen") {
+                        $productnr = $_GET["productnr"];
+                        $result = mysqli_query($link, 'SELECT * FROM product WHERE productnr ="' . $productnr . '";');
+                        $row = mysqli_fetch_assoc($result);
+                        $productnaam = $row["productnaam"];
+                        $categorie = $row["categorie"];
+                        $merk = $row["merk"];
+                        $omschrijving = $row["omschrijving"];
+                        $voorraad = $row["voorraad"];
+                        $prijs = $row["prijs"];
+                        $afbeelding = $row["afbeelding"];
+                        $waarde = "Bijwerken";
+                        $disabled = "";
+                    } else {
+                        $productnr = "";
+                        $productnaam = "";
+                        $categorie = "";
+                        $merk = "";
+                        $omschrijving = "";
+                        $voorraad = "";
+                        $prijs = "";
+                        $afbeelding = "";
+                        $waarde = "Toevoegen";
+                        $disabled = "";
+                    }
+                    print('<div class="header_administratie">Product toevoegen</div>');
+                    print('<table class="table">');
+                    print('<form id="toevoegen" method="get" action=""');
+                    print('<tr><td>Productnaam:</td><td><input type="text" name="productnaam" value="' .$productnaam. '" '.$disabled.'></tr>');
+                    print('<tr><td>Categorie:</td><td><input type="text" name="categorie" value="' .$categorie. '"></tr>');
+                    print('<tr><td>Merk:</td><td><input type="text" name="merk" value="' .$merk. '"></tr>');
+                    print('<tr><td>Omschrijving:</td><td><input type="text" name="omschrijving" value="' .$omschrijving. '"></tr>');
+                    print('<tr><td>Voorraad:</td><td><input type="text" name="voorraad" value="' .$voorraad. '"></tr>');
+                    print('<tr><td>Prijs:</td><td><input type="text" name="prijs" value="' .$prijs. '"></tr>');
+                    print('<tr><td>Afbeelding:</td><td><input type="text" name="afbeelding" value="img/"' .$afbeelding. '"></form>');
+//                     upload form
+                    print('<td><table class="table">');
+                    print('<form enctype="multipart/form-data" action"productbeheer.php" method="POST"');
+                    print('<input type="hidden" name="MAX_FILE_SIZE" value="512000" />');
+                    print('<tr></tr><tr><td><input name="uploadimg" type="file" /></td>');
+                    print('<td><input type="submit" class="button" value"upload" /></td>');
+                    print('</form>');
+                    print('</table></td></tr>');
+//                     einde upload form
+                    print('<tr><td colspan=2><input form="toevoegen" type="submit" name="actie" class="button" value="' .$waarde. '"></tr>');
+                    //print('</form>');
+                    print('</table><br><br>');
+                    
+                    
+                    // afbeelding uploaden
+                    
+                    
+                    if(isset($_FILES['uploadimg'])){
+                    $uploaddir = 'img/';
+                    $uploadfile = $uploaddir . basename($_FILES['uploadimg']['name']);
+
+                    echo "<p>";
+
+                    if (move_uploaded_file($_FILES['uploadimg']['tmp_name'], $uploadfile)) {
+                        echo "Afbeelding is geupload.\n";
+                    } else {
+                        echo "Uploaden van afbeelding is mislukt.";
+                    }
+                    }
+
+                    //echo "</p>";
+                    //echo '<pre>';
+                    //echo 'Debug informatie:';
+                    //print_r($_FILES);
+                    //print "</pre>";
+                    
+                    // toont resultaten
+                    $result = mysqli_query($link, 'SELECT * FROM product');
+                    $row = mysqli_fetch_assoc($result);
+
+                    print('<table class="table_administratie"><tr><th>productnr</th><th>productnaam</th><th>categorie</th><th>merk</th><th>omschrijving</th><th>voorraad</th><th>prijs</th><th>afbeelding</th><th>Verwijderen</th><th>Aanpassen</th></tr>');
+                    while ($row) {
+                        print('<tr><td>' . $row["productnr"] . '</td>'
+                                . '<td>' . $row["productnaam"] . '</td>'
+                                . '<td>' . $row["categorie"] . '</td>'
+                                . '<td>' . $row["merk"] . '</td>'
+                                . '<td>' . $row["omschrijving"] . '</td>'
+                                . '<td>' . $row["voorraad"] . '</td>'
+                                . '<td>' . $row["prijs"] . '</td>'
+                                . '<td><img src"' . $row["afbeelding"] . '" ></td>'
+                                . '<td><form action="" method="GET" class="table_administratie_button" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"><input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td>'
+                                . '<td><form action="" method="GET" class="table_administratie_button" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"><input type="submit" name="actie" value="Aanpassen"></form></td></tr>');
+                        $row = mysqli_fetch_assoc($result);
+                    }
+                    print("</table>");
+                    ?>
+
+                </div>
+
+                
+            </div>
+
+            <div class="footer">
+
+            </div>
+
+        </div>
+        <?php
+        // put your code here
+        ?>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script>
+            $(function () {
+                $("a.ajax-link").on("click", function (e) {
+                    e.preventDefault();
+                    $("#main_content").load(this.href);
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,22 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 18-nov-2014, 14:25:00
+    Author     : GertJan
+*/
+
+.button_registreer {
+    border: 1px solid darkgrey;
+    color: white;
+    background-color: #344D8E;
+    padding: 2px 8px;
+    float: right;
+}
+.button_registreer:hover {
+    border: 1px solid black;
+    background-color: #9A9CC5;
+    padding: 2px 8px;
+}

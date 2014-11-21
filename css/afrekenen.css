@@ -1,0 +1,48 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 14-nov-2014, 14:49:16
+    Author     : Gert Jan
+*/
+
+.afrekenen_tabel{
+    width: 100%;
+    border-spacing:0px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.afrekenen_tabel th{
+    font-size:90%;
+    background-color: #344D8E;
+    border: 1px solid #344D8E;
+    color:#fff;
+    text-align: left;
+}
+.afrekenen_tabel td{
+    margin:0%;
+    border: 1px solid rgb(66, 85, 146);
+}
+.afrekenen_totaal{
+    float:right;
+    margin-top:2%;
+    margin-right:1%;
+}
+.afrekenen_totaal ul{
+    list-style-type:none;
+    margin:0px;
+}
+.afrekenen_totaal ul li{
+    display:inline-block;
+}
+.afrekenen_totaal ul li h2, .afrekenen_totaal ul li h3{
+    margin:0px;
+}
+.afrekenen_totaal_text{
+    width:250px;
+}
+.afrekenen_form{
+    float:right;
+}

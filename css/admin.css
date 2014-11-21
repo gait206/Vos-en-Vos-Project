@@ -1,0 +1,174 @@
+body{
+    background: none;
+    letter-spacing: 0.1em;
+    font: normal 100% 'lucida sans unicode', arial, sans-serif;
+
+}
+.p {
+    letter-spacing: 0.1em;
+    font: normal 100% 'lucida sans unicode', arial, sans-serif;
+    font-weight: bold;
+}
+
+div{
+
+}
+img.logo{
+    
+    width: 20%;
+    margin: 2%;
+}
+.container{
+    border-radius: 10px;
+    width: 1300px;
+    margin-top: 2%;
+    margin-left: auto ;
+    margin-right: auto ;
+    //border: 1px solid black;
+}
+.header{
+    margin: 2%;
+    overflow: hidden; 
+}
+.logo{
+
+    width: 70%;
+    float:left;
+
+}
+.login{
+    overflow: hidden;
+    height:available;
+}
+
+.input {
+    border: 1px solid darkgrey;
+}
+.input:hover {
+    border: 1px solid black;
+}
+
+.button {
+    border: 1px solid darkgrey;
+    color: white;
+    background-color: #344D8E;
+    padding: 2px 8px;
+    float: right;
+}
+.button:hover {
+    border: 1px solid black;
+    background-color: #9A9CC5;
+    padding: 2px 8px;
+}
+
+.menu{
+    border-radius: 5px;
+}
+div.menu{ 
+    margin-right: 2%;
+    margin-top:  2%;
+    margin-left: 2%;
+    height: 35px;
+    background-color: #344D8E;
+
+}
+.menu ul{
+    margin: 2px;
+    padding: 0;
+    list-style-type: none;
+    text-align: center;
+}
+
+.menu ul li{
+    margin-top: 5px;
+    margin-left: 11px;
+    display: block;
+    float: left;  
+    padding-left: 2px;
+        
+}
+.menu ul li a{
+    text-decoration:none;
+    padding: .2em 1em;
+    color: #fff;
+    background-color: #344D8E;
+}
+.menu ul li a:hover{
+    border: 1px solid #5E5E64;
+    color: #fff;
+    background-color: #9A9CC5;
+}
+
+.content{
+    border-radius: 5px;
+    overflow: hidden;
+    float:inside;
+}
+.body{
+    border-radius: 5px;
+    border: #344D8E 1px solid;
+    width: 96%;
+    margin-top: 2%;
+    margin-left: 2%;
+    margin-bottom: 2%;
+    float:left;
+}
+.banner{
+    border-radius: 5px;
+    border: 1px solid #344D8E;
+    width: calc(15% - 2px);
+    margin: 2%;
+    float:left;
+}
+.footer{
+    width: 96%;
+    height: 20%;
+    border: 1px solid #344D8E;
+    border-radius: 5px;
+    margin-bottom:  2%;
+    margin-left:  2%;
+    margin-right:  2%;
+}
+
+
+.table_administratie{
+    width: 100%;
+    border-spacing:0px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.table_administratie th{
+    font-size:90%;
+    background-color: #344D8E;
+    border: 1px solid #344D8E;
+    color: #fff;
+    text-align: left;
+}
+.table_administratie td{
+    margin:0%;
+    border: 1px solid rgb(66, 85, 146);
+}
+.header_administratie{
+    background-color: #344D8E;
+    width: auto;
+    font-size: 18px;
+    font-weight:bold;
+    color:#fff;
+}
+.table_administratie_button {
+    text-align: center;
+    margin: 5%;
+}
+.table_administratie_button input {
+    border: 1px solid darkgrey;
+    color: white;
+    background-color: #344D8E;
+    padding: 10px;
+}
+.table_administratie_button input:hover {
+    border: 1px solid black;
+    background-color: #9A9CC5;
+    padding: 10px;
+}
