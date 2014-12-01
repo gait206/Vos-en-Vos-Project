@@ -410,7 +410,6 @@ function restrictedPage($level, $link) {
         }
     } else {
         header('Location: ../index.php');
-        print("test");
         return false;
     }
 }
