@@ -1,3 +1,7 @@
+<?php
+session_start();
+include('../functies.php');
+?>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -14,28 +18,16 @@
                     <img class="logo" src="../plaatjes/logo.png">
                 </div>
                 <div class="login">
-                    <form>
-                        <table>
-                            <tr><td></td></tr>
-                            <tr><td>Gebruikersnaam:</td><td><input class="input"type="text" value="naam"><br></td></tr>
-                            <tr><td>Wachtwoord:</td><td><input class="input" type="text" value="wachtwoord"></td></tr>
-                            <tr><td><input class="button" type="submit" value="Registreren"></td>
-                            <td><input class="button" type="submit" value="Inloggen"></td></tr>
-                        </table>
-                    </form>
+                    <?php
+                    include('../login/loginscherm.php');
+                    ?>
                 </div>
             </div>
 
-            <div class="menu">
-                <ul class="menu">
-                    <li class="menu"><a class="ajax-link" href="userstory6_1.php">Home</a></li>
-                    <li class="menu"><a href="#">Papier</a></li>
-                    <li class="menu"><a href="#">Dispencers</a></li>
-                    <li class="menu"><a href="#">Reinigingsmiddelen</a></li>
-                    <li class="menu"><a href="#">Schoonmaakmateriaal</a></li>
-                </ul>
-
-            </div>
+            <?php
+			define('THIS_PAGE', 'Home');
+			include('../menu.php');
+			?>
 
             <div class="content">
 
@@ -53,31 +45,93 @@
                 </div>
 
                 <div class="body" id="main_content">
-                    <p class="p">Registreren</p>
-                    <table>
-                    <form method="post" action="registreerv.php">
-                        <tr><td><p class="p">Contactpersoon</p></td></tr>
-                        <tr><td>Voornaam:</td><td><input class="input" type="text" value=""></td></tr>
-                        <tr><td>Achternaam:</td><td><input class="input" type="text" value=""></td></tr>
-                        <tr><td>Telefoonnummer:</td><td><input class="input" type="text" value=""></td></tr>
-                        <tr><td>Mobiel:</td><td><input class="input" type="text" value=""></td></tr>
-                        
-                        <tr><td><p class="p">Bedrijfsgegevens</p></td></tr>
-                        <tr><td>Bedrijfsnaam:</td><td><input class="input" type="text" value=""></td></tr>
-                        <tr><td>Adres:</td><td><input class="input" type="text" value=""></td></tr>
-                        <tr><td>Postcode:</td><td><input class="input" type="text" value=""></td></tr>
-                        <tr><td>Plaats:</td><td><input class="input" type="text" value=""></td></tr>
-                        <tr><td>KvK-nummer:</td><td><input class="input" type="text" value=""></td></tr>
-                        <tr><td>BTW-nummer:</td><td><input class="input" type="text" value=""></td></tr>
-                        
-                        <tr><td><p class="p">Inloggegevens</p></td></tr>
-                        <tr><td>Emailadres:</td><td><input class="input" type="text" value=""></td></tr>
-                        <tr><td>Wachtwoord:</td><td><input class="input" type="pwd" value=""></td></tr>
-                        <tr><td>Herhaal wachtwoord:</td><td><input class="input" type="pwd" value=""></td></tr>
-                        <tr><td colspan=2><input class="button_registreer" type="submit" value="Registreren"</td></tr>
-                        
-                    </form>
-                    </table>
+                    <?php
+                    $link = connectDB();
+                    if (mysqli_connect_error($link)) {
+                        print(mysqli_connect_error($link));
+                    }
+                    // nieuwe klant registreren
+                    if (isset($_POST["registreer"])) {
+                                                
+                            //Contactpersoon
+                            $voornaam = $_POST["voornaam"];
+                            $achternaam = $_POST["achternaam"];
+                            $telnummer = $_POST["telnummer"];
+                            $mobnummer = $_POST["mobnummer"];
+                            //bedrijfsgegevens
+                            $bedrijfsnaam = $_POST["bedrijfsnaam"];
+                            $adres = $_POST["adres"];
+                            $postcode = $_POST["postcode"];
+                            $plaats = $_POST["plaats"];
+                            $kvknummer = $_POST["kvknummer"];
+                            $btwnummer = $_POST["btwnummer"]; 
+                            //inloggegevens
+                            $email = $_POST["email"];
+                            $wachtwoord = $_POST["wachtwoord"];
+                            $wachtwoord2 = $_POST['wachtwoord2'];
+                            
+                            if (($_POST['wachtwoord'] == $_POST['wachtwoord2']) && !empty($email)) {
+                                
+                                $wachtwoord3 = encryptPassword($wachtwoord);
+                            
+                           
+                            mysqli_query($link, "INSERT INTO gebruiker(email,wachtwoord) VALUES('".$email."', '".$wachtwoord3."');");    
+                            mysqli_query($link, "INSERT INTO klant(voornaam,achternaam,telnummer,mobnummer,bedrijfsnaam,adres,postcode,plaats,kvknummer,btwnummer,email) "
+                            . "VALUES('".$voornaam."', '".$achternaam."', '.$telnummer.','. $mobnummer.', '".$bedrijfsnaam."', '".$adres."', '".$postcode."', '".$plaats."', '.$kvknummer.', '.$btwnummer.', '".$email."');"); 
+                            
+                            print(mysqli_error($link));
+                            
+                            } else {
+                                if ($_POST['wachtwoord'] != $_POST['wachtwoord2']) {
+                                print("De wachtwoord komen niet overeen!");
+                            }
+                            }
+                    } else {
+                            $voornaam = '';
+                            $achternaam = '';
+                            $telnummer = '';
+                            $mobnummer = '';
+                            //bedrijfsgegevens
+                            $bedrijfsnaam = '';
+                            $adres = '';
+                            $postcode = '';
+                            $plaats = '';
+                            $kvknummer = '';
+                            $btwnummer = '';
+                            //inloggegevens
+                            $email = '';
+                            $wachtwoord = '';
+                            $wachtwoord2 = '';
+                    }
+                       
+                    print('<div class="header_administratie">Registreren</div>');
+                    print('<table class="table">');
+                    print('<form id="registreren" method="post" action="registreer.php"');
+                    // Contactpersoon
+                    print('<tr><td><p class="p">Contactpersoon<p></td></tr>');
+                    print('<tr><td>Voornaam:</td><td><input class="input" type="text" name="voornaam" value="' .$voornaam. '"></tr>');
+                    print('<tr><td>Achternaam:</td><td><input class="input" type="text" name="achternaam" value="' .$achternaam. '"></tr>');
+                    print('<tr><td>telefoonnummer:</td><td><input class="input" type="text" name="telnummer" value="' .$telnummer. '"></tr>');
+                    print('<tr><td>Mobielnummer:</td><td><input class="input" type="text" name="mobnummer" value="' .$mobnummer. '"></tr>');
+                    // Bedrijfsgegevens
+                    print('<tr><td><p class="p">Bedrijfsgegevens<p></td></tr>');
+                    print('<tr><td>Bedrijfsnaam:</td><td><input class="input" type="text" name="bedrijfsnaam" value="' .$bedrijfsnaam. '"></tr>');
+                    print('<tr><td>Adres:</td><td><input class="input" type="text" name="adres" value="' .$adres. '"></tr>');
+                    print('<tr><td>Postcode:</td><td><input class="input" type="text" name="postcode" value="' .$postcode. '"></tr>');
+                    print('<tr><td>Plaats:</td><td><input class="input" type="text" name="plaats" value="' .$plaats. '"></tr>');
+                    print('<tr><td>KvK-nummer:</td><td><input class="input" type="text" name="kvknummer" value="' .$kvknummer. '"></tr>');
+                    print('<tr><td>BTW-nummer:</td><td><input class="input" type="text" name="btwnummer" value="' .$btwnummer. '"></tr>');
+                    // Inloggegevens
+                    print('<tr><td><p class="p">Inloggegevens<p></td></tr>');
+                    print('<tr><td>Emailadres:</td><td><input class="input" type="text" name="email" value="' .$email. '"></tr>');
+                    print('<tr><td>Wachtwoord:</td><td><input class="input" type="password" name="wachtwoord" value="' .$wachtwoord. '"></tr>');
+                    print('<tr><td>Herhaal wachtwoord:</td><td><input class="input" type="password" name="wachtwoord2" value="' .$wachtwoord2. '"></tr>');
+                    print('<tr><td colspan=2><input type="submit" name="registreer" class="button" value="Registreren"></td></tr>');
+                    print('</form>');
+                    print('</table>');
+                    
+                    ?>
+   
                 </div>
 
                 <div class="banner">

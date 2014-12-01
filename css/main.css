@@ -18,6 +18,10 @@ img.logo{
     width: 20%;
     margin: 2%;
 }
+.small{
+    height:30%;
+    width:30%;
+}
 .container{
     border-radius: 10px;
 
@@ -98,12 +102,12 @@ div.menu{
     border: 1px solid #344D8E;
 }
 .menu ul li a:hover{
-    //border: 1px solid #5E5E64;
     border: 1px solid #9A9CC5;
+    border-top-color: #9A9CC5;
+    border-bottom-color: #9A9CC5;
     color: #fff;
     background-color: #9A9CC5;
 }
-
 .content{
     border-radius: 5px;
     overflow: hidden;
