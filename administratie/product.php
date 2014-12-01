@@ -1,4 +1,7 @@
-
+<?php
+session_start();
+include('../functies.php');
+?>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -14,14 +17,9 @@
                     <img class="logo" src="../plaatjes/logo.png">
                 </div>
                 <div class="login">
-                    <form>
-                        <table>
-                            <tr><td></td></tr>
-                            <tr><td>Gebruikersnaam:</td><td><input class="gebruikersnaam"type="text" value="naam"><br></td></tr>
-                            <tr><td>Wachtwoord:</td><td><input class="wachtwoord" type="text" value="wachtwoord"></td></tr>
-                            <tr><td><input type="submit" value="login"></td></tr>
-                        </table>
-                    </form>
+                    <?php
+					include('../login/loginscherm.php');
+					?>
                 </div>
             </div>
 
@@ -53,10 +51,10 @@
 
                 <div class="body" id="main_content">
                     <?php
-                    if (isset($_GET["productnr"])) {
+                    if (isset($_POST["productnr"])) {
                         //connectie maken en qeury versturen
-                        $productnr = $_GET["productnr"];
-                        $link = mysqli_connect("localhost", "root", "usbw", "vvtissue", 3306);
+                        $productnr = $_POST["productnr"];
+                        $link = connectDB();
                         if (mysqli_connect_error($link)) {
                             print(mysqli_connect_error($link));
                         }
@@ -103,14 +101,6 @@
         <?php
         // put your code here
         ?>
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script>
-            $(function () {
-                $("a.ajax-link").on("click", function (e) {
-                    e.preventDefault();
-                    $("#main_content").load(this.href);
-                });
-            });
-        </script>
+    
     </body>
 </html>

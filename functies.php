@@ -7,44 +7,6 @@
  */
 
 //
-//    Database functies
-//
-// WIP eerst datbase afmaken
-function dbQuery($query, $array) {
-    $link = mysqli_connect("localhost", "root", "usbw", "vvtissue", 3306);
-    $stmt = mysqli_prepare($link, $query);
-
-    $vartype = "";
-    $values = "";
-    foreach ($array as $key => $value) {
-        if (is_double($value)) {
-            $vartype = $vartype . "d";
-        }
-        if (is_bool($value)) {
-            $vartype = $vartype . "b";
-        }
-        if (is_float($value)) {
-            $vartype = $vartype . "f";
-        }
-        if (is_string($value)) {
-            $vartype = $vartype . "s";
-        }
-        if (is_int($value)) {
-            $vartype = $vartype . "i";
-        }
-        $values = $values . "$" . $key . ", ";
-    }
-    print($values);
-    print($vartype);
-
-    mysqli_stmt_bind_param($stmt, $vartype, $values);
-    $execute = mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_fetch($stmt);
-
-    return $result;
-}
-
-//
 //    Cookie functies
 //
 // Notes:
@@ -179,19 +141,21 @@ function filter_query_generate($switch, array $checkbox) {
     switch ($switch) {
         case 0 : $query .= '';
             break;
-        case 1 : $query .= 'WHERE prijs BETWEEN 10.00 AND 20.00 ';
+		case 1 : $query .= 'WHERE prijs < 10.00 ';
             break;
-        case 2 : $query .= 'WHERE prijs BETWEEN 21.00 AND 30.00 ';
+        case 2 : $query .= 'WHERE prijs BETWEEN 10.00 AND 20.00 ';
             break;
-        case 3 : $query .= 'WHERE prijs BETWEEN 31.00 AND 50.00 ';
+        case 3 : $query .= 'WHERE prijs BETWEEN 20.00 AND 30.00 ';
             break;
-        case 4 : $query .= 'WHERE prijs BETWEEN 51.00 AND 75.00 ';
+        case 4 : $query .= 'WHERE prijs BETWEEN 30.00 AND 50.00 ';
             break;
-        case 5 : $query .= 'WHERE prijs BETWEEN 76.00 AND 100.00 ';
+        case 5 : $query .= 'WHERE prijs BETWEEN 50.00 AND 75.00 ';
             break;
-        case 6 : $query .= 'WHERE prijs BETWEEN 101.00 AND 200.00 ';
+        case 6 : $query .= 'WHERE prijs BETWEEN 75.00 AND 100.00 ';
             break;
-        case 7 : $query .= 'WHERE prijs > 200.00 ';
+        case 7 : $query .= 'WHERE prijs BETWEEN 100.00 AND 200.00 ';
+            break;
+        case 8 : $query .= 'WHERE prijs > 200.00 ';
             break;
     }
     if ($count == 1) {
@@ -212,7 +176,7 @@ function filter_query_generate($switch, array $checkbox) {
             } else if ($countarray < $count) {
                 $query .= '"' . $checkbox[$key] . '",';
             } else {
-                $query .= '"' . $checkbox[$key] . '")';
+                $query .= '"' . $checkbox[$key] . '") ';
             }
             $countarray = $countarray + 1;
         }
@@ -224,16 +188,14 @@ function filter_query_generate($switch, array $checkbox) {
 function search_query_generate($search_term, $query) {
     if ($query == 'SELECT * FROM product ') {
 
-        $query .= 'WHERE productnaam LIKE "%' . $search_term . '%" OR 
-                        merk LIKE "%' . $search_term . '%" OR 
+        $query .= 'WHERE productnaam LIKE "%' . $search_term . '%" OR
                         productnr = "' . $search_term . '" OR
                         omschrijving LIKE "%' . $search_term . '%"';
 
         return($query);
     } else {
         $search_term = mysql_real_escape_string($search_term);
-        $query .= 'AND productnaam LIKE "%' . $search_term . '%" OR 
-                        merk LIKE "%' . $search_term . '%" OR 
+        $query .= 'AND productnaam LIKE "%' . $search_term . '%" OR
                         productnr = "' . $search_term . '" OR
                         omschrijving LIKE "%' . $search_term . '%"';
 
@@ -261,8 +223,8 @@ function sort_query_generate($query, $switch) {
 }
 
 function selected($switch, $number) {
-    if (isset($_GET[$switch])) {
-        $switch = $_GET["switch"];
+    if (isset($_POST[$switch])) {
+        $switch = $_POST["switch"];
         if ($number == $switch) {
             print(" selected");
         }
@@ -271,8 +233,8 @@ function selected($switch, $number) {
 }
 
 function checked($array, $value) {
-    if (isset($_GET[$array])) {
-        $name = $_GET[$array];
+    if (isset($_POST[$array])) {
+        $name = $_POST[$array];
         foreach ($array as $key => $value) {
             if ($key == $value) {
                 print(" checked");
@@ -290,3 +252,164 @@ function isin(array $x, $y) {
     }
     return;
 }
+
+function validToken($link) {
+    // kijkt of gebruiker ingelogd is
+    $ip = $_SERVER["REMOTE_ADDR"];
+    $result = mysqli_query($link, 'SELECT * FROM token WHERE ip = "' . $ip . '";');
+    if (mysqli_error($link)) {
+        return "Error: " . mysqli_error($link);
+    } else {
+        // vergelijkt waarden beide tokens (in database en in sessie)
+        $row = mysqli_fetch_assoc($result);
+        // hierna gaat het fout de isset is false
+        if (isset($_SESSION["token"])) {
+            deleteToken(false, $link);
+            if (isset($_SESSION["token"])) {
+                if ($_SESSION["token"] == $row["token"]) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+            return false;
+        }
+}
+
+function createToken($email, $link) {
+    $ip = $_SERVER["REMOTE_ADDR"];
+    $size = 60;
+    $random = strtr(base64_encode(mcrypt_create_iv($size)), '+', '.');
+    $salt = '$6$rounds=5000$';
+    $salt .= strtr(base64_encode(mcrypt_create_iv($size)), '+', '.') . "$";
+    $token = crypt($random, $salt);
+
+    $_SESSION["token"] = $token;
+    $_SESSION["created"] = time();
+    if ($link == true) {
+
+        mysqli_query($link, 'INSERT INTO token VALUES("' . $email . '", "' . $token . '", "' . $ip . '");');
+        if (mysqli_error($link)) {
+            return "Error: " . mysqli_error($link);
+        }
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function updateToken($email, $link) {
+    if (validToken($link) == true) {
+        $_SESSION["created"] = time();
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function getEmail($link) {
+    if (validToken($link) == true) {
+        $ip = $_SERVER["REMOTE_ADDR"];
+        $token = $_SESSION["token"];
+        $result = mysqli_query($link, 'SELECT email FROM token WHERE ip = "' . $ip . '" AND token = "' . $token . '";');
+        if (mysqli_error($link)) {
+            return "Error: " . mysqli_error($link);
+        } else {
+            $row = mysqli_fetch_assoc($result);
+            return $row["email"];
+        }
+    } else {
+        return false;
+    }
+}
+
+function userLevel($email, $link) {
+    $result = mysqli_query($link, 'SELECT level FROM gebruiker WHERE email = "' . $email . '";');
+    if (mysqli_error($link)) {
+        return "Error: " . mysqli_error($link);
+    } else {
+        $row = mysqli_fetch_assoc($result);
+        return $row["level"];
+    }
+}
+
+function encryptPassword($password) {
+    $size = 60;
+    $salt = '$6$rounds=5000$';
+    // strtr() convert alle + tekens naar . tekens
+    $salt .= strtr(base64_encode(mcrypt_create_iv($size)), '+', '.') . "$";
+    $hashed = crypt($password, $salt);
+    return $hashed;
+}
+
+function verifyPassword($email, $password, $link) {
+    if ($link == true) {
+        $result = mysqli_query($link, 'SELECT wachtwoord FROM gebruiker WHERE email = "' . $email . '";');
+        if (mysqli_error($link)) {
+            return "Error: " . mysqli_error($link);
+        } else {
+            $row = mysqli_fetch_assoc($result);
+            $password2 = crypt($password, $row["wachtwoord"]);
+            //print(encryptPassword("$password"));
+            if ($row["wachtwoord"] == $password2) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+}
+
+function connectDB() {
+    $host = "localhost";
+    $user = "root";
+    $password = "usbw";
+    $database = "vvtissue";
+    $port = 3307;
+
+    $link = mysqli_connect($host, $user, $password, $database, $port);
+    if (mysqli_connect_error()) {
+        return "Error: " . mysqli_connect_error();
+    } else {
+        return $link;
+    }
+}
+
+// geeft enorm veel errors als hij gebruik maakt van (time() - $_SESSION["created"] > 1800)
+// als je true gebruikt werkt hij wel dus het is een verloop error
+function deleteToken($verwijderen, $link) {
+    if (isset($_SESSION)) {
+        if ($verwijderen || (time() - $_SESSION["created"] > 1800)) {
+            $email = getEmail($link);
+            mysqli_query($link, 'DELETE FROM token WHERE email = "' . $email . '";');
+            unset($_SESSION);
+            session_destroy();
+            return true;
+        }
+    }
+}
+
+function restrictedPage($level, $link) {
+    if (validToken($link) == true) {
+        if (userLevel(getEmail($link),$link) == $level) {
+            if (mysqli_connect_error($link)) {
+                return "Error: " . mysqli_connect_error($link);
+            } else {
+                updateToken(getEmail($link),$link);
+                return true;
+            }
+        } else {
+            header('Location: ../index.php');
+            return false;
+        }
+    } else {
+        header('Location: ../index.php');
+        return false;
+    }
+}
+
