@@ -1,8 +1,5 @@
 
 <?php
-//unset($_SESSION);
-//session_destroy();
-//deleteToken(true);
 if (validToken($link) != true) {
     print('<form method="POST" action="">
                         <table>
@@ -33,7 +30,7 @@ if (validToken($link) != true) {
             }
             if(!(empty($_POST["email"]) && empty($_POST["wachtwoord"])))
             if (verifyPassword($email, $password, $link)) {
-                createToken($email);
+                createToken($email, $link);
                 header('Location: index.php');
             } else {
                 print("Wachtwoord Incorrect!");
@@ -41,8 +38,7 @@ if (validToken($link) != true) {
         }
     }
 } else {
-    print('<p>Welkom ' .  getEmail() . '</p>');
+    print('<p>Welkom ' .  getEmail($link) . '</p>');
 }
-mysqli_close($link);
 ?>
                 

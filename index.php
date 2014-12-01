@@ -32,14 +32,16 @@ $link = connectDB();
 
             <div class="content" id="main_content">
                 <?php include("administratie/producten.php"); 
-                        mysqli_close($link);?>
+                        ?>
                 
             </div>
 
             <div class="footer">
 
             </div>
-
         </div>
     </body>
 </html>
+<?php
+mysqli_close($link);
+?>

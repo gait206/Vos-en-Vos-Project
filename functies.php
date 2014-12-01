@@ -257,7 +257,7 @@ function validToken($link) {
     // kijkt of gebruiker ingelogd is
     $ip = $_SERVER["REMOTE_ADDR"];
     $result = mysqli_query($link, 'SELECT * FROM token WHERE ip = "' . $ip . '";');
-    if (mysqli_error($link)) {
+    if (mysqli_error($link)) {   
         return "Error: " . mysqli_error($link);
     } else {
         // vergelijkt waarden beide tokens (in database en in sessie)
@@ -281,6 +281,7 @@ function validToken($link) {
         }
 }
 
+// maakt geen nieuw token aan wss
 function createToken($email, $link) {
     $ip = $_SERVER["REMOTE_ADDR"];
     $size = 60;
@@ -313,7 +314,7 @@ function updateToken($email, $link) {
 }
 
 function getEmail($link) {
-    if (validToken($link) == true) {
+    if (isset($_SESSION["token"])) {
         $ip = $_SERVER["REMOTE_ADDR"];
         $token = $_SESSION["token"];
         $result = mysqli_query($link, 'SELECT email FROM token WHERE ip = "' . $ip . '" AND token = "' . $token . '";');
@@ -383,13 +384,13 @@ function connectDB() {
 // geeft enorm veel errors als hij gebruik maakt van (time() - $_SESSION["created"] > 1800)
 // als je true gebruikt werkt hij wel dus het is een verloop error
 function deleteToken($verwijderen, $link) {
-    if (isset($_SESSION)) {
-        if ($verwijderen || (time() - $_SESSION["created"] > 1800)) {
+    if (isset($_SESSION["token"])) {
+        if ($verwijderen || (time() - $_SESSION["created"] > 30)) {
+            // getEmail is het probleem
             $email = getEmail($link);
             mysqli_query($link, 'DELETE FROM token WHERE email = "' . $email . '";');
             unset($_SESSION);
             session_destroy();
-            return true;
         }
     }
 }
