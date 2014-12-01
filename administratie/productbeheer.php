@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('../functies.php');
+$link = connectDB();
 ?>
 <html>
     <head>
@@ -37,8 +38,7 @@ include('../functies.php');
                 </script>
                 <div class="body" id="main_content">
                     <?php
-                    restrictedPage("Admin");
-                    $link = connectDB();
+                    restrictedPage("Admin", $link);
 
                     if (!empty($_POST["actie"])) {
                         $actie = $_POST["actie"];
@@ -191,3 +191,6 @@ include('../functies.php');
         
     </body>
 </html>
+<?php
+            mysqli_close($link);
+            ?>

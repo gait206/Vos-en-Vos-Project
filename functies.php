@@ -385,7 +385,7 @@ function connectDB() {
 // als je true gebruikt werkt hij wel dus het is een verloop error
 function deleteToken($verwijderen, $link) {
     if (isset($_SESSION["token"])) {
-        if ($verwijderen || (time() - $_SESSION["created"] > 30)) {
+        if ($verwijderen || (time() - $_SESSION["created"] > 1800)) {
             // getEmail is het probleem
             $email = getEmail($link);
             mysqli_query($link, 'DELETE FROM token WHERE email = "' . $email . '";');
@@ -410,6 +410,7 @@ function restrictedPage($level, $link) {
         }
     } else {
         header('Location: ../index.php');
+        print("test");
         return false;
     }
 }
