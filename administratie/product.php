@@ -1,7 +1,4 @@
-<?php
-session_start();
-include('../functies.php');
-?>
+
 <html>
     <head>
         <meta charset="UTF-8">
@@ -17,9 +14,14 @@ include('../functies.php');
                     <img class="logo" src="../plaatjes/logo.png">
                 </div>
                 <div class="login">
-                    <?php
-					include('../login/loginscherm.php');
-					?>
+                    <form>
+                        <table>
+                            <tr><td></td></tr>
+                            <tr><td>Gebruikersnaam:</td><td><input class="gebruikersnaam"type="text" value="naam"><br></td></tr>
+                            <tr><td>Wachtwoord:</td><td><input class="wachtwoord" type="text" value="wachtwoord"></td></tr>
+                            <tr><td><input type="submit" value="login"></td></tr>
+                        </table>
+                    </form>
                 </div>
             </div>
 
@@ -51,10 +53,10 @@ include('../functies.php');
 
                 <div class="body" id="main_content">
                     <?php
-                    if (isset($_POST["productnr"])) {
+                    if (isset($_GET["productnr"])) {
                         //connectie maken en qeury versturen
-                        $productnr = $_POST["productnr"];
-                        $link = connectDB();
+                        $productnr = $_GET["productnr"];
+                        $link = mysqli_connect("localhost", "root", "usbw", "vvtissue", 3306);
                         if (mysqli_connect_error($link)) {
                             print(mysqli_connect_error($link));
                         }
@@ -101,6 +103,14 @@ include('../functies.php');
         <?php
         // put your code here
         ?>
-    
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script>
+            $(function () {
+                $("a.ajax-link").on("click", function (e) {
+                    e.preventDefault();
+                    $("#main_content").load(this.href);
+                });
+            });
+        </script>
     </body>
 </html>

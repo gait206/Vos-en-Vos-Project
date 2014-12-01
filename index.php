@@ -1,14 +1,9 @@
-<?php
-session_start();
-include('functies.php');
-$link = connectDB();
-?>
+
 <html>
     <head>
         <meta charset="UTF-8">
         <title></title>
         <link rel="stylesheet" type="text/css" href="css/main.css">
-        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
         <div class="container">
@@ -19,20 +14,30 @@ $link = connectDB();
                     <img class="logo" src="plaatjes/logo.png">
                 </div>
                 <div class="login">
-                    <?php
-                    include('login/loginscherm.php');
-                    ?>
+                    <form>
+                        <table>
+                            <tr><td></td></tr>
+                            <tr><td>Gebruikersnaam:</td><td><input class="gebruikersnaam"type="text" value="naam"><br></td></tr>
+                            <tr><td>Wachtwoord:</td><td><input class="wachtwoord" type="text" value="wachtwoord"></td></tr>
+                            <tr><td><input type="submit" value="login"></td></tr>
+                        </table>
+                    </form>
                 </div>
             </div>
 
-            <?php
-			define('THIS_PAGE', 'Home');
-			include('menu.php');
-			?>
+            <div class="menu">
+                <ul class="menu">
+                    <li class="menu"><a class="ajax-link" href="administratie/producten.php">Home</a></li>
+                    <li class="menu"><a href="#">Papier</a></li>
+                    <li class="menu"><a href="#">Dispencers</a></li>
+                    <li class="menu"><a href="#">Reinigingsmiddelen</a></li>
+                    <li class="menu"><a href="#">Schoonmaakmateriaal</a></li>
+                </ul>
+
+            </div>
 
             <div class="content" id="main_content">
-                <?php include("administratie/producten.php"); 
-                        mysqli_close($link);?>
+                <?php include("administratie/producten.php"); ?>
                 
             </div>
 
@@ -41,5 +46,17 @@ $link = connectDB();
             </div>
 
         </div>
+        <?php
+        // put your code here
+        ?>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script>
+            $(function () {
+                $("a.ajax-link").on("click", function (e) {
+                    e.preventDefault();
+                    $("#main_content").load(this.href);
+                });
+            });
+        </script>
     </body>
 </html>

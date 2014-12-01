@@ -15,17 +15,8 @@ and open the template in the editor.
     padding: 2px 8px;
     float: right;
 }
-
 .button_registreer:hover {
     border: 1px solid black;
     background-color: #9A9CC5;
     padding: 2px 8px;
-}
-
-.header_administratie{
-    background-color: #344D8E;
-    width: auto;
-    font-size: 18px;
-    font-weight:bold;
-    color:#fff;
 }
