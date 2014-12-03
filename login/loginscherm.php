@@ -28,17 +28,21 @@ if (validToken($link) != true) {
             } else {
                 print("Je bent je email & wachtwoord vergeten");
             }
-            if(!(empty($_POST["email"]) && empty($_POST["wachtwoord"])))
-            if (verifyPassword($email, $password, $link)) {
-                createToken($email, $link);
-                header('Location: index.php');
-            } else {
-                print("Wachtwoord Incorrect!");
-            }
+            if (!(empty($_POST["email"]) && empty($_POST["wachtwoord"])))
+                if (verifyPassword($email, $password, $link)) {
+                    if (!isset($_SESSION['initiated'])) {
+                        session_regenerate_id();
+                        $_SESSION['initiated'] = true;
+                    }
+                    createToken($email, $link);
+                    header('Location: index.php');
+                } else {
+                    print("Wachtwoord Incorrect!");
+                }
         }
     }
 } else {
-    print('<p>Welkom ' .  getEmail($link) . '</p>');
+    print('<p>Welkom ' . getEmail($link) . '</p>');
 }
 ?>
                 

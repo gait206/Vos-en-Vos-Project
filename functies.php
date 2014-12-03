@@ -257,6 +257,7 @@ function validToken($link) {
     deleteDatabaseToken($link);
     // kijkt of gebruiker ingelogd is
     $ip = $_SERVER["REMOTE_ADDR"];
+    $userAgent = $_SERVER["HTTP_USER_AGENT"];
     $result = mysqli_query($link, 'SELECT * FROM token WHERE ip = "' . $ip . '";');
     if (mysqli_error($link)) {
         return "Error: " . mysqli_error($link);
@@ -267,11 +268,12 @@ function validToken($link) {
         if (isset($_SESSION["token"])) {
             deleteToken(false, $link);
             if (isset($_SESSION["token"])) {
-                if ($_SESSION["token"] == $row["token"]) {
-                    return true;
-                } else {
-                    return false;
-                }
+                $random = $_SERVER['HTTP_USER_AGENT'];
+                    if ($_SESSION["token"] == $row["token"] && $row["token"] == crypt($random, $row["token"])) {
+                        return true;
+                    } else {
+                        return false;
+                    }
             } else {
                 return false;
             }
@@ -286,7 +288,7 @@ function validToken($link) {
 function createToken($email, $link) {
     $ip = $_SERVER["REMOTE_ADDR"];
     $size = 60;
-    $random = strtr(base64_encode(mcrypt_create_iv($size)), '+', '.');
+    $random = $_SERVER['HTTP_USER_AGENT'];
     $salt = '$6$rounds=5000$';
     $salt .= strtr(base64_encode(mcrypt_create_iv($size)), '+', '.') . "$";
     $token = crypt($random, $salt);
