@@ -1,12 +1,14 @@
 <?php
 session_start();
 include('functies.php');
+$link = connectDB();
 ?>
 <html>
     <head>
         <meta charset="UTF-8">
         <title></title>
         <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+        
         <link rel="stylesheet" type="text/css" href="css/admin.css">
         <link rel="stylesheet" type="text/css" href="../css/afrekenen.css">
     </head>
@@ -30,20 +32,22 @@ include('functies.php');
             include('menu.php');
             ?>
 
-            <div class="content" id="main_content">
+            <div class="content">
 
-                <div class="body" id="main_content"> <?php
+                <div class="body" id="main_content">
+                     <?php
                     $cookiename = 'winkelmandje';
                     if (!existCookie($cookiename)) {
                         addCookie($cookiename, array());
                     }
                     print('<tr>'
                             . '<th>Product Naam</th>'
-                            . '<th>Product Omschrijving</th>'
-                            . '<th>Prijs</th>'
-                            . '<th>BTW</th>'
+                            . '<th>Omschrijving</th>'
                             . '<th>Aantal</th>'
-                            . '<th>Totaal Bedrag</th></tr>');
+                            . '<th>prijs</th>'
+                            . '<th>Totaal Bedrag</th></tr>'
+                            . '<th>Verwijderen</th>');
+                            
 
                     // totaalBedragZonderBTW, totaalBedrag en totaalBTW instellen
                     $totaalBedragZonderBTW = 0;
@@ -80,10 +84,10 @@ include('functies.php');
                         print('<tr>'
                                 . '<td>' . $product_naam . '</td>'
                                 . '<td>' . $product_omschrijving . '</td>'
-                                . '<td>' . $product_prijs . '</td>'
-                                . '<td>' . $btw . '%</td>'
                                 . '<td>' . $value . '</td>'
-                                . '<td>' . number_format($totalePrijsZonderBTW, 2) . '</td></tr>');
+                                . '<td>' . $product_prijs. '</td>'
+                                . '<td>' . $totaalprijs . '</td>'
+                                . '<form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"><input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete()"></form>');
                         $count++;
                     }
                     print('</table>');
@@ -99,7 +103,5 @@ include('functies.php');
             </div>
 
         </div>
-
-
     </body>
 </html>
