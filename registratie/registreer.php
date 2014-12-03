@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('../functies.php');
+$link = connectDB();
 ?>
 <html>
     <head>
