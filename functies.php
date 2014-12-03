@@ -141,7 +141,7 @@ function filter_query_generate($switch, array $checkbox) {
     switch ($switch) {
         case 0 : $query .= '';
             break;
-		case 1 : $query .= 'WHERE prijs < 10.00 ';
+        case 1 : $query .= 'WHERE prijs < 10.00 ';
             break;
         case 2 : $query .= 'WHERE prijs BETWEEN 10.00 AND 20.00 ';
             break;
@@ -254,10 +254,11 @@ function isin(array $x, $y) {
 }
 
 function validToken($link) {
+    deleteDatabaseToken($link);
     // kijkt of gebruiker ingelogd is
     $ip = $_SERVER["REMOTE_ADDR"];
     $result = mysqli_query($link, 'SELECT * FROM token WHERE ip = "' . $ip . '";');
-    if (mysqli_error($link)) {   
+    if (mysqli_error($link)) {
         return "Error: " . mysqli_error($link);
     } else {
         // vergelijkt waarden beide tokens (in database en in sessie)
@@ -277,8 +278,8 @@ function validToken($link) {
         } else {
             return false;
         }
-            return false;
-        }
+        return false;
+    }
 }
 
 // maakt geen nieuw token aan wss
@@ -317,12 +318,15 @@ function getEmail($link) {
     if (isset($_SESSION["token"])) {
         $ip = $_SERVER["REMOTE_ADDR"];
         $token = $_SESSION["token"];
-        $result = mysqli_query($link, 'SELECT email FROM token WHERE ip = "' . $ip . '" AND token = "' . $token . '";');
-        if (mysqli_error($link)) {
-            return "Error: " . mysqli_error($link);
+        $stmt = mysqli_prepare($link, 'SELECT email FROM token WHERE ip = ? AND token = ?;');
+        mysqli_stmt_bind_param($stmt, 'ss', $ip, $token);
+        mysqli_execute($stmt);
+        mysqli_stmt_bind_result($stmt, $email);
+        if (mysqli_stmt_error($stmt)) {
+            return "Error: " . mysqli_stmt_error($stmt);
         } else {
-            $row = mysqli_fetch_assoc($result);
-            return $row["email"];
+            mysqli_stmt_fetch($stmt);
+            return $email;
         }
     } else {
         return false;
@@ -330,12 +334,15 @@ function getEmail($link) {
 }
 
 function userLevel($email, $link) {
-    $result = mysqli_query($link, 'SELECT level FROM gebruiker WHERE email = "' . $email . '";');
-    if (mysqli_error($link)) {
-        return "Error: " . mysqli_error($link);
+    $stmt = mysqli_prepare($link, 'SELECT level FROM gebruiker WHERE email = ?;');
+    mysqli_stmt_bind_param($stmt, 's', $email);
+    mysqli_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $level);
+    if (mysqli_stmt_error($stmt)) {
+        return "Error: " . mysqli_stmt_error($stmt);
     } else {
-        $row = mysqli_fetch_assoc($result);
-        return $row["level"];
+        mysqli_stmt_fetch($stmt);
+        return $level;
     }
 }
 
@@ -350,14 +357,17 @@ function encryptPassword($password) {
 
 function verifyPassword($email, $password, $link) {
     if ($link == true) {
-        $result = mysqli_query($link, 'SELECT wachtwoord FROM gebruiker WHERE email = "' . $email . '";');
-        if (mysqli_error($link)) {
-            return "Error: " . mysqli_error($link);
+        $stmt = mysqli_prepare($link, 'SELECT wachtwoord FROM gebruiker WHERE email = ?;');
+        mysqli_stmt_bind_param($stmt, 's', $email);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_bind_result($stmt, $wachtwoord);
+        if (mysqli_stmt_error($stmt)) {
+            return "Error: " . mysqli_stmt_error($stmt);
         } else {
-            $row = mysqli_fetch_assoc($result);
-            $password2 = crypt($password, $row["wachtwoord"]);
+            mysqli_stmt_fetch($stmt);
+            $password2 = crypt($password, $wachtwoord);
             //print(encryptPassword("$password"));
-            if ($row["wachtwoord"] == $password2) {
+            if ($wachtwoord == $password2) {
                 return true;
             } else {
                 return false;
@@ -388,7 +398,9 @@ function deleteToken($verwijderen, $link) {
         if ($verwijderen || (time() - $_SESSION["created"] > 1800)) {
             // getEmail is het probleem
             $email = getEmail($link);
-            mysqli_query($link, 'DELETE FROM token WHERE email = "' . $email . '";');
+            $stmt = mysqli_prepare($link, 'DELETE FROM token WHERE email = ?;');
+            mysqli_stmt_bind_param($stmt, 's', $email);
+            mysqli_execute($stmt);
             unset($_SESSION);
             session_destroy();
         }
@@ -397,11 +409,11 @@ function deleteToken($verwijderen, $link) {
 
 function restrictedPage($level, $link) {
     if (validToken($link) == true) {
-        if (userLevel(getEmail($link),$link) == $level) {
+        if (userLevel(getEmail($link), $link) == $level) {
             if (mysqli_connect_error($link)) {
                 return "Error: " . mysqli_connect_error($link);
             } else {
-                updateToken(getEmail($link),$link);
+                updateToken(getEmail($link), $link);
                 return true;
             }
         } else {
@@ -414,3 +426,18 @@ function restrictedPage($level, $link) {
     }
 }
 
+function deleteDatabaseToken($link) {
+    if (!isset($_SESSION["token"])) {
+        $ip = $_SERVER["REMOTE_ADDR"];
+        $result = mysqli_query($link, 'SELECT * FROM token WHERE ip = "' . $ip . '";');
+        $row = mysqli_fetch_assoc($result);
+        if (mysqli_error($link) || $row["ip"]) {
+            if (mysqli_error($link)) {
+                return "Error: " . mysqli_error($link);
+            } else {
+                mysqli_query($link, 'DELETE FROM token WHERE ip = "' . $ip . '";');
+                return true;
+            }
+        }
+    }
+}

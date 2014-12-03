@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('../functies.php');
+$link = connectDB();
 ?>
 <html>
     <head>
@@ -54,7 +55,6 @@ include('../functies.php');
                     if (isset($_POST["productnr"])) {
                         //connectie maken en qeury versturen
                         $productnr = $_POST["productnr"];
-                        $link = connectDB();
                         if (mysqli_connect_error($link)) {
                             print(mysqli_connect_error($link));
                         }
