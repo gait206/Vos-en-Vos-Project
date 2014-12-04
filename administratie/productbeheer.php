@@ -26,7 +26,7 @@ $link = connectDB();
             </div>
 
             <?php
-			define('THIS_PAGE', 'Home');
+			define('THIS_PAGE', 'Productbeheer');
 			include('../menu.php');
 			?>
 

@@ -146,7 +146,8 @@ function base_query_generate($switch) {
             break;
         case 4 : $query .= 'WHERE categorie IN ("papier","dispencers","reinigingsmiddelen","schoonmaakmateialen")';
     }
-
+	return $query;
+	}
     function filter_query_generate($query, $switch, array $checkbox) {
         $count = count($checkbox);
 
@@ -197,7 +198,7 @@ function base_query_generate($switch) {
         return($query);
     }
 
-}
+
 
 function sort_query_generate($query, $switch) {
     if ($switch > 0) {

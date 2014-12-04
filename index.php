@@ -31,7 +31,7 @@ $link = connectDB();
 			?>
 
             <div class="content" id="main_content">
-                <?php include("administratie/producten.php"); 
+                <?php include("administratie/productenblock.php"); 
                         ?>
                 
             </div>

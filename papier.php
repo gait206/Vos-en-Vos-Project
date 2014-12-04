@@ -30,6 +30,7 @@ $link = connectDB();
 			?>
 
             <div class="content" id="main_content">
+			
                 <?php include("administratie/producten.php"); ?>
                 
             </div>

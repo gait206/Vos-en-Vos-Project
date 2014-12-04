@@ -60,17 +60,19 @@ and open the template in the editor.
                 <?php
                 // code to get the right variables into the right place in the functions and such
                 switch (THIS_PAGE){
-                    case 'papier'               : $switch = 0;
+                    case 'Papier'               : $switch = 0;
                         break;
-                    case 'dispensers'           : $switch = 1;
+                    case 'Dispencers'           : $switch = 1;
                         break;
-                    case 'reinigingsmiddelen'   : $switch = 2;
+                    case 'Reinigingsmiddelen'   : $switch = 2;
                         break;
-                    case 'schoonmaakmateriaal'  : $switch = 3;
+                    case 'Schoonmaakmateriaal'  : $switch = 3;
                         break;
-                    default : $switch = 42;
+                    default : $switch = 4;
                 }
+				print(THIS_PAGE. $switch);
                 $query = base_query_generate($switch);
+				print($query. "dsf");
                 if (isset($_GET['merk']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop'])) {
 
                     if (isset($_GET['merk'])) {
