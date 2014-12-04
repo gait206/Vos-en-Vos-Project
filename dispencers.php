@@ -1,4 +1,8 @@
-
+<?php
+session_start();
+include('functies.php');
+$link = connectDB();
+?>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -14,14 +18,9 @@
                     <img class="logo" src="plaatjes/logo.png">
                 </div>
                 <div class="login">
-                    <form>
-                        <table>
-                            <tr><td></td></tr>
-                            <tr><td>Gebruikersnaam:</td><td><input class="gebruikersnaam"type="text" value="naam"><br></td></tr>
-                            <tr><td>Wachtwoord:</td><td><input class="wachtwoord" type="text" value="wachtwoord"></td></tr>
-                            <tr><td><input type="submit" value="login"></td></tr>
-                        </table>
-                    </form>
+                   <?php
+                    include('login/loginscherm.php');
+                    ?>
                 </div>
             </div>
 
