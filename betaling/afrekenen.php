@@ -1,4 +1,8 @@
-
+<?php
+session_start();
+include('../functies.php');
+$link = connectDB();
+?>
 <html>
     <head>
         <meta charset="UTF-8">
@@ -15,25 +19,17 @@
                     <img class="logo" src="../plaatjes/logo.png">
                 </div>
                 <div class="login">
-                    <form>
-                        <table>
-                            <tr><td></td></tr>
-                            <tr><td>Gebruikersnaam:</td><td><input class="gebruikersnaam"type="text" value="naam"><br></td></tr>
-                            <tr><td>Wachtwoord:</td><td><input class="wachtwoord" type="text" value="wachtwoord"></td></tr>
-                            <tr><td><input type="submit" value="login"></td></tr>
-                        </table>
-                    </form>
+                    <?php
+                    include('../login/loginscherm.php');
+                    ?>
                 </div>
             </div>
 
             <div class="menu">
-                <ul class="menu">
-                    <li class="menu"><a class="ajax-link" href="userstory6_1.php">Home</a></li>
-                    <li class="menu"><a href="#">Papier</a></li>
-                    <li class="menu"><a href="#">Dispencers</a></li>
-                    <li class="menu"><a href="#">Reinigingsmiddelen</a></li>
-                    <li class="menu"><a href="#">Schoonmaakmateriaal</a></li>
-                </ul>
+                <?php
+			define('THIS_PAGE', 'Afrekenen');
+			include('../menu.php');
+			?>
 
             </div>
 
@@ -57,17 +53,10 @@
                     <?php
                     // User Storie 6
 
-                    include '../functies.php';
 
                     print('<table class="afrekenen_tabel">');
 
-                    // verbinding maken ** DATABASE **
-                    $host = "localhost";
-                    $user = "root";
-                    $password = "usbw";
-                    $database = "vvtissue";
-                    $port = 3307;
-                    $link = mysqli_connect($host, $user, $password, $database, $port);
+
 
                     // table printen
                     print('<tr><th>Product ID</th>'
@@ -166,3 +155,6 @@
         </script>
     </body>
 </html>
+<?php
+            mysqli_close($link);
+            ?>

@@ -39,6 +39,9 @@ $link = connectDB();
 
                 <div class="body" id="main_content">
                     <?php
+                    //
+                    // test line
+                    //
                     if (!empty($_POST["actie"])) {
                         if ($_POST["actie"] == "Verwijderen") {
                             removeCookieLine($cookiename, $_POST["productnr"]);
