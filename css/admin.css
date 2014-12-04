@@ -42,6 +42,7 @@ img.logo{
 }
 
 .input {
+    
     border: 1px solid darkgrey;
 }
 .input:hover {
@@ -128,11 +129,15 @@ div.menu{
     margin-bottom:  2%;
     margin-left:  2%;
     margin-right:  2%;
-	overflow:hidden;
+    overflow: hidden;
+}
+form.table_administratie{
+    text-align: center;
+    
 }
 
-
 .table_administratie{
+    
     width: 100%;
     border-spacing:0px;
     border-top-left-radius: 5px;
@@ -148,6 +153,7 @@ div.menu{
     text-align: left;
 }
 .table_administratie td{
+    
     margin:0%;
     border: 1px solid rgb(66, 85, 146);
 }
