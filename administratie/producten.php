@@ -55,7 +55,18 @@ and open the template in the editor.
 
                 <?php
                 // code to get the right variables into the right place in the functions and such
-                $query = "";
+                switch (THIS_PAGE){
+                    case 'papier'               : $switch = 0;
+                        break;
+                    case 'dispensers'           : $switch = 1;
+                        break;
+                    case 'reinigingsmiddelen'   : $switch = 2;
+                        break;
+                    case 'schoonmaakmateriaal'  : $switch = 3;
+                        break;
+                    default : $switch = 42;
+                }
+                $query = base_query_generate($switch);
                 if (isset($_GET['merk']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop'])) {
 	
                     if (isset($_GET['merk'])) {
@@ -65,7 +76,7 @@ and open the template in the editor.
                     }
                     $switch = $_GET['prijs'];
                     $sort = $_GET['sort'];
-                    $query = filter_query_generate($switch, $checkbox);
+                    $query = filter_query_generate($query, $switch, $checkbox);
                     if (isset($_GET['zoekknop']) || isset($_GET['zoekbalk'])) {
 					if (!$_GET['zoekbalk'] == ""){
                         $query = search_query_generate($_GET['zoekbalk'], $query);

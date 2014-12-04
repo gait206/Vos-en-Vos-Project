@@ -132,75 +132,71 @@ function saveCookie($name, $array) {
     }
 }
 
-function filter_query_generate($switch, array $checkbox) {
-    $count = count($checkbox);
+function base_query_generate($switch) {
     $query = "SELECT * FROM product ";
 
-
-
     switch ($switch) {
-        case 0 : $query .= '';
+        case 0 : $query .= 'WHERE categorie = "papier"';
             break;
-        case 1 : $query .= 'WHERE prijs < 10.00 ';
+        case 1 : $query .= 'WHERE categorie = "dispencers"';
             break;
-        case 2 : $query .= 'WHERE prijs BETWEEN 10.00 AND 20.00 ';
+        case 2 : $query .= 'WHERE categorie = "reinigingsmiddelen"';
             break;
-        case 3 : $query .= 'WHERE prijs BETWEEN 20.00 AND 30.00 ';
+        case 3 : $query .= 'WHERE categorie = "schoonmaakmaterialen"';
             break;
-        case 4 : $query .= 'WHERE prijs BETWEEN 30.00 AND 50.00 ';
-            break;
-        case 5 : $query .= 'WHERE prijs BETWEEN 50.00 AND 75.00 ';
-            break;
-        case 6 : $query .= 'WHERE prijs BETWEEN 75.00 AND 100.00 ';
-            break;
-        case 7 : $query .= 'WHERE prijs BETWEEN 100.00 AND 200.00 ';
-            break;
-        case 8 : $query .= 'WHERE prijs > 200.00 ';
-            break;
+        case 4 : $query .= 'WHERE categorie IN ("papier","dispencers","reinigingsmiddelen","schoonmaakmateialen")';
     }
-    if ($count == 1) {
-        if ($switch == 0) {
-            $query .= "WHERE merk = '" . $checkbox["0"] . "' ";
-        } else {
+
+    function filter_query_generate($query, $switch, array $checkbox) {
+        $count = count($checkbox);
+
+        switch ($switch) {
+            case 0 : $query .= '';
+                break;
+            case 1 : $query .= 'AND prijs < 10.00 ';
+                break;
+            case 2 : $query .= 'AND prijs BETWEEN 10.00 AND 20.00 ';
+                break;
+            case 3 : $query .= 'AND prijs BETWEEN 20.00 AND 30.00 ';
+                break;
+            case 4 : $query .= 'AND prijs BETWEEN 30.00 AND 50.00 ';
+                break;
+            case 5 : $query .= 'AND prijs BETWEEN 50.00 AND 75.00 ';
+                break;
+            case 6 : $query .= 'AND prijs BETWEEN 75.00 AND 100.00 ';
+                break;
+            case 7 : $query .= 'AND prijs BETWEEN 100.00 AND 200.00 ';
+                break;
+            case 8 : $query .= 'AND prijs > 200.00 ';
+                break;
+        }
+        if ($count == 1) {
             $query .= "AND merk = '" . $checkbox["0"] . "' ";
-        }
-    } else {
-        $countarray = 1;
-        foreach ($checkbox as $key => $value) {
-            if ($countarray == 1) {
-                if ($switch == 0) {
-                    $query .= "WHERE merk IN('" . $checkbox[$key] . "',";
-                } else {
+        } else {
+            $countarray = 1;
+            foreach ($checkbox as $key => $value) {
+                if ($countarray == 1) {
                     $query .= "AND merk IN('" . $checkbox[$key] . "',";
+                } else if ($countarray < $count) {
+                    $query .= '"' . $checkbox[$key] . '",';
+                } else {
+                    $query .= '"' . $checkbox[$key] . '") ';
                 }
-            } else if ($countarray < $count) {
-                $query .= '"' . $checkbox[$key] . '",';
-            } else {
-                $query .= '"' . $checkbox[$key] . '") ';
+                $countarray = $countarray + 1;
             }
-            $countarray = $countarray + 1;
         }
-    }
-
-    return($query);
-}
-
-function search_query_generate($search_term, $query) {
-    if ($query == 'SELECT * FROM product ') {
-
-        $query .= 'WHERE productnaam LIKE "%' . $search_term . '%" OR
-                        productnr = "' . $search_term . '" OR
-                        omschrijving LIKE "%' . $search_term . '%"';
 
         return($query);
-    } else {
-        $search_term = mysql_real_escape_string($search_term);
+    }
+
+    function search_query_generate($search_term, $query) {
         $query .= 'AND productnaam LIKE "%' . $search_term . '%" OR
                         productnr = "' . $search_term . '" OR
                         omschrijving LIKE "%' . $search_term . '%"';
 
         return($query);
     }
+
 }
 
 function sort_query_generate($query, $switch) {
@@ -269,11 +265,11 @@ function validToken($link) {
             deleteToken(false, $link);
             if (isset($_SESSION["token"])) {
                 $random = $_SERVER['HTTP_USER_AGENT'];
-                    if ($_SESSION["token"] == $row["token"] && $row["token"] == crypt($random, $row["token"])) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                if ($_SESSION["token"] == $row["token"] && $row["token"] == crypt($random, $row["token"])) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }
