@@ -5,9 +5,10 @@
         <group>
             <file>file:/C:/Users/GertJan/Documents/GitHub/Vos-en-Vos-Project/login/loginscherm.php</file>
             <file>file:/C:/Users/GertJan/Documents/GitHub/Vos-en-Vos-Project/functies.php</file>
+            <file>file:/C:/Users/GertJan/Documents/GitHub/Vos-en-Vos-Project/login/wachtwoordvergeten.php</file>
             <file>file:/C:/Users/GertJan/Documents/GitHub/Vos-en-Vos-Project/css/main.css</file>
-            <file>file:/C:/Users/GertJan/Documents/GitHub/Vos-en-Vos-Project/registratie/registreer.php</file>
-            <file>file:/C:/Users/GertJan/Documents/GitHub/Vos-en-Vos-Project/administratie/productbeheer.php</file>
+            <file>file:/C:/Users/GertJan/Documents/GitHub/Vos-en-Vos-Project/login/wachtwoordveranderen.php</file>
+            <file>file:/C:/Users/GertJan/Documents/GitHub/Vos-en-Vos-Project/login/wachtwoordnietveranderen.php</file>
         </group>
     </open-files>
 </project-private>

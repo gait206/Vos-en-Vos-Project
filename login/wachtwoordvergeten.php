@@ -26,41 +26,54 @@ $link = connectDB();
             </div>
 
             <?php
-			define('THIS_PAGE', 'Home');
-			include('../menu.php');
-			?>
+            define('THIS_PAGE', 'wachtwoordvergeten');
+            include('../menu.php');
+            ?>
 
             <div class="content">
                 <div class="body" id="main_content">
                     <div class="forgot_password">
-                    <?php
-                    if(validToken($link)){
-                        header('Location: ../index.php');
-                    } else {
-                        print('<h1>Wachtwoord Vergeten</h1>');
-                        print('<p>Als u al geregistreerd bent op onze website en u uw wachtwoord bent vergeten kan u die hier opvragen.</p>');
-                        
-                        if(!empty($_POST["actie"])){
-                            if(!empty($_POST["email"])){
-                                $email = $_POST["email"];
-                                // Vraag wachtwoord op
-                                
-                                
-                                // code enzo
-                            } else {
-                                print('<p class="foutmelding">Je moet een email invullen!</p>');
+                        <?php
+                        if (validToken($link)) {
+                            header('Location: ../index.php');
+                        } else {
+                            print('<h1>Wachtwoord Vergeten</h1>');
+                            print('<p>Als u al geregistreerd bent op onze website en u uw wachtwoord bent vergeten kan u die hier opvragen.</p>');
+
+                            if (!empty($_POST["actie"])) {
+                                if (!empty($_POST["email"])) {
+                                    $email = $_POST["email"];
+                                    // Vraag wachtwoord op 
+                                    // gebruik dit bestand als referentie bestand
+                                    // http://www.w3schools.com/php/php_ref_mail.asp
+
+                                    $size = 60;
+                                    $random = strtr(base64_encode(mcrypt_create_iv($size)), '+', '.');
+                                    $salt = '$6$rounds=5000$';
+                                    $salt .= strtr(base64_encode(mcrypt_create_iv($size)), '+', '.') . "$";
+                                    $token = crypt($random, $salt);
+                                    
+                                    $stmt = mysqli_prepare($link, 'INSERT token(email,token,tijd) VALUES(?,?,?)');
+                                    mysqli_stmt_bind_param($stmt, 'sss', $email, $token, time());
+                                    mysqli_execute($stmt);
+                                    
+                                    $url = '../wachtwoordveranderen.php?email="'.$email.'"&token="'.$token.'"';
+                                    $url2 = '../wachtwoordnietveranderen.php?email="'.$email.'"';
+                                    // email opmaken en mail fixen
+                                    mail($email, "wachtwoord vergeten", $message);
+                                    print("Er is een email verstuurd naar uw account");
+                                } else {
+                                    print('<p class="foutmelding">Je moet een email invullen!</p>');
+                                }
                             }
+
+                            print('<form method="POST" action=""><input type="text" name="email" placeholder="Email"><input type="submit" class="forgot_button" name="actie" value="Wachtwoord Opvragen"></form>');
                         }
-                        
-                        print('<form method="POST" action=""><input type="text" name="email"><input type="submit" class="forgot_button" name="actie" value="Wachtwoord Opvragen"></form>');
-                        
-                        
-                    }
-                    ?>
+                        ?>
                     </div>
                 </div>
 
-                
+
             </div>
 
             <div class="footer">
@@ -68,9 +81,9 @@ $link = connectDB();
             </div>
 
         </div>
-        
+
     </body>
 </html>
 <?php
-            mysqli_close($link);
-            ?>
+mysqli_close($link);
+?>

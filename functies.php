@@ -439,3 +439,20 @@ function deleteDatabaseToken($link) {
         }
     }
 }
+
+function verifyPasswordForgot($email, $token, $link) {
+    $stmt = mysqli_prepare($link, 'SELECT token FROM recovery WHERE email = ?;');
+    mysqli_stmt_bind_param($stmt, 's', $email);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $token2);
+    
+    if($token == $token2) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function prijsber($prijs) {
+    return number_format($prijs*1.21, 2,",",".");
+}
