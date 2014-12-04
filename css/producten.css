@@ -176,3 +176,302 @@ div.menu{
     margin-left:  2%;
     margin-right:  2%;
 }
+
+p.aantalzoek{
+	text-align:right; 
+	display:block; 
+	color: #344d8e; 
+	font-size:12px;
+}
+
+p.geenres{
+	color: red;
+}
+
+/* PRODUCTEN ROWS */
+td.header{
+	vertical-align: top;
+	/* border-bottom: 1pt solid black; */
+	font-size: 10px;
+}
+
+td.afbeelding {
+    width: 120px;
+    height: 120px;
+	vertical-align: middle;
+}
+
+/* resize images */
+td.afbeelding img {
+    width: 100%;
+    height: auto;
+	max-height: 120px;
+	max-width: 120px;
+}
+
+div.omschrijving {
+	font: normal 12px 'lucida sans unicode', arial, sans-serif;
+	color: black;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-ms-text-overflow:ellipsis;
+	display: block;
+	display: -webkit-box;
+	-webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+	height: 70px;
+	max-width: 450px;
+	margin-top: 10px;
+}
+
+/*--non web-kit browsers--*/
+div.omschrijving {
+    position:relative;
+    height:70px;
+}
+div.omschrijving:after {
+    position:absolute;
+    bottom:0;
+    right:0;
+    padding:0 10px 5px 45px;   
+    background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0)), to(white), color-stop(45%, white));
+    background: -moz-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+    background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+    background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+}
+
+td.productnaam{
+	color:#344d8e;
+	width:60%;
+	vertical-align:top;
+	/* border:1px solid black; */ 
+	overflow:hidden;
+	display:block;
+	padding-left: 10px;
+}
+
+td.winkelm{
+	vertical-align: bottom;
+	width: 13%;
+	/* border: 1px solid black; */
+}
+
+td.prijs{
+	color: #344d8e;
+	vertical-align: central;
+	/*border: 1px solid black;*/
+}
+
+div.prijsklein{
+	font: normal 9px 'lucida sans unicode', arial, sans-serif;
+	color: black;
+}
+
+
+/* PRODUCTEN BLOCKS */
+td.afbeeldingblock{
+	height:120px;
+    width:230px;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+	vertical-align: middle;
+//	border:1px solid black; 
+} 
+
+/* resize images */
+    td.afbeeldingblock img{
+	height:120px;
+    width:99%;
+	max-height: 99%;
+	max-width: 98%;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+	vertical-align: middle;
+//	border:1px solid black; 
+	size: contain;
+}
+
+td.productnaamblock{
+	font: normal 14px 'lucida sans unicode', arial, sans-serif;
+	color:#344d8e;
+	width: 218px;
+	height: 150px;
+	vertical-align:top;
+//	border:1px solid black; 
+	overflow:hidden;
+	display:block;
+	padding-left: 10px;
+	padding-top: 20px;
+}
+
+div.omschrijvingblock{
+	font: normal 12px 'lucida sans unicode', arial, sans-serif;
+	color: black;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-ms-text-overflow:ellipsis;
+	display: block;
+	display: -webkit-box;
+	-webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+	height: 80px;
+	max-width: 200px;
+	margin-top: 10px;
+}
+
+/*--non web-kit browsers--*/
+div.omschrijvingblock{
+    position:relative;
+    height:145px;
+}
+
+div.omschrijvingblock:after{
+    position:absolute;
+    bottom:0;
+    right:0;
+    padding:0 10px 5px 45px;   
+    background: -webkit-gradient(linear, left top, right top, from(rgba(255, 255, 255, 0)), to(white), color-stop(45%, white));
+    background: -moz-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+    background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+    background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+}
+
+td.winkelmblock{
+	vertical-align: bottom;
+	width: 10%;
+//	border: 1px solid black;
+}
+
+td.winkelmblock img{
+	height: 25%;
+//	border: 1px solid black;
+	vertical-align: bottom;
+}
+
+td.prijsblock{
+	color: #344d8e;
+	vertical-align: central;
+	text-align: right;
+	height: 41px;
+	// border: 1px solid black;
+}
+
+div.prijskleinblock{
+	font: normal 9px 'lucida sans unicode', arial, sans-serif;
+	color: black;
+	// border: 1px solid black;
+}
+
+table.headerblock{
+	border-style: solid;
+    border-width: 1px;
+	border-color: #BBB;
+	width: 230px;
+	height: 350px;
+	display: inline-table;
+	margin: 5px;
+}
+
+table.headerblock:hover{
+	border-style: solid;
+    border-width: 1px;
+	border-color: #344d8e;
+}
+
+a.img{
+	height: 25%;
+}
+
+
+/* TOOLTIP */
+[data-tooltip] {
+	position: relative;
+	z-index: 2;
+	cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+  visibility: hidden;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+	position: absolute;
+	bottom: 150%;
+	left: 50%;
+	margin-bottom: 5px;
+	margin-left: -80px;
+	padding: 7px;
+	width: 60px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius:    3px;
+	border-radius:         3px;
+	background-color: #344d8e;
+//	background-color: hsla(0, 0%, 20%, 0.9);
+	color: #fff;
+	content: attr(data-tooltip);
+	text-align: center;
+	font-size: 14px;
+	line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-tooltip]:after {
+	position: absolute;
+	bottom: 150%;
+	left: 50%;
+	margin-left: -5px;
+	width: 0;
+	border-top: 5px solid #000;
+	border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+	border-right: 5px solid transparent;
+	border-left: 5px solid transparent;
+//	content: " ";
+	font-size: 0;
+	line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+	visibility: visible;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+	opacity: 1;
+}
+
+/* right */
+.tooltip-right:before,
+.tooltip-right:after {
+  bottom: 80%;
+  left: 100%;
+}
+
+.tooltip-right:before {
+  margin-bottom: 0;
+  margin-left: -12px;
+  border-top-color: transparent;
+  border-right-color: #000;
+  border-right-color: hsla(0, 0%, 20%, 0.9);
+}
+
+.tooltip-right:hover:before,
+.tooltip-right:hover:after,
+.tooltip-right:focus:before,
+.tooltip-right:focus:after {
+  -webkit-transform: translateX(12px);
+  -moz-transform:    translateX(12px);
+  transform:         translateX(12px); 
+}
+
+/* <a href=\"#\" class=\"tooltip-right\" data-tooltip=\"Bestel\">winkelm</a> */
