@@ -19,8 +19,8 @@ function addCookie($name, $array) {
         $value = json_encode($array);
         if ($value) {
             // de cookie blijft 24 uur bestaan
-
-            return setcookie($name, $value, time() + (24 * 60 * 60));
+            $domain = "/";
+            return setcookie($name, $value, time() + (24 * 60 * 60), $domain, false);
         } else {
             return "De array kon niet omgezet worden naar een string";
         }
@@ -146,59 +146,58 @@ function base_query_generate($switch) {
             break;
         case 4 : $query .= 'WHERE categorie IN ("papier","dispencers","reinigingsmiddelen","schoonmaakmateialen")';
     }
-	return $query;
-	}
-    function filter_query_generate($query, $switch, array $checkbox) {
-        $count = count($checkbox);
+    return $query;
+}
 
-        switch ($switch) {
-            case 0 : $query .= '';
-                break;
-            case 1 : $query .= 'AND prijs < 10.00 ';
-                break;
-            case 2 : $query .= 'AND prijs BETWEEN 10.00 AND 20.00 ';
-                break;
-            case 3 : $query .= 'AND prijs BETWEEN 20.00 AND 30.00 ';
-                break;
-            case 4 : $query .= 'AND prijs BETWEEN 30.00 AND 50.00 ';
-                break;
-            case 5 : $query .= 'AND prijs BETWEEN 50.00 AND 75.00 ';
-                break;
-            case 6 : $query .= 'AND prijs BETWEEN 75.00 AND 100.00 ';
-                break;
-            case 7 : $query .= 'AND prijs BETWEEN 100.00 AND 200.00 ';
-                break;
-            case 8 : $query .= 'AND prijs > 200.00 ';
-                break;
-        }
-        if ($count == 1) {
-            $query .= "AND merk = '" . $checkbox["0"] . "' ";
-        } else {
-            $countarray = 1;
-            foreach ($checkbox as $key => $value) {
-                if ($countarray == 1) {
-                    $query .= "AND merk IN('" . $checkbox[$key] . "',";
-                } else if ($countarray < $count) {
-                    $query .= '"' . $checkbox[$key] . '",';
-                } else {
-                    $query .= '"' . $checkbox[$key] . '") ';
-                }
-                $countarray = $countarray + 1;
+function filter_query_generate($query, $switch, array $checkbox) {
+    $count = count($checkbox);
+
+    switch ($switch) {
+        case 0 : $query .= '';
+            break;
+        case 1 : $query .= 'AND prijs < 10.00 ';
+            break;
+        case 2 : $query .= 'AND prijs BETWEEN 10.00 AND 20.00 ';
+            break;
+        case 3 : $query .= 'AND prijs BETWEEN 20.00 AND 30.00 ';
+            break;
+        case 4 : $query .= 'AND prijs BETWEEN 30.00 AND 50.00 ';
+            break;
+        case 5 : $query .= 'AND prijs BETWEEN 50.00 AND 75.00 ';
+            break;
+        case 6 : $query .= 'AND prijs BETWEEN 75.00 AND 100.00 ';
+            break;
+        case 7 : $query .= 'AND prijs BETWEEN 100.00 AND 200.00 ';
+            break;
+        case 8 : $query .= 'AND prijs > 200.00 ';
+            break;
+    }
+    if ($count == 1) {
+        $query .= "AND merk = '" . $checkbox["0"] . "' ";
+    } else {
+        $countarray = 1;
+        foreach ($checkbox as $key => $value) {
+            if ($countarray == 1) {
+                $query .= "AND merk IN('" . $checkbox[$key] . "',";
+            } else if ($countarray < $count) {
+                $query .= '"' . $checkbox[$key] . '",';
+            } else {
+                $query .= '"' . $checkbox[$key] . '") ';
             }
+            $countarray = $countarray + 1;
         }
-
-        return($query);
     }
 
-    function search_query_generate($search_term, $query) {
-        $query .= 'AND productnaam LIKE "%' . $search_term . '%" OR
+    return($query);
+}
+
+function search_query_generate($search_term, $query) {
+    $query .= 'AND productnaam LIKE "%' . $search_term . '%" OR
                         productnr = "' . $search_term . '" OR
                         omschrijving LIKE "%' . $search_term . '%"';
 
-        return($query);
-    }
-
-
+    return($query);
+}
 
 function sort_query_generate($query, $switch) {
     if ($switch > 0) {
@@ -446,8 +445,8 @@ function verifyPasswordForgot($email, $token, $link) {
     mysqli_stmt_bind_param($stmt, 's', $email);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_bind_result($stmt, $token2);
-    
-    if($token == $token2) {
+
+    if ($token == $token2) {
         return true;
     } else {
         return false;
@@ -455,5 +454,5 @@ function verifyPasswordForgot($email, $token, $link) {
 }
 
 function prijsber($prijs) {
-    return number_format($prijs*1.21, 2,",",".");
+    return number_format($prijs * 1.21, 2, ",", ".");
 }
