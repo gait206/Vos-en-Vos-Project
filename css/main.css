@@ -92,13 +92,16 @@ div.menu{
         
 }
 .menu ul li a{
+	vertical-align: bottom;
     text-decoration:none;
     padding: .2em 1em;
     color: #fff;
     background-color: #344D8E;
     border: 1px solid #344D8E;
+
 }
 .menu ul li a:hover{
+	vertical-align: bottom;
     border: 1px solid #9A9CC5;
     border-top-color: #9A9CC5;
     border-bottom-color: #9A9CC5;

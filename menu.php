@@ -6,7 +6,7 @@ $menuitem2 = '<a href="/papier.php">Papier</a>';
 $menuitem3 = '<a href="/dispencers.php">Dispencers</a>';
 $menuitem4 = '<a href="/reinigingsmiddelen.php">Reinigingsmiddelen</a>';
 $menuitem5 = '<a href="/schoonmaakmateriaal.php">Schoonmaakmateriaal</a>';
-$menuitem6 = '<a href="/winkelwagen.php">winkelwagen</a>';
+$menuitem6 = '<a href="/winkelwagen.php"><img height="25px" src="/plaatjes/winkelmandje-menu.png"></a>';
  
 switch (THIS_PAGE) {
  
@@ -42,7 +42,7 @@ break;
 case 'winkelwagen':
  $menuitem6 =  '<a style="border: 1px solid #9A9CC5;
     color: #fff;
-    background-color: #9A9CC5; cursor: default;" href="#nogo">winkelwagen</a>';
+    background-color: #9A9CC5; cursor: default; vertical-align: bottom;" href="#nogo"><img height="25px" src="/plaatjes/winkelmandje-menu.png"></a>';
 default:
 break;
 }
