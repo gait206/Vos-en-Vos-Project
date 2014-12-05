@@ -27,7 +27,7 @@ if (validToken($link) != true) {
                         $_SESSION['initiated'] = true;
                     }
                     createToken($email, $link);
-                    header('Location: index.php');
+                    header('Location: ../../index.php');
                 } else {
                     print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
                 }
