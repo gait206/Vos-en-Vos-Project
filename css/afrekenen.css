@@ -2,11 +2,11 @@
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
-*/
-/* 
+
+ 
     Created on : 14-nov-2014, 14:49:16
-    Author     : Gert Jan
-*/
+    Author     : Gert Jan*/
+
 
 .afrekenen_tabel{
     width: 100%;
@@ -45,4 +45,8 @@ and open the template in the editor.
 }
 .afrekenen_form{
     float:right;
+}
+.afrekenen_knop_left{
+    float:left;
+    margin-top:110px;
 }

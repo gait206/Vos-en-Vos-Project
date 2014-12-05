@@ -52,14 +52,16 @@ $link = connectDB();
 
                     <?php
                     // User Storie 6
-
+                   if(!empty($_POST["terug"])){
+                       header('Location: ../winkelwagen.php');
+                   }
 
                     print('<table class="afrekenen_tabel">');
 
 
 
                     // table printen
-                    print('<tr><th>Product ID</th>'
+                    print('<tr>'
                             . '<th>Product Naam</th>'
                             . '<th>Product Omschrijving</th>'
                             . '<th>Prijs</th>'
@@ -105,7 +107,7 @@ $link = connectDB();
 
 
                             // printen waarden
-                            print('<tr><td>' . $key . '</td>'
+                            print('<tr>'
                                     . '<td>' . $product_naam . '</td>'
                                     . '<td>' . $product_omschrijving . '</td>'
                                     . '<td>' . $product_prijs . '</td>'
@@ -123,7 +125,9 @@ $link = connectDB();
                     print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>' . $totaalBTW . '</h3></li></ul>');
                     print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>' . $totaalBedrag . '</h2></li></ul>');
                     ?>
-                    <form class="afrekenen_form"><input type="submit" name="ideal" value="Afrekenen met IDeal"></form></div>
+                    <form class="afrekenen_form" method="POST" action=""><input type="submit" name="ideal" value="Afrekenen met IDeal"></form></div>
+                    <form method="POST" action=""><input class="afrekenen_knop_left" type="submit" name="terug" value="Terug naar winkelwagen"></form>
+                </div>
                 </div>
 
                 <div class="banner">
