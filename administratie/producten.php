@@ -70,9 +70,9 @@ and open the template in the editor.
                         break;
                     default : $switch = 4;
                 }
-				print(THIS_PAGE. $switch);
+				
                 $query = base_query_generate($switch);
-				print($query. "dsf");
+				
                 if (isset($_GET['merk']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop'])) {
 
                     if (isset($_GET['merk'])) {
