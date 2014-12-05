@@ -140,7 +140,7 @@ and open the template in the editor.
 			  <td class=\"winkelm\">" 
                         . '<form action="winkelwagen.php" method="POST" >'
                         . '<input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
-                        . '<input type="image" name="actie" value="toevoegen" src="https://www.widexs.nl/uploads/images/winkelmandje.jpg" alt="Submit Form"></form></td>'
+                        . '<input type="image" name="actie" value="toevoegen" src="../plaatjes/winkelmandje.jpg" alt="Submit Form"></form></td>'
                         . '<td class=\"prijs\">&euro;' . number_format($row['prijs'], 2)
                         . '<div class=\"prijsklein\"><br>(&euro;"' . prijsber($row['prijs']) . ' incl 21% BTW)</div></td> </tr>'
                         . '<tr><td colspan=4>  <img height=5px width=100% src=\"../plaatjes/line.png\"></p>'

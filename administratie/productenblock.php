@@ -121,7 +121,7 @@ and open the template in the editor.
 			  .'<td class="winkelmblock">'
 			  . '<form action="winkelwagen.php" method="POST" >'
                         . '<input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
-                        . '<a class="tooltip-right" data-tooltip="Bestel"><input type="image" name="actie" value="toevoegen" src="https://www.widexs.nl/uploads/images/winkelmandje.jpg" style="height:25%;" alt="Submit Form"></a></form></td>'.'
+                        . '<a class="tooltip-right" data-tooltip="Bestel"><input type="image" name="actie" value="toevoegen" src="../plaatjes/winkelmandje.jpg" style="height:25%;" alt="Submit Form"></a></form></td>'.'
 						</td>
               <td class="prijsblock">&euro;' . number_format($row['prijs'],2,",",".") . "
 			  <div class=\"prijskleinblock\">(&euro;".prijsber($row['prijs'])." incl 21% BTW)</div></td>
