@@ -3,7 +3,7 @@ $cookiename = 'winkelmandje';
 session_start();
 include('functies.php');
 $link = connectDB();
-
+//deleteCookie($cookiename);
 ?>
 <html>
     <head>
@@ -39,19 +39,26 @@ $link = connectDB();
 
                 <div class="body" id="main_content">
                     <?php
+                    if (!existCookie($cookiename)) {
+                        addCookie($cookiename, array());
+                      }  
                     if (!empty($_POST["actie"])) {
                         if ($_POST["actie"] == "Verwijderen") {
                             removeCookieLine($cookiename, $_POST["productnr"]);
+                             header('Location: winkelwagen.php');
+                        } else if ($_POST["actie"] == "toevoegen") {
+                            addCookieLine($cookiename, $_POST["productnr"], 1);
+                            header('Location: winkelwagen.php');
                         }
+                    
                     }
                     if (!empty($_POST["aanpassen"])) {
                         modifyCookieLine($cookiename, $_POST["productnr"], $_POST["aanpassen"]);
                         header('Location: winkelwagen.php');
                     }
-                    if (!existCookie($cookiename)) {
-                        addCookie($cookiename, array());
-                    }
-                    print('<table class="table_administratie">');
+                    
+                    
+                    print('<table  class="table_administratie">');
                     print('<tr>'
                             . '<th>Product Naam</th>'
                             . '<th>Omschrijving</th>'
@@ -97,10 +104,12 @@ $link = connectDB();
                         print('<tr>'
                                 . '<td>' . $product_naam . '</td>'
                                 . '<td>' . $product_omschrijving . '</td>'
-                                . '<td><form action="" method="POST" >'
-                                . '<input type="number" name="aanpassen" value="' . $value . '" onchange=this.form.submit();> </td>'
+                                . '<td><form class="table_administratie"  action="" method="POST" >'
+                                . '<input  type="number" name="aanpassen" value="' . $value . '" onchange=this.form.submit();> </td>'
+                                 . '<input  type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
                                 . '<td>' . $product_prijs . '</td>'
                                 . '<td>' . $totaalBedrag . '</td>'
+                                . '<form  action="" method="POST" >'
                                 . '<td><input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
                                 . '<input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td></tr>');
                         $count++;
@@ -111,7 +120,7 @@ $link = connectDB();
                     print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>' . $totaalBedrag . '</h2></li></ul>');
                     ?>
                     <form action="betaling/afrekenen.php" method="">
-                        <input type="submit" name="doorgaan" value="Doorgaan">  
+                        <input type="submit" name="Betalen" value="Doorgaan">  
                     </form>
                 </div>
             </div>
