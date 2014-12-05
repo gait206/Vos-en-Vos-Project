@@ -78,6 +78,7 @@ $link = connectDB();
                     // $conn = connectDB();
                     // $stmt = $con->prepare("SELECT afbeelding, productnaam");
                     $count = 0;
+					if(is_array($cookie) && count($cookie)> 0){
                     foreach ($cookie as $key => $value) {
                         $result = mysqli_query($link, 'SELECT * FROM product WHERE productnr="' . $key . '";');
 
@@ -116,6 +117,9 @@ $link = connectDB();
                                 . '<input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td></tr>');
                         $count++;
                     }
+					} else{
+						print("</table>uw winkelmandje is leeg");
+					}
                     print('</table>');
                     print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3>' . $totaalBedragZonderBTW . '</h3></li></ul>');
                     print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>' . $totaalBTW . '</h3></li></ul>');
