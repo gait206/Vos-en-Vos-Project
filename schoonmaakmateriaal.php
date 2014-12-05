@@ -2,6 +2,8 @@
 session_start();
 include('functies.php');
 $link = connectDB();
+if (!existCookie($cookiename)) {
+    addCookie($cookiename, array());
 ?>
 <html>
     <head>
