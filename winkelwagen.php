@@ -53,8 +53,10 @@ $link = connectDB();
                     
                     }
                     if (!empty($_POST["aanpassen"])) {
+                        if($_POST["aanpassen"] >= 0) {
                         modifyCookieLine($cookiename, $_POST["productnr"], $_POST["aanpassen"]);
                         header('Location: winkelwagen.php');
+                        }
                     }
                     
                     

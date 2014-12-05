@@ -71,11 +71,6 @@ $link = connectDB();
                     $totaalBedragZonderBTW = 0;
                     $totaalBedrag = 0;
                     $totaalBTW = 0;
-
-                    // cookies ophalen ** WEGHALEN **
-                    
-                    $array = array(9 => 16, 11 => 10);
-                    addCookie("winkelmandje", $array);
                     
                     // Test Waarden
                     if (existCookie("winkelmandje")) {
