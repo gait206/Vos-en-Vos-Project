@@ -4,6 +4,25 @@ session_start();
 include('functies.php');
 $link = connectDB();
 //deleteCookie($cookiename);
+ if (!existCookie($cookiename)) {
+                        addCookie($cookiename, array());
+                      }  
+                    if (!empty($_POST["actie"])) {
+                        if ($_POST["actie"] == "Verwijderen") {
+                            removeCookieLine($cookiename, $_POST["productnr"]);
+                             header('Location: winkelwagen.php');
+                        } else if ($_POST["actie"] == "toevoegen") {
+                            addCookieLine($cookiename, $_POST["productnr"], 1);
+                            header('Location: winkelwagen.php');
+                        }
+                    
+                    }
+                    if (!empty($_POST["aanpassen"])) {
+                        if($_POST["aanpassen"] >= 0) {
+                        modifyCookieLine($cookiename, $_POST["productnr"], $_POST["aanpassen"]);
+                        header('Location: winkelwagen.php');
+                        }
+                    }
 ?>
 <html>
     <head>
@@ -39,25 +58,7 @@ $link = connectDB();
 
                 <div class="body" id="main_content">
                     <?php
-                    if (!existCookie($cookiename)) {
-                        addCookie($cookiename, array());
-                      }  
-                    if (!empty($_POST["actie"])) {
-                        if ($_POST["actie"] == "Verwijderen") {
-                            removeCookieLine($cookiename, $_POST["productnr"]);
-                             header('Location: winkelwagen.php');
-                        } else if ($_POST["actie"] == "toevoegen") {
-                            addCookieLine($cookiename, $_POST["productnr"], 1);
-                            header('Location: winkelwagen.php');
-                        }
-                    
-                    }
-                    if (!empty($_POST["aanpassen"])) {
-                        if($_POST["aanpassen"] >= 0) {
-                        modifyCookieLine($cookiename, $_POST["productnr"], $_POST["aanpassen"]);
-                        header('Location: winkelwagen.php');
-                        }
-                    }
+                   
                     
                     
                     print('<table  class="table_administratie">');
