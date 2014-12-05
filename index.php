@@ -2,6 +2,7 @@
 session_start();
 include('functies.php');
 $link = connectDB();
+$cookiename = 'winkelmandje';
 if (!existCookie($cookiename)) {
     addCookie($cookiename, array());
 	}
