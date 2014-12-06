@@ -28,9 +28,10 @@ if (!empty($_POST["aanpassen"])) {
         <meta charset="UTF-8">
         <title></title>
         <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-
-        <link rel="stylesheet" type="text/css" href="../css/afrekenen.css">
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+       
         <link rel="stylesheet" type="text/css" href="css/admin.css">
+		 <link rel="stylesheet" type="text/css" href="../css/afrekenen.css">
 
     </head>
     <body>

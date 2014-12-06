@@ -7,7 +7,7 @@ $link = connectDB();
     <head>
         <meta charset="UTF-8">
         <title></title>
-        <link rel="stylesheet" type="text/css" href="../css/product.css">
+        <link rel="stylesheet" type="text/css" href="../css/main.css">
     </head>
     <body>
         <div class="container">

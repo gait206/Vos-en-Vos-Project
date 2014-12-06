@@ -165,6 +165,7 @@ div.menu{
     border: 1px solid #344D8E;
     width: calc(15% - 2px);
     margin: 2%;
+    margin: 2%;
     height: auto;
     min-height: 26%;
     float:left;
@@ -178,6 +179,7 @@ div.menu{
     margin-bottom:  2%;
     margin-left:  2%;
     margin-right:  2%;
+	overflow:hidden;
 }
 .foutmelding{
     color:red;
