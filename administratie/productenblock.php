@@ -101,9 +101,10 @@ and open the template in the editor.
                 
                 <?php
                 while ($row) {
-                    print("<table class=\"headerblock\">
+                    print('<table class="headerblock">
+					<tr height=0px></tr>
 					<tr>
-			  <td class=\"afbeeldingblock\" colspan=2>");
+			  <td class="afbeeldingblock" colspan=2>');
 			  
 			  if($row['afbeelding'] == ""){
 				  print('<img src="../plaatjes/logo.png">');
@@ -114,19 +115,21 @@ and open the template in the editor.
 				  print("</td></tr>
 				  <tr>
               <td colspan=2 class=\"productnaamblock\">" . $row['productnaam'] . "
-              <div class=\"omschrijvingblock\">" . $row['omschrijving'] . "</div></td>
-			  </tr>
-			  <tr>"
+			  </td>
+			  </tr><tr>
+			  <td colspan=2\">
+              <div class=\"omschrijvingblock\">" . $row['omschrijving'] . "</div>
+			  </td>
+			  </tr><tr>"
 			  
 			  .'<td class="winkelmblock">'
 			  . '<form action="winkelwagen.php" method="POST" >'
                         . '<input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
-						. '<input type="hidden" name="actie" value="toevoegen">'
-                        . '<a class="tooltip-right" data-tooltip="Bestel"><input type="image" name="plaatje" value="toevoegen" src="../plaatjes/winkelmandje.jpg" style="height:25%;" alt="Submit Form"></a></form></td>'.'
+                        . '<a class="tooltip-right" data-tooltip="Bestel"><input type="image" name="actie" value="toevoegen" style="height:40px;" src="../plaatjes/winkelmandje.jpg" alt="Submit Form"></a></form>'.'
 						</td>
               <td class="prijsblock">&euro;' . number_format($row['prijs'],2,",",".") . "
-			  <div class=\"prijskleinblock\">(&euro;".prijsber($row['prijs'])." incl 21% BTW)</div></td>
-			  </tr>");
+			  <div class=\"prijskleinblock\">(&euro;".prijsber($row['prijs'])." incl 21% BTW)</div>
+			  </td></tr>");
                     $row = mysqli_fetch_assoc($result);
                 }
 				?>
