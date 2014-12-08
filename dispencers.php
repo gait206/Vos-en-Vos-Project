@@ -47,3 +47,6 @@ if (!existCookie($cookiename)) {
         
     </body>
 </html>
+<?php
+mysqli_close($link);
+?>

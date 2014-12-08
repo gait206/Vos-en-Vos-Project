@@ -99,9 +99,9 @@ if (!empty($_POST["aanpassen"])) {
                         $totalePrijs = 0;
                         $totalePrijs = $totalePrijsZonderBTW * $product_btw;
                         // berekening totaal bedragen
-                        $totaalBedragZonderBTW = number_format($totaalBedragZonderBTW + $totalePrijsZonderBTW, 2);
-                        $totaalBedrag = number_format($totaalBedrag + $totalePrijs, 2);
-                        $totaalBTW = number_format($totaalBTW + ($totalePrijs - $totalePrijsZonderBTW), 2);
+                        $totaalBedragZonderBTW = $totaalBedragZonderBTW + $totalePrijsZonderBTW;
+                        $totaalBedrag = $totaalBedrag + $totalePrijs;
+                        $totaalBTW = $totaalBTW + ($totalePrijs - $totalePrijsZonderBTW);
 
 
                         // printen waarden
@@ -122,9 +122,9 @@ if (!empty($_POST["aanpassen"])) {
 						print("</table>uw winkelmandje is leeg");
 					}
                     print('</table>');
-                    print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3>' . $totaalBedragZonderBTW . '</h3></li></ul>');
-                    print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>' . $totaalBTW . '</h3></li></ul>');
-                    print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>' . $totaalBedrag . '</h2></li></ul>');
+                    print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3>' . number_format($totaalBedragZonderBTW, 2) . '</h3></li></ul>');
+                    print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>' . number_format($totaalBTW, 2) . '</h3></li></ul>');
+                    print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>' . number_format($totaalBedrag, 2) . '</h2></li></ul>');
                     ?>
                     <form action="betaling/afrekenen.php" method="">
                         <input type="submit" name="Betalen" value="Doorgaan">  
@@ -139,3 +139,6 @@ if (!empty($_POST["aanpassen"])) {
         </div>
     </body>
 </html>
+<?php
+mysqli_close($link);
+?>
