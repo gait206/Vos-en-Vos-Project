@@ -136,15 +136,15 @@ function base_query_generate($switch) {
     $query = "SELECT * FROM product ";
 
     switch ($switch) {
-        case 0 : $query .= 'WHERE categorie = "papier"';
+        case 0 : $query .= 'WHERE categorie = "papier" ';
             break;
-        case 1 : $query .= 'WHERE categorie = "dispencers"';
+        case 1 : $query .= 'WHERE categorie = "dispencers" ';
             break;
-        case 2 : $query .= 'WHERE categorie = "reinigingsmiddelen"';
+        case 2 : $query .= 'WHERE categorie = "reinigingsmiddelen" ';
             break;
-        case 3 : $query .= 'WHERE categorie = "schoonmaakmaterialen"';
+        case 3 : $query .= 'WHERE categorie = "schoonmaakmateriaal" ';
             break;
-        case 4 : $query .= 'WHERE categorie IN ("papier","dispencers","reinigingsmiddelen","schoonmaakmateialen")';
+        case 4 : $query .= 'WHERE categorie IN ("papier","dispencers","reinigingsmiddelen","schoonmaakmateiaal") ';
     }
     return $query;
 }
