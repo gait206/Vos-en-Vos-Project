@@ -7,8 +7,7 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="../css/producten.css">
-        <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="./css/producten.css">
         <title></title>
     </head>
     <body>
@@ -55,6 +54,18 @@ and open the template in the editor.
 
                 <?php
                 // code to get the right variables into the right place in the functions and such
+				switch (THIS_PAGE){
+                    case 'Papier'               : $switch = 0;
+                        break;
+                    case 'Dispencers'           : $switch = 1;
+                        break;
+                    case 'Reinigingsmiddelen'   : $switch = 2;
+                        break;
+                    case 'Schoonmaakmateriaal'  : $switch = 3;
+                        break;
+                    default : $switch = 4;
+                }
+				
                 $query = "";
                 if (isset($_GET['merk']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop'])) {
 	
@@ -65,7 +76,8 @@ and open the template in the editor.
                     }
                     $switch = $_GET['prijs'];
                     $sort = $_GET['sort'];
-                    $query = filter_query_generate($switch, $checkbox);
+					$query = base_query_generate(4);
+                    $query = filter_query_generate($query, $switch, $checkbox);
                     if (isset($_GET['zoekknop']) || isset($_GET['zoekbalk'])) {
 					if (!$_GET['zoekbalk'] == ""){
                         $query = search_query_generate($_GET['zoekbalk'], $query);
@@ -108,7 +120,7 @@ and open the template in the editor.
 			  <td class="afbeeldingblock" colspan=2>');
 			  
 			  if($row['afbeelding'] == ""){
-				  print('<img src="../plaatjes/logo.png">');
+				  print('<img src="./plaatjes/logo.png">');
 				  }
 				  else{
 				  print('<img src=' . $row['afbeelding'].'>');
@@ -126,7 +138,7 @@ and open the template in the editor.
 			  .'<td class="winkelmblock">'
 			  . '<form action="winkelwagen.php" method="POST" >'
                         . '<input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
-                        . '<a class="tooltip-right" data-tooltip="Bestel"><input type="image" name="actie" value="toevoegen" style="height:40px;" src="../plaatjes/winkelmandje.jpg" alt="Submit Form"></a></form>'.'
+                        . '<a class="tooltip-right" data-tooltip="Bestel"><input type="image" name="actie" value="toevoegen" style="height:40px;" src="./plaatjes/winkelmandje.jpg" alt="Submit Form"></a></form>'.'
 						</td>
               <td class="prijsblock">&euro;' . number_format($row['prijs'],2,",",".") . "
 			  <div class=\"prijskleinblock\">(&euro;".prijsber($row['prijs'])." incl 21% BTW)</div>
@@ -141,6 +153,7 @@ and open the template in the editor.
 		if (mysqli_num_rows($result) == 0){
 		print("<p class=\"geenres\">Geen resultaten gevonden</p>");  
 		}
+		print($query);
 		?>      
     </div>
 

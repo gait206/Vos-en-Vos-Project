@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="../css/producten.css">
+        <link rel="stylesheet" type="text/css" href="./css/producten.css">
         <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
         <title></title>
 
@@ -24,7 +24,7 @@ and open the template in the editor.
 
 
             <div class="navigatie">
-                <form action="index.php" method="get" id="select">
+                <form action="" method="get" id="select">
                     <input class="zoekinput" type="text" placeholder="Zoek" name="zoekbalk" <?php
                     if (isset($_GET['zoekbalk'])) {
                         print('value="' . $_GET['zoekbalk'] . '"');
@@ -81,9 +81,9 @@ and open the template in the editor.
                     } else {
                         $checkbox = array();
                     }
-                    $switch = $_GET['prijs'];
+                    $prijs = $_GET['prijs'];
                     $sort = $_GET['sort'];
-                    $query = filter_query_generate($query, $switch, $checkbox);
+                    $query = filter_query_generate($query, $prijs, $checkbox);
                     if (isset($_GET['zoekknop']) || isset($_GET['zoekbalk'])) {
                         if (!$_GET['zoekbalk'] == "") {
                             $query = search_query_generate($_GET['zoekbalk'], $query);
@@ -131,7 +131,7 @@ and open the template in the editor.
                 print("<tr>
 			  <td class=\"afbeelding\">");
                 if ($row['afbeelding'] == "") {
-                    print("<img src=\"../plaatjes/logo.png\"");
+                    print("<img src=\"./plaatjes/logo.png\"");
                 } else {
                     print("<img src= " . $row['afbeelding'] . " ");
                 }
@@ -141,10 +141,10 @@ and open the template in the editor.
 			  <td class=\"winkelm\">" 
                         . '<form action="winkelwagen.php" method="POST" >'
                         . '<input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
-                        . '<input type="image" name="actie" value="toevoegen" src="../plaatjes/winkelmandje.jpg" alt="Submit Form"></form></td>'
-                        . '<td class=\"prijs\">&euro;' . number_format($row['prijs'], 2)
-                        . '<div class=\"prijsklein\"><br>(&euro;"' . prijsber($row['prijs']) . ' incl 21% BTW)</div></td> </tr>'
-                        . '<tr><td colspan=4>  <img height=5px width=100% src=\"../plaatjes/line.png\"></p>'
+                        . '<input type="image" name="actie" value="toevoegen" style="height:40px;" src="./plaatjes/winkelmandje.jpg" alt="Submit Form"></form></td>'
+                        . '<td class="prijs">&euro;' . number_format($row['prijs'], 2)
+                        . '<div class="prijsklein"><br>(&euro;' . prijsber($row['prijs']) . ' incl 21% BTW)</div></td> </tr>'
+                        . '<tr><td colspan=4>  <img height=5px width=100% src="./plaatjes/line.png"></p>'
                         . '</td></tr>');
                 $row = mysqli_fetch_assoc($result);
             }
