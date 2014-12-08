@@ -452,6 +452,9 @@ function verifyPasswordForgot($email, $token, $link) {
         return false;
     }
 }
+function prijsformat($prijs){
+	return number_format($prijs,2,",",".");
+}
 
 function prijsber($prijs) {
     return number_format($prijs * 1.21, 2, ",", ".");

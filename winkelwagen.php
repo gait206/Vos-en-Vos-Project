@@ -12,8 +12,16 @@ if (!empty($_POST["actie"])) {
         removeCookieLine($cookiename, $_POST["productnr"]);
         header('Location: winkelwagen.php');
     } else if ($_POST["actie"] == "toevoegen") {
-        addCookieLine($cookiename, $_POST["productnr"], 1);
-        header('Location: winkelwagen.php');
+		print("1");
+		if(array_key_exists($_POST["productnr"] ,getCookie($cookiename))){
+			print("2");
+			modifyCookieLine($cookiename, $_POST["productnr"], getCookie($cookiename)[$_POST["productnr"]]+ 1);
+			header('Location: winkelwagen.php');
+		} else {
+			print("3");
+			addCookieLine($cookiename, $_POST["productnr"], 1);
+			header('Location: winkelwagen.php');
+		}
 	}
 }
 if (!empty($_POST["aanpassen"])) {
@@ -111,8 +119,8 @@ if (!empty($_POST["aanpassen"])) {
                                 . '<td><form class="table_administratie"  action="" method="POST" >'
                                 . '<input  type="number" name="aanpassen" value="' . $value . '" onchange=this.form.submit();> </td>'
                                  . '<input  type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
-                                . '<td>' . $product_prijs . '</td>'
-                                . '<td>' . number_format($totalePrijsZonderBTW, 2) . '</td>'
+                                . '<td>' . prijsformat($product_prijs) . '</td>'
+                                . '<td>' . prijsformat($totalePrijsZonderBTW) . '</td>'
                                 . '<form  action="" method="POST" >'
                                 . '<td><input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
                                 . '<input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td></tr>');
@@ -122,9 +130,9 @@ if (!empty($_POST["aanpassen"])) {
 						print("</table>uw winkelmandje is leeg");
 					}
                     print('</table>');
-                    print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3>' . number_format($totaalBedragZonderBTW, 2) . '</h3></li></ul>');
-                    print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>' . number_format($totaalBTW, 2) . '</h3></li></ul>');
-                    print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>' . number_format($totaalBedrag, 2) . '</h2></li></ul>');
+                    print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3>' . prijsformat($totaalBedragZonderBTW, 2) . '</h3></li></ul>');
+                    print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>' . prijsformat($totaalBTW) . '</h3></li></ul>');
+                    print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>' . prijsformat($totaalBedrag) . '</h2></li></ul>');
                     ?>
                     <form action="betaling/afrekenen.php" method="">
                         <input type="submit" name="Betalen" value="Doorgaan">  
