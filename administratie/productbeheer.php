@@ -121,7 +121,7 @@ $link = connectDB();
                     print('<tr><td>Omschrijving:</td><td><input type="text" name="omschrijving" value="' .$omschrijving. '"></tr>');
                     print('<tr><td>Voorraad:</td><td><input type="text" name="voorraad" value="' .$voorraad. '"></tr>');
                     print('<tr><td>Prijs:</td><td><input type="text" name="prijs" value="' .$prijs. '"></tr>');
-                    print('<tr><td>Afbeelding:</td><td><input type="text" name="afbeelding" value="img/"' .$afbeelding. '"></form>');
+                    print('<tr><td>Afbeelding:</td><td><input type="text" name="afbeelding" value="../administratie/img/"' .$afbeelding. '"></form>');
 //                     upload form
                     print('<td><table class="table">');
                     print('<form enctype="multipart/form-data" action"productbeheer.php" method="POST"');

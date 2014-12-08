@@ -496,7 +496,7 @@ function validate_email($email, $strict = true) {
 // Controleren voor geldig BTW nummer
 // een geldig btw nummer is: NL 1535.50.909.B02
 
-function isBTW($psVatInput) {
+function checkBTW($psVatInput) {
     $psVatInput = trim($psVatInput);
     $psVatInput = str_replace('.', '', $psVatInput);
     $aVatMatch = array();

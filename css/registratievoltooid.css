@@ -1,0 +1,33 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 3-dec-2014, 14:47:11
+    Author     : GertJan
+*/
+
+.body {
+    border-radius: 5px;
+    border: #344D8E 1px solid;
+    width: 96%;
+    margin-top: 2%;
+    margin-left: 2%;
+    margin-bottom: 2%;
+    float:left;
+}
+.registratievoltooid {
+  margin-top:20px;
+  text-align:center;
+  font-size: 18px;
+  width:96%;
+}
+
+.registratievoltooid_button {
+    margin-left:5px;
+}
+
+.foutmelding {
+    color: red;
+}
