@@ -1,6 +1,180 @@
+body{
+    background: none;
+   
+    letter-spacing: 0.1em;
+    font: normal 100% 'lucida sans unicode', arial, sans-serif;
 
+}
+.p {
+    letter-spacing: 0.1em;
+    font: normal 100% 'lucida sans unicode', arial, sans-serif;
+    font-weight: bold;
+}
 h4{
     margin:0;
+}
+div{
+
+}
+img.logo{
+    width: 20%;
+    margin: 2%;
+}
+.container{
+    border-radius: 10px;
+
+    width: 1300px;
+    margin-top: 2%;
+    margin-left: auto ;
+    margin-right: auto ;
+    //border: 1px solid black;
+}
+.header{
+    margin: 2%;
+    overflow: hidden;
+    margin-bottom:0%;
+}
+.logo{
+
+    width: 70%;
+    float:left;
+    margin-bottom:2%;
+}
+.login{
+    overflow: hidden;
+    //border: 1px solid black;
+    height:available;
+    margin-top:2%;
+}
+
+.input {
+    border: 1px solid darkgrey;
+}
+.input:hover {
+    border: 1px solid black;
+}
+
+.button {
+    border: 1px solid darkgrey;
+    color: white;
+    background-color: #344D8E;
+    padding: 2px 8px;
+}
+.button:hover {
+    border: 1px solid black;
+    background-color: #9A9CC5;
+    padding: 2px 8px;
+}
+
+.menu{
+    border-radius: 5px;
+}
+div.menu{ 
+    margin-right: 2%;
+    margin-left: 2%;
+    height: 35px;
+    background-color: #344D8E;
+
+}
+.menu ul{
+    margin: 2px;
+    padding: 0;
+    list-style-type: none;
+    text-align: center;
+}
+
+.menu ul li{
+    margin-top: 5px;
+    margin-left: 11px;
+    display: block;
+    float: left;  
+    //padding-right: 1px;
+    padding-left: 2px;
+        
+}
+.menu ul li a{
+    text-decoration:none;
+    padding: .2em 1em;
+    color: #fff;
+    background-color: #344D8E;
+    border: 1px solid #344D8E;
+}
+.menu ul li a:hover{
+    //border: 1px solid #5E5E64;
+    border: 1px solid #9A9CC5;
+    color: #fff;
+    background-color: #9A9CC5;
+}
+
+.content{
+    border-radius: 5px;
+    overflow: hidden;
+    float:inside;
+    // border: 1px solid black;
+
+}
+.navigator{
+    border-radius: 5px;
+
+    width: calc(20% - 2px);
+    float: left;
+    margin: 2% ;
+}
+.zoekbalk{
+    border-radius: 5px;
+    height:max-content;
+    width: 100%;
+    margin-bottom: 8%;
+    text-align:center;
+    background-color:#344D8E;
+}
+.zoekinput{
+    margin:3%;
+}
+.zoeksubmit{
+    color: black;
+    border-width: 1px;
+    border-radius: 2px;
+    border-color: black;
+    background-color:white;
+}
+.navigatie{
+    border: 1px solid #344D8E;
+    border-radius: 5px;
+    height: auto;
+    min-height: 20%;
+    width: 100%;
+}
+.body {
+    border-radius: 5px;
+    border: #344D8E 1px solid;
+    width: calc(74%);
+    height: auto;
+    min-height: 26%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    float:left;
+}
+
+
+.banner{
+    border-radius: 5px;
+    border: 1px solid #344D8E;
+    width: calc(15% - 2px);
+    margin: 2%;
+    height: auto;
+    min-height: 26%;
+    float:left;
+
+}
+.footer{
+    width: 96%;
+    height: 10%;
+    border: 1px solid #344D8E;
+    border-radius: 5px;
+    margin-bottom:  2%;
+    margin-left:  2%;
+    margin-right:  2%;
 }
 
 p.aantalzoek{
@@ -25,7 +199,7 @@ td.afbeelding {
     width: 120px;
     height: 120px;
 	vertical-align: middle;
-	border: 1pt solid black;
+//	border: 1pt solid black;
 }
 
 /* resize images */
@@ -100,6 +274,7 @@ td.prijs{
 div.prijsklein{
 	font: normal 9px 'lucida sans unicode', arial, sans-serif;
 	color: black;
+//	border: 1pt solid black;
 }
 
 
@@ -128,41 +303,45 @@ td.afbeeldingblock{
 }
 
 td.productnaamblock{
-font: normal 14px 'lucida sans unicode', arial, sans-serif;
+	font: normal 14px 'lucida sans unicode', arial, sans-serif;
 	color:#344d8e;
 	width: 218px;
-	height: 150px;
+	height: 60px;
 	vertical-align:top;
 //	border:1px solid black; 
 	overflow:hidden;
-	display:block;
-	padding-left: 10px;
-	padding-top: 20px;
+//	display:block;
+	padding-left: 1px;
+	padding-top: 12px;
+	line-height: 18px;
 }
 
 div.omschrijvingblock{
-font: normal 12px 'lucida sans unicode', arial, sans-serif;
+	font: normal 12px 'lucida sans unicode', arial, sans-serif;
 	color: black;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	-ms-text-overflow:ellipsis;
-	display: block;
+//	display: block;
 	display: -webkit-box;
-	-webkit-line-clamp: 8;
+//	-webkit-line-clamp: 8;
     -webkit-box-orient: vertical;
-	height: 80px;
-	max-width: 200px;
-	margin-top: 10px;
+	width:100%;
+	max-width: 220px;
+	margin-top: -10px;
 }
 
 /*--non web-kit browsers--*/
 div.omschrijvingblock{
-position:relative;
-    height:145px;
+//	border: 1px solid black;
+    position:relative;
+    height:165px;
+	letter-spacing: 0.1em;
+	line-height:18px;
 }
 
 div.omschrijvingblock:after{
-     position:absolute;
+    position:absolute;
     bottom:0;
     right:0;
     padding:0 10px 5px 45px;   
@@ -171,18 +350,20 @@ div.omschrijvingblock:after{
     background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
     background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
     background: linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
+	content:'...';
 }
 
 td.winkelmblock{
 	vertical-align: bottom;
-	width: 10%;
 //	border: 1px solid black;
 }
 
-td.winkelmblock img{
-	height: 25%;
+td.winkelmblock form{
+	width: 60px;
 //	border: 1px solid black;
 	vertical-align: bottom;
+	margin-bottom: 0px;
+	display:table-cell;
 }
 
 td.prijsblock{
@@ -194,11 +375,14 @@ td.prijsblock{
 	display:table-cell;
 }
 
-ddiv.prijskleinblock{
+div.prijskleinblock{
 	font: normal 9px 'lucida sans unicode', arial, sans-serif;
 	color: black;
-	// border: 1px solid black;
+//	border: 1px solid black;
+	display:block;
+	text-align: right;
 }
+
 table.headerblock{
 	border-style: solid;
     border-width: 1px;
