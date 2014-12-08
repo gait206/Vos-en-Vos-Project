@@ -36,19 +36,6 @@ $link = connectDB();
 
             <div class="content">
 
-                <div class="navigator">
-                    <div class="zoekbalk">
-
-                        <input class="zoekinput" type="text" value="Zoek">
-                        <input class="zoeksubmit" type="submit" value="Zoek">
-
-                    </div>
-
-                    <div class="navigatie">
-
-                    </div>
-                </div>
-
                 <div class="body" id="main_content">
 
                     <?php
@@ -102,9 +89,9 @@ $link = connectDB();
                             $totalePrijs = 0;
                             $totalePrijs = $totalePrijsZonderBTW * $product_btw;
                             // berekening totaal bedragen
-                            $totaalBedragZonderBTW = number_format($totaalBedragZonderBTW + $totalePrijsZonderBTW, 2);
-                            $totaalBedrag = number_format($totaalBedrag + $totalePrijs, 2);
-                            $totaalBTW = number_format($totaalBTW + ($totalePrijs - $totalePrijsZonderBTW),2);
+                            $totaalBedragZonderBTW = $totaalBedragZonderBTW + $totalePrijsZonderBTW;
+                            $totaalBedrag = $totaalBedrag + $totalePrijs;
+                            $totaalBTW = $totaalBTW + ($totalePrijs - $totalePrijsZonderBTW);
 
 
                             // printen waarden
@@ -122,17 +109,14 @@ $link = connectDB();
 
                     // printen Totalen en balken
                     print('</table>');
-                    print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3>' . $totaalBedragZonderBTW . '</h3></li></ul>');
-                    print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>' . $totaalBTW . '</h3></li></ul>');
-                    print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>' . $totaalBedrag . '</h2></li></ul>');
+                    print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3>' . number_format($totaalBedragZonderBTW,2) . '</h3></li></ul>');
+                    print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>' . number_format($totaalBTW,2) . '</h3></li></ul>');
+                    print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>' . number_format($totaalBedrag,2) . '</h2></li></ul>');
                     ?>
                     <form class="afrekenen_form" method="POST" action=""><input type="submit" name="ideal" value="Afrekenen met IDeal"></form></div>
                 <form method="POST" action=""><input class="afrekenen_knop_left" type="submit" name="terug" value="Terug naar winkelwagen"></form>
                 </div>
 
-                <div class="banner">
-
-                </div>
             </div>
 
             <div class="footer">

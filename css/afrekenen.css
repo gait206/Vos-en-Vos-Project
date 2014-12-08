@@ -51,3 +51,12 @@ and open the template in the editor.
     margin-bottom:16px;
     margin-top:88px;
 }
+.content{
+    width:1275px;
+}
+#main_content{
+    width:calc(98% - 2px);
+}
+.footer{
+    width:calc(98% - 2px);
+}
