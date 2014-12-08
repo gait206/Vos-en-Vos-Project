@@ -138,7 +138,8 @@ and open the template in the editor.
 			  .'<td class="winkelmblock">'
 			  . '<form action="winkelwagen.php" method="POST" >'
                         . '<input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
-                        . '<a class="tooltip-right" data-tooltip="Bestel"><input type="image" name="actie" value="toevoegen" style="height:40px;" src="./plaatjes/winkelmandje.jpg" alt="Submit Form"></a></form>'.'
+						. '<input type="hidden" name="actie" value="toevoegen">'
+                        . '<a class="tooltip-right" data-tooltip="Bestel"><input type="image" name="image" value="toevoegen" style="height:40px;" src="./plaatjes/winkelmandje.jpg" alt="Submit Form"></a></form>'.'
 						</td>
               <td class="prijsblock">&euro;' . number_format($row['prijs'],2,",",".") . "
 			  <div class=\"prijskleinblock\">(&euro;".prijsber($row['prijs'])." incl 21% BTW)</div>
