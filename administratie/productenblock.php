@@ -153,7 +153,6 @@ and open the template in the editor.
 		if (mysqli_num_rows($result) == 0){
 		print("<p class=\"geenres\">Geen resultaten gevonden</p>");  
 		}
-		print($query);
 		?>      
     </div>
 
