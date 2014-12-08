@@ -456,3 +456,80 @@ function verifyPasswordForgot($email, $token, $link) {
 function prijsber($prijs) {
     return number_format($prijs * 1.21, 2, ",", ".");
 }
+
+// Validatiecontrole emailadres
+function validate_email($email, $strict = true) {
+    $dot_string = $strict ?
+            '(?:[A-Za-z0-9!#$%&*+=?^_`{|}~\'\\/-]|(?<!\\.|\\A)\\.(?!\\.|@))' :
+            '(?:[A-Za-z0-9!#$%&*+=?^_`{|}~\'\\/.-])'
+    ;
+    $quoted_string = '(?:\\\\\\\\|\\\\"|\\\\?[A-Za-z0-9!#$%&*+=?^_`{|}~()<>[\\]:;@,. \'\\/-])';
+    $ipv4_part = '(?:[0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])';
+    $ipv6_part = '(?:[A-fa-f0-9]{1,4})';
+    $fqdn_part = '(?:[A-Za-z](?:[A-Za-z0-9-]{0,61}?[A-Za-z0-9])?)';
+    $ipv4 = "(?:(?:{$ipv4_part}\\.){3}{$ipv4_part})";
+    $ipv6 = '(?:' .
+            "(?:(?:{$ipv6_part}:){7}(?:{$ipv6_part}|:))" . '|' .
+            "(?:(?:{$ipv6_part}:){6}(?::{$ipv6_part}|:{$ipv4}|:))" . '|' .
+            "(?:(?:{$ipv6_part}:){5}(?:(?::{$ipv6_part}){1,2}|:{$ipv4}|:))" . '|' .
+            "(?:(?:{$ipv6_part}:){4}(?:(?::{$ipv6_part}){1,3}|(?::{$ipv6_part})?:{$ipv4}|:))" . '|' .
+            "(?:(?:{$ipv6_part}:){3}(?:(?::{$ipv6_part}){1,4}|(?::{$ipv6_part}){0,2}:{$ipv4}|:))" . '|' .
+            "(?:(?:{$ipv6_part}:){2}(?:(?::{$ipv6_part}){1,5}|(?::{$ipv6_part}){0,3}:{$ipv4}|:))" . '|' .
+            "(?:(?:{$ipv6_part}:){1}(?:(?::{$ipv6_part}){1,6}|(?::{$ipv6_part}){0,4}:{$ipv4}|:))" . '|' .
+            "(?::(?:(?::{$ipv6_part}){1,7}|(?::{$ipv6_part}){0,5}:{$ipv4}|:))" .
+            ')';
+    $fqdn = "(?:(?:{$fqdn_part}\\.)+?{$fqdn_part})";
+    $local = "({$dot_string}++|(\"){$quoted_string}++\")";
+    $domain = "({$fqdn}|\\[{$ipv4}]|\\[{$ipv6}]|\\[{$fqdn}])";
+    $pattern = "/\\A{$local}@{$domain}\\z/";
+    return preg_match($pattern, $email, $matches) &&
+            (
+            !empty($matches[2]) && !isset($matches[1][66]) && !isset($matches[0][256]) ||
+            !isset($matches[1][64]) && !isset($matches[0][254])
+            )
+    ;
+}
+
+// Controleren voor geldig BTW nummer
+// een geldig btw nummer is: NL 1535.50.909.B02
+
+function isBTW($psVatInput) {
+    $psVatInput = trim($psVatInput);
+    $psVatInput = str_replace('.', '', $psVatInput);
+    $aVatMatch = array();
+
+    if (!preg_match('/^([a-z]{2})[ ]*(.+)$/is', $psVatInput, $aVatMatch)) {
+        return false;
+    }
+
+    $aVatMatch[1] = strtoupper($aVatMatch[1]);
+    $aVatRegexes = array(
+        'AT' => 'U[0-9]{8}',
+        'BE' => '0[0-9]{9}',
+        'BG' => '[0-9]{9,10}',
+        'CY' => '[0-9]{8}[A-Za-z]',
+        'CZ' => '[0-9]{8,10}',
+        'DE' => '[0-9]{9}',
+        'DK' => '[0-9]{2} ?[0-9]{2} ?[0-9]{2} ?[0-9]{2}',
+        'EE' => '[0-9]{9}',
+        'EL' => '[0-9]{9}',
+        'ES' => '([A-Za-z0-9][0-9]{7}[A-Za-z0-9])',
+        'FI' => '[0-9]{8}',
+        'FR' => '[A-Za-z0-9]{2} ?[0-9]{9}',
+        'GB' => '([0-9]{3} ?[0-9]{4} ?[0-9]{2}|[0-9]{3} ?[0-9]{4} ?[0-9]{2} ?[0-9]{3}|GD[0-9]{3}|HA[0-9]{3})',
+        'HU' => '[0-8]{8}',
+        'IE' => '[0-9][A-Za-z0-9+*][0-9]{5}[A-Za-z]',
+        'IT' => '[0-9]{11}',
+        'LT' => '([0-9]{9}|[0-9]{12})',
+        'LU' => '[0-9]{8}',
+        'LV' => '[0-9]{11}',
+        'MT' => '[0-9]{8}',
+        'NL' => '[0-9]{9}B[0-9]{2}',
+        'PL' => '[0-9]{10}',
+        'PT' => '[0-9]{9}',
+        'RO' => '[0-9]{2,10}',
+        'SE' => '[0-9]{12}',
+        'SI' => '[0-9]{8}',
+        'SK' => '[0-9]{10}',
+    );
+}

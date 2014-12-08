@@ -169,7 +169,7 @@ $link = connectDB();
                                 . '<td>' . $row["merk"] . '</td>'
                                 . '<td>' . $row["omschrijving"] . '</td>'
                                 . '<td>' . $row["voorraad"] . '</td>'
-                                . '<td>' . $row["prijs"] . '</td>'
+                                . '<td>' . number_format($row["prijs"], 2) . '</td>'
                                 . '<td><img class="small" src="' . $row["afbeelding"] . '" ></td>'
                                 . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"><input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td>'
                                 . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"><input type="submit" name="actie" value="Aanpassen"></form></td></tr>');

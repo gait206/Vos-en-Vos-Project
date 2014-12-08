@@ -1,13 +1,17 @@
 body{
     background: none;
    
-    letter-spacing: 0.1em;
-    font: normal 100% 'lucida sans unicode', arial, sans-serif;
+    //letter-spacing: 0.1em;
+    //font: normal 100% 'lucida sans unicode', arial, sans-serif;
+    font: normal 100%;
+    font-family: 'Oxygen', sans-serif;
 
 }
 .p {
-    letter-spacing: 0.1em;
-    font: normal 100% 'lucida sans unicode', arial, sans-serif;
+    //letter-spacing: 0.1em;
+    //font: normal 100% 'lucida sans unicode', arial, sans-serif;
+    font: normal 100%;
+    font-family: 'Oxygen', sans-serif;
     font-weight: bold;
 }
 
@@ -16,8 +20,8 @@ img.logo{
     margin: 2%;
 }
 .small{
-    height:30%;
-    width:30%;
+    height: 100px;
+    /* width:30%; */
 }
 .container{
     border-radius: 10px;
@@ -83,7 +87,7 @@ div.menu{
 }
 
 .menu ul li{
-    margin-top: 5px;
+    margin-top: 8px;
     margin-left: 11px;
     display: block;
     float: left;  

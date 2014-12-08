@@ -112,7 +112,7 @@ if (!empty($_POST["aanpassen"])) {
                                 . '<input  type="number" name="aanpassen" value="' . $value . '" onchange=this.form.submit();> </td>'
                                  . '<input  type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
                                 . '<td>' . $product_prijs . '</td>'
-                                . '<td>' . $totaalBedrag . '</td>'
+                                . '<td>' . number_format($totalePrijsZonderBTW, 2) . '</td>'
                                 . '<form  action="" method="POST" >'
                                 . '<td><input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
                                 . '<input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td></tr>');

@@ -48,5 +48,6 @@ and open the template in the editor.
 }
 .afrekenen_knop_left{
     float:left;
-    margin-top:110px;
+    margin-bottom:16px;
+    margin-top:88px;
 }

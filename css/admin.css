@@ -49,7 +49,6 @@ form.table_administratie{
 }
 .table_administratie_button {
     text-align: center;
-    margin: 5%;
 }
 .table_administratie_button input {
     border: 1px solid darkgrey;
