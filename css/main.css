@@ -1,15 +1,10 @@
 body{
     background: none;
-   
-    //letter-spacing: 0.1em;
-    //font: normal 100% 'lucida sans unicode', arial, sans-serif;
     font: normal 100%;
     font-family: 'Oxygen', sans-serif;
 
 }
 .p {
-    //letter-spacing: 0.1em;
-    //font: normal 100% 'lucida sans unicode', arial, sans-serif;
     font: normal 100%;
     font-family: 'Oxygen', sans-serif;
     font-weight: bold;
