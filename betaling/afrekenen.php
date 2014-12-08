@@ -26,13 +26,13 @@ $link = connectDB();
                 </div>
             </div>
 
-            <div class="menu">
+            <!--<div class="menu">-->
                 <?php
 			define('THIS_PAGE', 'Afrekenen');
 			include('../menu.php');
 			?>
 
-            </div>
+            <!--</div>-->
 
             <div class="content">
 
@@ -113,7 +113,9 @@ $link = connectDB();
                     print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>' . prijsformat($totaalBTW) . '</h3></li></ul>');
                     print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>' . prijsformat($totaalBedrag) . '</h2></li></ul>');
                     ?>
+                    <br>
                     <form class="afrekenen_form" method="POST" action=""><input type="submit" name="ideal" value="Afrekenen met IDeal"></form></div>
+                    <br>
                 <form method="POST" action=""><input class="afrekenen_knop_left" type="submit" name="terug" value="Terug naar winkelwagen"></form>
                 </div>
 

@@ -51,6 +51,7 @@ and open the template in the editor.
     float:left;
     margin-bottom:16px;
     margin-top:88px;
+	margin-left: 2%;
 }
 .content{
     width:1275px;
