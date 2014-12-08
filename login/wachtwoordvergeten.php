@@ -9,6 +9,7 @@ $link = connectDB();
         <title></title>
         <link rel="stylesheet" type="text/css" href="../css/main.css">
         <link rel="stylesheet" type="text/css" href="../css/wachtwoordvergeten.css">
+        <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
     </head>
     <body>
         <div class="container">
