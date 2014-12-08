@@ -144,7 +144,7 @@ function base_query_generate($switch) {
             break;
         case 3 : $query .= 'WHERE categorie = "schoonmaakmateriaal" ';
             break;
-        case 4 : $query .= 'WHERE categorie IN ("papier","dispencers","reinigingsmiddelen","schoonmaakmateiaal") ';
+        case 4 : $query .= 'WHERE categorie IN ("papier","dispencers","reinigingsmiddelen","schoonmaakmateriaal") ';
     }
     return $query;
 }
