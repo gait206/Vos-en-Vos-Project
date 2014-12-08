@@ -12,13 +12,13 @@ if (!empty($_POST["actie"])) {
         removeCookieLine($cookiename, $_POST["productnr"]);
         header('Location: winkelwagen.php');
     } else if ($_POST["actie"] == "toevoegen") {
-		print("1");
+		//print("1");
 		if(array_key_exists($_POST["productnr"] ,getCookie($cookiename))){
-			print("2");
+			//print("2");
 			modifyCookieLine($cookiename, $_POST["productnr"], getCookie($cookiename)[$_POST["productnr"]]+ 1);
 			header('Location: winkelwagen.php');
 		} else {
-			print("3");
+			//print("3");
 			addCookieLine($cookiename, $_POST["productnr"], 1);
 			header('Location: winkelwagen.php');
 		}
@@ -39,7 +39,6 @@ if (!empty($_POST["aanpassen"])) {
 		<link rel="stylesheet" type="text/css" href="css/main.css">
        <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="css/admin.css">
-		 <link rel="stylesheet" type="text/css" href="../css/afrekenen.css">
 		 <link rel="stylesheet" type="text/css" href="./css/afrekenen.css">
 
     </head>
