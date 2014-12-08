@@ -109,9 +109,6 @@ $link = connectDB();
 
                     // printen Totalen en balken
                     print('</table>');
-                    print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3>' . number_format($totaalBedragZonderBTW,2) . '</h3></li></ul>');
-                    print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>' . number_format($totaalBTW,2) . '</h3></li></ul>');
-                    print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>' . number_format($totaalBedrag,2) . '</h2></li></ul>');
                     print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3>' . prijsformat($totaalBedragZonderBTW) . '</h3></li></ul>');
                     print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>' . prijsformat($totaalBTW) . '</h3></li></ul>');
                     print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>' . prijsformat($totaalBedrag) . '</h2></li></ul>');
