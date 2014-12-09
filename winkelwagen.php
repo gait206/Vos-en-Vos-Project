@@ -130,7 +130,7 @@ if (!empty($_POST["aanpassen"])) {
 						print("</table>uw winkelmandje is leeg");
 					}
                     print('</table>');
-                    print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3>' . prijsformat($totaalBedragZonderBTW, 2) . '</h3></li></ul>');
+                    print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3>' . prijsformat($totaalBedragZonderBTW) . '</h3></li></ul>');
                     print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>' . prijsformat($totaalBTW) . '</h3></li></ul>');
                     print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>' . prijsformat($totaalBedrag) . '</h2></li></ul>');
                     ?>
