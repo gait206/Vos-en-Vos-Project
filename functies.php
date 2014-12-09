@@ -541,3 +541,11 @@ function checkBTW($psVatInput) {
         'SK' => '[0-9]{10}',
     );
 }
+
+function countItems($array){
+    $aantal = 0;
+    foreach($array as $key => $value){
+        $aantal = $aantal + $value;
+    }
+    return $aantal;
+}
