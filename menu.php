@@ -40,7 +40,7 @@ $menuitem5 = '<a style="border: 1px solid #9A9CC5; margin-top:8px;
     background-color: #9A9CC5; cursor: default;" href="#nogo">Schoonmaakmateriaal</a>';
 break;
 case 'winkelwagen':
- $menuitem6 =  '<a style="border: 1px solid #9A9CC5; margin-top:8px;
+ $menuitem6 =  '<a style="border: 1px solid #9A9CC5; margin-top:8px; margin-left: 27em;;
     color: #fff;
     background-color: #9A9CC5; cursor: default" href="#nogo"><img height="20px" src="/plaatjes/winkelmandje-menu.png"></a>';
 default:

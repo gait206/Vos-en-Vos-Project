@@ -13,7 +13,7 @@ and open the template in the editor.
     border-spacing:0px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-	margin-left: 2%;
+	margin-left: 1%;
 }
 .afrekenen_tabel th{
     font-size:90%;
@@ -28,7 +28,7 @@ and open the template in the editor.
 }
 .afrekenen_totaal{
     float:right;
-    margin-top:2%;
+    margin-top:1%;
     margin-right:1%;
 }
 .afrekenen_totaal ul{
@@ -51,10 +51,10 @@ and open the template in the editor.
     float:left;
     margin-bottom:16px;
     margin-top:88px;
-	margin-left: 2%;
+	margin-left: 1%;
 }
 .content{
-    width:1275px;
+    width:1270px;
 }
 .body{
     width:calc(98% - 2px);
