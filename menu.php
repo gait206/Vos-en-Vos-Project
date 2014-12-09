@@ -6,7 +6,7 @@ $menuitem2 = '<a href="/papier.php">Papier</a>';
 $menuitem3 = '<a href="/dispencers.php">Dispencers</a>';
 $menuitem4 = '<a href="/reinigingsmiddelen.php">Reinigingsmiddelen</a>';
 $menuitem5 = '<a href="/schoonmaakmateriaal.php">Schoonmaakmateriaal</a>';
-$menuitem6 = '<a href="/winkelwagen.php" align="right" style="margin-left:400px">( '.countItems(getCookie("winkelmandje")).' ) <img height="20" src="/plaatjes/winkelmandje-menu.png"></a>';
+$menuitem6 = '<a href="/winkelwagen.php" align="right">( '.countItems(getCookie("winkelmandje")).' ) <img height="20" src="/plaatjes/winkelmandje-menu.png"></a>';
  
 switch (THIS_PAGE) {
  
@@ -40,7 +40,7 @@ $menuitem5 = '<a style="border: 1px solid #9A9CC5; margin-top:8px;
     background-color: #9A9CC5; cursor: default;" href="#nogo">Schoonmaakmateriaal</a>';
 break;
 case 'winkelwagen':
- $menuitem6 =  '<a style="border: 1px solid #9A9CC5; margin-top:8px; margin-left: 400px;
+ $menuitem6 =  '<a style="border: 1px solid #9A9CC5; margin-top:8px;
     color: #fff;
     background-color: #9A9CC5; cursor: default" href="#nogo">( '.countItems(getCookie("winkelmandje")).' ) <img height="20px" src="/plaatjes/winkelmandje-menu.png"></a>';
 default:
