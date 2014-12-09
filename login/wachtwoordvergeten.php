@@ -54,14 +54,16 @@ $link = connectDB();
                                     $salt .= strtr(base64_encode(mcrypt_create_iv($size)), '+', '.') . "$";
                                     $token = crypt($random, $salt);
                                     
-                                    $stmt = mysqli_prepare($link, 'INSERT token(email,token,tijd) VALUES(?,?,?)');
-                                    mysqli_stmt_bind_param($stmt, 'sss', $email, $token, time());
-                                    mysqli_execute($stmt);
+                                    mysqli_query($link, 'INSERT token(email,token,datum) VALUES("'.$email.'","'.$token.'","'.time().'")');
                                     
                                     $url = '../wachtwoordveranderen.php?email="'.$email.'"&token="'.$token.'"';
                                     $url2 = '../wachtwoordnietveranderen.php?email="'.$email.'"';
                                     // email opmaken en mail fixen
-                                    mail($email, "wachtwoord vergeten", $message);
+                                    
+                                    $message = 'Als je een nieuw wachtwoord wil aanmaken klik dan op deze link: '.$url.'<br>Als je geen nieuw wachtwoord wil aanmaken klik dan op deze link: '.$url2;
+                                    
+                                    date_default_timezone_set("UTC");
+                                    mail($email, "wachtwoord vergeten", $message, 'From: test@gait.tk');
                                     print("Er is een email verstuurd naar uw account");
                                 } else {
                                     print('<p class="foutmelding">Je moet een email invullen!</p>');

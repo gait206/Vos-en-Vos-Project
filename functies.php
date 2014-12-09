@@ -441,15 +441,20 @@ function deleteDatabaseToken($link) {
 }
 
 function verifyPasswordForgot($email, $token, $link) {
-    $stmt = mysqli_prepare($link, 'SELECT token FROM recovery WHERE email = ?;');
+    $stmt = mysqli_prepare($link, 'SELECT token, datum FROM recovery WHERE email = ?;');
     mysqli_stmt_bind_param($stmt, 's', $email);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $token2);
-
+    mysqli_stmt_bind_result($stmt, $token2, $datum);
+    
+    // als de url 24 uur oud is word hij verwijderd
+    if(($datum - time()) > (60*60*24)) {
+        deleteDatabaseToken($link);
+    } else {
     if ($token == $token2) {
         return true;
     } else {
         return false;
+    }
     }
 }
 function prijsformat($prijs){
