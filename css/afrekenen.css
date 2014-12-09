@@ -13,7 +13,6 @@ and open the template in the editor.
     border-spacing:0px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-	margin-left: 1%;
 }
 .afrekenen_tabel th{
     font-size:90%;
@@ -58,7 +57,7 @@ and open the template in the editor.
 }
 .body{
     width:calc(98% - 2px);
-    margin-left:25px;
+    margin-left:13px;
     border: 1px solid #344D8E;
     border-radius:5px;
 }
