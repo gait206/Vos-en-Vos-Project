@@ -143,8 +143,8 @@ and open the template in the editor.
                         . '<input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
 						. '<input type="hidden" name="actie" value="toevoegen">'
                         . '<a class="tooltip-right" data-tooltip="Bestel"><input type="image" name="actie" value="toevoegen" style="height:40px;" src="./plaatjes/winkelmandje.jpg" alt="Submit Form"></form></a></td>'
-                        . '<td class="prijs">&euro; ' . number_format($row['prijs'],2,",",".")
-                        . '<div class="prijsklein"><br>(&euro; ' . prijsber($row['prijs']) . ' incl 21% BTW)</div></td> </tr>'
+                        . '<td class="prijs">&euro;' . number_format($row['prijs'],2,",",".")
+                        . '<div class="prijsklein"><br>(&euro;' . prijsber($row['prijs']) . ' incl 21% BTW)</div></td> </tr>'
                         . '<tr><td colspan=4>  <img height=5px width=100% src="./plaatjes/line.png"></p>'
                         . '</td></tr>');
                 $row = mysqli_fetch_assoc($result);
