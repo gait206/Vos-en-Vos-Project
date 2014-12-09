@@ -42,8 +42,8 @@ if (!existCookie($cookiename)) {
             </div>
 
             <div class="footer">
-            <table class="footertable" border=0 width="100%">
-            <tr class="footerheader" height="30" >
+            <table class="footertable" width="100%">
+            <tr class="footerheader" height="40" >
             <td>Vos en Vos Tissue</td>
             <td>Contact</td> 
             <td>Bedrijfgegevens</td>
