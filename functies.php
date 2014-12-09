@@ -144,7 +144,7 @@ function base_query_generate($switch) {
             break;
         case 3 : $query .= 'WHERE categorie = "schoonmaakmateriaal" ';
             break;
-        case 4 : $query .= 'WHERE categorie IN ("papier","dispencers","reinigingsmiddelen","schoonmaakmateiaal") ';
+        case 4 : $query .= 'WHERE categorie IN ("papier","dispencers","reinigingsmiddelen","schoonmaakmateriaal") ';
     }
     return $query;
 }
@@ -441,15 +441,20 @@ function deleteDatabaseToken($link) {
 }
 
 function verifyPasswordForgot($email, $token, $link) {
-    $stmt = mysqli_prepare($link, 'SELECT token FROM recovery WHERE email = ?;');
+    $stmt = mysqli_prepare($link, 'SELECT token, datum FROM recovery WHERE email = ?;');
     mysqli_stmt_bind_param($stmt, 's', $email);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $token2);
-
+    mysqli_stmt_bind_result($stmt, $token2, $datum);
+    
+    // als de url 24 uur oud is word hij verwijderd
+    if(($datum - time()) > (60*60*24)) {
+        deleteDatabaseToken($link);
+    } else {
     if ($token == $token2) {
         return true;
     } else {
         return false;
+    }
     }
 }
 function prijsformat($prijs){
@@ -535,4 +540,24 @@ function checkBTW($psVatInput) {
         'SI' => '[0-9]{8}',
         'SK' => '[0-9]{10}',
     );
+}
+
+function countItems($array){
+    $aantal = 0;
+    foreach($array as $key => $value){
+        $aantal = $aantal + $value;
+    }
+    return $aantal;
+}
+
+function PostcodeCheck($postcode)
+{
+    $remove = str_replace(" ","", $postcode);
+    $upper = strtoupper($remove);
+
+    if(preg_match("/^\W*[1-9]{1}[0-9]{3}\W*[a-zA-Z]{2}\W*$/",  $upper)) {
+        return $upper;
+    } else {
+        return false;
+    }
 }

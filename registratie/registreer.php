@@ -130,8 +130,8 @@ $link = connectDB();
                             
                             if (empty($_POST['postcode'])){
                                 $error_postcode = "<img width=15 height=15 src=\"fout.png\"> Er is geen postcode ingevoerd<br>";
-                            } elseif (preg_match("/^[A-z0-9]+$/", $_POST['postcode'])){
-                                $error_poastcode = "<img width=15 height=15 src=\"fout.png\"> Geen geldige invoer bij postcode<br>";
+                            } elseif (!PostcodeCheck($_POST['postcode'])){
+                                $error_postcode = "<img width=15 height=15 src=\"fout.png\"> Geen geldige invoer bij postcode<br>";
                             } else {
                                 $error_postcode = '';
                             }    
