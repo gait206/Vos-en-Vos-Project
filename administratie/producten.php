@@ -56,42 +56,42 @@ and open the template in the editor.
                         <option value=3 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 3) echo "selected"; ?>>prijs (oplopend)</option>
                         <option value=4 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 4) echo "selected"; ?>>prijs (aflopend)</option>
                     </select>
+                </form>
 
-
-                <?php
-                // code to get the right variables into the right place in the functions and such
-                switch (THIS_PAGE){
-                    case 'Papier'               : $switch = 0;
-                        break;
-                    case 'Dispencers'           : $switch = 1;
-                        break;
-                    case 'Reinigingsmiddelen'   : $switch = 2;
-                        break;
-                    case 'Schoonmaakmateriaal'  : $switch = 3;
-                        break;
-                    default : $switch = 4;
-                }
-				
-                $query = base_query_generate($switch);
-				
-                if (isset($_GET['merk']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop'])) {
-
-                    if (isset($_GET['merk'])) {
-                        $checkbox = $_GET['merk'];
-                    } else {
-                        $checkbox = array();
+                    <?php
+                    // code to get the right variables into the right place in the functions and such
+                    switch (THIS_PAGE) {
+                        case 'Papier' : $switch = 0;
+                            break;
+                        case 'Dispencers' : $switch = 1;
+                            break;
+                        case 'Reinigingsmiddelen' : $switch = 2;
+                            break;
+                        case 'Schoonmaakmateriaal' : $switch = 3;
+                            break;
+                        default : $switch = 4;
                     }
-                    $prijs = $_GET['prijs'];
-                    $sort = $_GET['sort'];
-                    $query = filter_query_generate($query, $prijs, $checkbox);
-                    if (isset($_GET['zoekknop']) || isset($_GET['zoekbalk'])) {
-                        if (!$_GET['zoekbalk'] == "") {
-                            $query = search_query_generate($_GET['zoekbalk'], $query);
+
+                    $query = base_query_generate($switch);
+
+                    if (isset($_GET['merk']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop'])) {
+
+                        if (isset($_GET['merk'])) {
+                            $checkbox = $_GET['merk'];
+                        } else {
+                            $checkbox = array();
                         }
+                        $prijs = $_GET['prijs'];
+                        $sort = $_GET['sort'];
+                        $query = filter_query_generate($query, $prijs, $checkbox);
+                        if (isset($_GET['zoekknop']) || isset($_GET['zoekbalk'])) {
+                            if (!$_GET['zoekbalk'] == "") {
+                                $query = search_query_generate($_GET['zoekbalk'], $query);
+                            }
+                        }
+                        $query = sort_query_generate($query, $sort);
                     }
-                    $query = sort_query_generate($query, $sort);
-                }
-                ?>
+                    ?>
 
             </div>
         </div>
@@ -126,14 +126,14 @@ and open the template in the editor.
                 }
                 ?>
             </p>
-
-                <select name="items" form="select" onchange="this.form.submit()">
-                    <option value="10"<?php if (!empty($_GET["items"]) && $_GET["items"] == 10) echo "selected"; ?>>10</option>
-                    <option value="20"<?php if (!empty($_GET["items"]) && $_GET["items"] == 20) echo "selected"; ?>>20</option>
-                    <option value="25"<?php if (!empty($_GET["items"]) && $_GET["items"] == 25) echo "selected"; ?>>25</option>
-                    <option value="50"<?php if (!empty($_GET["items"]) && $_GET["items"] == 50) echo "selected"; ?>>50</option>
-                </select>
-            
+        <form>
+            <select name="items" form="select" onchange="this.form.submit()">
+                <option value="10"<?php if (!empty($_GET["items"]) && $_GET["items"] == 10) echo "selected"; ?>>10</option>
+                <option value="20"<?php if (!empty($_GET["items"]) && $_GET["items"] == 20) echo "selected"; ?>>20</option>
+                <option value="25"<?php if (!empty($_GET["items"]) && $_GET["items"] == 25) echo "selected"; ?>>25</option>
+                <option value="50"<?php if (!empty($_GET["items"]) && $_GET["items"] == 50) echo "selected"; ?>>50</option>
+            </select>
+        </form>
             <?php
             while ($row) {
                 print("<tr>
@@ -146,12 +146,12 @@ and open the template in the editor.
                 print("</td>
               <td class=\"productnaam\">" . $row['productnaam'] . "
               <div class=\"omschrijving\">" . $row['omschrijving'] . "</div></td>
-			  <td class=\"winkelm\">" 
+			  <td class=\"winkelm\">"
                         . '<form action="winkelwagen.php" method="POST" >'
                         . '<input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
-						. '<input type="hidden" name="actie" value="toevoegen">'
+                        . '<input type="hidden" name="actie" value="toevoegen">'
                         . '<a class="tooltip-right" data-tooltip="Bestel"><input type="image" name="actie" value="toevoegen" style="height:40px;" src="./plaatjes/winkelmandje.jpg" alt="Submit Form"></form></a></td>'
-                        . '<td class="prijs">&euro; ' . number_format($row['prijs'],2,",",".")
+                        . '<td class="prijs">&euro; ' . number_format($row['prijs'], 2, ",", ".")
                         . '<div class="prijsklein"><br>(&euro; ' . prijsber($row['prijs']) . ' incl 21% BTW)</div></td> </tr>'
                         . '<tr><td colspan=4>  <img height=5px width=100% src="./plaatjes/line.png"></p>'
                         . '</td></tr>');
@@ -165,9 +165,16 @@ and open the template in the editor.
             print("<p class=\"geenres\">Geen resultaten gevonden</p>");
         }
         ?>
-        
-</form>
+    <form>
+        <select name="items" form="select" onchange="this.form.submit()">
+            <option value="10"<?php if (!empty($_GET["items"]) && $_GET["items"] == 10) echo "selected"; ?>>10</option>
+            <option value="20"<?php if (!empty($_GET["items"]) && $_GET["items"] == 20) echo "selected"; ?>>20</option>
+            <option value="25"<?php if (!empty($_GET["items"]) && $_GET["items"] == 25) echo "selected"; ?>>25</option>
+            <option value="50"<?php if (!empty($_GET["items"]) && $_GET["items"] == 50) echo "selected"; ?>>50</option>
+        </select>
 
-    </div>
+    </form>
+
+</div>
 </body>
 </html>
