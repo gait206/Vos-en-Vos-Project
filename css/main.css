@@ -281,5 +281,6 @@ div.menu{
 @media  screen and (-webkit-min-device-pixel-ratio:0) {
     .dropdown li:hover > ul {
       margin-top:-1px;
+      width:fit-content;
     }
 }
