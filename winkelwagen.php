@@ -78,7 +78,7 @@ if (!empty($_POST["aanpassen"])) {
 							. '<th style="text-align:center;">Aantal</th>'
 							. '<th style="text-align:center;">Prijs per stuk</th>'
                             . '<th style="text-align:center;">Subtotaal</th>'
-							.'</tr>');
+							.'</tr><tr colspan=7 height="10"></tr>');
 
 
                     // totaalBedragZonderBTW, totaalBedrag en totaalBTW instellen
