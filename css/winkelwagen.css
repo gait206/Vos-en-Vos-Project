@@ -78,3 +78,8 @@ form.table_administratie{
     vertical-align: bottom;
 	margin-top:18px;
 } 
+
+.winkelwagen_button {
+    margin-top:20px;
+    float:right;
+}

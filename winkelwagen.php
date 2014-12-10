@@ -146,7 +146,7 @@ if (!empty($_POST["aanpassen"])) {
                     print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>&euro; ' . prijsformat($totaalBTW) . '</h3></li></ul>');
                     print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>&euro; ' . prijsformat($totaalBedrag) . '</h2></li></ul>');
                     ?>
-                    <form action="betaling/afrekenen.php" method="">
+                    <form class="winkelwagen_button" action="betaling/afrekenen.php" method="POST">
                         <input type="submit" name="Betalen" value="Doorgaan">  
                     </form>
                 </div>
