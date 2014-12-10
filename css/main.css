@@ -258,7 +258,7 @@ div.menu{
 
 .dropdown li ul {
     display: none;
-    width:300px;
+    width:200px;
 }
 
 .dropdown li:hover > ul {
