@@ -71,13 +71,13 @@ if (!empty($_POST["aanpassen"])) {
                     
                     print('<table class="table_administratie">');
                     print('<tr>'
-                            . '<th style="text-align: center;">Verwijderen</th>'
-							. '<th style="text-align: center;"><!--Afbeelding--></th>'
-                            . '<th style="text-align: center;">Productnummer</th>'
-                            . '<th style="text-align: left;">Productnaam</th>'
-							. '<th style="text-align: center;">Aantal</th>'
-							. '<th style="text-align: center;">Prijs per stuk</th>'
-                            . '<th style="text-align: center;">Subtotaal</th>'
+                            . '<th style="text-align:center;">Verwijderen</th>'
+							. '<th style="text-align:center;"><!--Afbeelding--></th>'
+                            . '<th style="text-align:center;">Productnummer</th>'
+                            . '<th style="text-align:left; padding-left:30px;" >Productnaam</th>'
+							. '<th style="text-align:center;">Aantal</th>'
+							. '<th style="text-align:center;">Prijs per stuk</th>'
+                            . '<th style="text-align:center;">Subtotaal</th>'
 							.'</tr>');
 
 
@@ -129,7 +129,7 @@ if (!empty($_POST["aanpassen"])) {
 				  				}
 
 								print('</td><td style="text-align: center;" width="10%">' . $product_nummer . '</td>'
-                                . '<td style="text-align:left; color:#344d8e;" width="30%">' . $product_naam . '</td>'
+                                . '<td style="text-align:left; padding-left:30px; color:#344d8e;" width="30%">' . $product_naam . '</td>'
                                 . '<td style="text-align: center;" width="10%"><form class="table_administratie"  action="" method="POST" >'
                                 . '<input  type="number" name="aanpassen" value="' . $value . '" onchange=this.form.submit();> </td>'
                                  . '<input  type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
