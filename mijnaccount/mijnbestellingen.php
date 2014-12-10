@@ -38,12 +38,22 @@ $link = connectDB();
 //                    header('Location: ../index.php');
 //                }
 //                $email = getEmail($link);
-                $email = "dick@gmail.com";
-                var_dump($email);
-                $result = mysqli_query($link, "SELECT * FROM Bestelling AS B JOIN Klant AS K ON K.klantnr = K.klantnr WHERE email = '$email' AND status ='kots'");
+                $email = getEmail($link);
+                $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling AS B JOIN Klant AS K ON K.klantnr = K.klantnr WHERE email = '$email' AND status ='In behandeling'");
                 $bestelling = mysqli_fetch_assoc($result);
-                var_dump($bestelling);
-                
+
+                print("<table><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th>");
+                while ($bestelling) {
+                    print("<tr>"
+                            . "<td>" . $bestelling["bestelnr"] . "</td>"
+                            . "<td>" . $bestelling["opmerking"] . "</td>"
+                            . "<td>" . $bestelling["besteldatum"] . "</td>"
+                            . "<td>" . $bestelling["bezorgdatum"] . "</td>"
+                            . "<td>" . $bestelling["status"] . "</td>"
+                            . "</tr>");
+                    $bestelling = mysqli_fetch_assoc($result);
+                }
+                print("</table>");
                 ?>
             </div>
 
