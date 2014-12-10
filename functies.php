@@ -218,6 +218,23 @@ function sort_query_generate($query, $switch) {
     return($query);
 }
 
+function amount_per_page($result, $perpage) {
+    $count = mysqli_num_rows($result);
+    $amount = $count / $perpage;
+
+    if ($amount <= 1) {
+        $amount = 1;
+    } else {
+        ceil($amount);
+    }
+    return $amount;
+}
+
+function limit_query_generate($pages, $query, $perpage) {
+    $query .= "LIMIT " . $pages . "," . $perpage;
+    return $query;
+}
+
 function selected($switch, $number) {
     if (isset($_POST[$switch])) {
         $switch = $_POST["switch"];

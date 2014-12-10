@@ -56,7 +56,7 @@ and open the template in the editor.
                         <option value=3 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 3) echo "selected"; ?>>prijs (oplopend)</option>
                         <option value=4 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 4) echo "selected"; ?>>prijs (aflopend)</option>
                     </select>
-                </form>
+
 
                 <?php
                 // code to get the right variables into the right place in the functions and such
@@ -126,6 +126,14 @@ and open the template in the editor.
                 }
                 ?>
             </p>
+
+                <select name="items" form="select" onchange="this.form.submit()">
+                    <option value="10"<?php if (!empty($_GET["items"]) && $_GET["items"] == 10) echo "selected"; ?>>10</option>
+                    <option value="20"<?php if (!empty($_GET["items"]) && $_GET["items"] == 20) echo "selected"; ?>>20</option>
+                    <option value="25"<?php if (!empty($_GET["items"]) && $_GET["items"] == 25) echo "selected"; ?>>25</option>
+                    <option value="50"<?php if (!empty($_GET["items"]) && $_GET["items"] == 50) echo "selected"; ?>>50</option>
+                </select>
+            
             <?php
             while ($row) {
                 print("<tr>
@@ -156,8 +164,10 @@ and open the template in the editor.
         if (mysqli_num_rows($result) == 0) {
             print("<p class=\"geenres\">Geen resultaten gevonden</p>");
         }
-        ?>      
-    </div>
+        ?>
+        
+</form>
 
+    </div>
 </body>
 </html>
