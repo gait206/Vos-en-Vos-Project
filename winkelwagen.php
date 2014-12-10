@@ -122,10 +122,10 @@ if (!empty($_POST["aanpassen"])) {
                                 . '<td style="text-align:center;" width="10%"><input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
                                 . '<input type="image" src="/plaatjes/deleteicon.png" height="30" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td><td style="text-align:center;" width="20%">');
 								if($afbeelding == ""){
-				  				print('<img height="80" src="./plaatjes/logo.png">');
+				  				print('<img height="80" style="max-width:180px" src="./plaatjes/logo.png">');
 				 				}
 				  				else{
-				  				print('<img height="80" src='. $afbeelding .'>');
+				  				print('<img height="80" style="max-width:180px" src='. $afbeelding .'>');
 				  				}
 
 								print('</td><td style="text-align: center;" width="10%">' . $product_nummer . '</td>'
