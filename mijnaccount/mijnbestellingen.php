@@ -55,6 +55,7 @@ $link = connectDB();
                 }
                 print("</table>");
                 ?>
+                <a href="Bestelgeschiedenis.php">Bestelgeschiedenis</a>
             </div>
 
             <div class="footer">
