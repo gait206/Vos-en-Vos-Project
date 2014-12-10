@@ -86,7 +86,7 @@ $link = connectDB();
                                 
                             if (empty($_POST['achternaam'])){
                                 $error_achternaam = "<img width=15 height=15 src=\"fout.png\"> Er is geen achternaam ingevoerd<br>";
-                                } elseif (preg_match("/^[A-z]+$/", $_POST['achternaam'])){
+                                } elseif (!preg_match("/^[A-z]+$/", $_POST['achternaam'])){
                                     $error_achternaam = "<img width=15 height=15 src=\"fout.png\"> Geen geldige invoer bij achternaam<br>";
                             } else {
                                 $error_achternaam = '';
