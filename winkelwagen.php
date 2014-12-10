@@ -141,7 +141,9 @@ if (!empty($_POST["aanpassen"])) {
             </div>
 
             <div class="footer">
-
+			<?php
+			include "footer.php";
+			?>
             </div>
 
         </div>

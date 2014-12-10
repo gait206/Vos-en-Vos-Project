@@ -42,7 +42,9 @@ if (!existCookie($cookiename)) {
             </div>
 
             <div class="footer">
-
+            <?php
+			include "footer.php";
+			?>
             </div>
         </div>
     </body>
