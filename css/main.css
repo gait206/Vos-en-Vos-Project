@@ -5,6 +5,7 @@ body{
     font: normal 100%;
     font-family: 'Oxygen', sans-serif;
 	width: 1264px;
+       
 
 }
 .p {
@@ -170,8 +171,8 @@ div.menu{
 	margin-right: 2%;
 }
 .body{
-    //border-radius: 5px;
-    //border: #344D8E 1px solid;
+    border-radius: 5px;
+    border: #344D8E 1px solid;
     width: calc(79%);
     height: auto;
     min-height: 26%;

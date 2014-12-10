@@ -8,7 +8,7 @@ $link = connectDB();
         <meta charset="UTF-8">
         <title></title>
         <link rel="stylesheet" type="text/css" href="../css/main.css">
-        <link rel="stylesheet" type="text/css" href="../css/registreren.css">
+        <link rel="stylesheet" type="text/css" href="../css/admin.css">
     </head>
     <body>
         <div class="container">
@@ -32,20 +32,9 @@ $link = connectDB();
 
             <div class="content">
 
-                <div class="navigator">
-                    <div class="zoekbalk">
+                
 
-                        <input class="zoekinput" type="text" value="Zoek">
-                        <input class="zoeksubmit" type="submit" value="Zoek">
-
-                    </div>
-
-                    <div class="navigatie">
-
-                    </div>
-                </div>
-
-                <div class="body" id="main_content">
+                <div class="body">
                     <?php
                     $link = connectDB();
                     if (mysqli_connect_error($link)) {
@@ -97,7 +86,7 @@ $link = connectDB();
                                 
                             if (empty($_POST['achternaam'])){
                                 $error_achternaam = "<img width=15 height=15 src=\"fout.png\"> Er is geen achternaam ingevoerd<br>";
-                                } elseif (!preg_match("/^[A-z]+$/", $_POST['achternaam'])){
+                                } elseif (preg_match("/^[A-z]+$/", $_POST['achternaam'])){
                                     $error_achternaam = "<img width=15 height=15 src=\"fout.png\"> Geen geldige invoer bij achternaam<br>";
                             } else {
                                 $error_achternaam = '';
@@ -138,7 +127,7 @@ $link = connectDB();
                             
                             if (empty($_POST['plaats'])){
                                 $error_plaats = "<img width=15 height=15 src=\"fout.png\"> Er is geen plaats ingevoerd<br>";
-                            } elseif (preg_match("/^[A-z]+$/", $_POST['plaats'])){
+                            } elseif (!preg_match("/^[A-z]+$/", $_POST['plaats'])){
                                 $error_plaats = "<img width=15 height=15 src=\"fout.png\"> Geen geldige invoer bij plaats<br>";
                             } else {
                                 $error_plaats = '';
@@ -169,9 +158,9 @@ $link = connectDB();
                                 $error_email = '';
                             }
                             if ($_POST['wachtwoord'] != $_POST['wachtwoord2']) {
-                                $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> De wachtwoord komen niet overeen!<br>";
-                            } elseif (!preg_match('~^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z])(?=\D*\d)(?=[A-Za-z0-9]*[^A-Za-z0-9])\S{6,}$~', $_POST['wachtwoord'])){
-                                $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> Het wachtwoord moet minimaal 6 tekens bevatten met 1 hoofdletter, 1 kleine letter, 1 getal en 1 speciaal teken";
+                                $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> De wachtwoorden komen niet overeen<br>";
+                            } elseif (strlen($_POST['wachtwoord']) < 6){
+                                $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> Het wachtwoord moet minimaal 6 tekens bevatten";
                             } else {
                                 $error_wachtwoord = '';
                             }
