@@ -139,16 +139,22 @@ if (!empty($_POST["aanpassen"])) {
                         $count++;
 					}
 					} else{
-						print("</table>uw winkelmandje is leeg");
+						print('</table><p style="margin-left:20px; color:orange;">U heeft nog geen artikelen in het winkelmandje</p>');
 					}
+					if(countItems(getCookie("winkelmandje"))>=1){
                     print('</table>');
                     print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3> &euro; ' . prijsformat($totaalBedragZonderBTW) . '</h3></li></ul>');
-                    print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>&euro; ' . prijsformat($totaalBTW) . '</h3></li></ul>');
+                    print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>&euro; ' . prijsformat($totaalBTW) . '</h3></li></ul><br>');
                     print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>&euro; ' . prijsformat($totaalBedrag) . '</h2></li></ul>');
+					}
                     ?>
-                    <form class="winkelwagen_button" action="betaling/afrekenen.php" method="POST">
-                        <input type="submit" name="Betalen" value="Doorgaan">  
-                    </form>
+                    <?php
+					if(countItems(getCookie("winkelmandje"))>=1){
+                    print('<form class="winkelwagen_button" action="betaling/afrekenen.php" method="POST">
+                        <input type="submit" name="Betalen" value="Doorgaan"> 
+                    </form>');
+					}
+					?>
                 </div>
             </div>
 
