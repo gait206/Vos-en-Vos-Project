@@ -25,16 +25,10 @@ $link = connectDB();
                 </div>
             </div>
 
-            <div class="menu">
-                <ul class="menu">
-                    <li class="menu"><a class="ajax-link" href="userstory6_1.php">Home</a></li>
-                    <li class="menu"><a href="#">Papier</a></li>
-                    <li class="menu"><a href="#">Dispencers</a></li>
-                    <li class="menu"><a href="#">Reinigingsmiddelen</a></li>
-                    <li class="menu"><a href="#">Schoonmaakmateriaal</a></li>
-                </ul>
-
-            </div>
+            <?php
+            define('THIS_PAGE', 'Product');
+			include('../menu.php');
+			?>
 
             <div class="content">
 
@@ -60,11 +54,11 @@ $link = connectDB();
                             print(mysqli_connect_error($link));
                         }
                         //product gegevens ophalen
-                        $stmt = mysqli_prepare($link, 'SELECT productnaam,merk,categorie,omschrijving,afbeelding,prijs, voorraad FROM product where productnr = ?');
+                        $stmt = mysqli_prepare($link, 'SELECT * FROM product where productnr = ?');
                         mysqli_stmt_bind_param($stmt, "i", $productnr);
                         mysqli_execute($stmt);
 
-                        mysqli_stmt_bind_result($stmt, $productnaam, $merk, $categorie, $omschrijving, $afbeelding, $prijs, $voorraad);
+                        mysqli_stmt_bind_result($stmt, $productid, $productnr, $productnaam, $merk, $categorie, $omschrijving, $afbeelding, $prijs, $voorraad);
                         mysqli_stmt_fetch($stmt);
                        
                      
