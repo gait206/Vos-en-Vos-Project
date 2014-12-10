@@ -501,45 +501,15 @@ function validate_email($email, $strict = true) {
 // Controleren voor geldig BTW nummer
 // een geldig btw nummer is: NL 1535.50.909.B02
 
-function checkBTW($psVatInput) {
-    $psVatInput = trim($psVatInput);
-    $psVatInput = str_replace('.', '', $psVatInput);
-    $aVatMatch = array();
+function checkBTW($btwnummer) {
+    $remove = str_replace(" ","", $btwnummer);
+    $upper = strtoupper($remove);
 
-    if (!preg_match('/^([a-z]{2})[ ]*(.+)$/is', $psVatInput, $aVatMatch)) {
+    if(preg_match("/^NL[0-9]{9}B[0-9]{2}$/",  $upper)) {
+        return $upper;
+    } else {
         return false;
     }
-
-    $aVatMatch[1] = strtoupper($aVatMatch[1]);
-    $aVatRegexes = array(
-        'AT' => 'U[0-9]{8}',
-        'BE' => '0[0-9]{9}',
-        'BG' => '[0-9]{9,10}',
-        'CY' => '[0-9]{8}[A-Za-z]',
-        'CZ' => '[0-9]{8,10}',
-        'DE' => '[0-9]{9}',
-        'DK' => '[0-9]{2} ?[0-9]{2} ?[0-9]{2} ?[0-9]{2}',
-        'EE' => '[0-9]{9}',
-        'EL' => '[0-9]{9}',
-        'ES' => '([A-Za-z0-9][0-9]{7}[A-Za-z0-9])',
-        'FI' => '[0-9]{8}',
-        'FR' => '[A-Za-z0-9]{2} ?[0-9]{9}',
-        'GB' => '([0-9]{3} ?[0-9]{4} ?[0-9]{2}|[0-9]{3} ?[0-9]{4} ?[0-9]{2} ?[0-9]{3}|GD[0-9]{3}|HA[0-9]{3})',
-        'HU' => '[0-8]{8}',
-        'IE' => '[0-9][A-Za-z0-9+*][0-9]{5}[A-Za-z]',
-        'IT' => '[0-9]{11}',
-        'LT' => '([0-9]{9}|[0-9]{12})',
-        'LU' => '[0-9]{8}',
-        'LV' => '[0-9]{11}',
-        'MT' => '[0-9]{8}',
-        'NL' => '[0-9]{9}B[0-9]{2}',
-        'PL' => '[0-9]{10}',
-        'PT' => '[0-9]{9}',
-        'RO' => '[0-9]{2,10}',
-        'SE' => '[0-9]{12}',
-        'SI' => '[0-9]{8}',
-        'SK' => '[0-9]{10}',
-    );
 }
 
 // Als de cookie niet bestaat werkt het niet
