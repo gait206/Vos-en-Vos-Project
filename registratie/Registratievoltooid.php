@@ -15,7 +15,7 @@ if (!existCookie($cookiename)) {
         <link rel="stylesheet" type="text/css" href="../css/registratievoltooid.css">
         <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
         <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-        <meta http-equiv="refresh" content="5;url=http://localhost/index.php" />
+        <meta http-equiv="refresh" content="5;url=http://localhost:8080/index.php" />
 
     </head>
     <body>
