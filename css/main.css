@@ -107,8 +107,6 @@ div.menu{
     color: #fff;
     background-color: #344D8E;
     border: 1px solid #344D8E;
-
-    width: 100;
 }
 .menu ul li a:hover{
     vertical-align: bottom;
