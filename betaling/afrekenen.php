@@ -26,13 +26,13 @@ $link = connectDB();
                 </div>
             </div>
 
-            <div class="menu">
+            <!--<div class="menu">-->
                 <?php
 			define('THIS_PAGE', 'Afrekenen');
 			include('../menu.php');
 			?>
 
-            </div>
+            <!--</div>-->
 
             <div class="content">
 
@@ -109,14 +109,13 @@ $link = connectDB();
 
                     // printen Totalen en balken
                     print('</table>');
-                    print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3>' . number_format($totaalBedragZonderBTW,2) . '</h3></li></ul>');
-                    print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>' . number_format($totaalBTW,2) . '</h3></li></ul>');
-                    print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>' . number_format($totaalBedrag,2) . '</h2></li></ul>');
                     print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3>' . prijsformat($totaalBedragZonderBTW) . '</h3></li></ul>');
                     print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>' . prijsformat($totaalBTW) . '</h3></li></ul>');
                     print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>' . prijsformat($totaalBedrag) . '</h2></li></ul>');
                     ?>
+                    <br>
                     <form class="afrekenen_form" method="POST" action=""><input type="submit" name="ideal" value="Afrekenen met IDeal"></form></div>
+                    <br>
                 <form method="POST" action=""><input class="afrekenen_knop_left" type="submit" name="terug" value="Terug naar winkelwagen"></form>
                 </div>
 

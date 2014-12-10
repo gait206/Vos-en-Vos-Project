@@ -27,7 +27,7 @@ and open the template in the editor.
 }
 .afrekenen_totaal{
     float:right;
-    margin-top:2%;
+    margin-top:1%;
     margin-right:1%;
 }
 .afrekenen_totaal ul{
@@ -50,13 +50,17 @@ and open the template in the editor.
     float:left;
     margin-bottom:16px;
     margin-top:88px;
+	margin-left: 1%;
 }
 .content{
-    width:1275px;
+    width:1270px;
 }
-#main_content{
+.body{
     width:calc(98% - 2px);
+    margin-left:13px;
+    border: 1px solid #344D8E;
+    border-radius:5px;
 }
 .footer{
-    width:calc(98% - 2px);
+    width:98%;
 }
