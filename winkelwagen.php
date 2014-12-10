@@ -40,6 +40,11 @@ if (!empty($_POST["aanpassen"])) {
        <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="css/admin.css">
 		 <link rel="stylesheet" type="text/css" href="css/afrekenen.css">
+         <style>
+		 td {
+    text-align: center;
+}
+		 </style>
 
     </head>
     <body>
@@ -69,14 +74,16 @@ if (!empty($_POST["aanpassen"])) {
                    
                     
                     
-                    print('<table  class="table_administratie">');
+                    print('<table class="table_administratie">');
                     print('<tr>'
-                            . '<th>Product Naam</th>'
-                            . '<th>Omschrijving</th>'
-                            . '<th>Aantal</th>'
-                            . '<th>prijs</th>'
-                            . '<th>Totaal Bedrag</th>'
-                            . '<th>Verwijderen</th></tr>');
+                            . '<th>Verwijderen</th>'
+							. '<th>Afbeelding</th>'
+                            . '<th>Productnummer</th>'
+                            . '<th>Productnaam</th>'
+							. '<th>Aantal</th>'
+							. '<th>Prijs per stuk</th>'
+                            . '<th>Subtotaal</th>'
+							.'</tr>');
 
 
                     // totaalBedragZonderBTW, totaalBedrag en totaalBTW instellen
@@ -94,6 +101,8 @@ if (!empty($_POST["aanpassen"])) {
                         // eerste rij ophalen ** DATABASE **
                         $row = mysqli_fetch_assoc($result);
 
+						$afbeelding = $row["afbeelding"];
+						$product_nummer = $row["productnr"];
                         $product_naam = $row["productnaam"];
                         $product_omschrijving = $row["omschrijving"];
                         $product_prijs = $row["prijs"];
@@ -114,18 +123,28 @@ if (!empty($_POST["aanpassen"])) {
 
                         // printen waarden
                         print('<tr>'
+								. '<form  action="" method="POST" >'
+                                . '<td><input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
+                                . '<input type="image" src="/plaatjes/deleteicon.png" height="30" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td><td>');
+								if($afbeelding == ""){
+				  				print('<img height="80" src="./plaatjes/logo.png">');
+				 				}
+				  				else{
+				  				print('<img height="80" src='. $afbeelding .'>');
+				  				}
+								
+								
+				  
+								print('</td><td>' . $product_nummer . '</td>'
                                 . '<td>' . $product_naam . '</td>'
-                                . '<td>' . $product_omschrijving . '</td>'
                                 . '<td><form class="table_administratie"  action="" method="POST" >'
                                 . '<input  type="number" name="aanpassen" value="' . $value . '" onchange=this.form.submit();> </td>'
                                  . '<input  type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
                                 . '<td>' . prijsformat($product_prijs) . '</td>'
-                                . '<td>' . prijsformat($totalePrijsZonderBTW) . '</td>'
-                                . '<form  action="" method="POST" >'
-                                . '<td><input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
-                                . '<input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td></tr>');
+                                . '<td>' . prijsformat($totalePrijsZonderBTW) . '</td></tr>
+									<tr><td colspan=7>  <img height=5px width=100% src="./plaatjes/line.png"></tr>');
                         $count++;
-                    }
+					}
 					} else{
 						print("</table>uw winkelmandje is leeg");
 					}
