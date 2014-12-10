@@ -46,6 +46,7 @@ $link = connectDB();
                 </div>
 
                 <div class="body" id="main_content">
+                
                     <?php
                     if (isset($_POST["productnr"])) {
                         //connectie maken en qeury versturen
@@ -83,9 +84,6 @@ $link = connectDB();
                     ?>
                 </div>
 
-                <div class="banner">
-
-                </div>
             </div>
 
             <div class="footer">
