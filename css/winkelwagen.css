@@ -1,0 +1,63 @@
+
+.content{
+    border-radius: 5px;
+    overflow: hidden;
+    float:inside;
+}
+.body{
+    border-radius: 5px;
+    border: #344D8E 1px solid;
+    width: 98%;
+    margin-top: 1%;
+    margin-left: 1%;
+    margin-bottom: 1%;
+    float:left;
+}
+
+form.table_administratie{
+    text-align: center;
+    
+}
+
+.table_administratie{
+    
+    width: 100%;
+    border-spacing:0px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.table_administratie th{
+    font-size:90%;
+    background-color: #344D8E;
+    border: 1px solid #344D8E;
+    color: #fff;
+    text-align: left;
+}
+.table_administratie td{
+    
+    margin:0%;
+    //border: 1px solid rgb(66, 85, 146);
+}
+.header_administratie{
+    background-color: #344D8E;
+    width: auto;
+    font-size: 18px;
+    font-weight:bold;
+    color:#fff;
+}
+.table_administratie_button {
+    text-align: center;
+}
+.table_administratie_button input {
+    border: 1px solid darkgrey;
+    color: white;
+    background-color: #344D8E;
+    padding: 10px;
+}
+.table_administratie_button input:hover {
+    border: 1px solid black;
+    background-color: #9A9CC5;
+    padding: 10px;
+}

@@ -38,7 +38,7 @@ if (!empty($_POST["aanpassen"])) {
         <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 		<link rel="stylesheet" type="text/css" href="css/main.css">
        <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" type="text/css" href="css/admin.css">
+        <link rel="stylesheet" type="text/css" href="css/winkelwagen.css">
 		 <link rel="stylesheet" type="text/css" href="css/afrekenen.css">
 
     </head>
@@ -71,13 +71,13 @@ if (!empty($_POST["aanpassen"])) {
                     
                     print('<table class="table_administratie">');
                     print('<tr>'
-                            . '<th>Verwijderen</th>'
-							. '<th>Afbeelding</th>'
-                            . '<th>Productnummer</th>'
-                            . '<th>Productnaam</th>'
-							. '<th>Aantal</th>'
-							. '<th>Prijs per stuk</th>'
-                            . '<th>Subtotaal</th>'
+                            . '<th style="text-align: center;">Verwijderen</th>'
+							. '<th style="text-align: center;"><!--Afbeelding--></th>'
+                            . '<th style="text-align: center;">Productnummer</th>'
+                            . '<th style="text-align: center;">Productnaam</th>'
+							. '<th style="text-align: center;">Aantal</th>'
+							. '<th style="text-align: center;">Prijs per stuk</th>'
+                            . '<th style="text-align: center;">Subtotaal</th>'
 							.'</tr>');
 
 
@@ -119,8 +119,8 @@ if (!empty($_POST["aanpassen"])) {
                         // printen waarden
                         print('<tr>'
 								. '<form  action="" method="POST" >'
-                                . '<td style="text-align: center;"><input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
-                                . '<input type="image" src="/plaatjes/deleteicon.png" height="30" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td><td style="text-align: center;">');
+                                . '<td style="text-align:center;" width="10%"><input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
+                                . '<input type="image" src="/plaatjes/deleteicon.png" height="30" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td><td style="text-align:center;" width="20%">');
 								if($afbeelding == ""){
 				  				print('<img height="80" src="./plaatjes/logo.png">');
 				 				}
@@ -128,21 +128,21 @@ if (!empty($_POST["aanpassen"])) {
 				  				print('<img height="80" src='. $afbeelding .'>');
 				  				}
 
-								print('</td><td style="text-align: center;">' . $product_nummer . '</td>'
-                                . '<td style="text-align: center;">' . $product_naam . '</td>'
-                                . '<td style="text-align: center;"><form class="table_administratie"  action="" method="POST" >'
+								print('</td><td style="text-align: center;" width="10%">' . $product_nummer . '</td>'
+                                . '<td style="text-align:center; color:#344d8e;" width="30%">' . $product_naam . '</td>'
+                                . '<td style="text-align: center;" width="10%"><form class="table_administratie"  action="" method="POST" >'
                                 . '<input  type="number" name="aanpassen" value="' . $value . '" onchange=this.form.submit();> </td>'
                                  . '<input  type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
-                                . '<td style="text-align: center;">&euro; ' . prijsformat($product_prijs) . '</td>'
-                                . '<td style="text-align: center;">&euro; ' . prijsformat($totalePrijsZonderBTW) . '</td></tr>
-									<tr><td colspan=7>  <img height=5px width=100% src="./plaatjes/line.png"></tr>');
+                                . '<td style="text-align: center;" width="10%">&euro; ' . prijsformat($product_prijs) . '</td>'
+                                . '<td style="text-align: center; width="10%"">&euro; ' . prijsformat($totalePrijsZonderBTW) . '</td></tr>
+									<tr><td colspan=7><img height=5px width=100% src="./plaatjes/line.png"></tr>');
                         $count++;
 					}
 					} else{
 						print("</table>uw winkelmandje is leeg");
 					}
                     print('</table>');
-                    print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3> &euro;' . prijsformat($totaalBedragZonderBTW) . '</h3></li></ul>');
+                    print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3> &euro; ' . prijsformat($totaalBedragZonderBTW) . '</h3></li></ul>');
                     print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>&euro; ' . prijsformat($totaalBTW) . '</h3></li></ul>');
                     print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>&euro; ' . prijsformat($totaalBedrag) . '</h2></li></ul>');
                     ?>
