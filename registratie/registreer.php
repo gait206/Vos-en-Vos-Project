@@ -71,8 +71,8 @@ $link = connectDB();
                             $wachtwoord = $_POST["wachtwoord"];
                             $wachtwoord2 = $_POST['wachtwoord2'];
                             
-                            
-                            if (($_POST['wachtwoord'] == $_POST['wachtwoord2']) && !empty($email)) {
+                            if (!empty($voornaam) && !empty($achternaam) && !empty($telnummer) && !empty($bedrijfsnaam) && !empty($adres) && !empty($postcode) && !empty($plaats) && !empty($btwnummer) && !empty($kvknummer))
+                            if (!empty($wachtwoord) && ($_POST['wachtwoord'] == $_POST['wachtwoord2']) && !empty($email)) {
                                 
                                 $wachtwoord3 = encryptPassword($wachtwoord);
                             
@@ -146,12 +146,16 @@ $link = connectDB();
                             
                             if (empty($_POST['btwnummer'])){
                                 $error_btwnummer = "<img width=15 height=15 src=\"fout.png\"> Geen btwnummer ingevoerd<br>";
+                            } elseif (!checkBTW($_POST['btwnummer'])){
+                                $error_btwnummer = "<img width=15 height=15 src=\"fout.png\"> Geen geldig btwnummer ingevoerd<br>";
                             } else {
                                 $error_btwnummer = '';
                             }
                             
                             if (empty($_POST['kvknummer'])){
                                 $error_kvknummer = "<img width=15 height=15 src=\"fout.png\"> Geen kvknummer ingevoerd<br>";
+                            } elseif (!preg_match("/^[0-9]{8}$/", $_POST['kvknummer'])) {
+                                $error_kvknummer = "<img width=15 height=15 src=\"fout.png\"> Geen geldig kvknummer ingevoerd<br>";
                             } else {
                                 $error_kvknummer = '';
                             }
@@ -232,9 +236,7 @@ $link = connectDB();
    
                 </div>
 
-                <div class="banner">
-
-                </div>
+                
             </div>
 
             <div class="footer">
