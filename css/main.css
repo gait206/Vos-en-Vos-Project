@@ -85,7 +85,7 @@ div.menu{
     padding:0;
     width: 100%;
     display: table;
-     table-layout:auto;
+    table-layout:auto;
 }
  
 .menu ul li{

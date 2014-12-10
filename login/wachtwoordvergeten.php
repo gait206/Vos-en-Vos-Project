@@ -56,8 +56,8 @@ $link = connectDB();
                                     
                                     mysqli_query($link, 'INSERT recovery(email,token,datum) VALUES("'.$email.'","'.$token.'","'.time().'")');
                                     
-                                    $url = '../wachtwoordveranderen.php?email="'.$email.'"&token="'.$token.'"';
-                                    $url2 = '../wachtwoordnietveranderen.php?email="'.$email.'"';
+                                    $url = 'http://localhost:8080/login/wachtwoordveranderen.php?email="'.$email.'"&token="'.$token.'"';
+                                    $url2 = 'http://localhost:8080/login/wachtwoordnietveranderen.php?email="'.$email.'"';
                                     //
                                     //
                                     // email opmaken en mail fixen tijdelijke lokale server
@@ -66,40 +66,14 @@ $link = connectDB();
                                     
                                     
                                     
-                                    $message = 'Als je een nieuw wachtwoord wil aanmaken klik dan op deze link: '.$url.'<br>Als je geen nieuw wachtwoord wil aanmaken klik dan op deze link: '.$url2;
+                                    $message = '<html><head></head><body>Als je een nieuw wachtwoord wil aanmaken <a href="'.$url.'">Klik dan hier</a><br>Als je geen nieuw wachtwoord wil aanmaken <a href="'.$url2.'">Klik dan hier</a></body></html>';
                                     
-                                    require 'C:/Users/GertJan/Documents/Mailserver2/PHPMailer-master/PHPMailerAutoload.php';
-                                    
-                                    $mail = new PHPMailer();
-    $mail->IsSMTP(); // send via SMTP
-    $mail->SMTPAuth = true; // turn on SMTP authentication
-    $mail->Host = "smtp.gmail.com";
-    $mail->Port = 465;
-    $mail->Username = "gertjan206@gmail.com"; // SMTP username
-    $mail->Password = "Gjimp123"; // SMTP password
-    $webmaster_email = "gertjan206@gmail.com"; //Reply to this email ID
-    $mail->From = $webmaster_email;
-    $mail->FromName = "Webmaster";
-    $mail->AddAddress($email);
-    $mail->AddReplyTo($webmaster_email,"Webmaster");
-    $mail->WordWrap = 50; // set word wrap
-    $mail->IsHTML(true); // send as HTML
-    $mail->Subject = "Wachtwoord vergeten";
-    $mail->Body = $message;
-    $mail->AltBody = $message;
-    if(!$mail->Send())
-    {
-    echo "Mailer Error: " . $mail->ErrorInfo;
-    }
-    else
-    {
-    echo "Message has been sent";
-    }
-                                    
+             
+//    }
+            date_default_timezone_set("UTC");
+            mail($email, "wachtwoord vergeten", $message, "From:gertjan206@gmail.com");
                                     
 
-                                    date_default_timezone_set("UTC");
-                                    //mail($email, "wachtwoord vergeten", $message, 'From: gertjan206@gmail.com');
                                     print("Er is een email verstuurd naar uw account");
                                 } else {
                                     print('<p class="foutmelding">Je moet een email invullen!</p>');
