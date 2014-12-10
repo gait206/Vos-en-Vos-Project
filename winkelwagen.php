@@ -70,7 +70,9 @@ if (!empty($_POST["aanpassen"])) {
                     
                     
                     print('<table class="table_administratie">');
-                    print('<tr>'
+                    if(countItems(getCookie("winkelmandje"))>=1){
+					print('<tr>'
+					
                             . '<th style="text-align:center;">Verwijderen</th>'
 							. '<th style="text-align:center;"><!--Afbeelding--></th>'
                             . '<th style="text-align:center;">Productnummer</th>'
@@ -79,6 +81,7 @@ if (!empty($_POST["aanpassen"])) {
 							. '<th style="text-align:center;">Prijs per stuk</th>'
                             . '<th style="text-align:center;">Subtotaal</th>'
 							.'</tr><tr colspan=7 height="10"></tr>');
+							}
 
 
                     // totaalBedragZonderBTW, totaalBedrag en totaalBTW instellen
