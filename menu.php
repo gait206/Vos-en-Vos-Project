@@ -1,13 +1,13 @@
 <?php
 //define('THIS_PAGE', 'pagename');
  
-$menuitem1 = '<a href="index.php">Home</a>';
-$menuitem2 = '<a href="papier.php">Papier</a>';
-$menuitem3 = '<a href="dispencers.php">Dispencers</a>';
-$menuitem4 = '<a href="reinigingsmiddelen.php">Reinigingsmiddelen</a>';
-$menuitem5 = '<a href="schoonmaakmateriaal.php">Schoonmaakmateriaal</a>';
-$menuitem6 = '<a href="winkelwagen.php" align="right">( '.countItems(getCookie("winkelmandje")).' ) <img height="20" src="/plaatjes/winkelmandje-menu.png"></a>';
-$menuitem7 = '<a href="administratie/productbeheer.php">Admin</a>';
+$menuitem1 = '<a href="/index.php">Home</a>';
+$menuitem2 = '<a href="/papier.php">Papier</a>';
+$menuitem3 = '<a href="/dispencers.php">Dispencers</a>';
+$menuitem4 = '<a href="/reinigingsmiddelen.php">Reinigingsmiddelen</a>';
+$menuitem5 = '<a href="/schoonmaakmateriaal.php">Schoonmaakmateriaal</a>';
+$menuitem6 = '<a href="/winkelwagen.php" align="right">( '.countItems(getCookie("winkelmandje")).' ) <img height="20" src="/plaatjes/winkelmandje-menu.png"></a>';
+$menuitem7 = '<a href="/administratie/productbeheer.php">Admin</a>';
 $menuitem8 = '<a href="./mijnaccount/mijnaccount.php">Mijn account</a>';
  
 switch (THIS_PAGE) {
