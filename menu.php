@@ -7,6 +7,7 @@ $menuitem3 = '<a href="/dispencers.php">Dispencers</a>';
 $menuitem4 = '<a href="/reinigingsmiddelen.php">Reinigingsmiddelen</a>';
 $menuitem5 = '<a href="/schoonmaakmateriaal.php">Schoonmaakmateriaal</a>';
 $menuitem6 = '<a href="/winkelwagen.php" align="right">( '.countItems(getCookie("winkelmandje")).' ) <img height="20" src="/plaatjes/winkelmandje-menu.png"></a>';
+$menuitem7 = '<a href="/administratie/productbeheer.php">Admin</a>';
  
 switch (THIS_PAGE) {
  
@@ -50,13 +51,18 @@ break;
 
 <div class="menu">
 <?php
-echo '<ul>
+print( '<ul class="dropdown">
 <li>'.$menuitem1.'</li>
 <li>'.$menuitem2.'</li>
 <li>'.$menuitem3.'</li>
 <li>'.$menuitem4.'</li>
-<li>'.$menuitem5.'</li>
-<li>'.$menuitem6.'</li>
-</ul>';
+<li>'.$menuitem5.'</li>');
+if(userLevel(getEmail($link), $link) == "Admin") {
+print('<li>'.$menuitem7.'<ul>'
+        . '<li><a href="/administratie/productbeheer.php">Productbeheer</a></li>'
+        . '<li><a href="/administratie/bestellingbeheer.php">Bestellingbeheer</a></li></ul></li>');
+}
+print('<li>'.$menuitem6.'</li>');
+print('</ul>');
 ?>
 </div>

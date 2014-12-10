@@ -108,6 +108,7 @@ div.menu{
     background-color: #344D8E;
     border: 1px solid #344D8E;
 
+    width: 100;
 }
 .menu ul li a:hover{
     vertical-align: bottom;
@@ -257,4 +258,30 @@ div.menu{
 }
 .logout_button {
     float:right;
+}
+
+.dropdown li ul {
+    display: none;
+    width:300px;
+}
+
+.dropdown li:hover > ul {
+    margin-top:-2px;
+    margin-left:7px;
+    display: block;
+    position: absolute;
+    width:fit-content;
+}
+.dropdown li:hover > ul li {
+    text-align:left;
+    display: block;
+}
+.dropdown li:hover > ul li a{
+    display: block; padding: 5px 50px;
+    text-align:center;
+}
+@media  screen and (-webkit-min-device-pixel-ratio:0) {
+    .dropdown li:hover > ul {
+      margin-top:-1px;
+    }
 }
