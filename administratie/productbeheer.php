@@ -118,7 +118,7 @@ $link = connectDB();
                     print('<tr><td>Productnaam:</td><td><input type="text" name="productnaam" value="' .$productnaam. '"></tr>');
                     print('<tr><td>Categorie:</td><td><input type="text" name="categorie" value="' .$categorie. '"></tr>');
                     print('<tr><td>Merk:</td><td><input type="text" name="merk" value="' .$merk. '"></tr>');
-                    print('<tr><td>Omschrijving:</td><td><input type="text" name="omschrijving" value="' .$omschrijving. '"></tr>');
+                    print('<tr><td>Omschrijving:</td><td><textarea rows="8" cols="50" name="omschrijving" value="' .$omschrijving. '"></textarea></tr>');
                     print('<tr><td>Voorraad:</td><td><input type="text" name="voorraad" value="' .$voorraad. '"></tr>');
                     print('<tr><td>Prijs:</td><td><input type="text" name="prijs" value="' .$prijs. '"></tr>');
                     print('<tr><td>Afbeelding:</td><td><input type="text" name="afbeelding" value="../administratie/img/"' .$afbeelding. '"></form>');

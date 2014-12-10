@@ -457,11 +457,12 @@ function deleteDatabaseToken($link) {
     }
 }
 
-function verifyPasswordForgot($email, $token, $link) {
+function verifyPasswordForgot($email, $token2, $link) {
     $stmt = mysqli_prepare($link, 'SELECT token, datum FROM recovery WHERE email = ?;');
     mysqli_stmt_bind_param($stmt, 's', $email);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $token2, $datum);
+    mysqli_stmt_bind_result($stmt, $token, $datum);
+    mysqli_stmt_fetch($stmt);
     
     // als de url 24 uur oud is word hij verwijderd
     if(($datum - time()) > (60*60*24)) {

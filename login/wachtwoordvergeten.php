@@ -56,8 +56,8 @@ $link = connectDB();
                                     
                                     mysqli_query($link, 'INSERT recovery(email,token,datum) VALUES("'.$email.'","'.$token.'","'.time().'")');
                                     
-                                    $url = 'http://localhost:8080/login/wachtwoordveranderen.php?email="'.$email.'"&token="'.$token.'"';
-                                    $url2 = 'http://localhost:8080/login/wachtwoordnietveranderen.php?email="'.$email.'"';
+                                    $url = 'http://localhost:8080/login/wachtwoordveranderen.php?email='.$email.'&token='.$token.'';
+                                    $url2 = 'http://localhost:8080/login/wachtwoordnietveranderen.php?email='.$email.'';
                                     //
                                     //
                                     // email opmaken en mail fixen tijdelijke lokale server
