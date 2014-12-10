@@ -131,7 +131,7 @@ if (!empty($_POST["aanpassen"])) {
 								print('</td><td style="text-align: center;" width="10%">' . $product_nummer . '</td>'
                                 . '<td style="text-align:left; padding-left:30px; color:#344d8e;" width="30%">' . $product_naam . '</td>'
                                 . '<td style="text-align: center;" width="10%"><form class="table_administratie"  action="" method="POST" >'
-                                . '<input  type="number" name="aanpassen" value="' . $value . '" onchange=this.form.submit();> </td>'
+                                . '<input  type="number" class="textbox" name="aanpassen" value="' . $value . '" onchange=this.form.submit();> </td>'
                                  . '<input  type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
                                 . '<td style="text-align: center;" width="10%">&euro; ' . prijsformat($product_prijs) . '</td>'
                                 . '<td style="text-align: center; width="10%"">&euro; ' . prijsformat($totalePrijsZonderBTW) . '</td></tr>

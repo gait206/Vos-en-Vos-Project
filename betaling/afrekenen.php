@@ -98,10 +98,10 @@ $link = connectDB();
                             print('<tr>'
                                     . '<td>' . $product_naam . '</td>'
                                     . '<td>' . $product_omschrijving . '</td>'
-                                    . '<td>' . prijsformat($product_prijs) . '</td>'
+                                    . '<td> &euro; ' . prijsformat($product_prijs) . '</td>'
                                     . '<td>' . $btw . '%</td>'
                                     . '<td>' . $value . '</td>'
-                                    . '<td>' . prijsformat($totalePrijsZonderBTW,2) . '</td></tr>');
+                                    . '<td> &euro; ' . prijsformat($totalePrijsZonderBTW) . '</td></tr>');
                             $count++;
                         }
                     }
@@ -109,9 +109,9 @@ $link = connectDB();
 
                     // printen Totalen en balken
                     print('</table>');
-                    print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3>' . prijsformat($totaalBedragZonderBTW) . '</h3></li></ul>');
-                    print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>' . prijsformat($totaalBTW) . '</h3></li></ul>');
-                    print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>' . prijsformat($totaalBedrag) . '</h2></li></ul>');
+                    print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"&euro;><h3>Bedrag Zonder BTW:</h3></li><li><h3> &euro; ' . prijsformat($totaalBedragZonderBTW) . '</h3></li></ul>');
+                    print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>&euro; ' . prijsformat($totaalBTW) . '</h3></li></ul>');
+                    print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>&euro; ' . prijsformat($totaalBedrag) . '</h2></li></ul>');
                     ?>
                     <br>
                     <form class="afrekenen_form" method="POST" action=""><input type="submit" name="ideal" value="Afrekenen met IDeal"></form></div>
