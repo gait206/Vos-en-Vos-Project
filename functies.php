@@ -542,14 +542,18 @@ function checkBTW($psVatInput) {
     );
 }
 
+// Als de cookie niet bestaat werkt het niet
 function countItems($array){
+    if(isset($_COOKIE["winkelmandje"])){
     $aantal = 0;
     foreach($array as $key => $value){
         $aantal = $aantal + $value;
     }
     return $aantal;
+    } else {
+        return 0;
+    }
 }
-
 function PostcodeCheck($postcode)
 {
     $remove = str_replace(" ","", $postcode);
