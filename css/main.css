@@ -86,18 +86,18 @@ div.menu{
     padding:0;
     width: 100%;
     display: table;
-    table-layout:auto;
+    table-layout:fixed;
 }
  
 .menu ul li{
     height: 24px;
     margin-top: 8px;
     margin-left: 11px;
-    
     padding-left: 2px;
     display: table-cell;
-    width: auto;
     text-align: center;
+	width: 14.2857%;
+	border-right: 1px solid #fff;
         
 }
 .menu ul li a{
@@ -107,7 +107,9 @@ div.menu{
     color: #fff;
     background-color: #344D8E;
     border: 1px solid #344D8E;
+//	width: 16.666666667%;
 }
+
 .menu ul li a:hover{
     vertical-align: bottom;
     border: 1px solid #9A9CC5;
@@ -117,6 +119,7 @@ div.menu{
     background-color: #9A9CC5;
     padding: .33em 1em;
 }
+
 @media  screen and (-webkit-min-device-pixel-ratio:0) {
     .menu ul{
         margin:3px;
@@ -273,7 +276,8 @@ div.menu{
     display: block;
 }
 .dropdown li:hover > ul li a{
-    display: block; padding: 5px 50px;
+    display: block; 
+	padding: 5px 50px;
     text-align:center;
 }
 @media  screen and (-webkit-min-device-pixel-ratio:0) {
