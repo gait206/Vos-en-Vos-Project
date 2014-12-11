@@ -86,7 +86,7 @@ $link = connectDB();
                                 
                             if (empty($_POST['achternaam'])){
                                 $error_achternaam = "<img width=15 height=15 src=\"fout.png\"> Er is geen achternaam ingevoerd<br>";
-                                } elseif (preg_match("/^[A-z]+$/", $_POST['achternaam'])){
+                                } elseif (!preg_match("/^[A-z]+$/", $_POST['achternaam'])){
                                     $error_achternaam = "<img width=15 height=15 src=\"fout.png\"> Geen geldige invoer bij achternaam<br>";
                             } else {
                                 $error_achternaam = '';
@@ -94,7 +94,7 @@ $link = connectDB();
                             
                             if (empty($_POST['telnummer'])){
                                 $error_telnummer = "<img width=15 height=15 src=\"fout.png\"> Er is geen telefoonnummer ingevoerd<br>";   
-                            } elseif (!preg_match("/^[0-9]+$/", $_POST['telnummer'])){
+                            } elseif (preg_match("/^[0-9]+$/", $_POST['telnummer'])){
                                     $error_telnummer = "<img width=15 height=15 src=\"fout.png\"> Het telefoonnummer mag alleen getallen bevatten<br>";
                             } else {
                                 $error_telnummer = '';

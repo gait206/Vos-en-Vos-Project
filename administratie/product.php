@@ -25,42 +25,26 @@ $link = connectDB();
                 </div>
             </div>
 
-            <div class="menu">
-                <ul class="menu">
-                    <li class="menu"><a class="ajax-link" href="userstory6_1.php">Home</a></li>
-                    <li class="menu"><a href="#">Papier</a></li>
-                    <li class="menu"><a href="#">Dispencers</a></li>
-                    <li class="menu"><a href="#">Reinigingsmiddelen</a></li>
-                    <li class="menu"><a href="#">Schoonmaakmateriaal</a></li>
-                </ul>
 
-            </div>
+                <?php
+                define('THIS_PAGE', 'product');
+                include '../menu.php';
+                ?>
+
 
             <div class="content">
-
-                <div class="navigator">
-                    <div class="zoekbalk">
-
-                        <input class="zoekinput" type="text" value="Zoek">
-                        <input class="zoeksubmit" type="submit" value="Zoek">
-
-                    </div>
-
-                    <div class="navigatie">
-
-                    </div>
                 </div>
 
                 <div class="body" id="main_content">
                     <?php
-                    if (isset($_POST["productnr"])) {
+                    if (isset($_GET["productnr"])) {
                         //connectie maken en qeury versturen
-                        $productnr = $_POST["productnr"];
+                        $productnr = $_GET["productnr"];
                         if (mysqli_connect_error($link)) {
                             print(mysqli_connect_error($link));
                         }
                         //product gegevens ophalen
-                        $stmt = mysqli_prepare($link, 'SELECT productnaam,merk,categorie,omschrijving,afbeelding,prijs, voorraad FROM product where productnr = ?');
+                        $stmt = mysqli_prepare($link, 'SELECT * FROM product where productnr = ?');
                         mysqli_stmt_bind_param($stmt, "i", $productnr);
                         mysqli_execute($stmt);
 
