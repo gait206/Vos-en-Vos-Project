@@ -8,7 +8,7 @@ $link = connectDB();
         <meta charset="UTF-8">
         <title></title>
         <link rel="stylesheet" type="text/css" href="../css/main.css">
-        <link rel="stylesheet" type="text/css" href=" ../css/mijnbestelling.css">
+        <link rel="stylesheet" type="text/css" href=" ../css/mijnbestellingen.css">
         <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
         <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     </head>
@@ -35,9 +35,7 @@ $link = connectDB();
             <div class="content" id="main_content">
                 <!--kijken of de login klopt-->
                 <script>
-                    function checkDelete() {
-                        return confirm("Weet u zeker dat u deze besteling wilt annuleren?");
-                    }
+
                 </script>
                 <?php
                 if (!validToken($link)) {
@@ -53,7 +51,7 @@ $link = connectDB();
                 print("<table><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th>");
                 while ($bestelling) {
                     print("<tr>"
-                            . "<td><a href='bestelling.php?bestelnr=" . $bestelling["bestelnr"] . "'>" . $bestelling["bestelnr"] . "</a></td>"
+                            . "<td><a href='bestelling.php?bestelnr='" . $bestelling["bestelnr"] . "' class='bestelnummer'>" . $bestelling["bestelnr"] . "</a></td>"
                             . "<td>" . $bestelling["opmerking"] . "</td>"
                             . "<td>" . $bestelling["besteldatum"] . "</td>"
                             . "<td>" . $bestelling["bezorgdatum"] . "</td>"
@@ -65,7 +63,7 @@ $link = connectDB();
 
                 print("</table>");
                 ?>
-                <a href="mijnbestellingen.php">Mijn bestellingen</a>
+                <a href="mijnbestellingen.php" class="bestelgeschiedenis">Mijn bestellingen</a>
             </div>
 
             <div class="footer">

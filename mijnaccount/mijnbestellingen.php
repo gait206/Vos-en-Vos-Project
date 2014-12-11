@@ -8,7 +8,7 @@ $link = connectDB();
         <meta charset="UTF-8">
         <title></title>
         <link rel="stylesheet" type="text/css" href="../css/main.css">
-        <link rel="stylesheet" type="text/css" href=" ../css/mijnbestelling.css">
+        <link rel="stylesheet" type="text/css" href=" ../css/mijnbestellingen.css">
         <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
         <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     </head>
@@ -59,7 +59,7 @@ $link = connectDB();
                 print("<table><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th>");
                 while ($bestelling) {
                     print("<tr>"
-                            . "<td><a href='bestelling.php?bestelnr=" . $bestelling["bestelnr"] . "'>" . $bestelling["bestelnr"] . "</a></td>"
+                            . "<td><a href='bestelling.php?bestelnr='" . $bestelling["bestelnr"] . "' class='bestelnummer'>" . $bestelling["bestelnr"] . "</a></td>"
                             . "<td>" . $bestelling["opmerking"] . "</td>"
                             . "<td>" . $bestelling["besteldatum"] . "</td>"
                             . "<td>" . $bestelling["bezorgdatum"] . "</td>"
@@ -72,13 +72,13 @@ $link = connectDB();
 
                 print("</table>");
                 ?>
-                <a href="Bestelgeschiedenis.php">Bestelgeschiedenis</a>
+                <a href="Bestelgeschiedenis.php" class="bestelgeschiedenis">Bestelgeschiedenis</a>
             </div>
 
             <div class="footer">
-            <?php
-			include "../footer.php";
-			?>
+                <?php
+                include "../footer.php";
+                ?>
             </div>
         </div>
     </body>

@@ -1,2 +1,25 @@
-/*css bestand voor mijn bestellingen en bestel gesciedenis*/
+/*css bestand voor mijn bestellingen en bestel geschiedenis*/
+/*class voor naar de bestelgeschiedenis is en */
+.bestelgeschiedenis:hover {
+    text-decoration:underline;
+    color:blue;
+}
+
+.bestelgeschiedenis {
+    font-size: 14px;
+    text-decoration:none;
+    color:blue;
+}
+
+.bestelnummer:hover {
+    text-decoration:underline;
+    color:blue;
+}
+
+.bestelnummer{
+    text-decoration:none;
+    color:black;
+}
+
+
 
