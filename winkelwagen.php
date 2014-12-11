@@ -70,7 +70,9 @@ if (!empty($_POST["aanpassen"])) {
                     
                     
                     print('<table class="table_administratie">');
-                    print('<tr>'
+                    if(countItems(getCookie("winkelmandje"))>=1){
+					print('<tr>'
+					
                             . '<th style="text-align:center;">Verwijderen</th>'
 							. '<th style="text-align:center;"><!--Afbeelding--></th>'
                             . '<th style="text-align:center;">Productnummer</th>'
@@ -79,6 +81,7 @@ if (!empty($_POST["aanpassen"])) {
 							. '<th style="text-align:center;">Prijs per stuk</th>'
                             . '<th style="text-align:center;">Subtotaal</th>'
 							.'</tr><tr colspan=7 height="10"></tr>');
+							}
 
 
                     // totaalBedragZonderBTW, totaalBedrag en totaalBTW instellen
@@ -122,16 +125,16 @@ if (!empty($_POST["aanpassen"])) {
                                 . '<td style="text-align:center;" width="10%"><input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
                                 . '<input type="image" src="/plaatjes/deleteicon.png" height="30" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td><td style="text-align:center;" width="20%">');
 								if($afbeelding == ""){
-				  				print('<img height="80" src="./plaatjes/logo.png">');
+				  				print('<img height="80" style="max-width:180px" src="./plaatjes/logo.png">');
 				 				}
 				  				else{
-				  				print('<img height="80" src='. $afbeelding .'>');
+				  				print('<img height="80" style="max-width:180px" src='. $afbeelding .'>');
 				  				}
 
 								print('</td><td style="text-align: center;" width="10%">' . $product_nummer . '</td>'
                                 . '<td style="text-align:left; padding-left:30px; color:#344d8e;" width="30%">' . $product_naam . '</td>'
                                 . '<td style="text-align: center;" width="10%"><form class="table_administratie"  action="" method="POST" >'
-                                . '<input  type="number" name="aanpassen" value="' . $value . '" onchange=this.form.submit();> </td>'
+                                . '<input  type="number" class="textbox" name="aanpassen" value="' . $value . '" onchange=this.form.submit();> </td>'
                                  . '<input  type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
                                 . '<td style="text-align: center;" width="10%">&euro; ' . prijsformat($product_prijs) . '</td>'
                                 . '<td style="text-align: center; width="10%"">&euro; ' . prijsformat($totalePrijsZonderBTW) . '</td></tr>
@@ -139,16 +142,22 @@ if (!empty($_POST["aanpassen"])) {
                         $count++;
 					}
 					} else{
-						print("</table>uw winkelmandje is leeg");
+						print('</table><p style="margin-left:20px; color:orange;">U heeft nog geen artikelen in het winkelmandje</p>');
 					}
+					if(countItems(getCookie("winkelmandje"))>=1){
                     print('</table>');
                     print('<div class="afrekenen_totaal"><ul><li class="afrekenen_totaal_text"><h3>Bedrag Zonder BTW:</h3></li><li><h3> &euro; ' . prijsformat($totaalBedragZonderBTW) . '</h3></li></ul>');
-                    print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>&euro; ' . prijsformat($totaalBTW) . '</h3></li></ul>');
+                    print('<ul><li class="afrekenen_totaal_text"><h3>Totaal BTW: </h3></li><li><h3>&euro; ' . prijsformat($totaalBTW) . '</h3></li></ul><br>');
                     print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>&euro; ' . prijsformat($totaalBedrag) . '</h2></li></ul>');
+					}
                     ?>
-                    <form action="betaling/afrekenen.php" method="">
-                        <input type="submit" name="Betalen" value="Doorgaan">  
-                    </form>
+                    <?php
+					if(countItems(getCookie("winkelmandje"))>=1){
+                    print('<form class="winkelwagen_button" action="betaling/afrekenen.php" method="POST">
+                        <input type="submit" name="Betalen" value="Doorgaan"> 
+                    </form>');
+					}
+					?>
                 </div>
             </div>
 

@@ -102,7 +102,7 @@ td.prijs{
 }
 
 div.prijsklein{
-	font: normal 9px 'lucida sans unicode', arial, sans-serif;
+	font: normal 10px 'lucida sans unicode', arial, sans-serif;
 	color: black;
 //	border: 1pt solid black;
 }
@@ -206,7 +206,7 @@ td.prijsblock{
 }
 
 div.prijskleinblock{
-	font: normal 9px 'lucida sans unicode', arial, sans-serif;
+	font: normal 10px 'lucida sans unicode', arial, sans-serif;
 	color: black;
 //	border: 1px solid black;
 	display:block;

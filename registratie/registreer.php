@@ -9,6 +9,7 @@ $link = connectDB();
         <title></title>
         <link rel="stylesheet" type="text/css" href="../css/main.css">
         <link rel="stylesheet" type="text/css" href="../css/admin.css">
+        <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
     </head>
     <body>
         <div class="container">
@@ -68,7 +69,7 @@ $link = connectDB();
                            
                             mysqli_query($link, "INSERT INTO gebruiker(email,wachtwoord) VALUES('".$email."', '".$wachtwoord3."');");    
                             mysqli_query($link, "INSERT INTO klant(voornaam,achternaam,telnummer,mobnummer,bedrijfsnaam,adres,postcode,plaats,kvknummer,btwnummer,email) "
-                            . "VALUES('".$voornaam."', '".$achternaam."', '.$telnummer.','. $mobnummer.', '".$bedrijfsnaam."', '".$adres."', '".$postcode."', '".$plaats."', '.$kvknummer.', '.$btwnummer.', '".$email."');"); 
+                            . "VALUES('".$voornaam."', '".$achternaam."', '".$telnummer."','". $mobnummer."', '".$bedrijfsnaam."', '".$adres."', '".$postcode."', '".$plaats."', '".$kvknummer."', '".$btwnummer."', '".$email."');"); 
                             
                             print(mysqli_error($link));
                             
@@ -86,7 +87,7 @@ $link = connectDB();
                                 
                             if (empty($_POST['achternaam'])){
                                 $error_achternaam = "<img width=15 height=15 src=\"fout.png\"> Er is geen achternaam ingevoerd<br>";
-                                } elseif (preg_match("/^[A-z]+$/", $_POST['achternaam'])){
+                                } elseif (!preg_match("/^[A-z]+$/", $_POST['achternaam'])){
                                     $error_achternaam = "<img width=15 height=15 src=\"fout.png\"> Geen geldige invoer bij achternaam<br>";
                             } else {
                                 $error_achternaam = '';
@@ -94,7 +95,7 @@ $link = connectDB();
                             
                             if (empty($_POST['telnummer'])){
                                 $error_telnummer = "<img width=15 height=15 src=\"fout.png\"> Er is geen telefoonnummer ingevoerd<br>";   
-                            } elseif (!preg_match("/^[0-9]+$/", $_POST['telnummer'])){
+                            } elseif (preg_match("/^[0-9]+$/", $_POST['telnummer'])){
                                     $error_telnummer = "<img width=15 height=15 src=\"fout.png\"> Het telefoonnummer mag alleen getallen bevatten<br>";
                             } else {
                                 $error_telnummer = '';

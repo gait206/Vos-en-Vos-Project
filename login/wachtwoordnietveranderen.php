@@ -40,7 +40,7 @@ $link = connectDB();
                             $stmt = mysqli_prepare($link, 'DELETE FROM recovery WHERE email = ?;');
                             mysqli_stmt_bind_param($stmt, 's', $email);
                             mysqli_stmt_execute($stmt);
-                            header('Location: index.php');
+                            header('Location: ../index.php');
                         } else {
                             print('<h1>Deze link is niet geldig</h1>');
                         }

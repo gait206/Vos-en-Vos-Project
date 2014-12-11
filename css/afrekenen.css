@@ -9,7 +9,7 @@ and open the template in the editor.
 
 
 .afrekenen_tabel{
-    width: 100%;
+    width: calc(100% + 1px);
     border-spacing:0px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;

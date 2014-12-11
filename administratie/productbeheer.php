@@ -52,9 +52,19 @@ $link = connectDB();
                             $voorraad = $_POST["voorraad"];
                             $prijs = $_POST["prijs"];
                             $afbeelding = $_POST["afbeelding"];
+                            $EAN = $_POST["EAN"];
+                            $kleur = $_POST["kleur"];
+                            $materiaal = $_POST["materiaal"];
+                            $hoogte = $_POST["hoogte"];
+                            $breedte = $_POST["breedte"];
+                            $lengte = $_POST["lengte"];
+                            $fabrikant = $_POST["fabrikant"];
+                            $inhoud = $_POST["inhoud"];
+                            $verpakking = $_POST["verpakking"];
+                            $certificaten = $_POST["certificaten"];
                             
                             if(!empty($productnr)){
-                            mysqli_query($link, "INSERT INTO product(productnr,productnaam,categorie,merk,omschrijving,voorraad,prijs,afbeelding) VALUES('".$productnr."',' ".$productnaam."', '".$categorie."', '".$merk."','". $omschrijving."', '".$voorraad."', '".$prijs."', '".$afbeelding."');");
+                            mysqli_query($link, "INSERT INTO product(productnr,productnaam,categorie,merk,omschrijving,voorraad,prijs,afbeelding,EAN,kleur,materiaal,hoogte,breedte,lengte,fabrikant,inhoud,verpakking,certificaten) VALUES('".$productnr."',' ".$productnaam."', '".$categorie."', '".$merk."','". $omschrijving."', '".$voorraad."', '".$prijs."', '".$afbeelding."', '".$EAN."', '".$kleur."', '".$materiaal."', '".$hoogte."', '".$breedte."', '".$lengte."', '".$fabrikant."', '".$inhoud."', '".$verpakking."', '".$certificaten."');");
                             print(mysqli_error($link));
                             }
                         }
@@ -73,8 +83,18 @@ $link = connectDB();
                             $voorraad = $_POST["voorraad"];
                             $prijs = $_POST["prijs"];
                             $afbeelding = $_POST["afbeelding"];
+                            $EAN = $_POST["EAN"];
+                            $kleur = $_POST["kleur"];
+                            $materiaal = $_POST["materiaal"];
+                            $hoogte = $_POST["hoogte"];
+                            $breedte = $_POST["breedte"];
+                            $lengte = $_POST["lengte"];
+                            $fabrikant = $_POST["fabrikant"];
+                            $inhoud = $_POST["inhoud"];
+                            $verpakking = $_POST["verpakking"];
+                            $certificaten = $_POST["certificaten"];
 
-                            mysqli_query($link, 'UPDATE product SET productnr = "'.$productnr.'", productnaam = "' . $productnaam . '", categorie = "' . $categorie . '", merk = "' . $merk . '", omschrijving = "' . $omschrijving . '", voorraad = "' . $voorraad . '", prijs = "' . $prijs . '", afbeelding = "' . $afbeelding . '" WHERE productnaam = "' . $productnaam . '";');
+                            mysqli_query($link, 'UPDATE product SET productnr = "'.$productnr.'", productnaam = "' . $productnaam . '", categorie = "' . $categorie . '", merk = "' . $merk . '", omschrijving = "' . $omschrijving . '", voorraad = "' . $voorraad . '", prijs = "' . $prijs . '", afbeelding = "' . $afbeelding . '", EAN = "' . $EAN . '", kleur = "' . $kleur . '", materiaal = "' . $materiaal . '", hoogte = "' . $hoogte . '", breedte = "' . $breedte . '", lengte = "' . $lengte . '", fabrikant = "' . $fabrikant . '", inhoud = "' . $inhoud . '", verpakking = "' . $verpakking . '", certificaten = "' . $certificaten . '"  WHERE productnaam = "' . $productnaam . '";');
                             print(mysqli_error($link));
                         }
                     }
@@ -99,6 +119,16 @@ $link = connectDB();
                         $voorraad = $row["voorraad"];
                         $prijs = $row["prijs"];
                         $afbeelding = $row["afbeelding"];
+                        $EAN = $row["EAN"];
+                        $kleur = $row["kleur"];
+                        $materiaal = $row["materiaal"];
+                        $hoogte = $row["hoogte"];
+                        $breedte = $row["breedte"];
+                        $lengte = $row["lengte"];
+                        $fabrikant = $row["fabrikant"];
+                        $inhoud = $row["inhoud"];
+                        $verpakking = $row["verpakking"];
+                        $certificaten = $row["certificaten"];
                         $waarde = "Bijwerken";
                     } else {
                         $productnr = "";
@@ -109,27 +139,37 @@ $link = connectDB();
                         $voorraad = "";
                         $prijs = "";
                         $afbeelding = "";
+                        $EAN = "";
+                        $kleur = "";
+                        $materiaal = "";
+                        $hoogte = "";
+                        $breedte = "";
+                        $lengte = "";
+                        $fabrikant = "";
+                        $inhoud = "";
+                        $verpakking = "";
+                        $certificaten = "";
                         $waarde = "Toevoegen";
                     }
                     print('<div class="header_administratie">Product toevoegen</div>');
                     print('<table class="table">');
                     print('<form id="toevoegen" method="post" action=""');
-                    print('<tr><td>Productnr:</td><td><input type="text" name="productnr" value="' .$productnr. '"></tr>');
-                    print('<tr><td>Productnaam:</td><td><input type="text" name="productnaam" value="' .$productnaam. '"></tr>');
-                    print('<tr><td>Categorie:</td><td><input type="text" name="categorie" value="' .$categorie. '"></tr>');
-                    print('<tr><td>Merk:</td><td><input type="text" name="merk" value="' .$merk. '"></tr>');
-                    print('<tr><td>Omschrijving:</td><td><input type="text" name="omschrijving" value="' .$omschrijving. '"></tr>');
-                    print('<tr><td>Voorraad:</td><td><input type="text" name="voorraad" value="' .$voorraad. '"></tr>');
-                    print('<tr><td>Prijs:</td><td><input type="text" name="prijs" value="' .$prijs. '"></tr>');
+                    print('<tr><td>Productnr:</td><td><input type="text" name="productnr" value="' .$productnr. '"><td></td>      <td colspan=2>Extra informatie</td>    <td>Fabrikant:</td><td><input type="text" name="fabrikant" value="' .$fabrikant. '"></tr>');
+                    print('<tr><td>Productnaam:</td><td><input type="text" name="productnaam" value="' .$productnaam. '"><td></td>      <td>Kleur:</td><td><input type="text" name="kleur" value="' .$kleur. '">     <td>Inhoud:</td><td><input type="text" name="inhoud" value="' .$inhoud. '"></tr>');
+                    print('<tr><td>Categorie:</td><td><input type="text" name="categorie" value="' .$categorie. '"><td></td>      <td>Materiaal:</td><td><input type="text" name="materiaal" value="' .$materiaal. '">     <td>Verpakking:</td><td><input type="text" name="verpakking" value="' .$verpakking. '"></tr>');
+                    print('<tr><td>Merk:</td><td><input type="text" name="merk" value="' .$merk. '"><td></td>      <td>Hoogte:</td><td><input type="text" name="hoogte" value="' .$hoogte. '">     <td>Certificaten:</td><td><input type="text" name="certificaten" value="' .$certificaten. '"></tr>');
+                    print('<tr><td>EAN:</td><td><input type="text" name="EAN" value="' .$EAN. '"><td></td>      <td>Breedte:</td><td><input type="text" name="breedte" value="' .$breedte. '"><td>Omschrijving:</td><td rowspan=6><textarea rows=6 cols=50 name="omschrijving" value="' .$omschrijving. '"></textarea></tr>');
+                    print('<tr><td>Voorraad:</td><td><input type="text" name="voorraad" value="' .$voorraad. '"><td></td>      <td>Lengte:</td><td><input type="text" name="lengte" value="' .$lengte. '"></tr>');
+                    print('<tr><td>Prijs:</td><td><input type="text" name="prijs" value="' .$prijs. '"></td></tr>');
                     print('<tr><td>Afbeelding:</td><td><input type="text" name="afbeelding" value="../administratie/img/"' .$afbeelding. '"></form>');
 //                     upload form
-                    print('<td><table class="table">');
+                    print('<tr><table class="table">');
                     print('<form enctype="multipart/form-data" action"productbeheer.php" method="POST"');
                     print('<input type="hidden" name="MAX_FILE_SIZE" value="512000" />');
-                    print('<tr></tr><tr><td><input name="uploadimg" type="file" /></td>');
+                    print('<tr><td><input name="uploadimg" type="file" /></td>');
                     print('<td><input type="submit" class="button" value"upload" /></td>');
                     print('</form>');
-                    print('</table></td></tr>');
+                    print('</table></tr>');
 //                     einde upload form
                     print('<tr><td colspan=2><input form="toevoegen" type="submit" name="actie" class="button" value="' .$waarde. '"></tr>');
                     //print('</form>');
@@ -185,7 +225,9 @@ $link = connectDB();
             </div>
 
             <div class="footer">
-
+            <?php
+			include "../footer.php";
+			?>
             </div>
 
         </div>

@@ -245,18 +245,6 @@ function selected($switch, $number) {
     return;
 }
 
-function checked($array, $value) {
-    if (isset($_POST[$array])) {
-        $name = $_POST[$array];
-        foreach ($array as $key => $value) {
-            if ($key == $value) {
-                print(" checked");
-            }
-        }
-    }
-    return;
-}
-
 function isin(array $x, $y) {
     foreach ($x as $value) {
         if ($y == $value) {
@@ -457,11 +445,12 @@ function deleteDatabaseToken($link) {
     }
 }
 
-function verifyPasswordForgot($email, $token, $link) {
+function verifyPasswordForgot($email, $token2, $link) {
     $stmt = mysqli_prepare($link, 'SELECT token, datum FROM recovery WHERE email = ?;');
     mysqli_stmt_bind_param($stmt, 's', $email);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $token2, $datum);
+    mysqli_stmt_bind_result($stmt, $token, $datum);
+    mysqli_stmt_fetch($stmt);
     
     // als de url 24 uur oud is word hij verwijderd
     if(($datum - time()) > (60*60*24)) {
