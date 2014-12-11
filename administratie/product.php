@@ -25,6 +25,11 @@ $link = connectDB();
                 </div>
             </div>
 
+
+                <?php
+                define('THIS_PAGE', 'product');
+                include '../menu.php';
+                ?>
             <?php
             define('THIS_PAGE', 'Product');
 			include('../menu.php');
@@ -35,22 +40,16 @@ $link = connectDB();
                 <div class="navigator">
                     <div class="zoekbalk">
 
-                        <input class="zoekinput" type="text" value="Zoek">
-                        <input class="zoeksubmit" type="submit" value="Zoek">
 
-                    </div>
-
-                    <div class="navigatie">
-
-                    </div>
+            <div class="content">
                 </div>
 
                 <div class="body" id="main_content">
                 
                     <?php
-                    if (isset($_POST["productnr"])) {
+                    if (isset($_GET["productnr"])) {
                         //connectie maken en qeury versturen
-                        $productnr = $_POST["productnr"];
+                        $productnr = $_GET["productnr"];
                         if (mysqli_connect_error($link)) {
                             print(mysqli_connect_error($link));
                         }

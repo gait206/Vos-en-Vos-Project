@@ -48,7 +48,7 @@ $link = connectDB();
                     $actie = $_POST["actie"];
                     if ($actie == "Bestelling annuleren") {
                         $bestelnummer = $_POST["bestelnr"];
-                        mysqli_query($link, 'UPDATE Bestelling SET status = "Geannuleerd" WHERE bestelnr = "' . $bestelnummer . '";');
+                        mysqli_query($link, 'UPDATE Bestelling SET status = "Geannuleerd", bezorgdatum = NULL WHERE bestelnr = "' . $bestelnummer . '";');
                     }
                 }
 

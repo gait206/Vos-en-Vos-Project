@@ -69,7 +69,7 @@ $link = connectDB();
                            
                             mysqli_query($link, "INSERT INTO gebruiker(email,wachtwoord) VALUES('".$email."', '".$wachtwoord3."');");    
                             mysqli_query($link, "INSERT INTO klant(voornaam,achternaam,telnummer,mobnummer,bedrijfsnaam,adres,postcode,plaats,kvknummer,btwnummer,email) "
-                            . "VALUES('".$voornaam."', '".$achternaam."', '.$telnummer.','. $mobnummer.', '".$bedrijfsnaam."', '".$adres."', '".$postcode."', '".$plaats."', '.$kvknummer.', '.$btwnummer.', '".$email."');"); 
+                            . "VALUES('".$voornaam."', '".$achternaam."', '".$telnummer."','". $mobnummer."', '".$bedrijfsnaam."', '".$adres."', '".$postcode."', '".$plaats."', '".$kvknummer."', '".$btwnummer."', '".$email."');"); 
                             
                             print(mysqli_error($link));
                             
@@ -95,7 +95,7 @@ $link = connectDB();
                             
                             if (empty($_POST['telnummer'])){
                                 $error_telnummer = "<img width=15 height=15 src=\"fout.png\"> Er is geen telefoonnummer ingevoerd<br>";   
-                            } elseif (!preg_match("/^[0-9]+$/", $_POST['telnummer'])){
+                            } elseif (preg_match("/^[0-9]+$/", $_POST['telnummer'])){
                                     $error_telnummer = "<img width=15 height=15 src=\"fout.png\"> Het telefoonnummer mag alleen getallen bevatten<br>";
                             } else {
                                 $error_telnummer = '';
