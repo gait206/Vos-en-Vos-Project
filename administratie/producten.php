@@ -24,7 +24,7 @@ and open the template in the editor.
 
 
             <div class="navigatie">
-                <form action="" method="get" id="select">
+                <form action="" method="get" id="filter">
                     <input class="zoekinput" type="text" placeholder="Zoek" name="zoekbalk" <?php
                     if (isset($_GET['zoekbalk'])) {
                         print('value="' . $_GET['zoekbalk'] . '"');
@@ -58,40 +58,40 @@ and open the template in the editor.
                     </select>
                 </form>
 
-                    <?php
-                    // code to get the right variables into the right place in the functions and such
-                    switch (THIS_PAGE) {
-                        case 'Papier' : $switch = 0;
-                            break;
-                        case 'Dispencers' : $switch = 1;
-                            break;
-                        case 'Reinigingsmiddelen' : $switch = 2;
-                            break;
-                        case 'Schoonmaakmateriaal' : $switch = 3;
-                            break;
-                        default : $switch = 4;
+                <?php
+                // code to get the right variables into the right place in the functions and such
+                switch (THIS_PAGE) {
+                    case 'Papier' : $switch = 0;
+                        break;
+                    case 'Dispencers' : $switch = 1;
+                        break;
+                    case 'Reinigingsmiddelen' : $switch = 2;
+                        break;
+                    case 'Schoonmaakmateriaal' : $switch = 3;
+                        break;
+                    default : $switch = 4;
+                }
+
+                $query = base_query_generate($switch);
+
+                if (isset($_GET['merk']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop'])) {
+
+                    if (isset($_GET['merk'])) {
+                        $checkbox = $_GET['merk'];
+                    } else {
+                        $checkbox = array();
                     }
-
-                    $query = base_query_generate($switch);
-
-                    if (isset($_GET['merk']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop'])) {
-
-                        if (isset($_GET['merk'])) {
-                            $checkbox = $_GET['merk'];
-                        } else {
-                            $checkbox = array();
+                    $prijs = $_GET['prijs'];
+                    $sort = $_GET['sort'];
+                    $query = filter_query_generate($query, $prijs, $checkbox);
+                    if (isset($_GET['zoekknop']) || isset($_GET['zoekbalk'])) {
+                        if (!$_GET['zoekbalk'] == "") {
+                            $query = search_query_generate($_GET['zoekbalk'], $query);
                         }
-                        $prijs = $_GET['prijs'];
-                        $sort = $_GET['sort'];
-                        $query = filter_query_generate($query, $prijs, $checkbox);
-                        if (isset($_GET['zoekknop']) || isset($_GET['zoekbalk'])) {
-                            if (!$_GET['zoekbalk'] == "") {
-                                $query = search_query_generate($_GET['zoekbalk'], $query);
-                            }
-                        }
-                        $query = sort_query_generate($query, $sort);
                     }
-                    ?>
+                    $query = sort_query_generate($query, $sort);
+                }
+                ?>
 
             </div>
         </div>
@@ -126,14 +126,12 @@ and open the template in the editor.
                 }
                 ?>
             </p>
-        <form>
-            <select name="items" form="select" onchange="this.form.submit()">
+            <select name="items" onchange="this.form.submit()" form="filter">
                 <option value="10"<?php if (!empty($_GET["items"]) && $_GET["items"] == 10) echo "selected"; ?>>10</option>
                 <option value="20"<?php if (!empty($_GET["items"]) && $_GET["items"] == 20) echo "selected"; ?>>20</option>
                 <option value="25"<?php if (!empty($_GET["items"]) && $_GET["items"] == 25) echo "selected"; ?>>25</option>
                 <option value="50"<?php if (!empty($_GET["items"]) && $_GET["items"] == 50) echo "selected"; ?>>50</option>
             </select>
-        </form>
             <?php
             while ($row) {
                 print("<tr>
@@ -165,16 +163,14 @@ and open the template in the editor.
             print("<p class=\"geenres\">Geen resultaten gevonden</p>");
         }
         ?>
-    <form>
-        <select name="items" form="select" onchange="this.form.submit()">
-            <option value="10"<?php if (!empty($_GET["items"]) && $_GET["items"] == 10) echo "selected"; ?>>10</option>
-            <option value="20"<?php if (!empty($_GET["items"]) && $_GET["items"] == 20) echo "selected"; ?>>20</option>
-            <option value="25"<?php if (!empty($_GET["items"]) && $_GET["items"] == 25) echo "selected"; ?>>25</option>
-            <option value="50"<?php if (!empty($_GET["items"]) && $_GET["items"] == 50) echo "selected"; ?>>50</option>
+        <input type="submit" name="action" value="vorige pagina" form="filter">
+        <select name="pages" onchange="this.form.submit()" form="filter">
+            <option value="1"<?php if (!empty($_GET["pages"]) && $_GET["pages"] == 1) echo "selected"; ?>>1</option>
+            <option value="2"<?php if (!empty($_GET["pages"]) && $_GET["pages"] == 2) echo "selected"; ?>>2</option>
+            <option value="3"<?php if (!empty($_GET["pages"]) && $_GET["pages"] == 3) echo "selected"; ?>>3</option>
+            <option value="4"<?php if (!empty($_GET["pages"]) && $_GET["pages"] == 4) echo "selected"; ?>>4</option>
         </select>
-
-    </form>
-
-</div>
+        <input type="submit" name="action" value="volgende Pagina" form="filter">
+    </div>
 </body>
 </html>
