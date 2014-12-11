@@ -30,12 +30,22 @@ $link = connectDB();
                 define('THIS_PAGE', 'product');
                 include '../menu.php';
                 ?>
+            <?php
+            define('THIS_PAGE', 'Product');
+			include('../menu.php');
+			?>
+
+            <div class="content">
+
+                <div class="navigator">
+                    <div class="zoekbalk">
 
 
             <div class="content">
                 </div>
 
                 <div class="body" id="main_content">
+                
                     <?php
                     if (isset($_GET["productnr"])) {
                         //connectie maken en qeury versturen
@@ -48,7 +58,7 @@ $link = connectDB();
                         mysqli_stmt_bind_param($stmt, "i", $productnr);
                         mysqli_execute($stmt);
 
-                        mysqli_stmt_bind_result($stmt, $productnaam, $merk, $categorie, $omschrijving, $afbeelding, $prijs, $voorraad);
+                        mysqli_stmt_bind_result($stmt, $productid, $productnr, $productnaam, $merk, $categorie, $omschrijving, $afbeelding, $prijs, $voorraad);
                         mysqli_stmt_fetch($stmt);
                        
                      
@@ -73,13 +83,12 @@ $link = connectDB();
                     ?>
                 </div>
 
-                <div class="banner">
-
-                </div>
             </div>
 
             <div class="footer">
-
+			<?php
+			include "../footer.php";
+			?>
             </div>
 
         </div>
