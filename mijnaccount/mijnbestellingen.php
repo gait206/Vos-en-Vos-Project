@@ -59,7 +59,7 @@ $link = connectDB();
                 print("<table><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th>");
                 while ($bestelling) {
                     print("<tr>"
-                            . "<td><a href='bestelling.php?bestelnr='" . $bestelling["bestelnr"] . "' class='bestelnummer'>" . $bestelling["bestelnr"] . "</a></td>"
+                            . "<td><a href='bestelling.php?bestelnr=" . $bestelling["bestelnr"] . "' class='bestelnummer'>" . $bestelling["bestelnr"] . "</a></td>"
                             . "<td>" . $bestelling["opmerking"] . "</td>"
                             . "<td>" . $bestelling["besteldatum"] . "</td>"
                             . "<td>" . $bestelling["bezorgdatum"] . "</td>"
