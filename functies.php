@@ -245,18 +245,6 @@ function selected($switch, $number) {
     return;
 }
 
-function checked($array, $value) {
-    if (isset($_POST[$array])) {
-        $name = $_POST[$array];
-        foreach ($array as $key => $value) {
-            if ($key == $value) {
-                print(" checked");
-            }
-        }
-    }
-    return;
-}
-
 function isin(array $x, $y) {
     foreach ($x as $value) {
         if ($y == $value) {

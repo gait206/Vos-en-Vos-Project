@@ -1,0 +1,49 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 11-dec-2014, 10:52:22
+    Author     : GertJan
+*/
+
+.content{
+    width:1270px;
+}
+.body{
+    width:calc(98% - 2px);
+    margin-left:13px;
+    border: 1px solid #344D8E;
+    border-radius:5px;
+}
+.footer{
+    width:98%;
+}
+.login_verzenden{
+    margin-left:100px;
+}
+.login_center{
+    margin-top:100px;
+    margin-left:25%;
+    margin-right:40%;
+    margin-bottom:100px;
+    width:45%;
+}
+.kop{
+    text-align:center;
+}
+.verzenden_knop_left{
+    float:left;
+    margin-bottom:20px;
+    margin-left: 20px;
+}
+.verzendadres{
+    margin-top:0px;
+    display:inline;
+    text-align:center;
+}
+.kolom1, .kolom2{
+    display:inline-block;
+    width:20%;
+}

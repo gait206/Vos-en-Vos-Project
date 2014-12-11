@@ -40,9 +40,6 @@ $link = connectDB();
 
                     <?php
                     // User Storie 6
-                   if(!empty($_POST["terug"])){
-                       header('Location: ../winkelwagen.php');
-                   }
 
                     print('<table class="afrekenen_tabel">');
 
@@ -114,9 +111,9 @@ $link = connectDB();
                     print('<ul><li class="afrekenen_totaal_text"><h2>Totaal: </h2></li><li><h2>&euro; ' . prijsformat($totaalBedrag) . '</h2></li></ul>');
                     ?>
                     <br>
-                    <form class="afrekenen_form" method="POST" action=""><input type="submit" name="ideal" value="Afrekenen met IDeal"></form></div>
+                    <form class="afrekenen_form" method="POST" action="verzenden.php"><input type="submit" name="actie" value="Doorgaan"></form></div>
                     <br>
-                <form method="POST" action=""><input class="afrekenen_knop_left" type="submit" name="terug" value="Terug naar winkelwagen"></form>
+                    <form method="POST" action="../winkelwagen.php"><input class="afrekenen_knop_left" type="submit" name="terug" value="Terug naar winkelwagen"></form>
                 </div>
 
             </div>

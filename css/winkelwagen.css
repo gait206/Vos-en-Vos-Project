@@ -16,12 +16,11 @@
 
 form.table_administratie{
     text-align: center;
-    
 }
 
 .table_administratie{
     
-    width: 100%;
+    width: calc(100% + 2px);
     border-spacing:0px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
