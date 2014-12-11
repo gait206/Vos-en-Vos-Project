@@ -65,7 +65,9 @@ include('../functies.php');
             </div>
 
             <div class="footer">
-
+            <?php
+			include "../footer.php";
+			?>
             </div>
 
         </div>

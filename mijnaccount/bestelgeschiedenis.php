@@ -44,16 +44,10 @@ $link = connectDB();
                     header('Location: ../index.php');
                 }
                 $email = getEmail($link);
-                if (!empty($_POST["actie"])) {
-                    $actie = $_POST["actie"];
-                    if ($actie == "Bestelling annuleren") {
-                        $bestelnummer = $_POST["bestelnr"];
-                        mysqli_query($link, 'UPDATE Bestelling SET status = "Geannuleerd" WHERE bestelnr = "' . $bestelnummer . '";');
-                    }
-                }
+
 
                 $email = getEmail($link);
-                $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling AS B JOIN Klant AS K ON K.klantnr = K.klantnr WHERE email = '$email' AND status ='In behandeling'");
+                $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling AS B JOIN Klant AS K ON K.klantnr = K.klantnr WHERE email = '$email' AND status != 'In behandeling'");
                 $bestelling = mysqli_fetch_assoc($result);
 
                 print("<table><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th>");
@@ -64,7 +58,6 @@ $link = connectDB();
                             . "<td>" . $bestelling["besteldatum"] . "</td>"
                             . "<td>" . $bestelling["bezorgdatum"] . "</td>"
                             . "<td>" . $bestelling["status"] . "</td>"
-                            . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $bestelling["bestelnr"] . '"><input type="submit" name="actie" value="Bestelling annuleren" onClick="return checkDelete()"></form></td>'
                             . "</tr>");
                     $bestelling = mysqli_fetch_assoc($result);
                 }
@@ -72,11 +65,13 @@ $link = connectDB();
 
                 print("</table>");
                 ?>
-                <a href="Bestelgeschiedenis.php">Bestelgeschiedenis</a>
+                <a href="mijnbestellingen.php">Mijn bestellingen</a>
             </div>
 
             <div class="footer">
-
+                <?php
+                include "../footer.php";
+                ?>
             </div>
         </div>
     </body>
