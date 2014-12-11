@@ -15,7 +15,7 @@ switch (THIS_PAGE) {
 case 'Home':
 $menuitem1 = '<a style="border: 1px solid #9A9CC5; margin-top:8px;
     color: #fff;
-    background-color: #9A9CC5; #9A9CC5;cursor: default;" href="#nogo">Home</a>';
+    background-color:#9A9CC5; cursor: default;" href="#nogo">Home</a></li>';
 break;
  
 case 'Papier':
