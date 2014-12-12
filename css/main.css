@@ -73,11 +73,10 @@ img.logo{
     border-radius: 5px;
 }
 div.menu{
-    padding:3px;
+    padding:4px;
     margin-right: 1%;
     margin-left: 1%;
-    max-height:27px;
-    height: 27px;
+    height: 30px;
     background-color: #344D8E;
 
 }
@@ -86,14 +85,15 @@ div.menu{
     padding:0;
     width: 100%;
     display: table;
-    table-layout:fixed;
+//    table-layout:fixed;
 }
  
 .menu ul li{
-    height: 24px;
-    margin-top: 8px;
-    margin-left: 11px;
-    padding-left: 2px;
+	vertical-align:middle;
+    height: 27px;
+//    margin-top: 8px;
+//    margin-left: 11px;
+//    padding-left: 2px;
     display: table-cell;
     text-align: center;
 	width: 14.2857%;
@@ -101,7 +101,8 @@ div.menu{
         
 }
 .menu ul li a{
-    vertical-align: bottom;
+	height:100%;
+    vertical-align:middle;
     text-decoration:none;
     padding: .33em 1em;
     color: #fff;
@@ -111,13 +112,11 @@ div.menu{
 }
 
 .menu ul li a:hover{
-    vertical-align: bottom;
+//    vertical-align: bottom;
     border: 1px solid #9A9CC5;
-    border-top-color: #9A9CC5;
-    border-bottom-color: #9A9CC5;
-    color: #fff;
+//    color: #fff;
     background-color: #9A9CC5;
-    padding: .33em 1em;
+//    padding: .33em 1em;
 }
 
 @media  screen and (-webkit-min-device-pixel-ratio:0) {
