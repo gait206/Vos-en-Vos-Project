@@ -27,7 +27,7 @@ if (validToken($link) != true) {
                         $_SESSION['initiated'] = true;
                     }
                     createToken($email, $link);
-                    header('Location: ../../index.php');
+                    header('Location: http://localhost:8080/index.php');
                 } else {
                     print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
                 }
@@ -49,7 +49,7 @@ if (validToken($link) != true) {
         $actie = $_POST["actie"];
         if ($actie == "Uitloggen") {
             deleteToken("true", $link);
-            header('Location: index.php');
+            header('Location: http://localhost:8080/index.php');
         }
     }
     $email = getEmail($link);

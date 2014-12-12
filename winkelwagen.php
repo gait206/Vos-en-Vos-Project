@@ -153,7 +153,7 @@ if (!empty($_POST["aanpassen"])) {
                     ?>
                     <?php
 					if(countItems(getCookie("winkelmandje"))>=1){
-                    print('<form class="winkelwagen_button" action="betaling/afrekenen.php" method="POST">
+                    print('<form class="winkelwagen_button" action="betaling/inloggen.php" method="POST">
                         <input type="submit" name="Betalen" value="Doorgaan"> 
                     </form>');
 					}

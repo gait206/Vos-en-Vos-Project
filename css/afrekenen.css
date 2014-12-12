@@ -52,6 +52,9 @@ and open the template in the editor.
     margin-top:88px;
 	margin-left: 1%;
 }
+.afrekenen_knop_right{
+    float:right;
+}
 .content{
     width:1270px;
 }

@@ -4,7 +4,7 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
 /* 
-    Created on : 11-dec-2014, 10:52:22
+    Created on : 12-dec-2014, 15:05:50
     Author     : GertJan
 */
 
@@ -16,45 +16,31 @@ and open the template in the editor.
     margin-left:13px;
     border: 1px solid #344D8E;
     border-radius:5px;
+    height:200px;
+    text-align:center;
 }
 .footer{
     width:98%;
 }
-.login_verzenden{
-    margin-left:100px;
-}
-.login_center{
-    margin-top:100px;
-    margin-left:25%;
-    margin-right:40%;
-    margin-bottom:100px;
-    width:45%;
-}
-.kop{
+.error{
     text-align:center;
 }
 .verzenden_knop_left{
     float:left;
     margin-bottom:20px;
     margin-left: 20px;
-}
-.verzendadres{
-    margin-top:0px;
-    display:inline;
-    text-align:center;
-    margin-left: 50px;
-}
-.kolom1, .kolom2{
-    display:inline-block;
-    width:30%;
-    background-color:lightgrey;
-    margin-left:20px;
-    border-radius:5px;
-    padding:10px;
-    height:100px;
+    margin-top:30px;
 }
 .verzenden_knop_right{
     float:right;
     margin-right:20px;
-    margin-bottom:20px;
+    margin-top:20px;
+}
+.links {
+    font-size: 20px;
+    text-decoration:none;
+}
+
+.links:hover {
+    text-decoration:underline;
 }
