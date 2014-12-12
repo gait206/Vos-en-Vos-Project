@@ -113,9 +113,9 @@ div.menu{
 
 .menu ul li a:hover{
 //    vertical-align: bottom;
-    border: 1px solid #9A9CC5;
-//    color: #fff;
-    background-color: #9A9CC5;
+//    border: 1px solid #9A9CC5;
+    color: #3CF;
+//    background-color: #9A9CC5;
 //    padding: .33em 1em;
 }
 

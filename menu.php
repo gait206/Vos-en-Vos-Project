@@ -13,38 +13,38 @@ $menuitem8 = '<a href="./mijnaccount/mijnaccount.php">Mijn account</a>';
 switch (THIS_PAGE) {
  
 case 'Home':
-$menuitem1 = '<a style="border: 1px solid #9A9CC5; margin-top:8px;
-    color: #fff;
-    background-color:#9A9CC5; cursor: default;" href="#nogo">Home</a></li>';
+$menuitem1 = '<a style="//border: 1px solid #9A9CC5; margin-top:8px;
+    color: #3CF;
+    //background-color:#9A9CC5; cursor: default;" href="#nogo">Home</a></li>';
 break;
  
 case 'Papier':
-$menuitem2 = '<a style="border: 1px solid #9A9CC5; margin-top:8px;
-    color: #fff;
-    background-color: #9A9CC5; cursor: default;" href="#nogo">Papier</a>';
+$menuitem2 = '<a style="//border: 1px solid #9A9CC5; margin-top:8px;
+    color: #3CF;
+    //background-color: #9A9CC5; cursor: default;" href="#nogo">Papier</a>';
 break;
  
 case 'Dispencers':
-$menuitem3 = '<a style="border: 1px solid #9A9CC5; margin-top:8px;
-    color: #fff;
-    background-color: #9A9CC5; cursor: default;" href="#nogo">Dispencers</a>';
+$menuitem3 = '<a style="//border: 1px solid #9A9CC5; margin-top:8px;
+    color: #3CF;
+    //background-color: #9A9CC5; cursor: default;" href="#nogo">Dispencers</a>';
 break;
 
 case 'Reinigingsmiddelen':
-$menuitem4 = '<a style="border: 1px solid #9A9CC5; margin-top:8px;
-    color: #fff;
-    background-color: #9A9CC5; cursor: default;" href="#nogo">Reinigingsmiddelen</a>';
+$menuitem4 = '<a style="//border: 1px solid #9A9CC5; margin-top:8px;
+    color: #3CF;
+    //background-color: #9A9CC5; cursor: default;" href="#nogo">Reinigingsmiddelen</a>';
 break;
 
 case 'Schoonmaakmateriaal':
-$menuitem5 = '<a style="border: 1px solid #9A9CC5; margin-top:8px;
-    color: #fff;
-    background-color: #9A9CC5; cursor: default;" href="#nogo">Schoonmaakmateriaal</a>';
+$menuitem5 = '<a style="//border: 1px solid #9A9CC5; margin-top:8px;
+    color: #3CF;
+    //background-color: #9A9CC5; cursor: default;" href="#nogo">Schoonmaakmateriaal</a>';
 break;
 case 'winkelwagen':
- $menuitem6 =  '<a style="border: 1px solid #9A9CC5; margin-top:8px;
-    color: #fff;
-    background-color: #9A9CC5; cursor: default" href="#nogo">( '.countItems(getCookie("winkelmandje")).' ) <img height="20px" src="/plaatjes/winkelmandje-menu.png"></a>';
+ $menuitem6 =  '<a style="//border: 1px solid #9A9CC5; margin-top:8px;
+    color: #3CF;
+    //background-color: #9A9CC5; cursor: default" href="#nogo">( '.countItems(getCookie("winkelmandje")).' ) <img height="20px" src="/plaatjes/winkelmandje-menu.png"></a>';
 default:
 break;
 }
