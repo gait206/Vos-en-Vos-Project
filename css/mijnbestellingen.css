@@ -20,6 +20,18 @@
     text-decoration:none;
     color:black;
 }
+.tablebestellingen{
+    border:solid black 2px;
 
-
-
+}
+.TDbestellingen{
+    border:solid black 2px;
+    
+}
+.Tableannuleer{
+    border: solid black 2px;
+    padding-top:auto;
+    padding-bottom:auto;
+    
+    
+}
