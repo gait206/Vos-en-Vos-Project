@@ -76,7 +76,7 @@
 						
 						if ($actie == "Aanpassen") {
 							$email = $_POST["email"];
-							$result = mysqli_query($link, 'SELECT * FROM klant k, gebruiker g WHERE k.email = g.email and g.email ="' . $email . '";');
+							$result = mysqli_query($link, 'SELECT * FROM klant k, gebruiker g WHERE k.userid = g.userid and email ="' . $email . '";');
 							$row = mysqli_fetch_assoc($result);
 							$voornaam =  $row["voornaam"];
 							$achternaam = $row["achternaam"];
@@ -109,7 +109,7 @@
 						
 						}
 											
-						$result = mysqli_query($link, 'SELECT * FROM gebruiker g, klant k where g.email =k.email');
+						$result = mysqli_query($link, 'SELECT * FROM gebruiker g, klant k where g.userid =k.userid');
 						$row = mysqli_fetch_assoc($result);
 						
 						print('<table class="table_administratie"><tr><th>Email</th><th>Naam</th><th>telefoon</th><th>bedrijfsnaam</th><th>plaats</th><th>level</th><th>Verwijderen</th><th>Aanpassen</th><th>Bekijken</th></tr>');
