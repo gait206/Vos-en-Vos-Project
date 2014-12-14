@@ -130,7 +130,7 @@ if (!existCookie($cookiename)) {
                         }
                     }
 
-                    echo $sHtml;
+                    print($sHtml);
                     ?>
                     
                 </div>

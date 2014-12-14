@@ -55,7 +55,7 @@ $link = connectDB();
                 $email = getEmail($link);
                 $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling AS B JOIN Klant AS K ON K.klantnr = K.klantnr WHERE email = '$email' AND status ='In behandeling'");
                 $bestelling = mysqli_fetch_assoc($result);
-
+                
                 print("<table class='tablebestellingen'><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th>");
                 while ($bestelling) {
                     print("<tr>"

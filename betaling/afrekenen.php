@@ -190,8 +190,35 @@ $link = connectDB();
 	// worden ondernomen, waarbij steeds een nieuw (en uniek) $sTransactionReference moet worden opgegeven.
 	// 
 	// ... maatwerk ...
+        
+        // bezorgdatum tijdelijk toegevoegd als time() om te testen
+        $email = getEmail($link);
+        $result = mysqli_query($link, 'SELECT klantnr FROM klant WHERE email = "'.$email.'";');
+        $row = mysqli_fetch_assoc($result);
+        $klantnr = $row["klantnr"];
+        // voegt de datum toe aan de database in YYYY-MM-DD formaat
+        $besteldatum = date('Y-m-d', time());
+        // tijdelijke waarde
+        $bezorgdatum = date('Y-m-d', time());
+        $status = "In Behandeling";
+        $transactieref = $sTransactionReference;
+        mysqli_query($link, 'INSERT INTO bestelling(besteldatum,bezorgdatum,status,klantnr,transactieref) VALUES("'.$besteldatum.'","'.$bezorgdatum.'","'.$status.'","'.$klantnr.'","'.$transactieref.'");');
 
+        
+        $result2 = mysqli_query($link, 'SELECT bestelnr FROM bestelling WHERE transactieref = "'.$transactieref.'";');
+        $row2 = mysqli_fetch_assoc($result2);
+        $bestelnr = $row2["bestelnr"];
+        print($bestelnr);
+        $cookie = getCookie("winkelmandje");
+        
+        foreach($cookie as $key => $value) {
+           $stmt = mysqli_prepare($link, 'INSERT INTO bestelregel VALUES(?,?,?);');
+           mysqli_stmt_bind_param($stmt, 'iii', $bestelnr, $key, $value);
+           mysqli_execute($stmt);
+           print(mysqli_stmt_error($stmt));
+        }
 
+        deleteCookie("winkelmandje");
 
 
 

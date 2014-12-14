@@ -88,7 +88,7 @@ if (!existCookie($cookiename)) {
                         header('Location: http://localhost:8080/betaling/afrekenen.php');
                     }
                     ?>
-                    <form method="POST" action="afrekenen.php"><input class="verzenden_knop_left" type="submit" name="terug" value="Terug naar controle"></form>
+                    <form method="POST" action="../winkelwagen.php"><input class="verzenden_knop_left" type="submit" name="terug" value="Terug naar winkelmandje"></form>
                 </div>
             </div>
 
