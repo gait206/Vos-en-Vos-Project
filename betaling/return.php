@@ -32,7 +32,7 @@ if (!existCookie($cookiename)) {
             </div>
 
             <?php
-            define('THIS_PAGE', 'Verzenden');
+            define('THIS_PAGE', 'Return');
             include('../menu.php');
             ?>
 

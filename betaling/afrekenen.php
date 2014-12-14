@@ -208,7 +208,6 @@ $link = connectDB();
         $result2 = mysqli_query($link, 'SELECT bestelnr FROM bestelling WHERE transactieref = "'.$transactieref.'";');
         $row2 = mysqli_fetch_assoc($result2);
         $bestelnr = $row2["bestelnr"];
-        print($bestelnr);
         $cookie = getCookie("winkelmandje");
         
         foreach($cookie as $key => $value) {
