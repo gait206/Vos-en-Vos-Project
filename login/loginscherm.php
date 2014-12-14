@@ -53,7 +53,7 @@ if (validToken($link) != true) {
         }
     }
     $email = getEmail($link);
-    $result = mysqli_query($link, 'SELECT voornaam, achternaam FROM klant WHERE email = "'.$email.'";');
+    $result = mysqli_query($link, 'SELECT voornaam, achternaam FROM klant k, gebruiker g WHERE k.userid= g.userid ');
     $row = mysqli_fetch_assoc($result);
     print('<p>Welkom, ' . $row["voornaam"] . ' ' . $row["achternaam"] . '</p>');
     print('<div><form class="logout_button" method="POST" action=""><input type="submit" name="actie" value="Uitloggen"></form></div>');
