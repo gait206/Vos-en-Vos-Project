@@ -50,10 +50,11 @@
 							}
 
 							if ($actie == "Bijwerken") {
+								$userid = $_POST["userid"];
 								$email = $_POST["email"];
 								$voornaam =  $_POST["voornaam"];
 								$achternaam = $_POST["achternaam"];
-								$telnummer = $_POST["telnummer"];
+								$telnummer = $_POST["telnummer"];	
 								$mobnummer = $_POST["mobnummer"];
 								$bedrijf = $_POST["bedrijf"];
 								$kvknummer = $_POST["kvknummer"];
@@ -62,7 +63,7 @@
 								$plaats = $_POST['plaats'];
 								$postcode = $_POST['postcode'];
 								$level = $_POST['level'];
-								mysqli_query($link, 'UPDATE klant k join gebruiker g on g.email=k.email and k.email = "'.$email.'" SET k.email = "'.$email.'", g.email = "'.$email.'", voornaam = "'.$voornaam.'" , achternaam ="'.$achternaam.'" , telnummer="'.$telnummer.'"'
+								mysqli_query($link, 'UPDATE klant k join gebruiker g on g.userid=k.userid and g.userid = "'.$userid.'" SET email = "'.$email.'",  voornaam = "'.$voornaam.'" , achternaam ="'.$achternaam.'" , telnummer="'.$telnummer.'"'
 								.'  , mobnummer="'.$mobnummer.'" , bedrijfsnaam ="'.$bedrijf.'" , kvknummer ="'.$kvknummer.'" , btwnummer ="'.$btwnummer.'" , adres="'.$adres.'"'
 								.' , plaats="'.$plaats.'" , postcode="'.$postcode.'"  , level ="'.$level.'";');
 								print(mysqli_error($link));
@@ -75,12 +76,13 @@
 						}
 						
 						if ($actie == "Aanpassen") {
-							$email = $_POST["email"];
-							$result = mysqli_query($link, 'SELECT * FROM klant k, gebruiker g WHERE k.userid = g.userid and email ="' . $email . '";');
+							
+							$result = mysqli_query($link, 'SELECT * FROM klant k, gebruiker g WHERE k.userid = g.userid and g.userid ="' . $_POST["userid"] . '";');
 							$row = mysqli_fetch_assoc($result);
+							$email = $row["email"];
 							$voornaam =  $row["voornaam"];
 							$achternaam = $row["achternaam"];
-							$telnummer = $row["telnummer"];
+							$telnummer = $row["telnummer"];	
 							$mobnummer = $row["mobnummer"];
 							$bedrijf = $row["bedrijfsnaam"];
 							$kvknummer = $row["kvknummer"];
@@ -101,7 +103,8 @@
 							. '<tr><td>KVKnummer:</td><td><input type="text" name="kvknummer" value="'.$kvknummer.'"></td></tr>'	
 							. '<tr><td>BTWnummer:</td><td><input type="text" name="btwnummer" value="'.$btwnummer.'"></td></tr>'
 							. '<tr><td>Adres:</td><td><input type="text" name="adres" value="'. $adres.'"><input type="text" name="plaats" value="'. $plaats.'"><input type="text" name="postcode" value="'. $postcode.'"></td></tr>'
-							. '<tr><td>Level:</td><td><input type="text" name="level" value="'.$level.'"></td></tr>'				
+							. '<tr><td>Level:</td><td><input type="text" name="level" value="'.$level.'"></td></tr>'	
+							. '<input type="hidden" name="userid" value="' . $row["userID"] . '">'
 							. '</form></table>'
 							.  '<input form="toevoegen" type="submit" name="actie" class="button" value="' .$waarde. '">'
 						);
@@ -120,9 +123,9 @@
 									. '<td>' . $row["bedrijfsnaam"] . '</td>'
 									. '<td>' . $row["plaats"] . '</td>'
 									. '<td>' . $row["level"] . '</td>'
-									. '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="email" value="' . $row["email"] . '"><input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td>'
-									. '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="email" value="' . $row["email"] . '"><input type="submit" name="actie" value="Aanpassen">	</form></td>'
-									. '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="email" value="' . $row["email"] . '"><input type="submit" name="actie" value="bekijken"></form></td></tr>');
+									. '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="userid" value="' . $row["userID"] . '"><input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td>'
+									. '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="userid" value="' . $row["userID"] . '"><input type="submit" name="actie" value="Aanpassen">	</form></td>'
+									. '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="userid" value="' . $row["userID"] . '"><input type="submit" name="actie" value="bekijken"></form></td></tr>');
 							$row = mysqli_fetch_assoc($result);
 						}
 						print("</table>");

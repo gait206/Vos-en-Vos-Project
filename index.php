@@ -34,7 +34,7 @@ if (!existCookie($cookiename)) {
 			define('THIS_PAGE', 'Home');
 			include('menu.php');
 			?>
-
+			
             <div class="content" id="main_content">
                 <?php include("administratie/productenblock.php"); 
                         ?>

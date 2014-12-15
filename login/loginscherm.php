@@ -26,7 +26,11 @@ if (validToken($link) != true) {
                         session_regenerate_id();
                         $_SESSION['initiated'] = true;
                     }
-                    createToken($email, $link);
+					$result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "'.$email.'";');
+					$row = mysqli_fetch_assoc($result);
+					$klantnr = $row["klantnr"];
+					
+                    createToken($klantnr, $link);
                     header('Location: http://localhost:8080/index.php');
                 } else {
                     print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
@@ -52,8 +56,9 @@ if (validToken($link) != true) {
             header('Location: http://localhost:8080/index.php');
         }
     }
-    $email = getEmail($link);
-    $result = mysqli_query($link, 'SELECT voornaam, achternaam FROM klant k, gebruiker g WHERE k.userid= g.userid ');
+    $klantnr = getKlantnr($link);
+	print(userLevel($klantnr, $link). validToken($link));
+    $result = mysqli_query($link, 'SELECT voornaam, achternaam FROM klant WHERE klantnr = "'.$klantnr.'" ');
     $row = mysqli_fetch_assoc($result);
     print('<p>Welkom, ' . $row["voornaam"] . ' ' . $row["achternaam"] . '</p>');
     print('<div><form class="logout_button" method="POST" action=""><input type="submit" name="actie" value="Uitloggen"></form></div>');

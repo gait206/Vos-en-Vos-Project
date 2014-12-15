@@ -286,7 +286,7 @@ function validToken($link) {
 }
 
 // maakt geen nieuw token aan wss
-function createToken($email, $link) {
+function createToken($klantnr, $link) {
     $ip = $_SERVER["REMOTE_ADDR"];
     $size = 60;
     $random = $_SERVER['HTTP_USER_AGENT'];
@@ -298,7 +298,7 @@ function createToken($email, $link) {
     $_SESSION["created"] = time();
     if ($link == true) {
 
-        mysqli_query($link, 'INSERT INTO token VALUES("' . $email . '", "' . $token . '", "' . $ip . '");');
+        mysqli_query($link, 'INSERT INTO token VALUES("' . $klantnr . '", "' . $token . '", "' . $ip . '");');
         if (mysqli_error($link)) {
             return "Error: " . mysqli_error($link);
         }
@@ -308,7 +308,7 @@ function createToken($email, $link) {
     }
 }
 
-function updateToken($email, $link) {
+function updateToken($link) {
     if (validToken($link) == true) {
         $_SESSION["created"] = time();
         return true;
@@ -317,28 +317,28 @@ function updateToken($email, $link) {
     }
 }
 
-function getEmail($link) {
+function getKlantnr($link) {
     if (isset($_SESSION["token"])) {
         $ip = $_SERVER["REMOTE_ADDR"];
         $token = $_SESSION["token"];
-        $stmt = mysqli_prepare($link, 'SELECT email FROM token WHERE ip = ? AND token = ?;');
+        $stmt = mysqli_prepare($link, 'SELECT klantnr FROM token WHERE ip = ? AND token = ?;');
         mysqli_stmt_bind_param($stmt, 'ss', $ip, $token);
         mysqli_execute($stmt);
-        mysqli_stmt_bind_result($stmt, $email);
+        mysqli_stmt_bind_result($stmt, $klantnr);
         if (mysqli_stmt_error($stmt)) {
             return "Error: " . mysqli_stmt_error($stmt);
         } else {
             mysqli_stmt_fetch($stmt);
-            return $email;
+            return $klantnr;
         }
     } else {
         return false;
     }
 }
 
-function userLevel($email, $link) {
-    $stmt = mysqli_prepare($link, 'SELECT level FROM gebruiker WHERE email = ?;');
-    mysqli_stmt_bind_param($stmt, 's', $email);
+function userLevel($klantnr, $link) {
+    $stmt = mysqli_prepare($link, 'SELECT level FROM gebruiker WHERE klantnr = ?;');
+    mysqli_stmt_bind_param($stmt, 'i', $klantnr);
     mysqli_execute($stmt);
     mysqli_stmt_bind_result($stmt, $level);
     if (mysqli_stmt_error($stmt)) {
@@ -412,11 +412,11 @@ function deleteToken($verwijderen, $link) {
 
 function restrictedPage($level, $link) {
     if (validToken($link) == true) {
-        if (userLevel(getEmail($link), $link) == $level) {
+        if (userLevel(getKlantnr($link),$link) == $level) {
             if (mysqli_connect_error($link)) {
                 return "Error: " . mysqli_connect_error($link);
             } else {
-                updateToken(getEmail($link), $link);
+                updateToken(getKlantnr($link), $link);
                 return true;
             }
         } else {

@@ -59,7 +59,7 @@ print( '<ul class="dropdown">
 <li>'.$menuitem4.'</li>
 <li>'.$menuitem5.'</li>');
 if(validToken($link)){
-if(userLevel(getEmail($link), $link) == "Admin") {
+if(userLevel(getKlantnr($link), $link) == "Admin") {
 print('<li>'.$menuitem7.'<ul>'
         . '<li style="width:auto;"><a href="/administratie/productbeheer.php">Productbeheer</a></li>'
         . '<li style="width:auto;"><a href="/administratie/bestellingbeheer.php">Bestellingbeheer</a></li>'
