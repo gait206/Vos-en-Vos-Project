@@ -79,7 +79,7 @@ $link = connectDB();
                                  
                             if (empty($_POST['voornaam'])){
                                 $error_voornaam = "<img width=15 height=15 src=\"fout.png\"> Er is geen voornaam ingevoerd<br>";
-                                } elseif (!preg_match("/^[A-z]+$/", $_POST['voornaam'])){
+                                } elseif (preg_match("/^- [A-z]+$/", $_POST['voornaam'])){
                                     $error_voornaam = "<img width=15 height=15 src=\"fout.png\"> Geen geldige invoer bij voornaam<br>";
                             } else {
                                 $error_voornaam = '';
@@ -87,7 +87,7 @@ $link = connectDB();
                                 
                             if (empty($_POST['achternaam'])){
                                 $error_achternaam = "<img width=15 height=15 src=\"fout.png\"> Er is geen achternaam ingevoerd<br>";
-                                } elseif (!preg_match("/^[A-z]+$/", $_POST['achternaam'])){
+                                } elseif (preg_match("/^- [A-z]+$/", $_POST['achternaam'])){
                                     $error_achternaam = "<img width=15 height=15 src=\"fout.png\"> Geen geldige invoer bij achternaam<br>";
                             } else {
                                 $error_achternaam = '';
@@ -104,7 +104,7 @@ $link = connectDB();
                             
                             if (empty($_POST['bedrijfsnaam'])){
                                 $error_bedrijfsnaam = "<img width=15 height=15 src=\"fout.png\"> Er is geen bedrijfsnaam ingevoerd<br>";
-                            } elseif (preg_match("/^[A-z]+$/", $_POST['bedrijfsnaam'])){
+                            } elseif (preg_match("/^- [A-z]+$/", $_POST['bedrijfsnaam'])){
                                 $error_bedrijfsnaam = "<img width=15 height=15 src=\"fout.png\"> Geen geldige invoer bij bedrijfsnaam<br>";
                             } else {
                                 $error_bedrijfsnaam = '';
@@ -206,7 +206,7 @@ $link = connectDB();
                     print('<tr><td><p class="p">Contactpersoon<p></td></tr>');
                     print('<tr><td>Voornaam:</td><td><input class="input" type="text" name="voornaam" value="' .$voornaam. '"><td class="foutmelding">'.$error_voornaam.'</td></tr>');
                     print('<tr><td>Achternaam:</td><td><input class="input" type="text" name="achternaam" value="' .$achternaam. '"><td class="foutmelding">'.$error_achternaam.'</td></tr>');
-                    print('<tr><td>telefoonnummer:</td><td><input class="input" type="text" name="telnummer" value="' .$telnummer. '"><td class="foutmelding">'.$error_telnummer.'</td></tr>');
+                    print('<tr><td>Telefoonnummer:</td><td><input class="input" type="text" name="telnummer" value="' .$telnummer. '"><td class="foutmelding">'.$error_telnummer.'</td></tr>');
                     print('<tr><td>Mobielnummer:</td><td><input class="input" type="text" name="mobnummer" value="' .$mobnummer. '"></tr>');
                     // Bedrijfsgegevens
                     print('<tr><td><p class="p">Bedrijfsgegevens<p></td></tr>');
