@@ -541,3 +541,16 @@ function PostcodeCheck($postcode)
         return false;
     }
 }
+
+function CheckEmailExists($emailexists, $link){
+
+$query = mysql_query($link, "SELECT email FROM klant WHERE email = '".$emailexists."'"); 
+print (mysqli_error($link));
+$rows = mysql_num_rows($result);
+ 
+if($rows == 0) {
+        return true;
+} else {
+        return false;
+}
+}

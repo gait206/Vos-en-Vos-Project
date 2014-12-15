@@ -153,6 +153,8 @@ $link = connectDB();
                             // Foutcontrole bij inloggegevens
                             if (!validate_email($_POST['email'])){
                                 $error_email = "<img width=15 height=15 src=\"fout.png\"> Geen geldig emailadres ingevoerd<br>";
+                            } elseif (CheckEmailExists($_POST['email'], $link)) { 
+                                $error_email = "<img width=15 height=15 src=\"fout.png\"> Deze email bestaat al<br>";
                             } elseif (empty($_POST['email'])){
                                 $error_email = "<img width=15 height=15 src=\"fout.png\"> Er is geen email ingevoerd<br>";
                             } else {
