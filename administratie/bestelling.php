@@ -73,6 +73,23 @@ $link = connectDB();
                                     . '<input form="toevoegen" type="submit" name="actie" class="button" value="' . $waarde . '">'
                             );
                         }
+                        
+                        if ($actie == "Toevoegen") {
+                            $bestelnr = $_GET["bestelnr"];
+                            
+                            $waarde = "Product Toevoegen";
+                            print('<table><form id="toevoegen" method="GET" action="">'
+                                    . '<tr><td>Product Nummer</td><td><input type="number" name="productnr" placeholder="Productnr"></td></tr>'
+                                    . '<tr><td>Aantal:</td><td><input type="number" name="aantal" placeholder="aantal"><input type="hidden" name="bestelnr" value="' . $bestelnr . '"></td></tr>'
+                                    . '</form></table>'
+                                    . '<input form="toevoegen" type="submit" name="actie" class="button" value="' . $waarde . '">'
+                            );
+                        }
+                        
+                        if ($actie == "Product Toevoegen") {
+                            mysqli_query($link, 'INSERT INTO bestelregel VALUES("'.$_GET["bestelnr"].'","'.$_GET["productnr"].'","'.$_GET["aantal"].'");');
+                            print(mysqli_error($link));
+                        }
                     }
 
                     $bestelnr = $_GET["bestelnr"];
@@ -101,7 +118,11 @@ $link = connectDB();
                             . '<tr><td>Postcode: </td><td>'.$row2["postcode"].'</td></tr>');
                     }
                     
-                    print('<tr><td>Beschrijving:</td><td>'.$row["omschrijving"].'</td></tr></table>');
+                    $result4 = mysqli_query($link, 'SELECT opmerking FROM bestelling WHERE bestelnr = "'.$bestelnr.'";');
+                    $row4 = mysqli_fetch_assoc($result4);
+                    
+                    print('<tr><td>Opmerking:</td><td>'.$row4["opmerking"].'</td></tr>'
+                            . '<tr><td></td><td><form action="" method="GET" class="table_administratie_button"><input type="hidden" name="bestelnr" value="'.$bestelnr.'"><input type="submit" name="actie" value="Toevoegen"></form></td></tr></table>');
                     
                     
                     print('<table class="table_administratie"><tr><th>Productnr</th><th>Product naam</th><th>Aantal</th><th>Verwijderen</th><th>Aanpassen</th></tr>');

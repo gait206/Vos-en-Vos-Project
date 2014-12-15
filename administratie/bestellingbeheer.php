@@ -91,6 +91,7 @@ $link = connectDB();
                         
                     }
 
+                    
                     $result = mysqli_query($link, 'SELECT * FROM bestelling WHERE status != "Geannuleerd";');
                     $row = mysqli_fetch_assoc($result);
 
