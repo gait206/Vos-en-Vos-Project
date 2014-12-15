@@ -23,13 +23,9 @@ and open the template in the editor.
         <div class="navigator">
 
 
-            <div class="navigatie">
-                <form action="" method="get" id="filter">
-                    <input class="zoekinput" type="text" placeholder="Zoek" name="zoekbalk" <?php
-                    if (isset($_GET['zoekbalk'])) {
-                        print('value="' . $_GET['zoekbalk'] . '"');
-                    }
-                    ?>>
+           <div class="navigatie">
+                <form action="" method="get" id="select">
+                    <input class="zoekinput" type="text" placeholder="Zoek" name="zoekbalk" <?php if(isset($_GET['zoekbalk'])){ print('value="'.$_GET['zoekbalk'].'"'); } ?>>
                     <input class="zoeksubmit" type="submit" value="Zoek" name="zoekknop"><br><br>
                     <h4>Selecteer merk(en):</h4>
                     <input type="checkbox"  name="merk[]"  value="Katrin" <?php if (in_array("Katrin", $merk)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Katrin<br>
@@ -108,6 +104,17 @@ and open the template in the editor.
             }
             $result = mysqli_query($conn, $query);
             $row = mysqli_fetch_assoc($result);
+            if(!empty($_GET["perpage"])){
+                $perpage = $_GET["perpage"];
+            }else{
+                $perpage = 20;
+            }
+            $amount = amount_per_page($result, $perpage);
+            if(!empty($_GET["pages"])){
+                $query = limit_query_generate($_GET["pages"], $query, $perpage);
+            }else{
+                $query = limit_query_generate(1, $query, $perpage);
+            }
             ?>
 
             <?php
@@ -126,11 +133,11 @@ and open the template in the editor.
                 }
                 ?>
             </p>
-            <select name="items" onchange="this.form.submit()" form="filter">
-                <option value="10"<?php if (!empty($_GET["items"]) && $_GET["items"] == 10) echo "selected"; ?>>10</option>
-                <option value="20"<?php if (!empty($_GET["items"]) && $_GET["items"] == 20) echo "selected"; ?>>20</option>
-                <option value="25"<?php if (!empty($_GET["items"]) && $_GET["items"] == 25) echo "selected"; ?>>25</option>
-                <option value="50"<?php if (!empty($_GET["items"]) && $_GET["items"] == 50) echo "selected"; ?>>50</option>
+            <select name="perpage" onchange="this.form.submit()" form="filter">
+                <option value="10"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 10) echo "selected"; ?>>10</option>
+                <option value="20"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 20){echo "selected";}elseif(empty ($_GET["perpage"])) {echo 'selected';}?>>20</option>
+                <option value="25"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 25) echo "selected"; ?>>25</option>
+                <option value="50"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 50) echo "selected"; ?>>50</option>
             </select>
             <?php
             while ($row) {
@@ -166,11 +173,24 @@ and open the template in the editor.
         ?>
         <input type="submit" name="action" value="vorige pagina" form="filter">
         <select name="pages" onchange="this.form.submit()" form="filter">
-            <option value="1"<?php if (!empty($_GET["pages"]) && $_GET["pages"] == 1) echo "selected"; ?>>1</option>
-            <option value="2"<?php if (!empty($_GET["pages"]) && $_GET["pages"] == 2) echo "selected"; ?>>2</option>
-            <option value="3"<?php if (!empty($_GET["pages"]) && $_GET["pages"] == 3) echo "selected"; ?>>3</option>
-            <option value="4"<?php if (!empty($_GET["pages"]) && $_GET["pages"] == 4) echo "selected"; ?>>4</option>
+            <?php
+
+            for($i = 0; $i < $amount; $i++){
+                if($_GET["ref"] == $_GET["pages"]){
+                    print ("<option value = '".$i."' selected >".$i."</option>");
+                }else{
+                    print ("<option value = '".$i."'>".$i."</option>");
+                }
+            }
+            ?>
         </select>
+        <?php 
+        if(!empty($_GET["pages"])){
+            print ("<input type = 'hidden' name = 'ref' value = '".$_GET["pages"]."' form = 'filter'>");
+        }else if(empty ($_GET["pages"])){
+            print ("<input type='hidden' name='ref' value='1' form = 'filter'>");
+        }
+        ?>
         <input type="submit" name="action" value="volgende Pagina" form="filter">
     </div>
 </body>

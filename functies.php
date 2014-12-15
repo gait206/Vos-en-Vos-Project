@@ -230,8 +230,8 @@ function amount_per_page($result, $perpage) {
     return $amount;
 }
 
-function limit_query_generate($pages, $query, $perpage) {
-    $query .= "LIMIT " . $pages . "," . $perpage;
+function limit_query_generate($page, $query, $perpage) {
+    $query .= "LIMIT " . $page . "," . $perpage;
     return $query;
 }
 
