@@ -132,6 +132,7 @@ div.menu{
     border-radius: 5px;
     overflow: hidden;
     float:inside;
+    margin-right:4px;
     //border: 1px solid black;
 
 }
