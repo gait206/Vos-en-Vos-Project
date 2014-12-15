@@ -400,9 +400,9 @@ function deleteToken($verwijderen, $link) {
     if (isset($_SESSION["token"])) {
         if ($verwijderen || (time() - $_SESSION["created"] > 1800)) {
             // getEmail is het probleem
-            $email = getEmail($link);
-            $stmt = mysqli_prepare($link, 'DELETE FROM token WHERE email = ?;');
-            mysqli_stmt_bind_param($stmt, 's', $email);
+            $klantnr = getKlantnr($link);
+            $stmt = mysqli_prepare($link, 'DELETE FROM token WHERE klantnr = ?;');
+            mysqli_stmt_bind_param($stmt, 'i', $klantnr);
             mysqli_execute($stmt);
             unset($_SESSION);
             session_destroy();
@@ -416,7 +416,7 @@ function restrictedPage($level, $link) {
             if (mysqli_connect_error($link)) {
                 return "Error: " . mysqli_connect_error($link);
             } else {
-                updateToken(getKlantnr($link), $link);
+                updateToken($link);
                 return true;
             }
         } else {
