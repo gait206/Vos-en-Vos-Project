@@ -1,3 +1,15 @@
+<head>
+<script type='text/javascript' src='http://code.jquery.com/jquery-2.1.0.min.js'></script>
+<script type='text/javascript'>
+$(document).ready(function(){
+	$(".button2").hover(function() {
+		$(this).attr("src","/plaatjes/winkelmandje-menu-thispage.png");
+			}, function() {
+		$(this).attr("src","/plaatjes/winkelmandje-menu.png");
+	});
+});
+</script>
+</head>
 <?php
 //define('THIS_PAGE', 'pagename');
  
@@ -6,7 +18,8 @@ $menuitem2 = '<a href="/papier.php">Papier</a>';
 $menuitem3 = '<a href="/dispencers.php">Dispencers</a>';
 $menuitem4 = '<a href="/reinigingsmiddelen.php">Reinigingsmiddelen</a>';
 $menuitem5 = '<a href="/schoonmaakmateriaal.php">Schoonmaakmateriaal</a>';
-$menuitem6 = '<a href="/winkelwagen.php" align="right">( '.countItems(getCookie("winkelmandje")).' ) <img height="20" src="/plaatjes/winkelmandje-menu.png"></a>';
+$menuitem6 = '<a href="/winkelwagen.php" align="right">( '.countItems(getCookie("winkelmandje")).' ) 
+<img height="20px" src="/plaatjes/winkelmandje-menu.png" class="button2"></a>';
 $menuitem7 = '<a href="/administratie/productbeheer.php">Admin</a>';
 $menuitem8 = '<a href="./mijnaccount/mijnaccount.php">Mijn account</a>';
  
@@ -44,7 +57,7 @@ break;
 case 'winkelwagen':
  $menuitem6 =  '<a style="//border: 1px solid #9A9CC5; margin-top:8px;
     color: #3CF;
-    //background-color: #9A9CC5; cursor: default" href="#nogo">( '.countItems(getCookie("winkelmandje")).' ) <img height="20px" src="/plaatjes/winkelmandje-menu.png"></a>';
+    //background-color: #9A9CC5; cursor: default" href="#nogo">( '.countItems(getCookie("winkelmandje")).' ) <img height="20px" src="/plaatjes/winkelmandje-menu-thispage.png"></a>';
 default:
 break;
 }
