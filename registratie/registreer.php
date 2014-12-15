@@ -151,15 +151,16 @@ $link = connectDB();
                             }
                             
                             // Foutcontrole bij inloggegevens
-                            if (!validate_email($_POST['email'])){
-                                $error_email = "<img width=15 height=15 src=\"fout.png\"> Geen geldig emailadres ingevoerd<br>";
-                            } elseif (CheckEmailExists($_POST['email'], $link)) { 
-                                $error_email = "<img width=15 height=15 src=\"fout.png\"> Deze email bestaat al<br>";
-                            } elseif (empty($_POST['email'])){
+                            if (empty($_POST['email'])){
                                 $error_email = "<img width=15 height=15 src=\"fout.png\"> Er is geen email ingevoerd<br>";
+                            } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
+                                $error_email = "<img width=15 height=15 src=\"fout.png\"> Geen geldig emailadres ingevoerd<br>";
+                            } elseif (!CheckEmailExists($_POST['email'], $link)) { 
+                                $error_email = "<img width=15 height=15 src=\"fout.png\"> Deze email bestaat al<br>";
                             } else {
                                 $error_email = '';
                             }
+                            
                             if ($_POST['wachtwoord'] != $_POST['wachtwoord2']) {
                                 $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> De wachtwoorden komen niet overeen<br>";
                             } elseif (strlen($_POST['wachtwoord']) < 6){
