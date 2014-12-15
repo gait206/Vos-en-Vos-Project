@@ -3,9 +3,9 @@
 <script type='text/javascript'>
 $(document).ready(function(){
 	$(".button2").hover(function() {
-		$(this).children('img').attr("src","/plaatjes/winkelmandje-menu-thispage.png");
+		$(this).attr("src","/plaatjes/winkelmandje-menu-thispage.png");
 			}, function() {
-		$(this).children('img').attr("src","/plaatjes/winkelmandje-menu.png");
+		$(this).attr("src","/plaatjes/winkelmandje-menu.png");
 	});
 });
 </script>
@@ -31,6 +31,7 @@ $menuitem5 = '<a href="/schoonmaakmateriaal.php">Schoonmaakmateriaal</a>';
 $menuitem6 = '<a href="/winkelwagen.php" class="button2">( '.countItems(getCookie("winkelmandje")).' ) 
 <img height="20px" src="/plaatjes/winkelmandje-menu.png"></a>';
 $menuitem6 = '<a href="/winkelwagen.php" align="right">( ' . countItems(getCookie("winkelmandje")) . ' ) 
+$menuitem6 = '<a href="/winkelwagen.php" align="right">( '.countItems(getCookie("winkelmandje")).' ) 
 <img height="20px" src="/plaatjes/winkelmandje-menu.png" class="button2"></a>';
 $menuitem7 = '<a href="/administratie/productbeheer.php">Admin</a>';
 $menuitem8 = '<a href="./mijnaccount/mijnaccount.php">Mijn account</a>';
