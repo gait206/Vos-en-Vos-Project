@@ -57,7 +57,6 @@ if (validToken($link) != true) {
         }
     }
     $klantnr = getKlantnr($link);
-	print(userLevel($klantnr, $link). validToken($link));
     $result = mysqli_query($link, 'SELECT voornaam, achternaam FROM klant WHERE klantnr = "'.$klantnr.'" ');
     $row = mysqli_fetch_assoc($result);
     print('<p>Welkom, ' . $row["voornaam"] . ' ' . $row["achternaam"] . '</p>');
