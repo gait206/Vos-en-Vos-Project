@@ -38,6 +38,8 @@ $link = connectDB();
                 <div class="body">
                     <?php
                     print('<div class="header_administratie">Mijn account</div>');
+                    print('<div class="header_administratie">Mijn gegevens</div>');
+                    
                     ?>
    
                 </div>
