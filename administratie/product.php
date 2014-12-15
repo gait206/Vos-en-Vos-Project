@@ -8,6 +8,7 @@ $link = connectDB();
         <meta charset="UTF-8">
         <title></title>
         <link rel="stylesheet" type="text/css" href="../css/main.css">
+		<link rel="stylesheet" type="text/css" href="../css/admin.css">
         <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
     </head>
     <body>
@@ -24,25 +25,15 @@ $link = connectDB();
 					?>
                 </div>
             </div>
-
-
-                <?php
-                define('THIS_PAGE', 'product');
-                include '../menu.php';
-                ?>
             <?php
-            define('THIS_PAGE', 'Product');
-			include('../menu.php');
-			?>
-
-            <div class="content">
-
-                <div class="navigator">
-                    <div class="zoekbalk">
+            define('THIS_PAGE', 'product');
+            include '../menu.php';
+            ?>
+          
 
 
             <div class="content">
-                </div>
+               
 
                 <div class="body" id="main_content">
                 
@@ -54,11 +45,11 @@ $link = connectDB();
                             print(mysqli_connect_error($link));
                         }
                         //product gegevens ophalen
-                        $stmt = mysqli_prepare($link, 'SELECT * FROM product where productnr = ?');
+                        $stmt = mysqli_prepare($link, 'SELECT productnr, productnaam,merk,categorie,omschrijving,afbeelding,prijs,voorraad FROM product where productnr = ?');
                         mysqli_stmt_bind_param($stmt, "i", $productnr);
                         mysqli_execute($stmt);
 
-                        mysqli_stmt_bind_result($stmt, $productid, $productnr, $productnaam, $merk, $categorie, $omschrijving, $afbeelding, $prijs, $voorraad);
+                        mysqli_stmt_bind_result($stmt, $productnr, $productnaam, $merk, $categorie, $omschrijving, $afbeelding, $prijs, $voorraad);
                         mysqli_stmt_fetch($stmt);
                        
                      

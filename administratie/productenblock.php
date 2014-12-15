@@ -128,8 +128,9 @@ and open the template in the editor.
 				  }
 				  print("</td></tr>
 				  <tr>
-              <td colspan=2 class=\"productnaamblock\">" . $row['productnaam'] . "
-			  </td>
+              <td colspan=2 class=\"productnaamblock\">". '<a href="#" onclick="document.product.submit()">' . $row['productnaam'] . "	</a>"
+			  .'<form name="product" method="GET" action="administratie/product.php" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
+			  ."</td>
 			  </tr><tr>
 			  <td colspan=2\">
               <div class=\"omschrijvingblock\">" . $row['omschrijving'] . "</div>

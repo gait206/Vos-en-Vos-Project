@@ -142,9 +142,10 @@ and open the template in the editor.
                     print("<img src= " . $row['afbeelding'] . " ");
                 }
                 print("</td>
-              <td class=\"productnaam\">" . $row['productnaam'] . "
-              <div class=\"omschrijving\">" . $row['omschrijving'] . "</div></td>
-			  <td class=\"winkelm\">"
+				<td class=\"productnaam\">". '<a href="#" onclick="document.product.submit()">' . $row['productnaam'] . "	</a>"
+				.'<form name="product" method="GET" action="administratie/product.php" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
+				." <div class=\"omschrijving\">" . $row['omschrijving'] . "</div></td>
+				<td class=\"winkelm\">"
                         . '<form action="winkelwagen.php" method="POST" >'
                         . '<input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
                         . '<input type="hidden" name="actie" value="toevoegen">'
