@@ -30,20 +30,19 @@ $link = connectDB();
 			define('THIS_PAGE', 'Home');
 			include('../menu.php');
 			?>
-            <div class="navigator">
-                <?php
-                print('<div class="header_administratie">Mijn account</div>');
-                ?>
-            </div>
-            
+
             <div class="content">
+
+                
+
                 <div class="body">
                     <?php
                     print('<div class="header_administratie">Mijn account</div>');
-                    
                     ?>
    
                 </div>
+
+                
             </div>
 
             <div class="footer">

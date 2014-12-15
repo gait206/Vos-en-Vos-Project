@@ -24,6 +24,7 @@ img.logo{
 }
 .container{
     border-radius: 10px;
+
     width: 1270px;
     margin-top: 1%;
     margin-left: auto ;
@@ -136,14 +137,12 @@ li {}
 
 }
 .navigator{
-    border: 1px solid #344D8E;
     border-radius: 5px;
-    height: auto;
-    min-height: 20%;
-    width: calc(15% - 2px);
-    margin-left: 1%;
-    margin-top: calc(1% - 2px);
+    width: calc(18% - 2px);
     float: left;
+    margin: 1% ;
+	margin-right: 2%;
+	margin-top: 2%;
 }
 .zoekbalk{
     border-radius: 5px;
