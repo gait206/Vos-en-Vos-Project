@@ -1,15 +1,15 @@
 <?php
 session_start();
 include('../functies.php');
+$link = connectDB();
 ?>
 <html>
     <head>
         <meta charset="UTF-8">
         <title></title>
         <link rel="stylesheet" type="text/css" href="../css/main.css">
-        <link rel="stylesheet" type="text/css" href="../css/registreren.css">
+        <link rel="stylesheet" type="text/css" href="../css/admin.css">
         <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
         <div class="container">
@@ -33,41 +33,20 @@ include('../functies.php');
 
             <div class="content">
 
-                <div class="navigator">
-                    <div class="zoekbalk">
+                
 
-                        <input class="zoekinput" type="text" value="Zoek">
-                        <input class="zoeksubmit" type="submit" value="Zoek">
-
-                    </div>
-
-                    <div class="navigatie">
-                        
-                    </div>
-                </div>
-
-                <div class="body" id="main_content">
+                <div class="body">
                     <?php
-                    $link = connectDB();
-                    if (mysqli_connect_error($link)) {
-                        print(mysqli_connect_error($link));
-                    }
-                    // Mijn gegevens
-                                           
-                    print('<div class="header_administratie">Mijn gegevens</div>');
-                    
-                   
+                    print('<div class="header_administratie">Mijn account</div>');
                     ?>
    
                 </div>
 
-                <div class="banner">
-
-                </div>
+                
             </div>
 
             <div class="footer">
-            <?php
+			<?php
 			include "../footer.php";
 			?>
             </div>
@@ -87,6 +66,6 @@ include('../functies.php');
         </script>
     </body>
 </html>
-
-
-
+<?php
+mysqli_close($link);
+?>

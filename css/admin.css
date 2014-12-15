@@ -41,6 +41,7 @@ form.table_administratie{
 }
 .header_administratie{
     background-color: #344D8E;
+    padding-left: 5px;
     width: auto;
     font-size: 18px;
     font-weight:bold;
