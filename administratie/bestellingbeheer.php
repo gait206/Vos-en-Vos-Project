@@ -78,7 +78,11 @@ $link = connectDB();
                         $waarde = "Bijwerken";
                         print('<table><form id="toevoegen" method="POST" action="">'
                                 . '<tr><td>Bezorgdatum:</td><td><input type="date" min="' . date("Y-m-d", time()) . '" name="bezorgdatum" value="' . $bezorgdatum . '"></td></tr>'
-                                . '<tr><td>Status:</td><td><input type="text" name="status" value="' . $status . '"></td></tr>'
+                                . '<tr><td>Status:</td><td>'
+                                . '<select name="status"><option value="In behandeling">In behandeling</option>'
+                                . '<option value="Verzonden">Verzonden</option>'
+                                . '<option value="Geannuleerd">Geannuleerd</option>'
+                                . '<option value="Afgehandeld">Afgehandeld</option></select></td></tr>'
                                 . '<input type="hidden" name="bestelnr" value="' . $bestelnr . '">'
                                 . '</form></table>'
                                 . '<input form="toevoegen" type="submit" name="actie" class="button" value="' . $waarde . '">'
