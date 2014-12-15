@@ -98,7 +98,7 @@ $link = connectDB();
                     while ($row) {
                         $result2 = mysqli_query($link, 'SELECT SUM(aantal) hoeveelheid FROM bestelregel WHERE bestelnr = "' . $row["bestelnr"] . '" GROUP BY aantal;');
                         $row2 = mysqli_fetch_assoc($result2);
-                        print('<tr><td><a href="../mijnaccount/bestelling.php?' . $row["bestelnr"] . '">' . $row["bestelnr"] . '</a></td>'
+                        print('<tr><td>' . $row["bestelnr"] . '</td>'
                                 . '<td>' . $row["klantnr"] . '</td>'
                                 . '<td>' . $row["status"] . '</td>'
                                 . '<td>' . $row["besteldatum"] . '</td>'
@@ -107,7 +107,7 @@ $link = connectDB();
                                 . '<td>' . $row2["hoeveelheid"] . '</td>'
                                 . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $row["bestelnr"] . '"><input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td>'
                                 . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $row["bestelnr"] . '"><input type="submit" name="actie" value="Aanpassen">	</form></td>'
-                                . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $row["bestelnr"] . '"><input type="submit" name="actie" value="bekijken"></form></td></tr>');
+                                . '<td><form action="bestelling.php?'.$row["bestelnr"].'" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $row["bestelnr"] . '"><input type="submit" name="actie" value="Bekijken"></form></td></tr>');
                         $row = mysqli_fetch_assoc($result);
                     }
                     print("</table>");
