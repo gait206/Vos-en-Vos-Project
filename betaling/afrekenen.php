@@ -192,10 +192,7 @@ $link = connectDB();
 	// ... maatwerk ...
         
         // bezorgdatum tijdelijk toegevoegd als time() om te testen
-        $email = getEmail($link);
-        $result = mysqli_query($link, 'SELECT klantnr FROM klant WHERE email = "'.$email.'";');
-        $row = mysqli_fetch_assoc($result);
-        $klantnr = $row["klantnr"];
+        $klantnr = getKlantnr($link);
         // voegt de datum toe aan de database in YYYY-MM-DD formaat
         $besteldatum = date('Y-m-d', time());
         // tijdelijke waarde
@@ -205,9 +202,9 @@ $link = connectDB();
         mysqli_query($link, 'INSERT INTO bestelling(besteldatum,bezorgdatum,status,klantnr,transactieref) VALUES("'.$besteldatum.'","'.$bezorgdatum.'","'.$status.'","'.$klantnr.'","'.$transactieref.'");');
 
         
-        $result2 = mysqli_query($link, 'SELECT bestelnr FROM bestelling WHERE transactieref = "'.$transactieref.'";');
-        $row2 = mysqli_fetch_assoc($result2);
-        $bestelnr = $row2["bestelnr"];
+        $result = mysqli_query($link, 'SELECT bestelnr FROM bestelling WHERE transactieref = "'.$transactieref.'";');
+        $row = mysqli_fetch_assoc($result);
+        $bestelnr = $row["bestelnr"];
         $cookie = getCookie("winkelmandje");
         
         foreach($cookie as $key => $value) {

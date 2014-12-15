@@ -34,8 +34,8 @@ if (!existCookie($cookiename)) {
                                 header('Location: verzenden.php');
                             }
                         }
-                        $email = getEmail($link);
-                        $result = mysqli_query($link, 'SELECT voornaam, achternaam FROM klant WHERE email = "' . $email . '";');
+                        $klantnr = getKlantnr($link);
+                        $result = mysqli_query($link, 'SELECT voornaam, achternaam FROM klant WHERE klantnr = "' . $klantnr . '";');
                         $row = mysqli_fetch_assoc($result);
                         print('<p>Welkom ' . $row["voornaam"] . ' ' . $row["achternaam"] . '</p>');
                         print('<div><form class="logout_button" method="POST" action=""><input type="submit" name="actie" value="Uitloggen"></form></div>');
@@ -78,7 +78,10 @@ if (!existCookie($cookiename)) {
                                             session_regenerate_id();
                                             $_SESSION['initiated'] = true;
                                         }
-                                        createToken($email, $link);
+                                        $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "'.$email.'";');
+					$row = mysqli_fetch_assoc($result);
+					$klantnr = $row["klantnr"];
+                                        createToken($klantnr, $link);
                                         header('Location: verzenden.php');
                                     } else {
                                         print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
@@ -132,7 +135,7 @@ if (!existCookie($cookiename)) {
                         
                         print('<form method="POST" action="" id="afleveradres"><div class="kolom1"><table><tr><td><input type="radio" name="verzendadres" value="adres">Bedrijfs afleveradres</td></tr>');
 
-                        $result = mysqli_query($link, 'SELECT adres, plaats, postcode FROM klant WHERE email ="' . getEmail($link) . '";');
+                        $result = mysqli_query($link, 'SELECT adres, plaats, postcode FROM klant WHERE klantnr ="' . getKlantnr($link) . '";');
                         $row = mysqli_fetch_assoc($result);
 
                         print('<tr><td>Plaats: </td><td>' . $row["plaats"] . '</td></tr><tr><td>Adres: </td><td>' . $row["adres"] . '</td></tr><tr><td>Postcode: </td><td>' . $row["postcode"] . '</td></tr></table></div>');
