@@ -43,8 +43,8 @@ form.table_administratie{
     background-color: #344D8E;
     padding-left: 5px;
     width: auto;
-    font-size: 18px;
-    font-weight:bold;
+    font-size: 16px;
+//    font-weight:bold;
     color:#fff;
 }
 .table_administratie_button {
