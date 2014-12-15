@@ -95,7 +95,7 @@ $link = connectDB();
                             
                             if (empty($_POST['telnummer'])){
                                 $error_telnummer = "<img width=15 height=15 src=\"fout.png\"> Er is geen telefoonnummer ingevoerd<br>";   
-                            } elseif (preg_match("/^[0-9]+$/", $_POST['telnummer'])){
+                            } elseif (!preg_match("/^[0-9]+$/", $_POST['telnummer'])){
                                     $error_telnummer = "<img width=15 height=15 src=\"fout.png\"> Het telefoonnummer mag alleen getallen bevatten<br>";
                             } else {
                                 $error_telnummer = '';
@@ -128,7 +128,7 @@ $link = connectDB();
                             
                             if (empty($_POST['plaats'])){
                                 $error_plaats = "<img width=15 height=15 src=\"fout.png\"> Er is geen plaats ingevoerd<br>";
-                            } elseif (!preg_match("/^[A-z]+$/", $_POST['plaats'])){
+                            } elseif (!preg_match("/^- [A-z]+$/", $_POST['plaats'])){
                                 $error_plaats = "<img width=15 height=15 src=\"fout.png\"> Geen geldige invoer bij plaats<br>";
                             } else {
                                 $error_plaats = '';

@@ -545,8 +545,7 @@ function PostcodeCheck($postcode)
 function CheckEmailExists($emailexists, $link){
 
 $query = mysqli_query($link, "SELECT email FROM gebruiker WHERE email = '".$emailexists."'"); 
-$result = mysqli_fetch_assoc($query);
-$rows = mysqli_num_rows($result);
+$rows = mysqli_num_rows($query);
  
 if($rows == 0) {
         return true;
