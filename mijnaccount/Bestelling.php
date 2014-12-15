@@ -35,36 +35,25 @@ $link = connectDB();
             <div class="content" id="main_content">
                 <!--kijken of de login klopt-->
                 <script>
-                    function checkDelete() {
-                        return confirm("Weet u zeker dat u deze besteling wilt annuleren?");
-                    }
+
                 </script>
                 <?php
                 if (!validToken($link)) {
-                    header('Location: ../index.php');
+                    header('Location: ../index.php');   
                 }
                 $Klantnr = getKlantnr($link);
-                if (!empty($_POST["actie"])) {
-                    $actie = $_POST["actie"];
-                    if ($actie == "Bestelling annuleren") {
-                        $bestelnummer = $_POST["bestelnr"];
-                        mysqli_query($link, 'UPDATE Bestelling SET status = "Geannuleerd", bezorgdatum = NULL WHERE bestelnr = "' . $bestelnummer . '";');
-                    }
-                }
+                $bestelnr = $_GET["bestelnr"];
 
                 $Klantnr = getKlantnr($link);
-                $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '$Klantnr' AND status ='In behandeling'");
+                $result = mysqli_query($link, "SELECT bestelnr, productnr, aantal FROM bestelregel WHERE bestelnr='$bestelnr'");
                 $bestelling = mysqli_fetch_assoc($result);
-                
-                print("<table class='tablebestellingen'><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th>");
+
+                print("<table><th>Bestelnummer</th><th>Productnummer</th><th>Aantal</th>");
                 while ($bestelling) {
                     print("<tr>"
-                            . "<td class='TDbestellingen'><a href='bestelling.php?bestelnr=" . $bestelling["bestelnr"] . "' class='bestelnummer'>" . $bestelling["bestelnr"] . "</a></td>"
-                            . "<td class='TDbestellingen'>" . $bestelling["opmerking"] . "</td>"
-                            . "<td class='TDbestellingen'>" . $bestelling["besteldatum"] . "</td>"
-                            . "<td class='TDbestellingen'>" . $bestelling["bezorgdatum"] . "</td>"
-                            . "<td class='TDbestellingen'>" . $bestelling["status"] . "</td>"
-                            . '<td class="Tableannuleer"><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $bestelling["bestelnr"] . '"><input type="submit" name="actie" value="Bestelling annuleren" onClick="return checkDelete()"></form></td>'
+                            . "<td>" . $bestelling["bestelnr"] . "</td>"
+                            . "<td>" . $bestelling["productnr"] . "</td>"
+                            . "<td>" . $bestelling["aantal"] . "</td>"
                             . "</tr>");
                     $bestelling = mysqli_fetch_assoc($result);
                 }
@@ -72,7 +61,7 @@ $link = connectDB();
 
                 print("</table>");
                 ?>
-                <a href="Bestelgeschiedenis.php" class="bestelgeschiedenis">Bestelgeschiedenis</a>
+                <a href="mijnbestellingen.php" class="bestelgeschiedenis">Mijn bestellingen</a>
             </div>
 
             <div class="footer">
@@ -83,6 +72,3 @@ $link = connectDB();
         </div>
     </body>
 </html>
-<?php
-mysqli_close($link);
-?>

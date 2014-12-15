@@ -41,11 +41,11 @@ $link = connectDB();
                 if (!validToken($link)) {
                     header('Location: ../index.php');
                 }
-                $email = getEmail($link);
+                $Klantnr = getKlantnr($link);
 
 
-                $email = getEmail($link);
-                $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling AS B JOIN Klant AS K join gebruiker g ON K.klantnr = b.klantnr and g.userid = k.userid WHERE email = '$email' AND status != 'In behandeling'");
+                $Klantnr = getKlantnr($link);
+                $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '$Klantnr' AND status != 'In behandeling'");
                 $bestelling = mysqli_fetch_assoc($result);
 
                 print("<table><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th>");
