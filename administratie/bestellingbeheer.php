@@ -107,7 +107,7 @@ $link = connectDB();
                                 . '<td>' . $row2["hoeveelheid"] . '</td>'
                                 . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $row["bestelnr"] . '"><input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td>'
                                 . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $row["bestelnr"] . '"><input type="submit" name="actie" value="Aanpassen">	</form></td>'
-                                . '<td><form action="bestelling.php?'.$row["bestelnr"].'" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $row["bestelnr"] . '"><input type="submit" name="actie" value="Bekijken"></form></td></tr>');
+                                . '<td><form action="bestelling.php?bestelnr='.$row["bestelnr"].'" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $row["bestelnr"] . '"><input type="submit" name="actie" value="Bekijken"></form></td></tr>');
                         $row = mysqli_fetch_assoc($result);
                     }
                     print("</table>");

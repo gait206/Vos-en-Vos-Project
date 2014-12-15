@@ -25,8 +25,7 @@ if (!existCookie($cookiename)) {
                     <img class="logo" src="../plaatjes/logo.png">
                 </div>
                 <div class="login">
-                    <?php
-                    ?>
+
                 </div>
             </div>
 
@@ -64,8 +63,11 @@ if (!existCookie($cookiename)) {
                                             session_regenerate_id();
                                             $_SESSION['initiated'] = true;
                                         }
-                                        createToken($email, $link);
-                                        header('Location: http://localhost:8080/betaling/afrekenen.php');
+                                        $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "'.$email.'";');
+					$row = mysqli_fetch_assoc($result);
+					$klantnr = $row["klantnr"];
+                                        createToken($klantnr, $link);
+                                        header('Location: afrekenen.php');
                                     } else {
                                         print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
                                     }

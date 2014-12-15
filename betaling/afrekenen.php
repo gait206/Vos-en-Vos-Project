@@ -214,10 +214,6 @@ $link = connectDB();
            print(mysqli_stmt_error($stmt));
         }
 
-        deleteCookie("winkelmandje");
-
-
-
 	// Starten van de transactie opslaan in een log-bestand
 	$sLogData = 'TRANSACTION STARTED ON ' . date('d-m-Y, H:i:s') . "\r\n";
 	$sLogData .= 'TRANSACTION_REFERENCE: ' . $sTransactionReference . "\r\n";
