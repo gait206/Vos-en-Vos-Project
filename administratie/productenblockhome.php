@@ -141,7 +141,7 @@ and open the template in the editor.
 						. '<input type="hidden" name="actie" value="toevoegen">'
                         . '<a class="tooltip-right" data-tooltip="Bestel"><input type="image" name="image" value="toevoegen" style="height:40px;" src="./plaatjes/winkelmandje.jpg" alt="Submit Form"></a></form>'.'
 						</td>
-              <td class="prijsblock">&euro; ' . number_format($row['prijs'],2,",",".") . "
+              <td class="prijsblock"><a href="#">&euro; ' . number_format($row['prijs'],2,",",".") . "</a>
 			  <div class=\"prijskleinblock\">(&euro; ".prijsber($row['prijs'])." incl 21% BTW)</div>
 			  </td></tr>");
                     $row = mysqli_fetch_assoc($result);
