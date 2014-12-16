@@ -14,10 +14,10 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        if (isset($_GET["merk"])) {
-            $merk = $_GET["merk"];
+        if (isset($_GET["subcategorie"])) {
+            $subcategorie = $_GET["subcategorie"];
         } else {
-            $merk = array();
+            $subcategorie = array();
         }
         ?>
         <div class="navigator">
@@ -27,11 +27,11 @@ and open the template in the editor.
                 <form action="" method="get" id="select">
                     <input class="zoekinput" type="text" placeholder="Zoek" name="zoekbalk" <?php if(isset($_GET['zoekbalk'])){ print('value="'.$_GET['zoekbalk'].'"'); } ?>>
                     <input class="zoeksubmit" type="submit" value="Zoek" name="zoekknop"><br><br>
-                    <h4>Selecteer merk(en):</h4>
-                    <input type="checkbox"  name="merk[]"  value="Katrin" <?php if (in_array("Katrin", $merk)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Katrin<br>
-                    <input type="checkbox"  name="merk[]"  value="Blanco" <?php if (in_array("Blanco", $merk)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Blanco<br>
-                    <input type="checkbox"  name="merk[]"  value="Tana" <?php if (in_array("Tana", $merk)) echo "checked ='checked'"; ?>onclick="this.form.submit()";>Tana<br>
-                    <input type="checkbox"  name="merk[]"  value="Eurotissue" <?php if (in_array("Eurotissue", $merk)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Eurotissue<br><br>
+                    <h4>Selecteer subcategorie(en):</h4>
+                    <input type="checkbox"  name="subcategorie[]"  value="Katrin" <?php if (in_array("Katrin", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Katrin<br>
+                    <input type="checkbox"  name="subcategorie[]"  value="Blanco" <?php if (in_array("Blanco", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Blanco<br>
+                    <input type="checkbox"  name="subcategorie[]"  value="Tana" <?php if (in_array("Tana", $subcategorie)) echo "checked ='checked'"; ?>onclick="this.form.submit()";>Tana<br>
+                    <input type="checkbox"  name="subcategorie[]"  value="Eurotissue" <?php if (in_array("Eurotissue", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Eurotissue<br><br>
                     <h4>Selecteer prijscategorie:</h4>
                     <select name="prijs" form="select" onchange="this.form.submit()">
                         <option value=0 <?php if (isset($_GET['prijs']) && $_GET["prijs"] == 0) echo "selected"; ?>>Selecteer prijs </option>
@@ -47,8 +47,8 @@ and open the template in the editor.
                     <h4>Sorteer op:</h4>
                     <select name="sort" form="select" onchange="this.form.submit()">
                         <option value=0 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 0) echo "selected"; ?>>Niet gesorteerd</option>
-                        <option value=1 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 1) echo "selected"; ?>>merk (oplopend)</option>
-                        <option value=2 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 2) echo "selected"; ?>>merk (aflopend)</option>
+                        <option value=1 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 1) echo "selected"; ?>>subcategorie (oplopend)</option>
+                        <option value=2 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 2) echo "selected"; ?>>subcategorie (aflopend)</option>
                         <option value=3 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 3) echo "selected"; ?>>prijs (oplopend)</option>
                         <option value=4 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 4) echo "selected"; ?>>prijs (aflopend)</option>
                     </select>
@@ -59,7 +59,7 @@ and open the template in the editor.
                 switch (THIS_PAGE) {
                     case 'Papier' : $switch = 0;
                         break;
-                    case 'Dispencers' : $switch = 1;
+                    case 'Dispensers' : $switch = 1;
                         break;
                     case 'Reinigingsmiddelen' : $switch = 2;
                         break;
@@ -70,10 +70,10 @@ and open the template in the editor.
 
                 $query = base_query_generate($switch);
 
-                if (isset($_GET['merk']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop'])) {
+                if (isset($_GET['subcategorie']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop'])) {
 
-                    if (isset($_GET['merk'])) {
-                        $checkbox = $_GET['merk'];
+                    if (isset($_GET['subcategorie'])) {
+                        $checkbox = $_GET['subcategorie'];
                     } else {
                         $checkbox = array();
                     }
@@ -96,10 +96,10 @@ and open the template in the editor.
             <?php
 // Create connection
             $conn = connectDB();
-            if (!(isset($_GET['merk']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop']))) {
+            if (!(isset($_GET['subcategorie']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop']))) {
                 if ($query == "") {
 
-                    $query = "SELECT afbeelding, productnr, productnaam, omschrijving, merk, prijs FROM product";
+                    $query = "SELECT afbeelding, productnr, productnaam, omschrijving, subcategorie, prijs FROM product";
                 }
             }
             $result = mysqli_query($conn, $query);
@@ -133,7 +133,7 @@ and open the template in the editor.
                 }
                 ?>
             </p>
-            <select name="perpage" onchange="this.form.submit()" form="filter">
+            <select name="perpage" onchange="this.form.submit()" form="select">
                 <option value="10"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 10) echo "selected"; ?>>10</option>
                 <option value="20"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 20){echo "selected";}elseif(empty ($_GET["perpage"])) {echo 'selected';}?>>20</option>
                 <option value="25"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 25) echo "selected"; ?>>25</option>
@@ -171,27 +171,27 @@ and open the template in the editor.
             print("<p class=\"geenres\">Geen resultaten gevonden</p>");
         }
         ?>
-        <input type="submit" name="action" value="vorige pagina" form="filter">
-        <select name="pages" onchange="this.form.submit()" form="filter">
+        <input type="submit" name="action" value="vorige pagina" form="select">
+        <select name="pages" onchange="this.form.submit()" form="select">
             <?php
 
             for($i = 0; $i < $amount; $i++){
                 if($_GET["ref"] == $_GET["pages"]){
-                    print ("<option value = '".$i."' selected >".$i."</option>");
+                    print ("<option value = '".$perpage*$i."' selected >".$i++."</option>");
                 }else{
-                    print ("<option value = '".$i."'>".$i."</option>");
+                    print ("<option value = '".$perpage*$i."'>".$i++."</option>");
                 }
             }
             ?>
         </select>
         <?php 
         if(!empty($_GET["pages"])){
-            print ("<input type = 'hidden' name = 'ref' value = '".$_GET["pages"]."' form = 'filter'>");
+            print ("<input type = 'hidden' name = 'ref' value = '".$_GET["pages"]."' form = 'select'>");
         }else if(empty ($_GET["pages"])){
-            print ("<input type='hidden' name='ref' value='1' form = 'filter'>");
+            print ("<input type='hidden' name='ref' value='0' form = 'select'>");
         }
         ?>
-        <input type="submit" name="action" value="volgende Pagina" form="filter">
+        <input type="submit" name="action" value="volgende Pagina" form="select">
     </div>
 </body>
 </html>

@@ -13,24 +13,24 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        if (isset($_GET["merk"])) {
-            $merk = $_GET["merk"];
+        if (isset($_GET["subcategorie"])) {
+            $subcategorie = $_GET["subcategorie"];
         } else {
-            $merk = array();
+            $subcategorie = array();
         }
         ?>
         <div class="navigator">
 
 
             <div class="navigatie">
-                <form action="index.php" method="get" id="select">
+                <form action="" method="get" id="select">
                     <input class="zoekinput" type="text" placeholder="Zoek" name="zoekbalk" <?php if(isset($_GET['zoekbalk'])){ print('value="'.$_GET['zoekbalk'].'"'); } ?>>
                     <input class="zoeksubmit" type="submit" value="Zoek" name="zoekknop"><br><br>
-                    <h4>Selecteer merk(en):</h4>
-                    <input type="checkbox"  name="merk[]"  value="Katrin" <?php if (in_array("Katrin", $merk)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Katrin<br>
-                    <input type="checkbox"  name="merk[]"  value="Blanco" <?php if (in_array("Blanco", $merk)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Blanco<br>
-                    <input type="checkbox"  name="merk[]"  value="Tana" <?php if (in_array("Tana", $merk)) echo "checked ='checked'"; ?>onclick="this.form.submit()";>Tana<br>
-                    <input type="checkbox"  name="merk[]"  value="Eurotissue" <?php if (in_array("Eurotissue", $merk)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Eurotissue<br><br>
+                    <h4>Selecteer subcategorie:</h4>
+                    <input type="checkbox"  name="subcategorie[]"  value="Katrin" <?php if (in_array("Katrin", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Katrin<br>
+                    <input type="checkbox"  name="subcategorie[]"  value="Blanco" <?php if (in_array("Blanco", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Blanco<br>
+                    <input type="checkbox"  name="subcategorie[]"  value="Tana" <?php if (in_array("Tana", $subcategorie)) echo "checked ='checked'"; ?>onclick="this.form.submit()";>Tana<br>
+                    <input type="checkbox"  name="subcategorie[]"  value="Eurotissue" <?php if (in_array("Eurotissue", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Eurotissue<br><br>
                     <h4>Selecteer prijscategorie:</h4>
                     <select name="prijs" form="select" onchange="this.form.submit()">
                         <option value=0 <?php if (isset($_GET['prijs']) && $_GET["prijs"] == 0) echo "selected"; ?>>Selecteer prijs </option>
@@ -46,10 +46,13 @@ and open the template in the editor.
                     <h4>Sorteer op:</h4>
                     <select name="sort" form="select" onchange="this.form.submit()">
                         <option value=0 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 0) echo "selected"; ?>>Niet gesorteerd</option>
-                        <option value=1 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 1) echo "selected"; ?>>merk (oplopend)</option>
-                        <option value=2 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 2) echo "selected"; ?>>merk (aflopend)</option>
+                        <option value=1 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 1) echo "selected"; ?>>subcategorie (oplopend)</option>
+                        <option value=2 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 2) echo "selected"; ?>>subcategorie (aflopend)</option>
                         <option value=3 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 3) echo "selected"; ?>>prijs (oplopend)</option>
                         <option value=4 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 4) echo "selected"; ?>>prijs (aflopend)</option>
+                        <option value=5 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 5) echo "selected"; ?>>categorie (oplopend)</option>
+                        <option value=6 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 6) echo "selected"; ?>>categorie (aflopend)</option>
+                    </select>
                     </select>
                 </form>
 
@@ -58,7 +61,7 @@ and open the template in the editor.
 				switch (THIS_PAGE){
                     case 'Papier'               : $switch = 0;
                         break;
-                    case 'Dispencers'           : $switch = 1;
+                    case 'Dispensers'           : $switch = 1;
                         break;
                     case 'Reinigingsmiddelen'   : $switch = 2;
                         break;
@@ -68,10 +71,10 @@ and open the template in the editor.
                 }
 				
                 $query = "";
-                if (isset($_GET['merk']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop'])) {
+                if (isset($_GET['subcategorie']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop'])) {
 	
-                    if (isset($_GET['merk'])) {
-                        $checkbox = $_GET['merk'];
+                    if (isset($_GET['subcategorie'])) {
+                        $checkbox = $_GET['subcategorie'];
                     } else {
                         $checkbox = array();
                     }
@@ -94,10 +97,10 @@ and open the template in the editor.
             <?php
 // Create connection
             $conn = connectDB();
-            if (!(isset($_GET['merk']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop']))) {
+            if (!(isset($_GET['subcategorie']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop']))) {
                 if ($query == "") {
                     
-					$query = "SELECT afbeelding, productnr, productnaam, omschrijving, merk, prijs FROM product";
+					$query = "SELECT afbeelding, productnr, productnaam, omschrijving, subcategorie, prijs FROM product";
 
                 }
             }

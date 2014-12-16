@@ -138,13 +138,13 @@ function base_query_generate($switch) {
     switch ($switch) {
         case 0 : $query .= 'WHERE categorie = "papier" ';
             break;
-        case 1 : $query .= 'WHERE categorie = "dispencers" ';
+        case 1 : $query .= 'WHERE categorie = "dispensers" ';
             break;
         case 2 : $query .= 'WHERE categorie = "reinigingsmiddelen" ';
             break;
         case 3 : $query .= 'WHERE categorie = "schoonmaakmateriaal" ';
             break;
-        case 4 : $query .= 'WHERE categorie IN ("papier","dispencers","reinigingsmiddelen","schoonmaakmateriaal") ';
+        case 4 : $query .= 'WHERE categorie IN ("papier","dispensers","reinigingsmiddelen","schoonmaakmateriaal") ';
     }
     return $query;
 }
@@ -173,12 +173,12 @@ function filter_query_generate($query, $switch, array $checkbox) {
             break;
     }
     if ($count == 1) {
-        $query .= "AND merk = '" . $checkbox["0"] . "' ";
+        $query .= "AND subcategorie = '" . $checkbox["0"] . "' ";
     } else {
         $countarray = 1;
         foreach ($checkbox as $key => $value) {
             if ($countarray == 1) {
-                $query .= "AND merk IN('" . $checkbox[$key] . "',";
+                $query .= "AND subcategorie IN('" . $checkbox[$key] . "',";
             } else if ($countarray < $count) {
                 $query .= '"' . $checkbox[$key] . '",';
             } else {
@@ -213,6 +213,10 @@ function sort_query_generate($query, $switch) {
         case 3 : $query .= 'prijs ';
             break;
         case 4 : $query .= 'prijs DESC ';
+            break;
+		case 5 : $query .= 'categorie ';
+            break;
+        case 6 : $query .= 'categorie DESC ';
             break;
     }
     return($query);

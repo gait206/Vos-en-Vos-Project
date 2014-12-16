@@ -91,9 +91,14 @@ $link = connectDB();
                         
                     }
 
-                    
+
                     $result = mysqli_query($link, 'SELECT * FROM bestelling WHERE status != "Geannuleerd";');
+                    print(mysqli_error($link));
                     $row = mysqli_fetch_assoc($result);
+
+                    if (function_exists('date_default_timezone_set')) {
+                        date_default_timezone_set('Europe/Amsterdam');
+                    }
 
                     print('<table class="table_administratie"><tr><th>Bestelnr</th><th>Klantnr</th><th>Status</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Transactie Referentie</th><th>Aantal Artikelen</th><th>Verwijderen</th><th>Aanpassen</th><th>Bekijken</th></tr>');
                     while ($row) {
@@ -102,13 +107,13 @@ $link = connectDB();
                         print('<tr><td>' . $row["bestelnr"] . '</td>'
                                 . '<td>' . $row["klantnr"] . '</td>'
                                 . '<td>' . $row["status"] . '</td>'
-                                . '<td>' . $row["besteldatum"] . '</td>'
-                                . '<td>' . $row["bezorgdatum"] . '</td>'
+                                . '<td>' . date("d-m-Y", strtotime($row["besteldatum"])) . '</td>'
+                                . '<td>' . date("d-m-Y", strtotime($row["bezorgdatum"])) . '</td>'
                                 . '<td>' . $row["transactieref"] . '</td>'
                                 . '<td>' . $row2["hoeveelheid"] . '</td>'
                                 . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $row["bestelnr"] . '"><input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td>'
                                 . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $row["bestelnr"] . '"><input type="submit" name="actie" value="Aanpassen">	</form></td>'
-                                . '<td><form action="bestelling.php?bestelnr='.$row["bestelnr"].'" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $row["bestelnr"] . '"><input type="submit" name="actie" value="Bekijken"></form></td></tr>');
+                                . '<td><form action="bestelling.php?bestelnr=' . $row["bestelnr"] . '" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $row["bestelnr"] . '"><input type="submit" name="actie" value="Bekijken"></form></td></tr>');
                         $row = mysqli_fetch_assoc($result);
                     }
                     print("</table>");

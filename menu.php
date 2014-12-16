@@ -15,7 +15,7 @@ $(document).ready(function(){
  
 $menuitem1 = '<a href="/index.php">Home</a>';
 $menuitem2 = '<a href="/papier.php">Papier</a>';
-$menuitem3 = '<a href="/dispencers.php">Dispencers</a>';
+$menuitem3 = '<a href="/dispensers.php">Dispensers</a>';
 $menuitem4 = '<a href="/reinigingsmiddelen.php">Reinigingsmiddelen</a>';
 $menuitem5 = '<a href="/schoonmaakmateriaal.php">Schoonmaakmateriaal</a>';
 $menuitem6 = '<a href="/winkelwagen.php" class="button2">( '.countItems(getCookie("winkelmandje")).' ) 
@@ -37,10 +37,10 @@ $menuitem2 = '<a style="//border: 1px solid #9A9CC5; margin-top:8px;
     //background-color: #9A9CC5; cursor: default;" href="#nogo">Papier</a>';
 break;
  
-case 'Dispencers':
+case 'Dispensers':
 $menuitem3 = '<a style="//border: 1px solid #9A9CC5; margin-top:8px;
     color: #3CF;
-    //background-color: #9A9CC5; cursor: default;" href="#nogo">Dispencers</a>';
+    //background-color: #9A9CC5; cursor: default;" href="#nogo">Dispensers</a>';
 break;
 
 case 'Reinigingsmiddelen':
@@ -76,10 +76,11 @@ if(userLevel(getKlantnr($link), $link) == "Admin") {
 print('<li>'.$menuitem7.'<ul>'
         . '<li style="width:auto; border-right:none;"><a href="/administratie/productbeheer.php">Productbeheer</a></li>'
         . '<li style="width:auto; border-right:none;"><a href="/administratie/bestellingbeheer.php">Bestellingbeheer</a></li>'
-		. '<li style="width:auto; border-right:none;"><a href="/administratie/accountbeheer.php">Accountbeheer</a></li></ul></li>');
+	. '<li style="width:auto; border-right:none;"><a href="/administratie/accountbeheer.php">Accountbeheer</a></li>'
+        . '<li style="width:auto; border-right:none;"><a href="/mijnaccount/mijnaccount.php">Mijn gegevens</a></li></ul></li>');
 } else {
     print('<li>'.$menuitem8.'<ul>'
-        . '<li style="width:auto; border-right:none;"><a href="/mijnaccount/mijngegevens.php">Mijn gegevens</a></li>'
+        . '<li style="width:auto; border-right:none;"><a href="/mijnaccount/mijnaccount.php">Mijn gegevens</a></li>'
         . '<li style="width:auto; border-right:none;"><a href="/mijnaccount/mijnbestellingen.php">Mijn bestellingen</a></li>'
         . '<li style="width:auto; border-right:none;"><a href="/mijnaccount/bestelgeschiedenis.php">Bestelgeschiedenis</a></li></ul></li>');
 }

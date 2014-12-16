@@ -30,7 +30,7 @@ if (!existCookie($cookiename)) {
             </div>
 
             <?php
-			define('THIS_PAGE', 'Dispencers');
+			define('THIS_PAGE', 'Dispensers');
 			include('menu.php');
 			?>
 
