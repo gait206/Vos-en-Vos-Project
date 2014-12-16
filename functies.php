@@ -138,13 +138,13 @@ function base_query_generate($switch) {
     switch ($switch) {
         case 0 : $query .= 'WHERE categorie = "papier" ';
             break;
-        case 1 : $query .= 'WHERE categorie = "dispencers" ';
+        case 1 : $query .= 'WHERE categorie = "dispensers" ';
             break;
         case 2 : $query .= 'WHERE categorie = "reinigingsmiddelen" ';
             break;
         case 3 : $query .= 'WHERE categorie = "schoonmaakmateriaal" ';
             break;
-        case 4 : $query .= 'WHERE categorie IN ("papier","dispencers","reinigingsmiddelen","schoonmaakmateriaal") ';
+        case 4 : $query .= 'WHERE categorie IN ("papier","dispensers","reinigingsmiddelen","schoonmaakmateriaal") ';
     }
     return $query;
 }

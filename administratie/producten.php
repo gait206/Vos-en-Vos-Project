@@ -59,7 +59,7 @@ and open the template in the editor.
                 switch (THIS_PAGE) {
                     case 'Papier' : $switch = 0;
                         break;
-                    case 'Dispencers' : $switch = 1;
+                    case 'Dispensers' : $switch = 1;
                         break;
                     case 'Reinigingsmiddelen' : $switch = 2;
                         break;

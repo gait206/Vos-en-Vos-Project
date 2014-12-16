@@ -58,7 +58,7 @@ and open the template in the editor.
 				switch (THIS_PAGE){
                     case 'Papier'               : $switch = 0;
                         break;
-                    case 'Dispencers'           : $switch = 1;
+                    case 'Dispensers'           : $switch = 1;
                         break;
                     case 'Reinigingsmiddelen'   : $switch = 2;
                         break;
@@ -152,6 +152,7 @@ and open the template in the editor.
 
         </table>
         <?php
+		print($query);
 		
 		if (mysqli_num_rows($result) == 0){
 		print("<p class=\"geenres\">Geen resultaten gevonden</p>");  
