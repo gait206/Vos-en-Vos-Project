@@ -23,7 +23,7 @@ and open the template in the editor.
 
 
             <div class="navigatie">
-                <form action="index.php" method="get" id="select">
+                <form action="" method="get" id="select">
                     <input class="zoekinput" type="text" placeholder="Zoek" name="zoekbalk" <?php if(isset($_GET['zoekbalk'])){ print('value="'.$_GET['zoekbalk'].'"'); } ?>>
                     <input class="zoeksubmit" type="submit" value="Zoek" name="zoekknop"><br><br>
                     <h4>Selecteer subcategorie:</h4>
