@@ -76,10 +76,11 @@ if(userLevel(getKlantnr($link), $link) == "Admin") {
 print('<li>'.$menuitem7.'<ul>'
         . '<li style="width:auto; border-right:none;"><a href="/administratie/productbeheer.php">Productbeheer</a></li>'
         . '<li style="width:auto; border-right:none;"><a href="/administratie/bestellingbeheer.php">Bestellingbeheer</a></li>'
-		. '<li style="width:auto; border-right:none;"><a href="/administratie/accountbeheer.php">Accountbeheer</a></li></ul></li>');
+	. '<li style="width:auto; border-right:none;"><a href="/administratie/accountbeheer.php">Accountbeheer</a></li>'
+        . '<li style="width:auto; border-right:none;"><a href="/mijnaccount/mijnaccount.php">Mijn gegevens</a></li></ul></li>');
 } else {
     print('<li>'.$menuitem8.'<ul>'
-        . '<li style="width:auto; border-right:none;"><a href="/mijnaccount/mijngegevens.php">Mijn gegevens</a></li>'
+        . '<li style="width:auto; border-right:none;"><a href="/mijnaccount/mijnaccount.php">Mijn gegevens</a></li>'
         . '<li style="width:auto; border-right:none;"><a href="/mijnaccount/mijnbestellingen.php">Mijn bestellingen</a></li>'
         . '<li style="width:auto; border-right:none;"><a href="/mijnaccount/bestelgeschiedenis.php">Bestelgeschiedenis</a></li></ul></li>');
 }
