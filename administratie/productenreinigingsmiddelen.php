@@ -27,11 +27,9 @@ and open the template in the editor.
                 <form action="" method="get" id="select">
                     <input class="zoekinput" type="text" placeholder="Zoek" name="zoekbalk" <?php if(isset($_GET['zoekbalk'])){ print('value="'.$_GET['zoekbalk'].'"'); } ?>>
                     <input class="zoeksubmit" type="submit" value="Zoek" name="zoekknop"><br><br>
-                    <h4>Selecteer subcategorie(en):</h4>
-                    <input type="checkbox"  name="subcategorie[]"  value="Katrin" <?php if (in_array("Katrin", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Katrin<br>
-                    <input type="checkbox"  name="subcategorie[]"  value="Blanco" <?php if (in_array("Blanco", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Blanco<br>
-                    <input type="checkbox"  name="subcategorie[]"  value="Tana" <?php if (in_array("Tana", $subcategorie)) echo "checked ='checked'"; ?>onclick="this.form.submit()";>Tana<br>
-                    <input type="checkbox"  name="subcategorie[]"  value="Eurotissue" <?php if (in_array("Eurotissue", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Eurotissue<br><br>
+                    <h4>Selecteer subcategorie:</h4>
+                    <input type="checkbox"  name="subcategorie[]"  value="Desinfectie" <?php if (in_array("Desinfectie", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Desinfectie<br>
+                    <input type="checkbox"  name="subcategorie[]"  value="Handhygiene" <?php if (in_array("Handhygiene", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Handhygiëne<br><br>
                     <h4>Selecteer prijscategorie:</h4>
                     <select name="prijs" form="select" onchange="this.form.submit()">
                         <option value=0 <?php if (isset($_GET['prijs']) && $_GET["prijs"] == 0) echo "selected"; ?>>Selecteer prijs </option>
@@ -99,7 +97,7 @@ and open the template in the editor.
             if (!(isset($_GET['subcategorie']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop']))) {
                 if ($query == "") {
 
-                    $query = "SELECT afbeelding, productnr, productnaam, omschrijving, subcategorie, prijs FROM product";
+                    $query = "SELECT * FROM product";
                 }
             }
             $result = mysqli_query($conn, $query);

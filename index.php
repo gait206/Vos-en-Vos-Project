@@ -36,7 +36,7 @@ if (!existCookie($cookiename)) {
 			?>
 			
             <div class="content" id="main_content">
-                <?php include("administratie/productenblock.php"); 
+                <?php include("administratie/productenblockhome.php"); 
                         ?>
                 
             </div>
