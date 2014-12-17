@@ -17,7 +17,7 @@ $link = connectDB();
             <div class="header">
 
                 <div class="logo">
-                    <img class="logo" src="../plaatjes/logo.png">
+                    <a href="../index.php"><img class="logo" src="../plaatjes/logo.png"></a>
                 </div>
                 <div class="login">
                     <?php
