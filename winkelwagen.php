@@ -58,7 +58,7 @@ if (!empty($_POST["aanpassen"])) {
             </div>
 
             <?php
-            define('THIS_PAGE', 'winkelwagen');
+            define('THIS_PAGE', 'Winkelwagen');
             include('menu.php');
             ?>
 

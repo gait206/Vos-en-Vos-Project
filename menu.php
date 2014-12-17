@@ -54,12 +54,25 @@ $menuitem5 = '<a style="//border: 1px solid #9A9CC5; margin-top:8px;
     color: #3CF;
     //background-color: #9A9CC5; cursor: default;" href="#nogo">Schoonmaakmateriaal</a>';
 break;
-case 'winkelwagen':
- $menuitem6 =  '<a style="//border: 1px solid #9A9CC5; margin-top:8px;
+
+case 'Winkelwagen':
+$menuitem6 =  '<a style="//border: 1px solid #9A9CC5; margin-top:8px;
     color: #3CF;
     //background-color: #9A9CC5; cursor: default" href="#nogo">( '.countItems(getCookie("winkelmandje")).' ) <img height="20px" src="/plaatjes/winkelmandje-menu-thispage.png"></a>';
-default:
 break;
+
+case 'Admin':
+$menuitem7 = '<a style="//border: 1px solid #9A9CC5; margin-top:8px;
+    color: #3CF;
+    //background-color: #9A9CC5; cursor: default;" href="#nogo">Admin</a>';
+break;
+
+case 'Mijnaccount':
+$menuitem8 = '<a style="//border: 1px solid #9A9CC5; margin-top:8px;
+    color: #3CF;
+    //background-color: #9A9CC5; cursor: default;" href="#nogo">Mijn account</a>';
+break;
+default:
 }
 ?>
 

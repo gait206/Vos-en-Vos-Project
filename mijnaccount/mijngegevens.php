@@ -27,7 +27,7 @@ $link = connectDB();
             </div>
 
             <?php
-			define('THIS_PAGE', 'mijngegevens');
+			define('THIS_PAGE', 'Mijnaccount');
 			include('../menu.php');
 			?>
             <div class="mijnaccount">

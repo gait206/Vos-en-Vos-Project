@@ -27,7 +27,14 @@ $link = connectDB();
             </div>
 
             <?php
-			define('THIS_PAGE', 'Home');
+			if(userLevel(getKlantnr($link), $link) == "Admin") {
+			define('THIS_PAGE', 'Admin');
+			}
+			if(userLevel(getKlantnr($link), $link) == "Gebruiker"){
+			define('THIS_PAGE', 'Mijnaccount');
+			}
+			
+			
 			include('../menu.php');
 			?>
             <div class="mijnaccount">
