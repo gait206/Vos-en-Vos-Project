@@ -85,7 +85,7 @@ $link = connectDB();
                                 . '<option value="Afgehandeld">Afgehandeld</option></select></td></tr>'
                                 . '<input type="hidden" name="bestelnr" value="' . $bestelnr . '">'
                                 . '</form></table>'
-                                . '<input form="toevoegen" type="submit" name="actie" class="button" value="' . $waarde . '">'
+                                . '<input type="submit" name="actie" class="button" value="' . $waarde . '">'
                         );
                     } else {
                         

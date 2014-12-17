@@ -48,7 +48,6 @@ $link = connectDB();
                     // table printen
                     print('<tr>'
                             . '<th>Product Naam</th>'
-                            . '<th>Product Omschrijving</th>'
                             . '<th>Prijs</th>'
                             . '<th>BTW</th>'
                             . '<th>Aantal</th>'
@@ -74,7 +73,6 @@ $link = connectDB();
                             $row = mysqli_fetch_assoc($result);
 
                             $product_naam = $row["productnaam"];
-                            $product_omschrijving = $row["omschrijving"];
                             $product_prijs = $row["prijs"];
                             // ER IS NOG GEEN BTW tabel
                             $btw = 21;
@@ -94,7 +92,6 @@ $link = connectDB();
                             // printen waarden
                             print('<tr>'
                                     . '<td>' . $product_naam . '</td>'
-                                    . '<td>' . $product_omschrijving . '</td>'
                                     . '<td> &euro; ' . prijsformat($product_prijs) . '</td>'
                                     . '<td>' . $btw . '%</td>'
                                     . '<td>' . $value . '</td>'
