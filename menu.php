@@ -21,7 +21,7 @@ $menuitem5 = '<a href="/schoonmaakmateriaal.php">Schoonmaakmateriaal</a>';
 $menuitem6 = '<a href="/winkelwagen.php" class="button2">( '.countItems(getCookie("winkelmandje")).' ) 
 <img height="20px" src="/plaatjes/winkelmandje-menu.png"></a>';
 $menuitem7 = '<a href="/administratie/productbeheer.php">Admin</a>';
-$menuitem8 = '<a href="./mijnaccount/mijnaccount.php">Mijn account</a>';
+$menuitem8 = '<a href="/mijnaccount/mijnaccount.php">Mijn account</a>';
  
 switch (THIS_PAGE) {
  
