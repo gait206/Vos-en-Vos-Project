@@ -70,7 +70,7 @@ $link = connectDB();
                 </div>
             </div>
             <div>
-                <form class="margin" action="bestelgeschiedenis.php" method="POST"><input class="bestelgeschiedenis" type="submit" name="mijn bestellingen" value="Bestelgeschiedenis"></form>
+                <form class="margin" action="mijnbestellingen.php" method="POST"><input class="bestelgeschiedenis" type="submit" name="mijn bestellingen" value="Mijn bestellingen"></form>
             </div>
             <div class="footer">
                 <?php
