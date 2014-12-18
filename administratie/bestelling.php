@@ -70,27 +70,19 @@ $link = connectDB();
 
                             $waarde = "Bijwerken";
                             print('<table><form id="toevoegen" method="GET" action="">'
-                                    . '<tr><td>Aantal:</td><td><input type="hidden" name="productnr" value="'.$productnr.'"><input type="number" name="aantal" value="' . $aantal . '"><input type="hidden" name="bestelnr" value="' . $bestelnr . '"></td></tr>'
-                                    . '</form></table>'
-                                    . '<input form="toevoegen" type="submit" name="actie" class="button" value="' . $waarde . '">'
+                                    . '<tr><td>Aantal:</td><td><input type="hidden" name="productnr" value="'.$productnr.'"><input type="number" name="aantal" value="' . $aantal . '"><input type="hidden" name="bestelnr" value="' . $bestelnr . '"></td>'
+                                    . '<td><input form="toevoegen" type="submit" name="actie" class="button" value="' . $waarde . '"></td></tr></form></table>'
                             );
                         }
+
                         
                         if ($actie == "Toevoegen") {
-                            $bestelnr = $_GET["bestelnr"];
-                            
-                            $waarde = "Product Toevoegen";
-                            print('<table><form id="toevoegen" method="GET" action="">'
-                                    . '<tr><td>Product Nummer</td><td><input type="number" name="productnr" placeholder="Productnr"></td></tr>'
-                                    . '<tr><td>Aantal:</td><td><input type="number" name="aantal" placeholder="aantal"><input type="hidden" name="bestelnr" value="' . $bestelnr . '"></td></tr>'
-                                    . '</form></table>'
-                                    . '<input form="toevoegen" type="submit" name="actie" class="button" value="' . $waarde . '">'
-                            );
-                        }
-                        
-                        if ($actie == "Product Toevoegen") {
                             mysqli_query($link, 'INSERT INTO bestelregel VALUES("'.$_GET["bestelnr"].'","'.$_GET["productnr"].'","'.$_GET["aantal"].'");');
-                            print(mysqli_error($link));
+                            if(mysqli_errno($link)){
+                                print('<p class="foutmelding">Dit product bestaat niet!</p>');
+                            } else {
+                                print(mysqli_errno($link));
+                            }
                         }
                     }
 
@@ -125,10 +117,30 @@ $link = connectDB();
                     $row4 = mysqli_fetch_assoc($result4);
                     
                     print('<tr><td>Opmerking:</td><td>'.$row4["opmerking"].'</td></tr>'
-                            . '<tr><td></td><td><form action="" method="GET" class="table_administratie_button"><input type="hidden" name="bestelnr" value="'.$bestelnr.'"><input type="submit" name="actie" value="Toevoegen"></form></td></tr></table>');
+                            . '<tr><td></td><td><form action="" method="GET" class="table_administratie_button"><input type="hidden" name="bestelnr" value="'.$bestelnr.'"><input type="submit" name="actie" value="Product Toevoegen"></form></td></tr></table>');
+                    
+                    
+                    
+                    
                     
                     
                     print('<table class="table_administratie"><tr><th>Productnr</th><th>Product naam</th><th>Aantal</th><th>Verwijderen</th><th>Aanpassen</th></tr>');
+                    
+                    if(!empty($_GET["actie"])) {
+                        $actie = $_GET["actie"];
+                        if ($actie == "Product Toevoegen") {
+                            $bestelnr = $_GET["bestelnr"];
+                            
+                            $waarde = "Toevoegen";
+                            print('<form id="toevoegen" method="GET" action="">'
+                                    . '<tr class="specialrow"><td><input type="number" name="productnr" placeholder="Productnr"></td><td></td>'
+                                    . '<td><input type="number" name="aantal" placeholder="aantal"><input type="hidden" name="bestelnr" value="' . $bestelnr . '"></td>'
+                                    . '<td></td><td><input form="toevoegen" type="submit" name="actie" class="button" value="' . $waarde . '"></td></form>'
+                                    . '</tr>'
+                            );
+                        }
+                    }
+                    
                     while ($row) {
                         print('<tr><td>' . $row["productnr"] . '</td>'
                                 . '<td>' . $row["productnaam"] . '</td>'

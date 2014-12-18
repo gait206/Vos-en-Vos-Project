@@ -6,6 +6,8 @@
  * and open the template in the editor.
  */
 
+
+function createFactuur($name, $bestelnr) {
 require('fpdf/fpdf.php');
 include('../functies.php');
 
@@ -15,7 +17,6 @@ $pdf->SetFont('Helvetica', 'B', 16);
 
 $link = connectDB();
 
-$bestelnr = $_GET["bestelnr"];
 $result = mysqli_query($link, 'SELECT * FROM bestelling WHERE bestelnr = "' . $bestelnr . '";');
 $row = mysqli_fetch_assoc($result);
 
@@ -68,13 +69,14 @@ if (mysqli_num_rows($result2) == 1) {
 $result4 = mysqli_query($link, 'SELECT * FROM bestelregel AS b JOIN product AS p ON b.productnr = p.productnr WHERE bestelnr = "'.$bestelnr.'";');
 $row4 = mysqli_fetch_assoc($result4);
 
+$pdf->SetFont('Helvetica', 'B', 10);
 
     $pdf->Ln(30);
-    $pdf->Cell(35, 10, 'Productnr', 1);
-    $pdf->Cell(50, 10, 'Productnaam', 1);
-    $pdf->Cell(35, 10, 'Prijs', 1);
-    $pdf->Cell(35, 10, 'Aantal', 1);
-    $pdf->Cell(35, 10, 'Totale Prijs', 1);
+    $pdf->Cell(20, 10, 'Productnr', 1);
+    $pdf->Cell(110, 10, 'Productnaam', 1);
+    $pdf->Cell(15, 10, 'Prijs', 1);
+    $pdf->Cell(15, 10, 'Aantal', 1);
+    $pdf->Cell(25, 10, 'Totale Prijs', 1);
 
     $totaalBedrag = 0;
     $totaalBTW = 0;
@@ -82,11 +84,11 @@ $row4 = mysqli_fetch_assoc($result4);
     
 while($row4){
     $pdf->Ln(10);
-    $pdf->Cell(35, 10, $row4["productnr"], 1);
-    $pdf->Cell(50, 10, $row4["productnaam"], 1);
-    $pdf->Cell(35, 10, $row4["prijs"], 1);
-    $pdf->Cell(35, 10, $row4["aantal"], 1);
-    $pdf->Cell(35, 10, number_format($row4["prijs"] * $row4["aantal"], 2), 1);
+    $pdf->Cell(20, 10, $row4["productnr"], 1);
+    $pdf->Cell(110, 10, $row4["productnaam"], 1);
+    $pdf->Cell(15, 10, $row4["prijs"], 1);
+    $pdf->Cell(15, 10, $row4["aantal"], 1);
+    $pdf->Cell(25, 10, number_format($row4["prijs"] * $row4["aantal"], 2), 1);
     
     $totaalBedrag = $totaalBedrag + ($row4["prijs"] * $row4["aantal"]);
     $row4 = mysqli_fetch_assoc($result4);
@@ -96,10 +98,16 @@ $totaalBTW = $totaalBedrag * 0.21;
 $totaalBedragBTW = $totaalBTW + $totaalBedrag;
 
 $pdf->Ln(10);
-$pdf->Cell(35, 10, $totaalBedrag);
+$pdf->SetLeftMargin(140);
+$pdf->Cell(35, 10, 'Totaal:');
+$pdf->Cell(35, 10, number_format($totaalBedrag,2));
 $pdf->Ln(10);
-$pdf->Cell(35, 10, $totaalBTW);
+$pdf->Cell(35, 10, 'Totaal BTW:');
+$pdf->Cell(35, 10, number_format($totaalBTW,2));
 $pdf->Ln(10);
-$pdf->Cell(35, 10, $totaalBedrag);
+$pdf->Cell(35, 10, 'Totaal Bedrag:');
+$pdf->Cell(35, 10, number_format($totaalBedragBTW,2));
 
-$pdf->Output();
+$pdf->Output($name ,'F /facturen');
+
+}

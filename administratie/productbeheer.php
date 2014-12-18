@@ -27,7 +27,7 @@ $link = connectDB();
             </div>
 
             <?php
-			define('THIS_PAGE', 'Productbeheer');
+			define('THIS_PAGE', 'Admin');
 			include('../menu.php');
 			?>
 
@@ -206,14 +206,14 @@ $link = connectDB();
                     $result = mysqli_query($link, 'SELECT * FROM product');
                     $row = mysqli_fetch_assoc($result);
 
-                    print('<table class="table_administratie"><tr><th>productnr</th><th>productnaam</th><th>categorie</th><th>subcategorie</th><th>merk</th><th>omschrijving</th><th>voorraad</th><th>prijs</th><th>afbeelding</th><th>Verwijderen</th><th>Aanpassen</th></tr>');
+                    print('<table class="table_administratie"><tr><th>productnr</th><th>productnaam</th><th>categorie</th><th>subcategorie</th><th>merk</th><th>EAN</th><th>voorraad</th><th>prijs</th><th>afbeelding</th><th>Verwijderen</th><th>Aanpassen</th></tr>');
                     while ($row) {
                         print('<tr><td>' . $row["productnr"] . '</td>'
                                 . '<td>' . $row["productnaam"] . '</td>'
                                 . '<td>' . $row["categorie"] . '</td>'
                                 . '<td>' . $row["subcategorie"] . '</td>'
                                 . '<td>' . $row["merk"] . '</td>'
-                                . '<td>' . $row["omschrijving"] . '</td>'
+                                . '<td>' . $row["EAN"] . '</td>'
                                 . '<td>' . $row["voorraad"] . '</td>'
                                 . '<td>' . number_format($row["prijs"], 2) . '</td>'
                                 . '<td><img class="small" src="' . $row["afbeelding"] . '" ></td>'

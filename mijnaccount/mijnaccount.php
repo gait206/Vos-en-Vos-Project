@@ -27,7 +27,14 @@ $link = connectDB();
             </div>
 
             <?php
-			define('THIS_PAGE', 'Home');
+			if(userLevel(getKlantnr($link), $link) == "Admin") {
+			define('THIS_PAGE', 'Admin');
+			}
+			if(userLevel(getKlantnr($link), $link) == "Gebruiker"){
+			define('THIS_PAGE', 'Mijnaccount');
+			}
+			
+			
 			include('../menu.php');
 			?>
             <div class="mijnaccount">
@@ -65,7 +72,7 @@ $link = connectDB();
                     print('<tr><td>Voornaam:</td><td>'.$voornaam.'</td></tr>');
                     print('<tr><td>Achternaam:</td><td>'.$achternaam.'</td></tr>');
                     print('<tr><td>Telefoonnummer:</td><td>'.$telnummer.'</td></tr>');
-                    print('<tr><td>Mobielnummer:</td><td>'.$mobnummer.'</td></tr>');
+                    print('<tr><td>Mobielnummer:</td><td>'.$mobnummer.'</td></tr><tr height="10"></tr>');
                     // Bedrijfsgegevens
                     print('<tr><td><p class="p">Bedrijfsgegevens<p></td></tr>');
                     print('<tr><td>Bedrijfsnaam:</td><td>'.$bedrijfsnaam.'</td></tr>');
@@ -73,7 +80,7 @@ $link = connectDB();
                     print('<tr><td>Postcode:</td><td>'.$postcode.'</td></tr>');
                     print('<tr><td>Plaats:</td><td>'.$plaats.'</td></tr>');
                     print('<tr><td>KvK-nummer:</td><td>'.$kvknummer.'</td></tr>');
-                    print('<tr><td>BTW-nummer:</td><td>'.$btwnummer.'</td></tr>');
+                    print('<tr><td>BTW-nummer:</td><td>'.$btwnummer.'</td></tr><tr height="10"></tr>');
                     // Inloggegevens
                     print('<tr><td><p class="p">Inloggegevens<p></td></tr>');
                     print('<tr><td>Emailadres:</td><td>'.$email.'</td></tr>');

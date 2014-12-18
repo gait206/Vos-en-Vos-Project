@@ -29,7 +29,7 @@ $link = connectDB();
             </div>
 
             <?php
-            define('THIS_PAGE', 'mijnbestellingen');
+            define('THIS_PAGE', 'Mijnaccount');
             include('../menu.php');
             ?>
 

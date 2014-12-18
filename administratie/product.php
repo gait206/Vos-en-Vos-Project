@@ -56,6 +56,7 @@ $link = connectDB();
                         
                         //product weergeven
                         print("<h2>".$productnaam. "</h2><br><p>");
+						print('<img height="200px" src="'. $afbeelding .'" ><br>');
                         //print("<img>");
                         if($voorraad >0){
                             print("Beschikbaarheid: Op voorraad");
