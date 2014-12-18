@@ -116,9 +116,8 @@ $link = connectDB();
 
 
 	// Laad instellingen & bibliotheek
-	require_once('/omnikassa/settings.php');
-	require_once('/omnikassa/omnikassa.cls.5.php');
-
+	require_once('./omnikassa/settings.php');
+	require_once('./omnikassa/omnikassa.cls.5.php');
 
 
 
