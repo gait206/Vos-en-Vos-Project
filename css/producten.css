@@ -120,7 +120,17 @@ td.afbeeldingblock{
 	vertical-align: middle;
 //	border:1px solid black; 
 } 
-
+input.afbeeldingblock{
+	//width:99%;
+	max-height: 100px;
+	max-width: 99%;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+	vertical-align: middle;
+//	border:1px solid black; 
+	size: contain;
+}
 /* resize images */
     td.afbeeldingblock img{
 //    width:99%;

@@ -117,17 +117,17 @@ and open the template in the editor.
 					<tr height=0px></tr>
 					<tr>
 			  <td class="afbeeldingblock" colspan=2>');
-			  
+			  print('<form name="product" method="GET" action="administratie/product.php" >');
 			  if($row['afbeelding'] == ""){
-				  print('<img src="./plaatjes/logo.png">');
+				  print('<input class="afbeeldingblock" type="image" src="./plaatjes/logo.png">');
 				  }
 				  else{
-				  print('<img src=' . $row['afbeelding'].'>');
+				  print('<input class="afbeeldingblock" type="image" src=' . $row['afbeelding'].'>');
 				  }
 				  print("</td></tr>
 				  <tr>
-              <td colspan=2 class=\"productnaamblock\">". '<a href="#" onclick="document.product.submit()">' . $row['productnaam'] . "	</a>"
-			  .'<form name="product" method="GET" action="administratie/product.php" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
+              <td colspan=2 class=\"productnaamblock\">". '<a href="administratie/product.php?productnr='.$row["productnr"].'" onclick="document.product.submit()">' . $row['productnaam'] . "	</a>"
+			  .'<input type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
 			  ."</td>
 			  </tr><tr>
 			  <td colspan=2\">
