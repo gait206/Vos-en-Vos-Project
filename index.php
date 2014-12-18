@@ -21,7 +21,7 @@ if (!existCookie($cookiename)) {
             <div class="header">
 
                 <div class="logo">
-                    <img class="logo" src="plaatjes/logo.png">
+                    <a href="index.php"><img class="logo" src="plaatjes/logo.png"></a>
                 </div>
                 <div class="login">
                     <?php
@@ -36,7 +36,7 @@ if (!existCookie($cookiename)) {
 			?>
 			
             <div class="content" id="main_content">
-                <?php include("administratie/productenblock.php"); 
+                <?php include("administratie/productenblockhome.php"); 
                         ?>
                 
             </div>

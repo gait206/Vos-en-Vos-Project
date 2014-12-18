@@ -23,15 +23,15 @@ and open the template in the editor.
         <div class="navigator">
 
 
-           <div class="navigatie">
+            <div class="navigatie">
                 <form action="" method="get" id="select">
-                    <input class="zoekinput" type="text" placeholder="Zoek" name="zoekbalk" <?php if(isset($_GET['zoekbalk'])){ print('value="'.$_GET['zoekbalk'].'"'); } ?>>
+                    <input class="zoekinput" type="text" placeholder="Zoek" name="zoekbalk" <?php if (isset($_GET['zoekbalk'])) {
+            print('value="' . $_GET['zoekbalk'] . '"');
+        } ?>>
                     <input class="zoeksubmit" type="submit" value="Zoek" name="zoekknop"><br><br>
-                    <h4>Selecteer subcategorie(en):</h4>
-                    <input type="checkbox"  name="subcategorie[]"  value="Katrin" <?php if (in_array("Katrin", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Katrin<br>
-                    <input type="checkbox"  name="subcategorie[]"  value="Blanco" <?php if (in_array("Blanco", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Blanco<br>
-                    <input type="checkbox"  name="subcategorie[]"  value="Tana" <?php if (in_array("Tana", $subcategorie)) echo "checked ='checked'"; ?>onclick="this.form.submit()";>Tana<br>
-                    <input type="checkbox"  name="subcategorie[]"  value="Eurotissue" <?php if (in_array("Eurotissue", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Eurotissue<br><br>
+                    <h4>Selecteer subcategorie:</h4>
+                    <input type="checkbox"  name="subcategorie[]"  value="Desinfectie" <?php if (in_array("Desinfectie", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Desinfectie<br>
+                    <input type="checkbox"  name="subcategorie[]"  value="Handhygiene" <?php if (in_array("Handhygiene", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Handhygiëne<br><br>
                     <h4>Selecteer prijscategorie:</h4>
                     <select name="prijs" form="select" onchange="this.form.submit()">
                         <option value=0 <?php if (isset($_GET['prijs']) && $_GET["prijs"] == 0) echo "selected"; ?>>Selecteer prijs </option>
@@ -47,8 +47,8 @@ and open the template in the editor.
                     <h4>Sorteer op:</h4>
                     <select name="sort" form="select" onchange="this.form.submit()">
                         <option value=0 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 0) echo "selected"; ?>>Niet gesorteerd</option>
-                        <option value=1 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 1) echo "selected"; ?>>subcategorie (oplopend)</option>
-                        <option value=2 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 2) echo "selected"; ?>>subcategorie (aflopend)</option>
+                        <option value=1 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 1) echo "selected"; ?>>merk (oplopend)</option>
+                        <option value=2 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 2) echo "selected"; ?>>merk (aflopend)</option>
                         <option value=3 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 3) echo "selected"; ?>>prijs (oplopend)</option>
                         <option value=4 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 4) echo "selected"; ?>>prijs (aflopend)</option>
                     </select>
@@ -87,6 +87,17 @@ and open the template in the editor.
                     }
                     $query = sort_query_generate($query, $sort);
                 }
+                if (!empty($_GET["perpage"])) {
+                    $perpage = $_GET["perpage"];
+                } else {
+                    $perpage = 20;
+                }
+                $amount = amount_per_page($result, $perpage);
+                if (!empty($_GET["pages"])) {
+                    $query = limit_query_generate($_GET["pages"], $query, $perpage);
+                } else {
+                    $query = limit_query_generate(0, $query, $perpage);
+                }
                 ?>
 
             </div>
@@ -99,22 +110,23 @@ and open the template in the editor.
             if (!(isset($_GET['subcategorie']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop']))) {
                 if ($query == "") {
 
-                    $query = "SELECT afbeelding, productnr, productnaam, omschrijving, subcategorie, prijs FROM product";
+                    $query = "SELECT * FROM product";
                 }
             }
             $result = mysqli_query($conn, $query);
             $row = mysqli_fetch_assoc($result);
-            if(!empty($_GET["perpage"])){
-                $perpage = $_GET["perpage"];
-            }else{
-                $perpage = 20;
-            }
-            $amount = amount_per_page($result, $perpage);
-            if(!empty($_GET["pages"])){
-                $query = limit_query_generate($_GET["pages"], $query, $perpage);
-            }else{
-                $query = limit_query_generate(1, $query, $perpage);
-            }
+//            if (!empty($_GET["perpage"])) {
+//                $perpage = $_GET["perpage"];
+//            } else {
+//                $perpage = 20;
+//            }
+//            $amount = amount_per_page($result, $perpage);
+//            if (!empty($_GET["pages"])) {
+//                $query = limit_query_generate($_GET["pages"], $query, $perpage);
+//            } else {
+//                $query = limit_query_generate(0, $query, $perpage);
+//            }
+//            print $query;
             ?>
 
             <?php
@@ -135,7 +147,11 @@ and open the template in the editor.
             </p>
             <select name="perpage" onchange="this.form.submit()" form="select">
                 <option value="10"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 10) echo "selected"; ?>>10</option>
-                <option value="20"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 20){echo "selected";}elseif(empty ($_GET["perpage"])) {echo 'selected';}?>>20</option>
+                <option value="20"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 20) {
+                    echo "selected";
+                } elseif (empty($_GET["perpage"])) {
+                    echo 'selected';
+                } ?>>20</option>
                 <option value="25"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 25) echo "selected"; ?>>25</option>
                 <option value="50"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 50) echo "selected"; ?>>50</option>
             </select>
@@ -149,9 +165,9 @@ and open the template in the editor.
                     print("<img src= " . $row['afbeelding'] . " ");
                 }
                 print("</td>
-				<td class=\"productnaam\">". '<a href="#" onclick="document.product.submit()">' . $row['productnaam'] . "	</a>"
-				.'<form name="product" method="GET" action="administratie/product.php" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
-				." <div class=\"omschrijving\">" . $row['omschrijving'] . "</div></td>
+				<td class=\"productnaam\">" . '<a href="#" onclick="document.product.submit()">' . $row['productnaam'] . "	</a>"
+                        . '<form name="product" method="GET" action="administratie/product.php" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
+                        . " <div class=\"omschrijving\">" . $row['omschrijving'] . "</div></td>
 				<td class=\"winkelm\">"
                         . '<form action="winkelwagen.php" method="POST" >'
                         . '<input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
@@ -166,28 +182,27 @@ and open the template in the editor.
             ?>
 
         </table>
-        <?php
-        if (mysqli_num_rows($result) == 0) {
-            print("<p class=\"geenres\">Geen resultaten gevonden</p>");
-        }
-        ?>
+            <?php
+            if (mysqli_num_rows($result) == 0) {
+                print("<p class=\"geenres\">Geen resultaten gevonden</p>");
+            }
+            ?>
         <input type="submit" name="action" value="vorige pagina" form="select">
         <select name="pages" onchange="this.form.submit()" form="select">
             <?php
-
-            for($i = 0; $i < $amount; $i++){
-                if($_GET["ref"] == $_GET["pages"]){
-                    print ("<option value = '".$perpage*$i."' selected >".$i++."</option>");
-                }else{
-                    print ("<option value = '".$perpage*$i."'>".$i++."</option>");
+            for ($i = 0; $i < $amount; $i++) {
+                if ($_GET["ref"] == $_GET["pages"]) {
+                    print ("<option value = '" . $perpage * $i . "' selected >" . $i++ . "</option>");
+                } else {
+                    print ("<option value = '" . $perpage * $i . "'>" . $i++ . "</option>");
                 }
             }
             ?>
         </select>
-        <?php 
-        if(!empty($_GET["pages"])){
-            print ("<input type = 'hidden' name = 'ref' value = '".$_GET["pages"]."' form = 'select'>");
-        }else if(empty ($_GET["pages"])){
+        <?php
+        if (!empty($_GET["pages"])) {
+            print ("<input type = 'hidden' name = 'ref' value = '" . $_GET["pages"] . "' form = 'select'>");
+        } else if (empty($_GET["pages"])) {
             print ("<input type='hidden' name='ref' value='0' form = 'select'>");
         }
         ?>

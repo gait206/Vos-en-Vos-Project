@@ -78,15 +78,16 @@ div.omschrijving:after {
 	content:'...';
 }
 
-td.productnaam{
+td.productnaam a{
 	color:#344d8e;
 	vertical-align:top;
 	/* border:1px solid black; */ 
 	overflow:hidden;
 	display:block;
-	padding-left: 10px;
+//	padding-left: 10px;
 	width: 465px;
 //	border: 1pt solid black;
+	text-decoration: none;
 }
 
 td.winkelm{
@@ -95,10 +96,11 @@ td.winkelm{
 //	border: 1pt solid black;
 }
 
-td.prijs{
+td.prijs a{
 	color: #344d8e;
 	vertical-align: central;
 //	border: 1pt solid black;
+	text-decoration:none;
 }
 
 div.prijsklein{
@@ -132,7 +134,7 @@ td.afbeeldingblock{
 	size: contain;
 }
 
-td.productnaamblock{
+td.productnaamblock a{
 	font: normal 14px 'lucida sans unicode', arial, sans-serif;
 	color:#344d8e;
 	width: 218px;
@@ -141,9 +143,10 @@ td.productnaamblock{
 //	border:1px solid black; 
 	overflow:hidden;
 //	display:block;
-	padding-left: 1px;
+//	padding-left: 1px;
 	padding-top: 12px;
 	line-height: 18px;
+	text-decoration: none;
 }
 
 div.omschrijvingblock{
@@ -196,13 +199,14 @@ td.winkelmblock form{
 	display:table-cell;
 }
 
-td.prijsblock{
+td.prijsblock a{
 	color: #344d8e;
 	vertical-align: central;
 	text-align: right;
 	height: 41px;
 //	border: 1px solid black;
-	display:table-cell;
+	display:block;
+	text-decoration:none;
 }
 
 div.prijskleinblock{

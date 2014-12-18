@@ -17,7 +17,7 @@ $link = connectDB();
             <div class="header">
 
                 <div class="logo">
-                    <img class="logo" src="../plaatjes/logo.png">
+                    <a href="../index.php"><img class="logo" src="../plaatjes/logo.png"></a>
                 </div>
                 <div class="login">
                     <?php
@@ -36,6 +36,8 @@ $link = connectDB();
                     <?php
                     restrictedPage("Admin", $link);
 
+                    
+                    
                     if (!empty($_GET["actie"])) {
                         $actie = $_GET["actie"];
                         if ($actie == "Verwijderen") {
@@ -99,7 +101,8 @@ $link = connectDB();
                     $result2 = mysqli_query($link, 'SELECT * FROM klant WHERE klantnr = ( SELECT klantnr FROM bestelling WHERE bestelnr = "'.$bestelnr.'");');
                     $row2 = mysqli_fetch_assoc($result2);
                     
-                    print('<table><tr><td>Bestelnr: </td><td>'.$bestelnr.'</td></tr>'
+                    print('<table><tr><td><form action="bestellingbeheer.php" method="POST"><input type="submit" name="terug" class="button" value="Terug naar overzicht"></form></td></tr>'
+                            . '<tr><td>Bestelnr: </td><td>'.$bestelnr.'</td></tr>'
                             . '<tr><td>Klantnr: </td><td>'.$row2["klantnr"].'</td></tr>'
                             . '<tr><td>Bedrijfsnaam: </td><td>'.$row2["bedrijfsnaam"].'</td></tr>'
                             . '<tr><td>Telefoon nummer: </td><td>'.$row2["telnummer"].'</td></tr>');

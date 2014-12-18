@@ -26,11 +26,6 @@ and open the template in the editor.
                 <form action="" method="get" id="select">
                     <input class="zoekinput" type="text" placeholder="Zoek" name="zoekbalk" <?php if(isset($_GET['zoekbalk'])){ print('value="'.$_GET['zoekbalk'].'"'); } ?>>
                     <input class="zoeksubmit" type="submit" value="Zoek" name="zoekknop"><br><br>
-                    <h4>Selecteer subcategorie:</h4>
-                    <input type="checkbox"  name="subcategorie[]"  value="Katrin" <?php if (in_array("Katrin", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Katrin<br>
-                    <input type="checkbox"  name="subcategorie[]"  value="Blanco" <?php if (in_array("Blanco", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Blanco<br>
-                    <input type="checkbox"  name="subcategorie[]"  value="Tana" <?php if (in_array("Tana", $subcategorie)) echo "checked ='checked'"; ?>onclick="this.form.submit()";>Tana<br>
-                    <input type="checkbox"  name="subcategorie[]"  value="Eurotissue" <?php if (in_array("Eurotissue", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Eurotissue<br><br>
                     <h4>Selecteer prijscategorie:</h4>
                     <select name="prijs" form="select" onchange="this.form.submit()">
                         <option value=0 <?php if (isset($_GET['prijs']) && $_GET["prijs"] == 0) echo "selected"; ?>>Selecteer prijs </option>
@@ -46,8 +41,8 @@ and open the template in the editor.
                     <h4>Sorteer op:</h4>
                     <select name="sort" form="select" onchange="this.form.submit()">
                         <option value=0 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 0) echo "selected"; ?>>Niet gesorteerd</option>
-                        <option value=1 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 1) echo "selected"; ?>>subcategorie (oplopend)</option>
-                        <option value=2 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 2) echo "selected"; ?>>subcategorie (aflopend)</option>
+                        <option value=1 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 1) echo "selected"; ?>>merk (oplopend)</option>
+                        <option value=2 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 2) echo "selected"; ?>>merk (aflopend)</option>
                         <option value=3 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 3) echo "selected"; ?>>prijs (oplopend)</option>
                         <option value=4 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 4) echo "selected"; ?>>prijs (aflopend)</option>
                         <option value=5 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 5) echo "selected"; ?>>categorie (oplopend)</option>
@@ -100,7 +95,7 @@ and open the template in the editor.
             if (!(isset($_GET['subcategorie']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop']))) {
                 if ($query == "") {
                     
-					$query = "SELECT afbeelding, productnr, productnaam, omschrijving, subcategorie, prijs FROM product";
+					$query = "SELECT * FROM product";
 
                 }
             }
@@ -146,7 +141,7 @@ and open the template in the editor.
 						. '<input type="hidden" name="actie" value="toevoegen">'
                         . '<a class="tooltip-right" data-tooltip="Bestel"><input type="image" name="image" value="toevoegen" style="height:40px;" src="./plaatjes/winkelmandje.jpg" alt="Submit Form"></a></form>'.'
 						</td>
-              <td class="prijsblock">&euro; ' . number_format($row['prijs'],2,",",".") . "
+              <td class="prijsblock"><a href="#">&euro; ' . number_format($row['prijs'],2,",",".") . "</a>
 			  <div class=\"prijskleinblock\">(&euro; ".prijsber($row['prijs'])." incl 21% BTW)</div>
 			  </td></tr>");
                     $row = mysqli_fetch_assoc($result);

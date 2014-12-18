@@ -17,7 +17,7 @@ $link = connectDB();
             <div class="header">
 
                 <div class="logo">
-                    <img class="logo" src="../plaatjes/logo.png">
+                    <a href="../index.php"><img class="logo" src="../plaatjes/logo.png"></a>
                 </div>
                 <div class="login">
                     <?php
@@ -45,8 +45,8 @@ $link = connectDB();
                         $actie = $_POST["actie"];
                         if ($actie == "Verwijderen") {
                             $bestelnr = $_POST["bestelnr"];
-                            mysqli_query($link, 'DELETE FROM bestelling WHERE bestelnr = "' . $bestelnr . '";');
                             mysqli_query($link, 'DELETE FROM bestelregel WHERE bestelnr = "' . $bestelnr . '";');
+                            mysqli_query($link, 'DELETE FROM bestelling WHERE bestelnr = "' . $bestelnr . '";');
                             print(mysqli_error($link));
                         }
 
@@ -84,8 +84,8 @@ $link = connectDB();
                                 . '<option value="Geannuleerd">Geannuleerd</option>'
                                 . '<option value="Afgehandeld">Afgehandeld</option></select></td></tr>'
                                 . '<input type="hidden" name="bestelnr" value="' . $bestelnr . '">'
-                                . '</form></table>'
-                                . '<input form="toevoegen" type="submit" name="actie" class="button" value="' . $waarde . '">'
+                                . '</table>'
+                                . '<input type="submit" name="actie" class="button" value="' . $waarde . '"></form>'
                         );
                     } else {
                         
@@ -102,7 +102,7 @@ $link = connectDB();
 
                     print('<table class="table_administratie"><tr><th>Bestelnr</th><th>Klantnr</th><th>Status</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Transactie Referentie</th><th>Aantal Artikelen</th><th>Verwijderen</th><th>Aanpassen</th><th>Bekijken</th></tr>');
                     while ($row) {
-                        $result2 = mysqli_query($link, 'SELECT SUM(aantal) hoeveelheid FROM bestelregel WHERE bestelnr = "' . $row["bestelnr"] . '" GROUP BY aantal;');
+                        $result2 = mysqli_query($link, 'SELECT SUM(aantal) hoeveelheid FROM bestelregel WHERE bestelnr = "' . $row["bestelnr"] . '" GROUP BY bestelnr;');
                         $row2 = mysqli_fetch_assoc($result2);
                         print('<tr><td>' . $row["bestelnr"] . '</td>'
                                 . '<td>' . $row["klantnr"] . '</td>'
