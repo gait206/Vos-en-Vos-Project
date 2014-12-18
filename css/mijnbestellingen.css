@@ -1,14 +1,21 @@
 /*css bestand voor mijn bestellingen en bestel geschiedenis*/
 /*class voor naar de bestelgeschiedenis is en */
+
+
+
 .bestelgeschiedenis:hover {
     text-decoration:underline;
-    color:blue;
+
 }
 
 .bestelgeschiedenis {
-    font-size: 14px;
+    font-size: 16px;
+    font-weight:bold;
+    background-color: #344D8E;
+    border: 1px solid #344D8E;
+    color: #fff;
     text-decoration:none;
-    color:blue;
+    display:block;
 }
 
 .bestelnummer:hover {
@@ -20,18 +27,38 @@
     text-decoration:none;
     color:black;
 }
-.tablebestellingen{
-    border:solid black 2px;
 
+.bestelregelheader{
+    font-size: 90%;
+    font-weight:bold;
+    background-color: #344D8E;
+    border: 1px solid #344D8E;
+    color: #fff;
+    text-align: left;
+    margin:0;
 }
-.TDbestellingen{
-    border:solid black 2px;
-    
+
+.tablebestellingen {
+    width: 100%;
+    border-spacing:0px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
-.Tableannuleer{
-    border: solid black 2px;
-    padding-top:auto;
-    padding-bottom:auto;
-    
-    
+.tablebestellingen th {
+    font-size:90%;
+    background-color: #344D8E;
+    border: 1px solid #344D8E;
+    color: #fff;
+    text-align: left;
+}
+
+.tablebestellingen td {
+    margin:0%;
+    border: 1px solid rgb(66, 85, 146);
+}
+
+.tableannuleer{ 
+    padding-top:10px;
 }

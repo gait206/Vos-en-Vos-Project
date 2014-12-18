@@ -9,6 +9,7 @@ $link = connectDB();
         <title></title>
         <link rel="stylesheet" type="text/css" href="../css/main.css">
         <link rel="stylesheet" type="text/css" href=" ../css/mijnbestellingen.css">
+        <link rel="stylesheet" type='text/css' href=" ../css/admin.css">
         <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
         <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     </head>
@@ -39,40 +40,43 @@ $link = connectDB();
                         return confirm("Weet u zeker dat u deze besteling wilt annuleren?");
                     }
                 </script>
-                <?php
-                if (!validToken($link)) {
-                    header('Location: ../index.php');
-                }
-                $Klantnr = getKlantnr($link);
-                if (!empty($_POST["actie"])) {
-                    $actie = $_POST["actie"];
-                    if ($actie == "Bestelling annuleren") {
-                        $bestelnummer = $_POST["bestelnr"];
-                        mysqli_query($link, 'UPDATE Bestelling SET status = "Geannuleerd", bezorgdatum = NULL WHERE bestelnr = "' . $bestelnummer . '";');
+                <div class="body" id="main_content">
+                    <?php
+                    if (!validToken($link)) {
+                        header('Location: ../index.php');
                     }
-                }
+                    $Klantnr = getKlantnr($link);
+                    if (!empty($_POST["actie"])) {
+                        $actie = $_POST["actie"];
+                        if ($actie == "Bestelling annuleren") {
+                            $bestelnummer = $_POST["bestelnr"];
+                            mysqli_query($link, 'UPDATE Bestelling SET status = "Geannuleerd", bezorgdatum = NULL WHERE bestelnr = "' . $bestelnummer . '";');
+                        }
+                    }
 
-                $Klantnr = getKlantnr($link);
-                $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '$Klantnr' AND status ='In behandeling'");
-                $bestelling = mysqli_fetch_assoc($result);
-                
-                print("<table class='tablebestellingen'><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th>");
-                while ($bestelling) {
-                    print("<tr>"
-                            . "<td class='TDbestellingen'><a href='bestelling.php?bestelnr=" . $bestelling["bestelnr"] . "' class='bestelnummer'>" . $bestelling["bestelnr"] . "</a></td>"
-                            . "<td class='TDbestellingen'>" . $bestelling["opmerking"] . "</td>"
-                            . "<td class='TDbestellingen'>" . $bestelling["besteldatum"] . "</td>"
-                            . "<td class='TDbestellingen'>" . $bestelling["bezorgdatum"] . "</td>"
-                            . "<td class='TDbestellingen'>" . $bestelling["status"] . "</td>"
-                            . '<td class="Tableannuleer"><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $bestelling["bestelnr"] . '"><input type="submit" name="actie" value="Bestelling annuleren" onClick="return checkDelete()"></form></td>'
-                            . "</tr>");
+                    $Klantnr = getKlantnr($link);
+                    $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '$Klantnr' AND status ='In behandeling'");
                     $bestelling = mysqli_fetch_assoc($result);
-                }
+
+                    print("<table class='tablebestellingen'><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th><th>Annuleren</th>");
+                    while ($bestelling) {
+                        if (empty ($bestelling["opmerking"])) $bestelling["opmerking"]='N.V.T';
+                        print("<tr>"
+                                . "<td><a href='bestelling.php?bestelnr=" . $bestelling["bestelnr"] . "' class='bestelnummer'>" . $bestelling["bestelnr"] . "</a></td>"
+                                . "<td>" . $bestelling["opmerking"] . "</td>"
+                                . "<td>" . $bestelling["besteldatum"] . "</td>"
+                                . "<td>" . $bestelling["bezorgdatum"] . "</td>"
+                                . "<td>" . $bestelling["status"] . "</td>"
+                                . '<td class="Tableannuleer"><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $bestelling["bestelnr"] . '"><input type="submit" name="actie" value="Bestelling annuleren" onClick="return checkDelete()"></form></td>'
+                                . "</tr>");
+                        $bestelling = mysqli_fetch_assoc($result);
+                    }
 
 
-                print("</table>");
-                ?>
-                <a href="Bestelgeschiedenis.php" class="bestelgeschiedenis">Bestelgeschiedenis</a>
+                    print("</table>");
+                    ?>
+                    <a href="Bestelgeschiedenis.php" class="bestelgeschiedenis">Bestelgeschiedenis</a>
+                </div>
             </div>
 
             <div class="footer">
