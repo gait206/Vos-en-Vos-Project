@@ -6,6 +6,8 @@
  * and open the template in the editor.
  */
 
+
+function createFactuur($name, $bestelnr) {
 require('fpdf/fpdf.php');
 include('../functies.php');
 
@@ -15,7 +17,6 @@ $pdf->SetFont('Helvetica', 'B', 16);
 
 $link = connectDB();
 
-$bestelnr = $_GET["bestelnr"];
 $result = mysqli_query($link, 'SELECT * FROM bestelling WHERE bestelnr = "' . $bestelnr . '";');
 $row = mysqli_fetch_assoc($result);
 
@@ -97,10 +98,16 @@ $totaalBTW = $totaalBedrag * 0.21;
 $totaalBedragBTW = $totaalBTW + $totaalBedrag;
 
 $pdf->Ln(10);
+$pdf->SetLeftMargin(140);
+$pdf->Cell(35, 10, 'Totaal:');
 $pdf->Cell(35, 10, number_format($totaalBedrag,2));
 $pdf->Ln(10);
+$pdf->Cell(35, 10, 'Totaal BTW:');
 $pdf->Cell(35, 10, number_format($totaalBTW,2));
 $pdf->Ln(10);
+$pdf->Cell(35, 10, 'Totaal Bedrag:');
 $pdf->Cell(35, 10, number_format($totaalBedragBTW,2));
 
-$pdf->Output();
+$pdf->Output($name ,'F /facturen');
+
+}

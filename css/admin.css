@@ -61,3 +61,12 @@ form.table_administratie{
     background-color: #9A9CC5;
     padding: 10px;
 }
+.specialrow {
+    height:50px;
+    background-color:lightblue;
+}
+.specialrow input {
+    height:100%;
+    font-size:20px;
+    width:100%;
+}
