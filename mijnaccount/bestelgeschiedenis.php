@@ -52,7 +52,8 @@ $link = connectDB();
 
                     print("<table class='tablebestellingen'><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th>");
                     while ($bestelling) {
-                        if(empty($bestelling["opmerking"])) $bestelling["opmerking"] = "N.V.T";
+                        if (empty($bestelling["opmerking"]))
+                            $bestelling["opmerking"] = "N.V.T";
                         print("<tr>"
                                 . "<td><a href='bestelling.php?bestelnr=" . $bestelling["bestelnr"] . "' class='bestelnummer'>" . $bestelling["bestelnr"] . "</a></td>"
                                 . "<td>" . $bestelling["opmerking"] . "</td>"
@@ -66,10 +67,11 @@ $link = connectDB();
 
                     print("</table>");
                     ?>
-                    <a href="mijnbestellingen.php" class="bestelgeschiedenis">Mijn bestellingen</a>
                 </div>
             </div>
-
+            <div>
+                <form class="margin" action="bestelgeschiedenis.php" method="POST"><input class="bestelgeschiedenis" type="submit" name="mijn bestellingen" value="Bestelgeschiedenis"></form>
+            </div>
             <div class="footer">
                 <?php
                 include "../footer.php";

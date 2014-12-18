@@ -63,10 +63,11 @@ $link = connectDB();
 
                     print("</table>");
                     ?>
-                    <a href="mijnbestellingen.php" class="bestelgeschiedenis">Mijn bestellingen</a>
                 </div>
             </div>
-
+            <div>
+                <form class="margin" action="bestelgeschiedenis.php" method="POST"><input class="bestelgeschiedenis" type="submit" name="mijn bestellingen" value="Bestelgeschiedenis"></form>
+            </div>
             <div class="footer">
                 <?php
                 include "../footer.php";
