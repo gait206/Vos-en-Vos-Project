@@ -141,13 +141,15 @@ and open the template in the editor.
             while ($row) {
                 print("<tr>
 			  <td class=\"afbeelding\">");
-                if ($row['afbeelding'] == "") {
-                    print("<img src=\"./plaatjes/logo.png\"");
-                } else {
-                    print("<img src= " . $row['afbeelding'] . " ");
-                }
+               print('<form name="product" method="GET" action="administratie/product.php" >');
+                if($row['afbeelding'] == ""){
+				  print('<input class="afbeeldingblock" type="image" src="./plaatjes/logo.png">');
+				  }
+				  else{
+				  print('<input class="afbeeldingblock" type="image" src=' . $row['afbeelding'].'>');
+				  }
                 print("</td>
-				<td class=\"productnaam\">". '<a href="#" onclick="document.product.submit()">' . $row['productnaam'] . "	</a>"
+				<td class=\"productnaam\">". '<a href="administratie/product.php?productnr='.$row["productnr"].'" onclick="document.product.submit()">' . $row['productnaam'] . "	</a>"
 				.'<form name="product" method="GET" action="administratie/product.php" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
 				." <div class=\"omschrijving\">" . $row['omschrijving'] . "</div></td>
 				<td class=\"winkelm\">"
