@@ -31,7 +31,7 @@ if (!existCookie($cookiename)) {
                             $actie = $_POST["actie"];
                             if ($actie == "Uitloggen") {
                                 deleteToken("true", $link);
-                                header('Location: verzenden.php');
+                                header('Location: opmerking.php');
                             }
                         }
                         $klantnr = getKlantnr($link);
@@ -82,7 +82,7 @@ if (!existCookie($cookiename)) {
 					$row = mysqli_fetch_assoc($result);
 					$klantnr = $row["klantnr"];
                                         createToken($klantnr, $link);
-                                        header('Location: verzenden.php');
+                                        header('Location: opmerking.php');
                                     } else {
                                         print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
                                     }
@@ -102,52 +102,9 @@ if (!existCookie($cookiename)) {
                     </form>');
                         print('</div>');
                     } else {
-                        print('<div class="verzendadres"><h1 class="kop">Kies verzendadres</h1>');
-                        $plaats = "";
-                        $adres = "";
-                        $postcode = "";
-                        if(!empty($_POST["actie"]) && $_POST["actie"] == "Afronden"){
-                        if (!empty($_POST["verzendadres"])) {
-                            if ($_POST["verzendadres"] != "adres") {
-                                if (!empty($_POST["plaats"]) && !empty($_POST["adres"]) && !empty($_POST["postcode"])) {
-                                    // word uitgevoerd als het normale adres niet word gebruikt
-                                    $plaats = $_POST["plaats"];
-                                    $adres = $_POST["adres"];
-                                    $postcode = $_POST["postcode"];
-                                    
-                                    $stmt = mysqli_prepare($link, 'INSERT INTO anderadres VALUES(?,?,"'.$adres.'","'.$postcode.'");');
-                                    mysqli_stmt_bind_param($stmt, 'is', $bestelnr, $plaats);
-                                    mysqli_stmt_execute($stmt);
-                                    
-                                    header('Location: opmerking.php');
-                                } else {
-                                    print('<p class="foutmelding">Je hebt niet alle gegevens ingevuld!</p>');
-                                }
-                            } else {
-                                // word uitgevoerd als het normale adres word gebruikt
-                                header('Location: opmerking.php');
-                            }
-                        } else {
-                            print('<p class="foutmelding">Kies een verzendadres!</p>');
-                        }
-                        }
-
-
-                        // kolom1 adres
                         
-                        print('<form method="POST" action="" id="afleveradres"><div class="kolom1"><table><tr><td><input type="radio" name="verzendadres" value="adres">Bedrijfs afleveradres</td></tr>');
-
-                        $result = mysqli_query($link, 'SELECT adres, plaats, postcode FROM klant WHERE klantnr ="' . getKlantnr($link) . '";');
-                        $row = mysqli_fetch_assoc($result);
-
-                        print('<tr><td>Plaats: </td><td>' . $row["plaats"] . '</td></tr><tr><td>Adres: </td><td>' . $row["adres"] . '</td></tr><tr><td>Postcode: </td><td>' . $row["postcode"] . '</td></tr></table></div>');
-
-                        // kolom2 ander adres
-                        print('<div class="kolom2" id="kolom2"><table><tr><td><input type="radio" name="verzendadres" value="anderadres">Ander afleveradres</td></tr>'
-                                . '<tr><td>Plaats: </td><td><input type=text" name="plaats" placeholder="plaats" value="' . $plaats . '"></td></tr>'
-                                . '<tr><td>Adres: </td><td><input type=text" name="adres" placeholder="adres" value="' . $adres . '"></td></tr>'
-                                . '<tr><td>Postcode: </td><td><input type=text" name="postcode" placeholder="postcode" value="' . $postcode . '"></td></tr></table></div>');
-                        print('</form>');
+                        // code die uitgevoerd word als je ingelogd bent
+                      
                     }
                     ?>
 <input class="verzenden_knop_right" type="submit" name="actie" value="Afronden" form="afleveradres">

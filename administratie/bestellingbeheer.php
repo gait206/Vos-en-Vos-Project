@@ -77,6 +77,7 @@ $link = connectDB();
 
                         $waarde = "Bijwerken";
                         print('<table><form id="toevoegen" method="POST" action="">'
+                                . '<tr><td>Bestelnummer</td><td>'.$bestelnr.'</td></tr>'
                                 . '<tr><td>Bezorgdatum:</td><td><input type="date" min="' . date("Y-m-d", time()) . '" name="bezorgdatum" value="' . $bezorgdatum . '"></td></tr>'
                                 . '<tr><td>Status:</td><td>'
                                 . '<select name="status"><option value="In behandeling">In behandeling</option>'
@@ -111,7 +112,7 @@ $link = connectDB();
                                 . '<td>' . date("d-m-Y", strtotime($row["bezorgdatum"])) . '</td>'
                                 . '<td>' . $row["transactieref"] . '</td>'
                                 . '<td>' . $row2["hoeveelheid"] . '</td>'
-                                . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $row["bestelnr"] . '"><input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td>'
+                                . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $row["bestelnr"] . '"><input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete();"></form></td>'
                                 . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $row["bestelnr"] . '"><input type="submit" name="actie" value="Aanpassen">	</form></td>'
                                 . '<td><form action="bestelling.php?bestelnr=' . $row["bestelnr"] . '" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $row["bestelnr"] . '"><input type="submit" name="actie" value="Bekijken"></form></td></tr>');
                         $row = mysqli_fetch_assoc($result);

@@ -63,7 +63,11 @@ if (!empty($_POST["aanpassen"])) {
             ?>
 
             <div class="content">
-
+            <script>
+                    function checkDelete() {
+                        return confirm("Weet u zeker dat u dit product wilt verwijderen?");
+                    }
+                </script>
                 <div class="body" id="main_content">
                     <?php
                    
@@ -123,7 +127,7 @@ if (!empty($_POST["aanpassen"])) {
                         print('<tr>'
 								. '<form  action="" method="POST" >'
                                 . '<td style="text-align:center;" width="10%"><input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
-                                . '<input type="image" src="/plaatjes/deleteicon.png" height="30" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td><td style="text-align:center;" width="20%">');
+                                . '<input type="image" src="/plaatjes/deleteicon.png" height="30" name="actie" value="Verwijderen" onClick="return checkDelete();"></form></td><td style="text-align:center;" width="20%">');
 								if($afbeelding == ""){
 				  				print('<img height="80" style="max-width:180px" src="./plaatjes/logo.png">');
 				 				}
