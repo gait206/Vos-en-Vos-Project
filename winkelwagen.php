@@ -121,6 +121,7 @@ if (!empty($_POST["aanpassen"])) {
                         // printen waarden
                         print('<tr>'
 								. '<form  action="" method="POST" >'
+								. '<input type="hidden" name="actie" value="Verwijderen">'
                                 . '<td style="text-align:center;" width="10%"><input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
                                 . '<input type="image" src="/plaatjes/deleteicon.png" height="30" name="actie" value="Verwijderen"></form></td><td style="text-align:center;" width="20%">');
 								if($afbeelding == ""){
