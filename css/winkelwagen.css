@@ -82,3 +82,12 @@ form.table_administratie{
     margin-top:20px;
     float:right;
 }
+
+.winkelwagen_link {
+    text-decoration: none;
+    color:#344d8e;
+}
+
+.winkelwagen_link:hover {
+    text-decoration: underline;
+}

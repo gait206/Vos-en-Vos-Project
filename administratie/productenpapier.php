@@ -123,7 +123,7 @@ and open the template in the editor.
                         if (!($pages <= ($perpage * ($amount -1)))){
                             $pages = $_GET["pages"] + $perpage;
                         }else{
-                            $pages = $perpage * ($amount -1);
+                            $pages = $perpage;
                         }
                     }
                 }
@@ -162,7 +162,7 @@ and open the template in the editor.
                 }
                 ?>
             </p>
-            <select name="perpage" onchange="this.form.submit()" form="select">
+            aantal producten per pagina: <select name="perpage" onchange="this.form.submit()" form="select">
                 <option value="10"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 10) echo "selected"; ?>>10</option>
                 <option value="20"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 20) {
                     echo "selected";

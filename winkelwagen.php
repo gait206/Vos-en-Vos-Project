@@ -63,11 +63,6 @@ if (!empty($_POST["aanpassen"])) {
             ?>
 
             <div class="content">
-            <script>
-                    function checkDelete() {
-                        return confirm("Weet u zeker dat u dit product wilt verwijderen?");
-                    }
-                </script>
                 <div class="body" id="main_content">
                     <?php
                    
@@ -127,7 +122,7 @@ if (!empty($_POST["aanpassen"])) {
                         print('<tr>'
 								. '<form  action="" method="POST" >'
                                 . '<td style="text-align:center;" width="10%"><input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
-                                . '<input type="image" src="/plaatjes/deleteicon.png" height="30" name="actie" value="Verwijderen" onClick="return checkDelete();"></form></td><td style="text-align:center;" width="20%">');
+                                . '<input type="image" src="/plaatjes/deleteicon.png" height="30" name="actie" value="Verwijderen"></form></td><td style="text-align:center;" width="20%">');
 								if($afbeelding == ""){
 				  				print('<img height="80" style="max-width:180px" src="./plaatjes/logo.png">');
 				 				}
@@ -136,7 +131,7 @@ if (!empty($_POST["aanpassen"])) {
 				  				}
 
 								print('</td><td style="text-align: center;" width="10%">' . $product_nummer . '</td>'
-                                . '<td style="text-align:left; padding-left:30px; color:#344d8e;" width="30%">' . $product_naam . '</td>'
+                                . '<td style="text-align:left; padding-left:30px; color:#344d8e;" width="30%"><a class="winkelwagen_link" href="../administratie/product.php?productnr='.$product_nummer.'">' . $product_naam . '</a></td>'
                                 . '<td style="text-align: center;" width="10%"><form class="table_administratie"  action="" method="POST" >'
                                 . '<input  type="number" class="textbox" name="aanpassen" value="' . $value . '" onchange=this.form.submit();> </td>'
                                  . '<input  type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
