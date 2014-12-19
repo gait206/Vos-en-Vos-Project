@@ -10,9 +10,11 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="./css/producten.css">
         <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
         <title></title>
+        
     </head>
     <body>
         <?php
+		$conn = connectDB();
         if (isset($_GET["subcategorie"])) {
             $subcategorie = $_GET["subcategorie"];
         } else {
@@ -65,7 +67,8 @@ and open the template in the editor.
                     default : $switch = 4;
                 }
 				
-                $query = "";
+                $query = base_query_generate($switch);
+				
                 if (isset($_GET['subcategorie']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop'])) {
 	
                     if (isset($_GET['subcategorie'])) {
@@ -83,6 +86,40 @@ and open the template in the editor.
                     }}
                     $query = sort_query_generate($query, $sort);
                 }
+				
+				if (!empty($_GET["perpage"])) {
+                    $perpage = $_GET["perpage"];
+                } else {
+                    $perpage = 20;
+                }
+
+                $resultcount = mysqli_query($conn, $query);
+                $amount = amount_per_page($resultcount, $perpage);
+
+                if (!empty($_GET["pages"])) {
+                    if ($_GET["pages"] == $_GET["ref"]) {
+                        $pages = 0;
+                    } else {
+                        $pages = $_GET["pages"];
+                    }
+                } else {
+                    $pages = 0;
+                }
+
+                if (!empty($_GET["action"])) {
+                    if ($_GET["action"] == "<") {
+                        if ($pages != 0) {
+                            $pages = $_GET["pages"] - $perpage;
+                        }
+                    }else {
+                        if (!($pages <= ($perpage * ($amount -1)))){
+                            $pages = $_GET["pages"] + $perpage;
+                        }else{
+                            $pages = $perpage;
+                        }
+                    }
+                }
+                $query = limit_query_generate($pages, $query, $perpage);
                 ?>
 
             </div>
@@ -91,14 +128,14 @@ and open the template in the editor.
         <div class="body" id="main_content">
             <?php
 // Create connection
-            $conn = connectDB();
-            if (!(isset($_GET['subcategorie']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop']))) {
-                if ($query == "") {
-                    
-					$query = "SELECT * FROM product";
-
-                }
-            }
+//            $conn = connectDB();
+//            if (!(isset($_GET['subcategorie']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop']))) {
+//                if ($query == "") {
+//                    
+//					$query = "SELECT * FROM product";
+//
+//                }
+//            }
                 $result = mysqli_query($conn, $query);
                 $row = mysqli_fetch_assoc($result);
 				?>
@@ -106,11 +143,21 @@ and open the template in the editor.
                 <p class="aantalzoek">
 				<?php
 				if(!mysqli_num_rows($result) == 0){
-				print("Aantal resultaten: " .mysqli_num_rows($result));
+				print("Aantal resultaten: " .mysqli_num_rows($resultcount));
 				}
 				?>
                 </p>
-                
+            aantal producten per pagina: <select name="perpage" onchange="this.form.submit()" form="select">
+                <option value="12"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 12) echo "selected"; ?>>12</option>
+                <option value="20"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 20) {
+                    echo "selected";
+                } elseif (empty($_GET["perpage"])) {
+                    echo 'selected';
+                } ?>>20</option>
+                <option value="28"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 28) echo "selected"; ?>>28</option>
+                <option value="51"<?php if (!empty($_GET["perpage"]) && $_GET["perpage"] == 51) echo "selected"; ?>>51</option>
+            </select>
+            <table>
                 <?php
                 while ($row) {
                     print('<table class="headerblock">
@@ -155,6 +202,28 @@ and open the template in the editor.
 		print("<p class=\"geenres\">Geen resultaten gevonden</p>");  
 		}
 		?>      
+        <p>
+        <input type="submit" name="action" value="<" form="select">
+            <select name="pages" onchange="this.form.submit()" form="select">
+                <?php
+                for ($i = 0; $i < $amount; $i++) {
+                    $x = $i + 1;
+                    if ($pages == ($i * $perpage)) {
+                        print('<option value="' . $i * $perpage . '" selected >' . $x . '</option>');
+                    } else {
+                        print('<option value="' . $i * $perpage . '" >' . $x . '</option>');
+                    }
+                }
+                ?>
+            </select>
+            <?php
+            if (!empty($_GET["pages"])) {
+                print "<input type='hidden' name='ref' value='" . $_GET["pages"] . "' form='select' >";
+            } else {
+                print "<input type='hidden' name='ref' value='0' form='select' >";
+            }
+            ?>
+            <input type="submit" name="action" value=">" form="select">
     </div>
 
 </body>

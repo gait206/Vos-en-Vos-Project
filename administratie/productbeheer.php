@@ -38,6 +38,7 @@ $link = connectDB();
                     }
                 </script>
                 <div class="body" id="main_content">
+                
                     <?php
                     restrictedPage("Admin", $link);
 
@@ -205,7 +206,13 @@ $link = connectDB();
                     // toont resultaten
                     $result = mysqli_query($link, 'SELECT * FROM product');
                     $row = mysqli_fetch_assoc($result);
-
+					?>
+                    <div class="aantalzoek">
+<?php
+print("Totaal aantal producten: " . mysqli_num_rows($result));
+?>
+</div>
+                    <?php
                     print('<table class="table_administratie"><tr><th>productnr</th><th>productnaam</th><th>categorie</th><th>subcategorie</th><th>merk</th><th>EAN</th><th>voorraad</th><th>prijs</th><th>afbeelding</th><th>Verwijderen</th><th>Aanpassen</th></tr>');
                     while ($row) {
                         print('<tr><td>' . $row["productnr"] . '</td>'
@@ -217,13 +224,13 @@ $link = connectDB();
                                 . '<td>' . $row["voorraad"] . '</td>'
                                 . '<td>' . number_format($row["prijs"], 2) . '</td>'
                                 . '<td><img class="small" src="' . $row["afbeelding"] . '" ></td>'
-                                . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"><input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete()"></form></td>'
+                                . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"><input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete();"></form></td>'
                                 . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"><input type="submit" name="actie" value="Aanpassen"></form></td></tr>');
                         $row = mysqli_fetch_assoc($result);
                     }
                     print("</table>");
                     ?>
-
+                    
                 </div>
 
                 
