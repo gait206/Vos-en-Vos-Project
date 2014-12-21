@@ -193,8 +193,9 @@ function filter_query_generate($query, $switch, array $checkbox) {
 
 function search_query_generate($search_term, $query) {
     $query .= 'AND (productnaam LIKE "%' . $search_term . '%" OR
-                        productnr = "' . $search_term . '" OR
-                        omschrijving LIKE "%' . $search_term . '%")';
+					inhoud LIKE "%' . $search_term . '%" OR
+                    productnr = "' . $search_term . '" OR
+                    omschrijving LIKE "%' . $search_term . '%")';
 
     return($query);
 }
