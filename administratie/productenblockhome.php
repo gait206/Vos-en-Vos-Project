@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="./css/producten.css">
+        <link rel="stylesheet" type="text/css" href="../css/producten.css">
         <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
         <title></title>
         
@@ -164,21 +164,26 @@ and open the template in the editor.
 					<tr height=0px></tr>
 					<tr>
 			  <td class="afbeeldingblock" colspan=2>');
-			  print('<form name="product" method="GET" action="administratie/product.php" >');
+			  print('<form name="product" method="GET" action="administratie/product.php" style="margin-bottom:0px;">');
 			  if($row['afbeelding'] == ""){
-				  print('<input class="afbeeldingblock" type="image" src="./plaatjes/logo.png">');
+				  print('<input class="afbeeldingblock" type="image" src="../plaatjes/logo.png">');
 				  }
 				  else{
 				  print('<input class="afbeeldingblock" type="image" src=' . $row['afbeelding'].'>');
 				  }
 				  print("</td></tr>
 				  <tr>
-              <td colspan=2 class=\"productnaamblock\">". '<a href="administratie/product.php?productnr='.$row["productnr"].'" onclick="document.product.submit()">' . $row['productnaam'] . "	</a>"
+              <td colspan=2 class=\"productnaamblock\">". '<a href="administratie/product.php?productnr='.$row["productnr"].'" onclick="document.product.submit();">' . $row['productnaam'] . "	</a>"
 			  .'<input type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
 			  ."</td>
 			  </tr><tr>
 			  <td colspan=2\">
-              <div class=\"omschrijvingblock\">" . $row['omschrijving'] . "</div>
+              <div class=\"omschrijvingblock\">
+			  Subcat: " . $row['subcategorie'] . "<br>
+			  Merk: " . $row['merk'] . "<br>
+			  Inhoud: " . $row['inhoud'] . "<br>
+			  Kleur: " . $row['kleur']."
+			  </div>
 			  </td>
 			  </tr><tr>"
 			  
@@ -188,7 +193,7 @@ and open the template in the editor.
 						. '<input type="hidden" name="actie" value="toevoegen">'
                         . '<a class="tooltip-right" data-tooltip="Bestel"><input type="image" name="image" value="toevoegen" style="height:40px;" src="./plaatjes/winkelmandje.jpg" alt="Submit Form"></a></form>'.'
 						</td>
-              <td class="prijsblock"><a href="#">&euro; ' . number_format($row['prijs'],2,",",".") . "</a>
+              <td class="prijsblock"><a href="administratie/product.php?productnr='.$row["productnr"].'" onclick="document.product.submit();">&euro; ' . number_format($row['prijs'],2,",","."). "</a>
 			  <div class=\"prijskleinblock\">(&euro; ".prijsber($row['prijs'])." incl 21% BTW)</div>
 			  </td></tr>");
                     $row = mysqli_fetch_assoc($result);
