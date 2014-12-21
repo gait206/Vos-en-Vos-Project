@@ -65,8 +65,8 @@ $link = connectDB();
                         print("<tr>"
                                 . "<td><a href='bestelling.php?bestelnr=" . $bestelling["bestelnr"] . "' class='bestelnummer'>" . $bestelling["bestelnr"] . "</a></td>"
                                 . "<td>" . $bestelling["opmerking"] . "</td>"
-                                . "<td>" . $bestelling["besteldatum"] . "</td>"
-                                . "<td>" . $bestelling["bezorgdatum"] . "</td>"
+                                . "<td>" . date("d-m-Y", strtotime($bestelling["besteldatum"])) . "</td>"
+                                . "<td>" . date("d-m-Y", strtotime($bestelling["bezorgdatum"])) . "</td>"
                                 . "<td>" . $bestelling["status"] . "</td>"
                                 . '<td class="Tableannuleer"><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $bestelling["bestelnr"] . '"><input type="submit" name="actie" value="Bestelling annuleren" onClick="return checkDelete()"></form></td>'
                                 . "</tr>");
