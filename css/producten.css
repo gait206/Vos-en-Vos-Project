@@ -315,7 +315,7 @@ table.headerblock:hover{
 /* right */
 .tooltip-right:before,
 .tooltip-right:after {
-  bottom: 95%;
+  bottom: 120%;
   left: 100%;
 }
 

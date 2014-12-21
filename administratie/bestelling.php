@@ -81,7 +81,7 @@ $link = connectDB();
                             if(mysqli_errno($link)){
                                 print('<p class="foutmelding">Dit product bestaat niet!</p>');
                             } else {
-                                print(mysqli_errno($link));
+                                print('Product succesvol toegevoegd!');
                             }
                         }
                     }
