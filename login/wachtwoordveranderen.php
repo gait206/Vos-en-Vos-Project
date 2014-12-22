@@ -35,11 +35,14 @@ $link = connectDB();
                 <div class="body" id="main_content">
                     <div class="forgot_password">
                         <?php
+                        // kijkt of alle gegevens wel zijn ingevoerd
                         if (!(empty($_GET["email"]) && empty($_GET["token"]))) {
+                            // kijkt of de gegevens correct zijn
                             if (verifyPasswordForgot($_GET["email"], $_GET["token"], $link)) {
                                 print('<h1>Wachtwoord Veranderen</h1>');
                                 print('<p>Verander hier uw wachtwoord.</p>');
 
+                                // kijkt of er geen velden zijn vergeten en geeft anders een foutmelding
                                 if (!empty($_POST["actie"])) {
                                     if (!empty($_POST["wachtwoord"]) && !$_POST["wachtwoord2"]) {
                                         if (!empty($_POST["wachtwoord"])) {
@@ -53,16 +56,18 @@ $link = connectDB();
                                             print('<p class="foutmelding">Je moet het veld wachtwoord herhalen invullen!</p>');
                                         }
                                     } else {
+                                        // word uitgevoerd als alle velden zijn ingevuld
                                         $wachtwoord = $_POST["wachtwoord"];
                                         $wachtwoord2 = $_POST["wachtwoord2"];
                                         $email = $_GET["email"];
                                         if ($wachtwoord = $wachtwoord2) {
-                                            // dingen die moeten gebeuren als de wachtwoorden hetzelfde zijn
+                                            // maakt een nieuw wachtwoord aan als de wachtwoorden overeen komen
                                             $hash = encryptPassword($wachtwoord);
                                             $stmt2 = mysqli_prepare($link, 'UPDATE gebruiker SET wachtwoord = ? WHERE email = ?;');
                                             mysqli_stmt_bind_param($stmt2, 'ss', $hash, $email);
                                             mysqli_execute($stmt2);
                                             
+                                            // verwijderd het account uit de recovery
                                             $stmt = mysqli_prepare($link, 'DELETE FROM recovery WHERE email = ?;');
                                             mysqli_stmt_bind_param($stmt, 's', $email);
                                             mysqli_stmt_execute($stmt);

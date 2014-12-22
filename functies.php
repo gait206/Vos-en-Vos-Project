@@ -9,8 +9,7 @@
 //
 //    Cookie functies
 //
-// Notes:
-// Cookies kunnen alleen veranderd of verwijderd worden door ze opnieuw te setten
+
 // maakt een nieuwe cookie aan
 function addCookie($name, $array) {
     // kijkt of de ingevoerde waarde $array een array is
@@ -31,20 +30,24 @@ function addCookie($name, $array) {
     }
 }
 
-// stdObject naar array
+// veranderd een object in een array
 function objectToArray($object) {
+    // kijkt of het ingevoerde variabel geen array of een object is
     if (!is_object($object) && !is_array($object)) {
-        return $object;
+        return 'Dit is geen array of object';
     }
+    // kijkt of het ingevoerde variabel een object is
     if (is_object($object)) {
+        // zet een object om in een array
         $object = get_object_vars($object);
     }
+    // haalt de array door de functie totdat het geen object meer is
     return array_map('objectToArray', $object);
 }
 
 // kijkt of de cookie bestaat
 function existCookie($name) {
-
+// kijkt of er een cookie met een naam bestaat in de globale variabelen
     if (isset($GLOBALS["_COOKIE"][$name])) {
         return true;
     } else {
@@ -55,8 +58,7 @@ function existCookie($name) {
 // past een regel in de array aan
 function modifyCookieLine($name, $key, $value) {
     $cookie = getCookie($name);
-    $cookie = objectToArray($cookie);
-    if (is_array($cookie)) {
+    // kijkt of de key in de array bestaat
         if (array_key_exists($key, $cookie)) {
             $cookie[$key] = $value;
             saveCookie($name, $cookie);
@@ -64,13 +66,11 @@ function modifyCookieLine($name, $key, $value) {
         } else {
             return "Deze key bestaat niet";
         }
-    } else {
-        return "Deze cookie is geen array";
-    }
 }
 
 // voegt een regel aan de array toe
 function addCookieLine($name, $key, $value) {
+    // kijkt of de cookie bestaat
     if (existCookie($name)) {
         $cookie = getCookie($name);
         $cookie[$key] = $value;
@@ -83,8 +83,10 @@ function addCookieLine($name, $key, $value) {
 
 // verwijderd een regel van de cookie
 function removeCookieLine($name, $key) {
+    // kijkt of de cookie bestaat
     if (existCookie($name)) {
         $cookie = getCookie($name);
+        // kijkt of de key in de array bestaat
         if (array_key_exists($key, $cookie)) {
             unset($cookie[$key]);
             saveCookie($name, $cookie);
@@ -98,6 +100,7 @@ function removeCookieLine($name, $key) {
 
 // verwijderd de cookie
 function deleteCookie($name) {
+    // kijkt of de cookie bestaat
     if (existCookie($name)) {
         unset($_COOKIE[$name]);
         setcookie($name, null, time() + 1);
@@ -113,7 +116,6 @@ function getCookie($name) {
         $cookie = $_COOKIE[$name];
         // verwijderd de slashes die automatisch gemaakt worden bij setcookie()
         $cookie = stripslashes($cookie);
-        // hij mag niet 2 keer decoden
         $cookie = json_decode($cookie);
         $cookie = objectToArray($cookie);
         return $cookie;
@@ -124,6 +126,7 @@ function getCookie($name) {
 
 // cookie opslaan
 function saveCookie($name, $array) {
+    // kijkt of de cookie bestaat
     if (existCookie($name)) {
         addCookie($name, $array);
         return true;
@@ -240,6 +243,7 @@ function limit_query_generate($page, $query, $perpage) {
     return $query;
 }
 
+// word deze functie wel gebruikt?????
 function selected($switch, $number) {
     if (isset($_POST[$switch])) {
         $switch = $_POST["switch"];
@@ -250,6 +254,7 @@ function selected($switch, $number) {
     return;
 }
 
+// word deze functie wel gebruikt?????
 function isin(array $x, $y) {
     foreach ($x as $value) {
         if ($y == $value) {
@@ -259,22 +264,25 @@ function isin(array $x, $y) {
     return;
 }
 
+// kijkt of een token geldig is
 function validToken($link) {
+    // verwijderd eventueel overgebleven gegevens van een vorige sessie
     deleteDatabaseToken($link);
-    // kijkt of gebruiker ingelogd is
     $ip = $_SERVER["REMOTE_ADDR"];
     $userAgent = $_SERVER["HTTP_USER_AGENT"];
     $result = mysqli_query($link, 'SELECT * FROM token WHERE ip = "' . $ip . '";');
     if (mysqli_error($link)) {
         return "Error: " . mysqli_error($link);
     } else {
-        // vergelijkt waarden beide tokens (in database en in sessie)
         $row = mysqli_fetch_assoc($result);
-        // hierna gaat het fout de isset is false
+        // kijkt of het lokale token bestaat
         if (isset($_SESSION["token"])) {
+            // verwijderd het token als deze is verlopen
             deleteToken(false, $link);
+            // kijkt of het lokale token dan nog bestaat
             if (isset($_SESSION["token"])) {
                 $random = $_SERVER['HTTP_USER_AGENT'];
+                // kijkt of de tokens overeen komen en of de browser nog overeen komt
                 if ($_SESSION["token"] == $row["token"] && $row["token"] == crypt($random, $row["token"])) {
                     return true;
                 } else {
@@ -290,6 +298,7 @@ function validToken($link) {
     }
 }
 
+// maakt een nieuw token aan
 function createToken($klantnr, $link) {
     $ip = $_SERVER["REMOTE_ADDR"];
     $size = 60;
@@ -300,9 +309,12 @@ function createToken($klantnr, $link) {
 
     $_SESSION["token"] = $token;
     $_SESSION["created"] = time();
+    // kijkt of er een verbinding is met de database
     if ($link == true) {
 
-        mysqli_query($link, 'INSERT INTO token VALUES("' . $klantnr . '", "' . $token . '", "' . $ip . '");');
+        mysqli_prepare($link, 'INSERT INTO token VALUES(?, ?, ?);');
+        mysqli_stmt_bind_param($stmt, 'isi', $klantnr, $token, $ip);
+        mysqli_execute($stmt);
         if (mysqli_error($link)) {
             return "Error: " . mysqli_error($link);
         }
@@ -312,7 +324,9 @@ function createToken($klantnr, $link) {
     }
 }
 
+// update het token zodat deze langer geldig is
 function updateToken($link) {
+    // kijkt of er een geldig token is
     if (validToken($link) == true) {
         $_SESSION["created"] = time();
         return true;
@@ -321,7 +335,9 @@ function updateToken($link) {
     }
 }
 
+// haalt het klantnr van de ingelogde gebruiker op uit de database
 function getKlantnr($link) {
+    // kijkt of het token bestaat
     if (isset($_SESSION["token"])) {
         $ip = $_SERVER["REMOTE_ADDR"];
         $token = $_SESSION["token"];
@@ -340,6 +356,7 @@ function getKlantnr($link) {
     }
 }
 
+// haalt het user level van een gebruiker op uit de database
 function userLevel($klantnr, $link) {
     $stmt = mysqli_prepare($link, 'SELECT level FROM gebruiker WHERE klantnr = ?;');
     mysqli_stmt_bind_param($stmt, 'i', $klantnr);
@@ -353,6 +370,7 @@ function userLevel($klantnr, $link) {
     }
 }
 
+// encrypt een wachtwoord met een random salt SHA-512 encryptie
 function encryptPassword($password) {
     $size = 60;
     $salt = '$6$rounds=5000$';
@@ -362,6 +380,7 @@ function encryptPassword($password) {
     return $hashed;
 }
 
+// kijkt of het wachtwoord overeen komt met het wachtwoord in de database
 function verifyPassword($email, $password, $link) {
     if ($link == true) {
         $stmt = mysqli_prepare($link, 'SELECT wachtwoord FROM gebruiker WHERE email = ?;');
@@ -372,8 +391,9 @@ function verifyPassword($email, $password, $link) {
             return "Error: " . mysqli_stmt_error($stmt);
         } else {
             mysqli_stmt_fetch($stmt);
+            // encrypt het ingevoerde wachtwoord om deze te vergelijken met die in de database
             $password2 = crypt($password, $wachtwoord);
-            //print(encryptPassword("$password"));
+            // kijkt of de wachtwoorden overeen komen
             if ($wachtwoord == $password2) {
                 return true;
             } else {
@@ -383,6 +403,7 @@ function verifyPassword($email, $password, $link) {
     }
 }
 
+// maakt een verbinding met de database
 function connectDB() {
     $host = "localhost";
     $user = "root";
@@ -391,6 +412,7 @@ function connectDB() {
     $port = 3307;
 
     $link = mysqli_connect($host, $user, $password, $database, $port);
+    // kijkt of er een error is of niet
     if (mysqli_connect_error()) {
         return "Error: " . mysqli_connect_error();
     } else {
@@ -398,10 +420,11 @@ function connectDB() {
     }
 }
 
-// geeft enorm veel errors als hij gebruik maakt van (time() - $_SESSION["created"] > 1800)
-// als je true gebruikt werkt hij wel dus het is een verloop error
+// verwijderd een sessie token
 function deleteToken($verwijderen, $link) {
+    // kijkt of de sessie wel bestaat
     if (isset($_SESSION["token"])) {
+        // kijkt of het token verwijderd moet worden of verlopen is
         if ($verwijderen || (time() - $_SESSION["created"] > 1800)) {
             // getEmail is het probleem
             $klantnr = getKlantnr($link);
@@ -414,12 +437,16 @@ function deleteToken($verwijderen, $link) {
     }
 }
 
+// kijkt of een gebruiker met een bepaald level wel toegang heeft tot de pagina of niet
 function restrictedPage($level, $link) {
+    // kijkt of de gebruiker is ingelogd
     if (validToken($link) == true) {
+        // kijkt of de gebruiker het juiste level heeft
         if (userLevel(getKlantnr($link), $link) == $level) {
             if (mysqli_connect_error($link)) {
                 return "Error: " . mysqli_connect_error($link);
             } else {
+                // update het token zodat deze langer geldig is
                 updateToken($link);
                 return true;
             }
@@ -433,11 +460,13 @@ function restrictedPage($level, $link) {
     }
 }
 
+// verwijderd het token in de database
 function deleteDatabaseToken($link) {
     if (!isset($_SESSION["token"])) {
         $ip = $_SERVER["REMOTE_ADDR"];
         $result = mysqli_query($link, 'SELECT * FROM token WHERE ip = "' . $ip . '";');
         $row = mysqli_fetch_assoc($result);
+        // kijkt of er een error is of dat het ip er wel of niet is
         if (mysqli_error($link) || $row["ip"]) {
             if (mysqli_error($link)) {
                 return "Error: " . mysqli_error($link);
@@ -449,6 +478,7 @@ function deleteDatabaseToken($link) {
     }
 }
 
+// kijkt of de gegevens overeen komen met wat er in de database staat en of de link nog niet verlopen is, als het token verlopen is word deze verwijderd
 function verifyPasswordForgot($email, $token2, $link) {
     $stmt = mysqli_prepare($link, 'SELECT token, datum FROM recovery WHERE email = ?;');
     mysqli_stmt_bind_param($stmt, 's', $email);
@@ -546,6 +576,7 @@ function PostcodeCheck($postcode) {
     }
 }
 
+// kijkt of een email adres al bestaat in de database
 function CheckEmailExists($emailexists, $link) {
 
     $query = mysqli_query($link, "SELECT email FROM gebruiker WHERE email = '" . $emailexists . "'");
@@ -558,6 +589,7 @@ function CheckEmailExists($emailexists, $link) {
     }
 }
 
+// kijkt of een account is geblokkeerd of niet
 function accountBlocked($email, $link) {
     $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "' . $email . '";');
     if (mysqli_error($link)) {
@@ -568,6 +600,7 @@ function accountBlocked($email, $link) {
         $result2 = mysqli_query($link, 'SELECT poging FROM geblokkeerd WHERE klantnr = "' . $klantnr . '";');
         $row2 = mysqli_fetch_assoc($result2);
 
+        // als er 5 incorrecte pogingen zijn gedaan om in te loggen is het account geblokkeerd
         if ($row2["poging"] >= 5) {
             return true;
         } else {
@@ -576,6 +609,7 @@ function accountBlocked($email, $link) {
     }
 }
 
+// telt het aantal incorrecte inlog pogingen en stuurt een email na 5 pogingen om het account te onblokkeren
 function accountBlockedCount($email, $link) {
     $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "'.$email.'";');
 
@@ -585,18 +619,20 @@ function accountBlockedCount($email, $link) {
         $row = mysqli_fetch_assoc($result);
         $klantnr = $row["klantnr"];
         
+        // vraagt het aantal pogingen op uit de database
         $result2 = mysqli_query($link, 'SELECT poging FROM geblokkeerd WHERE klantnr = "' . $klantnr . '";');
         $row2 = mysqli_fetch_assoc($result2);
         $rows = mysqli_num_rows($result2);
         print(mysqli_error($link));
 
+        // kijkt of de gebruiker al bestaat in de table of niet en maakt hem aan als dat nodig is anders word zijn aantal pogingen plus een gedaan
         if ($rows == 0) {
             mysqli_query($link, 'INSERT INTO geblokkeerd(klantnr,poging) VALUES("' . $klantnr . '",1)');
         } else {
             mysqli_query($link, 'UPDATE geblokkeerd SET poging=poging+1 WHERE klantnr = "' . $klantnr . '";');
 
 
-
+// als het wachtwoord 5 keer fout is ingevoerd word er een token aangemaakt en een email verstuurd naar de eigenaar van het account
             if ($row2["poging"] == 4) {
                 $size = 60;
                 $random = strtr(base64_encode(mcrypt_create_iv($size)), '+', '.');

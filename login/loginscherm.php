@@ -6,6 +6,7 @@ if (validToken($link) != true) {
     if (isset($_POST["actie"]) && !empty($_POST["actie"])) {
         $actie = $_POST["actie"];
         if ($actie == "Login") {
+            // kijkt of je gegevens bent vergeten en geeft aan wat je bent vergeten
             if (!(empty($_POST["email"]) && empty($_POST["wachtwoord"]))) {
                 if (!empty($_POST["email"])) {
                     $email = $_POST["email"];
@@ -20,13 +21,18 @@ if (validToken($link) != true) {
             } else {
                 print('<p class="foutmelding">Je bent je email & wachtwoord vergeten');
             }
+            // word uitgevoerd als alle gegevens zijn ingevuld
             if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
+                // kijkt of het account is geblokkeerd of niet
                 if (!accountBlocked($email, $link)) {
+                    // kijkt of het wachtwoord correct is of niet
                     if (verifyPassword($email, $password, $link)) {
+                        // regenereert het sessie id om de sessie veiliger te maken
                         if (!isset($_SESSION['initiated'])) {
                             session_regenerate_id();
                             $_SESSION['initiated'] = true;
                         }
+                        // maakt een token aan en verwijderd de klant uit de tabel geblokkeerd
                         $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "' . $email . '";');
                         $row = mysqli_fetch_assoc($result);
                         $klantnr = $row["klantnr"];
@@ -55,6 +61,7 @@ if (validToken($link) != true) {
                         </table>
                     </form>');
 } else {
+    // word uitgevoerd als de gebruiker al ingelogd is
     if (isset($_POST["actie"]) && !empty($_POST["actie"])) {
         $actie = $_POST["actie"];
         if ($actie == "Uitloggen") {
