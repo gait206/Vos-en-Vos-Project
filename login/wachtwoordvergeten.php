@@ -42,13 +42,11 @@ $link = connectDB();
                             print('<p>Als u al geregistreerd bent op onze website en u uw wachtwoord bent vergeten kan u die hier opvragen.</p>');
 
                             if (!empty($_POST["actie"])) {
-                                // kijkt of de email is meegestuurd
                                 if (!empty($_POST["email"])) {
                                     $email = $_POST["email"];
-                                    // kijkt of het email adres wel bestaat in de database
-                                    if(CheckEmailExists($email, $link)){
-                                    
-                                    // maakt een token aan in recovery en stuurt een email naar de eigenaar van het emailadres
+                                    // Vraag wachtwoord op 
+                                    // gebruik dit bestand als referentie bestand
+                                    // http://www.w3schools.com/php/php_ref_mail.asp
 
                                     $size = 60;
                                     $random = strtr(base64_encode(mcrypt_create_iv($size)), '+', '.');
@@ -60,6 +58,11 @@ $link = connectDB();
                                     
                                     $url = 'http://localhost:8080/login/wachtwoordveranderen.php?email='.$email.'&token='.$token.'';
                                     $url2 = 'http://localhost:8080/login/wachtwoordnietveranderen.php?email='.$email.'';
+                                    //
+                                    //
+                                    // email opmaken en mail fixen tijdelijke lokale server
+                                    //
+                                    //
                                     
                                     
                                     
@@ -75,9 +78,6 @@ $link = connectDB();
                                 } else {
                                     print('<p class="foutmelding">Je moet een email invullen!</p>');
                                 }
-                            }
-                            } else {
-                                print('<p class="foutmelding">Dit email adres is niet geregistreerd op onze website</p>');
                             }
 
                             print('<form method="POST" action=""><input type="text" name="email" placeholder="Email"><input type="submit" class="forgot_button" name="actie" value="Wachtwoord Opvragen"></form>');

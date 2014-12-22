@@ -35,15 +35,10 @@ $link = connectDB();
                 <div class="body" id="main_content">
                     <div class="forgot_password">
                         <?php
-                        // kijkt of de juiste gegevens zijn meegestuurd
                         if(!(empty($_GET["email"]) && empty($_GET["token"]))){
-                            // onblokeerd de gebruiker als de gegevens kloppen
                             $klantnr = $_GET["klantnr"];
                             $token = $_GET["token"];
-                            
-                            $stmt = mysqli_prepare($link, 'DELETE FROM geblokkeerd WHERE klantnr = ? AND token = ?;');
-                            mysqli_stmt_bind_param($stmt, 'is', $klantnr, $token);
-                            mysqli_execute($stmt);
+                            mysqli_query($link, 'DELETE FROM geblokkeerd WHERE klantnr = "'.$klantnr.'" AND token = "'.$token.'";');
                             
                             print('<h1>Uw account is ongeblokkeerd u kunt nu weer inloggen');
                             print('<br><a href="../index.php">Klik hier om terug te gaan naar de hoofdpagina</a>');
