@@ -215,7 +215,7 @@ function sort_query_generate($query, $switch) {
             break;
         case 4 : $query .= 'prijs DESC ';
             break;
-		case 5 : $query .= 'categorie ';
+        case 5 : $query .= 'categorie ';
             break;
         case 6 : $query .= 'categorie DESC ';
             break;
@@ -290,7 +290,6 @@ function validToken($link) {
     }
 }
 
-// maakt geen nieuw token aan wss
 function createToken($klantnr, $link) {
     $ip = $_SERVER["REMOTE_ADDR"];
     $size = 60;
@@ -417,7 +416,7 @@ function deleteToken($verwijderen, $link) {
 
 function restrictedPage($level, $link) {
     if (validToken($link) == true) {
-        if (userLevel(getKlantnr($link),$link) == $level) {
+        if (userLevel(getKlantnr($link), $link) == $level) {
             if (mysqli_connect_error($link)) {
                 return "Error: " . mysqli_connect_error($link);
             } else {
@@ -456,20 +455,21 @@ function verifyPasswordForgot($email, $token2, $link) {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_bind_result($stmt, $token, $datum);
     mysqli_stmt_fetch($stmt);
-    
+
     // als de url 24 uur oud is word hij verwijderd
-    if(($datum - time()) > (60*60*24)) {
+    if (($datum - time()) > (60 * 60 * 24)) {
         deleteDatabaseToken($link);
     } else {
-    if ($token == $token2) {
-        return true;
-    } else {
-        return false;
-    }
+        if ($token == $token2) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
-function prijsformat($prijs){
-	return number_format($prijs,2,",",".");
+
+function prijsformat($prijs) {
+    return number_format($prijs, 2, ",", ".");
 }
 
 function prijsber($prijs) {
@@ -508,15 +508,14 @@ function prijsber($prijs) {
 //            )
 //    ;
 //}
-
 // Controleren voor geldig BTW nummer
 // een geldig btw nummer is: NL 1535.50.909.B02
 
 function checkBTW($btwnummer) {
-    $remove = str_replace(" ","", $btwnummer);
+    $remove = str_replace(" ", "", $btwnummer);
     $upper = strtoupper($remove);
 
-    if(preg_match("/^NL[0-9]{9}B[0-9]{2}$/",  $upper)) {
+    if (preg_match("/^NL[0-9]{9}B[0-9]{2}$/", $upper)) {
         return $upper;
     } else {
         return false;
@@ -524,37 +523,95 @@ function checkBTW($btwnummer) {
 }
 
 // Als de cookie niet bestaat werkt het niet
-function countItems($array){
-    if(isset($_COOKIE["winkelmandje"])){
-    $aantal = 0;
-    foreach($array as $key => $value){
-        $aantal = $aantal + $value;
-    }
-    return $aantal;
+function countItems($array) {
+    if (isset($_COOKIE["winkelmandje"])) {
+        $aantal = 0;
+        foreach ($array as $key => $value) {
+            $aantal = $aantal + $value;
+        }
+        return $aantal;
     } else {
         return 0;
     }
 }
-function PostcodeCheck($postcode)
-{
-    $remove = str_replace(" ","", $postcode);
+
+function PostcodeCheck($postcode) {
+    $remove = str_replace(" ", "", $postcode);
     $upper = strtoupper($remove);
 
-    if(preg_match("/^\W*[1-9]{1}[0-9]{3}\W*[a-zA-Z]{2}\W*$/",  $upper)) {
+    if (preg_match("/^\W*[1-9]{1}[0-9]{3}\W*[a-zA-Z]{2}\W*$/", $upper)) {
         return $upper;
     } else {
         return false;
     }
 }
 
-function CheckEmailExists($emailexists, $link){
+function CheckEmailExists($emailexists, $link) {
 
-$query = mysqli_query($link, "SELECT email FROM gebruiker WHERE email = '".$emailexists."'"); 
-$rows = mysqli_num_rows($query);
- 
-if($rows == 0) {
+    $query = mysqli_query($link, "SELECT email FROM gebruiker WHERE email = '" . $emailexists . "'");
+    $rows = mysqli_num_rows($query);
+
+    if ($rows == 0) {
         return true;
-} else {
+    } else {
         return false;
+    }
 }
+
+function accountBlocked($email, $link) {
+    $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "' . $email . '";');
+    if (mysqli_error($link)) {
+        return mysqli_error($link);
+    } else {
+        $row = mysqli_fetch_assoc($result);
+        $klantnr = $row["klantnr"];
+        $result2 = mysqli_query($link, 'SELECT poging FROM geblokkeerd WHERE klantnr = "' . $klantnr . '";');
+        $row2 = mysqli_fetch_assoc($result2);
+
+        if ($row2["poging"] >= 5) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+function accountBlockedCount($email, $link) {
+    $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "'.$email.'";');
+
+    if (mysqli_error($link)) {
+        return mysqli_error($link);
+    } else {
+        $row = mysqli_fetch_assoc($result);
+        $klantnr = $row["klantnr"];
+        
+        $result2 = mysqli_query($link, 'SELECT poging FROM geblokkeerd WHERE klantnr = "' . $klantnr . '";');
+        $row2 = mysqli_fetch_assoc($result2);
+        $rows = mysqli_num_rows($result2);
+        print(mysqli_error($link));
+
+        if ($rows == 0) {
+            mysqli_query($link, 'INSERT INTO geblokkeerd(klantnr,poging) VALUES("' . $klantnr . '",1)');
+        } else {
+            mysqli_query($link, 'UPDATE geblokkeerd SET poging=poging+1 WHERE klantnr = "' . $klantnr . '";');
+
+
+
+            if ($row2["poging"] == 4) {
+                $size = 60;
+                $random = strtr(base64_encode(mcrypt_create_iv($size)), '+', '.');
+                $salt = '$6$rounds=5000$';
+                $salt .= strtr(base64_encode(mcrypt_create_iv($size)), '+', '.') . "$";
+                $token = crypt($random, $salt);
+
+                mysqli_query($link, 'UPDATE geblokkeerd SET token = "' . $token . '" WHERE klantnr = "' . $klantnr . '";');
+                
+                $url = 'http://localhost:8080/login/onblokkeer.php?klantnr='.$klantnr.'&token='.$token;
+                $message = '<html><head></head><body>Iemand heeft vijf keer met een verkeerd wachtwoord ingelogd op uw account <a href="'.$url.'">Klik op deze link</a> om uw account te onblokkeren.</body></html>';
+                
+                date_default_timezone_set("UTC");
+                mail($email, 'Account geblokkeerd', $message, 'From:admin@gmail.com');
+            }
+        }
+    }
 }
