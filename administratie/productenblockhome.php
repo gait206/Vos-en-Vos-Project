@@ -165,8 +165,8 @@ and open the template in the editor.
 					<tr>
 			  <td class="afbeeldingblock" colspan=2>');
 			  print('<form name="product" method="GET" action="administratie/product.php" style="margin-bottom:0px;">');
-			  if($row['afbeelding'] == ""){
-				  print('<input class="afbeeldingblock" type="image" src="../plaatjes/logo.png">');
+			  if($row['afbeelding'] == "../administratie/img/"){
+				  print('<input class="afbeeldingblock" type="image"  width="150" src="../plaatjes/logo.png">');
 				  }
 				  else{
 				  print('<input class="afbeeldingblock" type="image" src=' . $row['afbeelding'].'>');

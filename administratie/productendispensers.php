@@ -173,16 +173,21 @@ and open the template in the editor.
                     print("<tr>
 			  <td class=\"afbeelding\">");
 			  print('<form name="product" method="GET" action="administratie/product.php" >');
-                    if ($row['afbeelding'] == "") {
-                        print('<input class="afbeeldingblock" type="image" src="../plaatjes/logo.png">');
+                    if ($row['afbeelding'] == "../administratie/img/") {
+                        print('<input class="afbeeldingblock" type="image" width="100" src="../plaatjes/logo.png">');
                     } else {
                         print('<input class="afbeeldingblock" type="image" src=' . $row['afbeelding'].'>');
                     }
                     print("</td>
 				<td class=\"productnaam\">". '<a href="administratie/product.php?productnr='.$row["productnr"].'" onclick="document.product.submit();">' . $row['productnaam'] . "	</a>"
 			  .'<input type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>'
-                            . " <div class=\"omschrijving\">" . $row['omschrijving'] . "</div></td>
-				<td class=\"winkelm\">"
+                            . " <div class=\"omschrijving\">
+							Subcategorie: " . $row['subcategorie'] . "<br>
+			  				Merk: " . $row['merk'] . "<br>
+			  				Inhoud: " . $row['inhoud'] . "<br>
+							Kleur: " . $row['kleur']."
+							</div></td>
+							<td class=\"winkelm\">"
                             . '<form action="winkelwagen.php" method="POST" >'
                             . '<input type="hidden" name="productnr" value="' . $row["productnr"] . '">'
                             . '<input type="hidden" name="actie" value="toevoegen">'

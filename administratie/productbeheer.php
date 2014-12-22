@@ -222,9 +222,14 @@ print("Totaal aantal producten: " . mysqli_num_rows($result));
                                 . '<td>' . $row["merk"] . '</td>'
                                 . '<td>' . $row["EAN"] . '</td>'
                                 . '<td>' . $row["voorraad"] . '</td>'
-                                . '<td>' . number_format($row["prijs"], 2) . '</td>'
-                                . '<td><img class="small" src="' . $row["afbeelding"] . '" ></td>'
-                                . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"><input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete();"></form></td>'
+                                . '<td>&euro; ' . prijsformat($row["prijs"]) . '</td>');
+								if ($row['afbeelding'] == "../administratie/img/") {
+								print('<td><img class="small" src="../plaatjes/logo.png" width="100"></td>');
+								}
+								else{
+                                print('<td><img class="small" src="' . $row["afbeelding"] . '" ></td>');
+								}
+                                print('<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"><input type="submit" name="actie" value="Verwijderen" onClick="return checkDelete();"></form></td>'
                                 . '<td><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="productnr" value="' . $row["productnr"] . '"><input type="submit" name="actie" value="Aanpassen"></form></td></tr>');
                         $row = mysqli_fetch_assoc($result);
                     }
