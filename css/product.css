@@ -1,0 +1,171 @@
+h3{
+	margin-left:10px;
+}
+
+div.productnaam{
+	margin-left:10px;
+	color:#344d8e;
+}
+
+div.opvoorraad{
+	margin-left:10px;
+	color:green;
+}
+
+div.beperktopvoorraad{
+	margin-left:10px;
+	color:orange;
+}
+
+div.nietopvoorraad{
+	margin-left:10px;
+	color:red;
+}
+
+div.omschrijving{
+	margin-left:10px;
+	margin-top:0px;
+}
+
+table.tabel{
+	margin-left:10px;
+	margin-bottom:10px;
+}
+
+.tabel{
+	width:70%; 
+	border-collapse:collapse; 
+}
+
+.tabel tr{
+		background: white;
+}
+
+.tabel td{
+	padding:7px; border:gray 1px solid;
+}
+
+/*  ONEVEN RIJEN  */
+.tabel tr:nth-child(odd){ 
+	background: #EEE;
+}
+
+/*  EVEN RIJEN  */
+.tabel tr:nth-child(even){
+	background: #F8F8F8;
+}
+
+div.afbeelding{
+	height:200px;
+    width:200px;
+	display:table-cell;
+    margin-left: auto;
+    margin-right: auto;
+	vertical-align: middle;
+//	border:1px solid black; 
+} 
+
+
+/* resize images */
+div.afbeelding img{
+	padding-left:10px;
+//    width:99%;
+	max-height: 90%;
+	max-width: 99%;
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+	vertical-align: middle;
+//	border:1px solid black; 
+	size: contain;
+}
+
+
+/* TOOLTIP */
+[data-tooltip] {
+	position: relative;
+	z-index: 2;
+	cursor: pointer;
+}
+
+/* Hide the tooltip content by default */
+[data-tooltip]:before,
+[data-tooltip]:after {
+  visibility: hidden;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* Position tooltip above the element */
+[data-tooltip]:before {
+	position: absolute;
+	bottom: 150%;
+	left: 50%;
+	margin-bottom: 5px;
+	margin-left: -80px;
+	padding: 7px;
+	width: 60px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius:    3px;
+	border-radius:         3px;
+	background-color: #344d8e;
+//	background-color: hsla(0, 0%, 20%, 0.9);
+	color: #fff;
+	content: attr(data-tooltip);
+	text-align: center;
+	font-size: 14px;
+	line-height: 1.2;
+}
+
+/* Triangle hack to make tooltip look like a speech bubble */
+[data-tooltip]:after {
+	position: absolute;
+	bottom: 150%;
+	left: 50%;
+	margin-left: -5px;
+	width: 0;
+	border-top: 5px solid #000;
+	border-top: 5px solid hsla(0, 0%, 20%, 0.9);
+	border-right: 5px solid transparent;
+	border-left: 5px solid transparent;
+//	content: " ";
+	font-size: 0;
+	line-height: 0;
+}
+
+/* Show tooltip content on hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+	visibility: visible;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+	opacity: 1;
+}
+
+/* right */
+.tooltip-right:before,
+.tooltip-right:after {
+  bottom: 120%;
+  left: 100%;
+}
+
+.tooltip-right:before {
+  margin-bottom: 0px;
+  margin-left: -12px;
+  border-top-color: transparent;
+  border-right-color: #000;
+  border-right-color: hsla(0, 0%, 20%, 0.9);
+}
+
+.tooltip-right:hover:before,
+.tooltip-right:hover:after,
+.tooltip-right:focus:before,
+.tooltip-right:focus:after {
+  -webkit-transform: translateX(12px);
+  -moz-transform:    translateX(12px);
+  transform:         translateX(12px); 
+}
+
+/* <a href=\"#\" class=\"tooltip-right\" data-tooltip=\"Bestel\">winkelm</a> */

@@ -7,6 +7,7 @@ $link = connectDB();
     <head>
         <meta charset="UTF-8">
         <title></title>
+        <link rel="stylesheet" type="text/css" href="../css/product.css">
         <link rel="stylesheet" type="text/css" href="../css/main.css">
 		<link rel="stylesheet" type="text/css" href="../css/admin.css">
         <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
@@ -45,29 +46,74 @@ $link = connectDB();
                             print(mysqli_connect_error($link));
                         }
                         //product gegevens ophalen
-                        $stmt = mysqli_prepare($link, 'SELECT productnr, productnaam,merk,categorie,omschrijving,afbeelding,prijs,voorraad FROM product where productnr = ?');
+                        $stmt = mysqli_prepare($link, 'SELECT productnr, productnaam, EAN, merk, categorie, subcategorie, omschrijving, prijs, voorraad, afbeelding, kleur, hoogte, breedte, lengte, fabrikant, verpakking, certificaten, inhoud, materiaal FROM product where productnr = ?');
                         mysqli_stmt_bind_param($stmt, "i", $productnr);
                         mysqli_execute($stmt);
 
-                        mysqli_stmt_bind_result($stmt, $productnr, $productnaam, $merk, $categorie, $omschrijving, $afbeelding, $prijs, $voorraad);
+                        mysqli_stmt_bind_result($stmt, $productnr, $productnaam, $EAN, $merk, $categorie, $subcategorie, $omschrijving, $prijs, $voorraad, $afbeelding, $kleur, $hoogte, $breedte, $lengte, $fabrikant, $verpakking, $certificaten, $inhoud, $materiaal);
                         mysqli_stmt_fetch($stmt);
                        
                      
                         
-                        //product weergeven
-                        print("<h2>".$productnaam. "</h2><br><p>");
-						print('<img height="200px" src="'. $afbeelding .'" ><br>');
-                        //print("<img>");
-                        if($voorraad >0){
-                            print("Beschikbaarheid: Op voorraad");
-                        } else{
-                            print("Beschikbaarheid: Niet op voorraad");
+                        //PRODUCT WEERGEVEN
+						
+						?>
+                        <div class="productnaam">
+                        <?php
+						//productnaam
+                        print("<h2>".$productnaam."</h2>");
+						?>
+                        </div>
+                        <div class="afbeelding">
+                        <?php
+						//afbeelding
+						if ($afbeelding == "../administratie/img/"){
+							print('<img class="afbeelding" src="../plaatjes/logo.png" ><br>');
+						}
+						else{
+							print('<img width="200px" src="'. $afbeelding .'" ><br>');
+						}
+						?>
+                        </div>
+                        
+                        <?php
+						//voorraad
+                        if ($voorraad >20){
+                            print('<div class="opvoorraad"> Beschikbaarheid: Op voorraad');
+                        } 
+						if ($voorraad >0 && $voorraad <=20){
+							print('<div class="beperktopvoorraad"> Beschikbaarheid: Beperkt op voorraad');
+						}
+						if ($voorraad ==0){
+                            print('<div class="nietopvoorraad"> Beschikbaarheid: Niet op voorraad');
                         }
-                        print("<br>". "<h3>Omschrijving</h3>". $omschrijving );
+						?>
+                        </div>
+                        <?php
+						//omschrijving
+                        print('<br>'. '<h3>Omschrijving:</h3><div class="omschrijving">'. $omschrijving .'</div><br><br>');
+                        
+						//tabel extra gegevens
+						
+						print('<h3>Extra informatie:</h3><table class="tabel" border=0>
+						<tr class="test"><td class="test">productnummer</td><td>'.$productnr.'</td></tr>
+						<tr><td>EAN</td><td>'.$EAN.'</td></tr>
+						<tr><td>categorie</td><td>'.$categorie.'</td></tr>
+						<tr><td>subcategorie</td><td>'.$subcategorie.'</td></tr>
+						<tr><td>kleur</td><td>'.$kleur.'</td></tr>
+						<tr><td>inhoud</td><td>'.$inhoud.'</td></tr>
+						<tr><td>maat (cm)</td><td>L:'.$lengte. ' B:'.$breedte. ' H:'.$hoogte.'</td></tr>
+						<tr><td>materiaal</td><td>'.$materiaal.'</td></tr>
+						<tr><td>verpakking</td><td>'.$verpakking.'</td></tr>
+						<tr><td>merk</td><td>'.$merk.'</td></tr>
+						<tr><td>fabrikant</td><td>'.$fabrikant.'</td></tr>
+						<tr><td>certificaten</td><td>'.$certificaten.'</td></tr>
+						</table>');
+						?>
+                        </div>
                         
                         
-                        
-                        print("</p>");
+                        <?php
                     } else{
                         //foutmelding als geen productnr is gegeven
                         print("geen product geselecteerd");
