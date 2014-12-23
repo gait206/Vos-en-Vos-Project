@@ -57,41 +57,50 @@ $link = connectDB();
                         
                         //PRODUCT WEERGEVEN
 						
-						?>
-                        <div class="productnaam">
-                        <?php
+						
 						//productnaam
-                        print("<h2>".$productnaam."</h2>");
-						?>
-                        </div>
-                        <div class="afbeelding">
-                        <?php
-						//afbeelding
-						if ($afbeelding == "../administratie/img/"){
-							print('<img class="afbeelding" src="../plaatjes/logo.png" ><br>');
-						}
-						else{
-							print('<img width="200px" src="'. $afbeelding .'" ><br>');
-						}
-						?>
-                        </div>
-                        
-                        <?php
+						print('<div class="productnaam">');
+                        print('<h2>'.$productnaam.'</h2></div>');
+						
+						//BESTELBLOK
+						print('<div class="bestelblok">
+						<p class="pronr">productnummer '. $productnr .'</p>
+						<p class="prijs">&euro; '. prijsformat($prijs) .'</p>
+						<p class="prijsklein">&euro; '. prijsber($prijs) .' incl 21% BTW</p>');
+						
 						//voorraad
                         if ($voorraad >20){
-                            print('<div class="opvoorraad"> Beschikbaarheid: Op voorraad');
+                            print('<p class="opvoorraad"> Op voorraad</p>');
                         } 
 						if ($voorraad >0 && $voorraad <=20){
-							print('<div class="beperktopvoorraad"> Beschikbaarheid: Beperkt op voorraad');
+							print('<p class="beperktopvoorraad"> Beperkt op voorraad</p>');
 						}
 						if ($voorraad ==0){
-                            print('<div class="nietopvoorraad"> Beschikbaarheid: Niet op voorraad');
+                            print('<p class="nietopvoorraad"> Niet op voorraad</p>');
                         }
-						?>
-                        </div>
-                        <?php
+						$value = 1;
+						print('<form action="" method="POST" >'
+                                . '<input  type="number" class="textbox" name="aanpassen" value="' . $value . '"> </td>'
+                                 . '<input  type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>
+						
+                        <form action="../winkelwagen.php" method="POST">
+                        <input class="inwinkelwagen" type="submit" name="inwinkelwagen" value="In winkelwagen">
+                        </form>');
+                        
+                        
+						print('</div>');
+						
+						//afbeelding
+						print('<br><div class="afbeelding">');
+						if ($afbeelding == "../administratie/img/"){
+							print('<img class="afbeelding" src="../plaatjes/logo.png" ><br></div><br>');
+						}
+						else{
+							print('<img width="200px" src="'. $afbeelding .'" ><br></div><br>');
+						}
+						
 						//omschrijving
-                        print('<br>'. '<h3>Omschrijving:</h3><div class="omschrijving">'. $omschrijving .'</div><br><br>');
+                        print('<h3>Omschrijving:</h3><div class="omschrijving">'. $omschrijving .'</div><br><br>');
                         
 						//tabel extra gegevens
 						
@@ -102,7 +111,7 @@ $link = connectDB();
 						<tr><td>subcategorie</td><td>'.$subcategorie.'</td></tr>
 						<tr><td>kleur</td><td>'.$kleur.'</td></tr>
 						<tr><td>inhoud</td><td>'.$inhoud.'</td></tr>
-						<tr><td>maat (cm)</td><td>L:'.$lengte. ' B:'.$breedte. ' H:'.$hoogte.'</td></tr>
+						<tr><td>maat (LBH)</td><td>'.$lengte. ' x '.$breedte. ' x '.$hoogte.' cm</td></tr>
 						<tr><td>materiaal</td><td>'.$materiaal.'</td></tr>
 						<tr><td>verpakking</td><td>'.$verpakking.'</td></tr>
 						<tr><td>merk</td><td>'.$merk.'</td></tr>

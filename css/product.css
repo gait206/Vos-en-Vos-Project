@@ -7,54 +7,6 @@ div.productnaam{
 	color:#344d8e;
 }
 
-div.opvoorraad{
-	margin-left:10px;
-	color:green;
-}
-
-div.beperktopvoorraad{
-	margin-left:10px;
-	color:orange;
-}
-
-div.nietopvoorraad{
-	margin-left:10px;
-	color:red;
-}
-
-div.omschrijving{
-	margin-left:10px;
-	margin-top:0px;
-}
-
-table.tabel{
-	margin-left:10px;
-	margin-bottom:10px;
-}
-
-.tabel{
-	width:70%; 
-	border-collapse:collapse; 
-}
-
-.tabel tr{
-		background: white;
-}
-
-.tabel td{
-	padding:7px; border:gray 1px solid;
-}
-
-/*  ONEVEN RIJEN  */
-.tabel tr:nth-child(odd){ 
-	background: #EEE;
-}
-
-/*  EVEN RIJEN  */
-.tabel tr:nth-child(even){
-	background: #F8F8F8;
-}
-
 div.afbeelding{
 	height:200px;
     width:200px;
@@ -62,7 +14,7 @@ div.afbeelding{
     margin-left: auto;
     margin-right: auto;
 	vertical-align: middle;
-//	border:1px solid black; 
+//	border:1px solid black;
 } 
 
 
@@ -78,6 +30,109 @@ div.afbeelding img{
 	vertical-align: middle;
 //	border:1px solid black; 
 	size: contain;
+}
+
+div.bestelblok{
+	float:right;
+	margin-right:50px;
+	margin-top:10px;
+	padding: 0px 20px 0px 20px;
+    border: 1px solid #DDD;
+	border-radius: 10px;
+	width:25%;
+}
+
+p.pronr{
+	text-align:right;
+	font-size:14px;
+	color: gray;
+}
+
+p.prijs{
+	font-size:22px;
+	color: #344d8e;
+	font-weight: bold;
+	margin-bottom:-5px;
+}
+
+p.prijsklein{
+	color:black;
+	font-size:12px;
+}
+
+p.opvoorraad{
+	color:green;
+}
+
+p.beperktopvoorraad{
+	color:orange;
+}
+
+p.nietopvoorraad{
+	color:red;
+}
+
+.textbox { 
+    background: white; 
+    //border: 1px solid #9A9CC5; 
+    //border-radius: 5px; 
+    //box-shadow: 0 0 5px 3px #9A9CC5; 
+    //color: #666; 
+    //outline: none; 
+    height:30px; 
+    width: 65px; 
+	font: normal 14px 'lucida sans unicode', arial, sans-serif;
+	text-align:center;
+	display: table-cell;
+    vertical-align: bottom;
+	margin-top:18px;
+} 
+
+.inwinkelwagen {
+    border: 1px solid darkgrey;
+    color: white;
+    background-color: #344D8E;
+    padding: 3px;
+    margine-top:5px;
+    margine-left:50px;
+    display:block;
+	height:29px;
+	font-size:14px;
+	margin-left: 80px;
+	margin-top:-46px;
+}
+
+div.omschrijving{
+	margin-left:10px;
+	margin-top:0px;
+}
+
+table.tabel{
+	margin-left:10px;
+	margin-bottom:10px;
+}
+
+.tabel{
+	width:50%; 
+	border-collapse:collapse; 
+}
+
+.tabel tr{
+		background: white;
+}
+
+.tabel td{
+	padding:7px; border:gray 1px solid;
+}
+
+/*  ONEVEN RIJEN  */
+.tabel tr:nth-child(odd){ 
+	background: #e8f0f9;
+}
+
+/*  EVEN RIJEN  */
+.tabel tr:nth-child(even){
+	background: #f4fbfa;
 }
 
 
