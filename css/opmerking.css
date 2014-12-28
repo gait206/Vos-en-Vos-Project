@@ -21,14 +21,15 @@ and open the template in the editor.
     width:98%;
 }
 .login_verzenden{
-    margin-left:100px;
+    margin-left: 50px;
 }
 .login_center{
     margin-top:100px;
-    margin-left: 35%;
+    margin-left: 30%;
     margin-right:40%;
     margin-bottom:100px;
     width: 40%;
+    text-align: center;
 }
 .kop{
     text-align:center;
@@ -43,20 +44,21 @@ and open the template in the editor.
     display:inline;
     text-align:center;
 }
-.kolom1, .kolom2{
-    display:inline-block;
-    width:30%;
-    background-color:lightgrey;
-    margin-left:20px;
-    border-radius:5px;
-    padding:10px;
-    height:100px;
-}
 .verzenden_knop_right{
     float:right;
     margin-right:20px;
-    margin-top:135px;
+    margin-top:170px;
 }
-#afleveradres{
-    margin-left: 60px;
+.opmerking{
+    text-align:center;
+    margin-left: 30px;
+}
+.overzicht{
+    margin-left:20px;
+    margin-top:10px;
+    margin-bottom:20px;
+}
+.afrekenen_knop_right{
+    float:right;
+    margin-right:10px;
 }

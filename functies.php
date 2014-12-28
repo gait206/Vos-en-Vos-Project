@@ -100,7 +100,7 @@ function removeCookieLine($name, $key) {
 function deleteCookie($name) {
     if (existCookie($name)) {
         unset($_COOKIE[$name]);
-        setcookie($name, null, time() + 1);
+        setcookie($name, null, time() + 1, '/', false);
         return true;
     } else {
         return "Deze cookie bestaat niet";
@@ -425,10 +425,12 @@ function restrictedPage($level, $link) {
             }
         } else {
             header('Location: ../index.php');
+            die();
             return false;
         }
     } else {
         header('Location: ../index.php');
+        die();
         return false;
     }
 }
@@ -614,4 +616,22 @@ function accountBlockedCount($email, $link) {
             }
         }
     }
+}
+// encrypt data
+function encryptData($data){
+    // global encryption key
+    $key = '5mEhXwWt/LqJ8pw5QfduqTz0h7E=';
+    
+    $encrypted = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $data, MCRYPT_MODE_ECB));
+    
+    return $encrypted;
+}
+// decrypt data
+function decryptData($data){
+        // global encryption key
+        $key = '5mEhXwWt/LqJ8pw5QfduqTz0h7E=';
+        
+        $decrypted = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, base64_decode($data), MCRYPT_MODE_ECB);
+        
+        return $decrypted;
 }

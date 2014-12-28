@@ -113,20 +113,20 @@ if (!existCookie($cookiename)) {
 
                             // Bepaal de transactie status, en bevestig deze aan de bezoeker
                             if (strcmp($sTransactionStatus, 'SUCCESS') === 0) {
-                                $sHtml = '<h1 class="error">Uw betaling is met succes ontvangen.<br>U word over 5 seconden doorgestuurd of<a href="' . htmlspecialchars($aSettings['website_url'] . '../verzenden.php') . '">Klik hier om verder te gaan</a></h1><form method="POST" action="afrekenen.php"><input class="verzenden_knop_left" type="submit" name="terug" value="Terug naar controle"></form><form method="POST" action=""><input class="verzenden_knop_right" type="submit" name="actie" value="Betalen" form="afleveradres"></form>';
-                                sleep(5);
-                                header('Location: ../verzenden.php');
+                                $sHtml = '<h1 class="error">Uw betaling is met succes ontvangen.<br>U word over 5 seconden doorgestuurd of<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/index.php') . '">Klik hier om verder te gaan</a></h1>';
+                                // moet een mail naar de klant sturen
+                                print('<script>setTimeout( function(){window.location.href= "index.php";},5000);</script>');
                             } elseif (strcmp($sTransactionStatus, 'PENDING') === 0) {
-                                $sHtml = '<h1 class="error">Uw betaling is in behandeling.<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/start.php') . '" class="links">Nieuwe transactie starten.</a></h1>';
+                                $sHtml = '<h1 class="error">Uw betaling is in behandeling.<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/winkelmandje.php') . '" class="links">Nieuwe transactie starten.</a></h1>';
                             } elseif (strcmp($sTransactionStatus, 'CANCELLED') === 0) {
-                                $sHtml = '<h1 class="error">Uw betaling is geannuleerd.<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/start.php') . '" class="links">Probeer opnieuw te betalen.</a></h1>';
+                                $sHtml = '<h1 class="error">Uw betaling is geannuleerd.<br><a href="' . htmlspecialchars($aSettings['website_url'] . 'overzicht.php') . '" class="links">Probeer opnieuw te betalen.</a></h1>';
                             } elseif (strcmp($sTransactionStatus, 'EXPIRED') === 0) {
-                                $sHtml = '<h1 class="error">Uw betaling is mislukt.<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/start.php') . '" class="links">Probeer opnieuw te betalen.</a></h1>';
+                                $sHtml = '<h1 class="error">Uw betaling is mislukt.<br><a href="' . htmlspecialchars($aSettings['website_url'] . 'overzicht.php') . '" class="links">Probeer opnieuw te betalen.</a></h1>';
                             } else { // if(strcmp($sTransactionStatus, 'FAILURE') === 0)
-                                $sHtml = '<h1 class="error">Uw betaling is mislukt.<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/start.php') . '" class="links">Probeer opnieuw te betalen.</a></h1>';
+                                $sHtml = '<h1 class="error">Uw betaling is mislukt.<br><a href="' . htmlspecialchars($aSettings['website_url'] . 'overzicht.php') . '" class="links">Probeer opnieuw te betalen.</a></h1>';
                             }
                         } else {
-                            $sHtml = '<h1 class="error">Ongeldige Omnikassa Response (verkeerde beveiligingssleutel ingesteld?).<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/start.php') . '" class="links">Nieuwe transactie starten.</a></h1>';
+                            $sHtml = '<h1 class="error">Ongeldige Omnikassa Response (verkeerde beveiligingssleutel ingesteld?).<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/winkelmandje.php') . '" class="links">Nieuwe transactie starten.</a></h1>';
                         }
                     }
 

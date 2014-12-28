@@ -45,6 +45,10 @@ $link = connectDB();
                     }
                     $Klantnr = getKlantnr($link);
 
+                    // Stel de tijdzone in (vaak vereist in PHP5 bij gebruik van datum/tijd functies)
+                    if (function_exists('date_default_timezone_set')) {
+                        date_default_timezone_set('Europe/Amsterdam');
+                    }
 
                     $Klantnr = getKlantnr($link);
                     $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '$Klantnr' AND status != 'In behandeling'");
