@@ -60,7 +60,7 @@ $link = connectDB();
                     }
 
                     $Klantnr = getKlantnr($link);
-                    $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '$Klantnr' AND status ='In behandeling'");
+                    $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '$Klantnr' AND status ='In behandeling' AND betaald = 'ja'");
                     $bestelling = mysqli_fetch_assoc($result);
 
                     print("<table class='tablebestellingen'><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th><th>Annuleren</th>");

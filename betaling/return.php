@@ -105,17 +105,21 @@ if (!existCookie($cookiename)) {
                             $sLogFile = $sLogPath . '/' . $sTransactionReference . '.return.' . time() . '.log';
 
                             if (is_dir($sLogPath) && is_writable($sLogPath)) {
-                                @file_put_contents($sLogFile, $sLogData);
+                                file_put_contents($sLogFile, $sLogData);
                             }
+                            
 
 
 
 
                             // Bepaal de transactie status, en bevestig deze aan de bezoeker
                             if (strcmp($sTransactionStatus, 'SUCCESS') === 0) {
-                                $sHtml = '<h1 class="error">Uw betaling is met succes ontvangen.<br>U word over 5 seconden doorgestuurd of<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/index.php') . '">Klik hier om verder te gaan</a></h1>';
+                                $sHtml = '<h1 class="error">Uw betaling is met succes ontvangen.<br>U word over 5 seconden doorgestuurd of<br><a href="/index.php">Klik hier om verder te gaan</a></h1>';
                                 // moet een mail naar de klant sturen
-                                print('<script>setTimeout( function(){window.location.href= "index.php";},5000);</script>');
+                                // formaat van sTransactionReference aanpassen zodat deze overeen komt met de waarde in de database
+                                $sTransactionReference = substr($sTransactionReference, 0, 3).'-'.substr($sTransactionReference, 3,strlen($sTransactionReference));
+                                mysqli_query($link, 'UPDATE bestelling SET betaald = "ja" WHERE transactieref = "'.$sTransactionReference.'"');
+                                print('<script>setTimeout( function(){window.location.href= "/index.php";},5000);</script>');
                             } elseif (strcmp($sTransactionStatus, 'PENDING') === 0) {
                                 $sHtml = '<h1 class="error">Uw betaling is in behandeling.<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/winkelmandje.php') . '" class="links">Nieuwe transactie starten.</a></h1>';
                             } elseif (strcmp($sTransactionStatus, 'CANCELLED') === 0) {
