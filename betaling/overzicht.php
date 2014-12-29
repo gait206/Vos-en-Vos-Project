@@ -132,10 +132,12 @@ if (!existCookie($cookiename)) {
                                 . '<tr><td>Postcode:</td><td>' . $postcode . '</td></tr>');
 
                         if (existCookie('opmerking')) {
-                            print('<tr><td colspan=2><h1>Opmerkingen</h1></td></tr>'
-                                    . '<tr><td colspan=2>' . $opmerking . '</td></tr>');
+                            print('<tr><td colspan=2><h1>Opmerkingen</h1></td></tr></table>');
+                            print('<p>' . $opmerking . '</p>');
+                        } else {
+                            print('</table>');
                         }
-                        print('</table></div>');
+                        print('</div>');
 
                         // totaalBedragZonderBTW, totaalBedrag en totaalBTW instellen
                         $totaalBedragZonderBTW = 0;
@@ -206,15 +208,15 @@ if (!existCookie($cookiename)) {
                         $aPaymentMethods = array('IDEAL'); // Laat de klant zelf een betaalmethode kiezen op de betaalpagina van de Rabo OmniKassa.
                         // $aPaymentMethods = array('IDEAL'); // Alleen iDEAL toestaan (keuzescherm wordt overgeslagen)
                         // $aPaymentMethods = array('IDEAL', 'MINITIX', 'VISA', 'MASTERCARD', 'MAESTRO'); // iDEAL, MiniTix, Visa, Mastercard of Maestro toestaan.
-
-
-
+                        //
+                        // Deze setting moet aangepast worden om hem echt in gebruik te kunnen nemen
+                        //
                         $oOmniKassa = new OmniKassa($aSettings['test_mode']);
                         $oOmniKassa->setMerchant($aSettings['merchant_id']);
                         $oOmniKassa->setSecurityKey($aSettings['security_key'], $aSettings['security_key_version']);
 
                         // Stel de return URL en report URL in (normalReturnUrl, automaticResponseUrl)
-                        $oOmniKassa->setReportUrl($aSettings['website_url'] . 'omnikassa/report.php'); // Mag geen additionele parameters bevatten
+                        $oOmniKassa->setReportUrl($aSettings['website_url'] . '/report.php'); // Mag geen additionele parameters bevatten
                         $oOmniKassa->setReturnUrl($aSettings['website_url'] . '/return.php'); // Mag geen additionele parameters bevatten
                         // Stel order informatie in
                         $oOmniKassa->setOrderId($sOrderId); // Unieke order referentie, tot 32 karakters ([a-zA-Z0-9]+)
@@ -245,23 +247,37 @@ if (!existCookie($cookiename)) {
                         $klantnr = getKlantnr($link);
                         // voegt de datum toe aan de database in YYYY-MM-DD formaat
                         $besteldatum = date('Y-m-d', time());
+
                         // tijdelijke waarde
                         $bezorgdatum = date('Y-m-d', time());
+
                         $status = "In Behandeling";
-                        $transactieref = $sTransactionReference;
-                        mysqli_query($link, 'INSERT INTO bestelling(besteldatum,bezorgdatum,status,klantnr,transactieref) VALUES("' . $besteldatum . '","' . $bezorgdatum . '","' . $status . '","' . $klantnr . '","' . $transactieref . '");');
+                        $stmt = mysqli_prepare($link, 'INSERT INTO bestelling(besteldatum,bezorgdatum,status,klantnr,opmerking,transactieref) VALUES(?,?,?,?,?,?);');
+                        mysqli_stmt_bind_param($stmt, 'sssiss', $besteldatum, $bezorgdatum, $status, $klantnr, $opmerking, $sTransactionReference);
+                        mysqli_execute($stmt);
 
-
-                        $result = mysqli_query($link, 'SELECT bestelnr FROM bestelling WHERE transactieref = "' . $transactieref . '";');
+                        $result = mysqli_query($link, 'SELECT bestelnr FROM bestelling WHERE transactieref = "' . $sTransactionReference . '";');
                         $row = mysqli_fetch_assoc($result);
                         $bestelnr = $row["bestelnr"];
                         $cookie = getCookie("winkelmandje");
+                        
+                        // word uitgevoerd als er een ander verzendadres word gebruikt
+                        if (existCookie('verzendadres')) {
+                            $cookie2 = getCookie('verzendadres');
+                            $plaats2 = decryptData($cookie2['plaats']);
+                            $adres2 = decryptData($cookie2['adres']);
+                            $postcode2 = decryptData($cookie2['postcode']);
+
+                            $stmt2 = mysqli_prepare($link, 'INSERT INTO anderadres(bestelnr,plaats,adres,postcode) VALUES(?,?,?,?);');
+                            mysqli_stmt_bind_param($stmt2, 'isss', $bestelnr, $plaats2, $adres2, $postcode2);
+                            mysqli_execute($stmt2);
+                        }
 
                         foreach ($cookie as $key => $value) {
-                            $stmt = mysqli_prepare($link, 'INSERT INTO bestelregel VALUES(?,?,?);');
-                            mysqli_stmt_bind_param($stmt, 'iii', $bestelnr, $key, $value);
-                            mysqli_execute($stmt);
-                            print(mysqli_stmt_error($stmt));
+                            $stmt3 = mysqli_prepare($link, 'INSERT INTO bestelregel VALUES(?,?,?);');
+                            mysqli_stmt_bind_param($stmt3, 'iii', $bestelnr, $key, $value);
+                            mysqli_execute($stmt3);
+                            print(mysqli_stmt_error($stmt3));
                         }
 
                         // Starten van de transactie opslaan in een log-bestand
@@ -282,10 +298,6 @@ if (!existCookie($cookiename)) {
                         // HTML code genereren
                         $sHtml = $oOmniKassa->createForm();
 
-                        // Voeg javascript toe om het formulier automatisch te verzenden
-                        if ($aSettings['test_mode'] == false) {
-                            $sHtml .= '<script type="text/javascript"> function doAutoSubmit() { document.forms.checkout.submit(); } setTimeout(\'doAutoSubmit()\', 100); </script>';
-                        }
                         print('<div class="afrekenen_knop_right">' . $sHtml . '</div>');
                     }
                     ?>
@@ -294,13 +306,13 @@ if (!existCookie($cookiename)) {
             </div>
 
             <div class="footer">
-                    <?php
-                    include "../footer.php";
-                    ?>
+<?php
+include "../footer.php";
+?>
             </div>
         </div>
     </body>
 </html>
-                <?php
-                mysqli_close($link);
-                ?>
+<?php
+mysqli_close($link);
+?>

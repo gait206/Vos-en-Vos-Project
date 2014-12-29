@@ -77,7 +77,7 @@ $link = connectDB();
 
                         $waarde = "Bijwerken";
                         print('<table><form id="toevoegen" method="POST" action="">'
-                                . '<tr><td>Bestelnummer</td><td>'.$bestelnr.'</td></tr>'
+                                . '<tr><td>Bestelnummer:</td><td>'.$bestelnr.'</td></tr>'
                                 . '<tr><td>Bezorgdatum:</td><td><input type="date" min="' . date("Y-m-d", time()) . '" name="bezorgdatum" value="' . $bezorgdatum . '"></td></tr>'
                                 . '<tr><td>Status:</td><td>'
                                 . '<select name="status"><option value="In behandeling">In behandeling</option>'
@@ -85,22 +85,25 @@ $link = connectDB();
                                 . '<option value="Geannuleerd">Geannuleerd</option>'
                                 . '<option value="Afgehandeld">Afgehandeld</option></select></td></tr>'
                                 . '<input type="hidden" name="bestelnr" value="' . $bestelnr . '">'
+                                . '<tr><td></td><td></td><td><input type="submit" name="actie" class="button" value="' . $waarde . '"></td></tr>'
                                 . '</table>'
-                                . '<input type="submit" name="actie" class="button" value="' . $waarde . '"></form>'
+                                . '</form>'
                         );
                     } else {
                         
                     }
 
-
+                    // selecteert alle bestelling die betaald zijn en niet geannuleerd zijn
                     $result = mysqli_query($link, 'SELECT * FROM bestelling WHERE status != "Geannuleerd" AND betaald = "ja";');
                     print(mysqli_error($link));
                     $row = mysqli_fetch_assoc($result);
-
+                    
+                    // zorgt ervoor dat de date functie de juiste timezone gebruikt
                     if (function_exists('date_default_timezone_set')) {
                         date_default_timezone_set('Europe/Amsterdam');
                     }
 
+                    // Weergeeft alle bestellingen
                     print('<table class="table_administratie"><tr><th>Bestelnr</th><th>Klantnr</th><th>Status</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Transactie Referentie</th><th>Aantal Artikelen</th><th>Verwijderen</th><th>Aanpassen</th><th>Bekijken</th></tr>');
                     while ($row) {
                         $result2 = mysqli_query($link, 'SELECT SUM(aantal) hoeveelheid FROM bestelregel WHERE bestelnr = "' . $row["bestelnr"] . '" GROUP BY bestelnr;');
