@@ -45,6 +45,7 @@ $link = connectDB();
                         $actie = $_POST["actie"];
                         if ($actie == "Verwijderen") {
                             $bestelnr = $_POST["bestelnr"];
+                            mysqli_query($link, 'DELETE FROM anderadres WHERE bestelnr = "' . $bestelnr . '";');
                             mysqli_query($link, 'DELETE FROM bestelregel WHERE bestelnr = "' . $bestelnr . '";');
                             mysqli_query($link, 'DELETE FROM bestelling WHERE bestelnr = "' . $bestelnr . '";');
                             print(mysqli_error($link));
@@ -77,7 +78,7 @@ $link = connectDB();
 
                         $waarde = "Bijwerken";
                         print('<table><form id="toevoegen" method="POST" action="">'
-                                . '<tr><td>Bestelnummer:</td><td>'.$bestelnr.'</td></tr>'
+                                . '<tr><td>Bestelnummer:</td><td>' . $bestelnr . '</td></tr>'
                                 . '<tr><td>Bezorgdatum:</td><td><input type="date" min="' . date("Y-m-d", time()) . '" name="bezorgdatum" value="' . $bezorgdatum . '"></td></tr>'
                                 . '<tr><td>Status:</td><td>'
                                 . '<select name="status"><option value="In behandeling">In behandeling</option>'
@@ -97,7 +98,7 @@ $link = connectDB();
                     $result = mysqli_query($link, 'SELECT * FROM bestelling WHERE status != "Geannuleerd" AND betaald = "ja";');
                     print(mysqli_error($link));
                     $row = mysqli_fetch_assoc($result);
-                    
+
                     // zorgt ervoor dat de date functie de juiste timezone gebruikt
                     if (function_exists('date_default_timezone_set')) {
                         date_default_timezone_set('Europe/Amsterdam');
