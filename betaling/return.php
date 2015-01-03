@@ -107,7 +107,7 @@ if (!existCookie($cookiename)) {
                             if (is_dir($sLogPath) && is_writable($sLogPath)) {
                                 file_put_contents($sLogFile, $sLogData);
                             }
-                            
+
 
 
 
@@ -117,88 +117,53 @@ if (!existCookie($cookiename)) {
                                 $sHtml = '<h1 class="error">Uw betaling is met succes ontvangen.<br>U word over 5 seconden doorgestuurd of<br><a href="/index.php">Klik hier om verder te gaan</a></h1>';
                                 // moet een mail naar de klant sturen
                                 // formaat van sTransactionReference aanpassen zodat deze overeen komt met de waarde in de database
-                                $sTransactionReference = substr($sTransactionReference, 0, 3).'-'.substr($sTransactionReference, 3,strlen($sTransactionReference));
-                                mysqli_query($link, 'UPDATE bestelling SET betaald = "ja" WHERE transactieref = "'.$sTransactionReference.'"');
-                                
+                                $sTransactionReference = substr($sTransactionReference, 0, 3) . '-' . substr($sTransactionReference, 3, strlen($sTransactionReference));
+                                mysqli_query($link, 'UPDATE bestelling SET betaald = "ja" WHERE transactieref = "' . $sTransactionReference . '"');
+
                                 // verwijderen van alle cookies
                                 deleteCookie('winkelmandje');
                                 deleteCookie('verzendadres');
                                 deleteCookie('opmerking');
-                                
-                                // aanmaken factuur
-                                
-                                
+
                                 // verzenden factuur via email
-                                //define the receiver of the email 
-                        $klantnr = getKlantnr($link);
-                        $result = mysqli_query($link, 'SELECT email FROM gebruiker WHERE klantnr = "' . $klantnr . '";');
-                        $row = mysqli_fetch_assoc($result);
-                        $to = $row["email"];
-                        //define the subject of the email 
-                        $subject = 'Factuur bestelling';
-                        //create a boundary string. It must be unique 
-                        //so we use the MD5 algorithm to generate a random hash 
-                        $random_hash = md5(date('r', time()));
-                        //define the headers we want passed. Note that they are separated with \r\n 
-                        $headers = 'From: gertjan206@gmail.com' . "\r\n";
-                        $headers .= 'Reply-To: gertjan206@gmail.com' . "\r\n";
-                        $headers .= 'X-Mailer: PHP/' . phpversion(). "\r\n";
-                        $headers .= 'MIME-Version: 1.0' . "\r\n";
-                        $headers .= 'Content-Type: multipart/mixed; boundary="PHP-mixed-'.$random_hash.'"' . "\r\n";
+                                require 'phpmailer/PHPMailerAutoload.php';
+
+                                $mail = new PHPMailer;
+                                // zorgt dat de mail word verstuurd via de standaard php mail functie
+                                $mail->isMail();
+                                
+                                // zorgt ervoor dat het email adres opgehaald kan worden
+                                $klantnr = getKlantnr($link);
+                                $result = mysqli_query($link, 'SELECT email FROM gebruiker WHERE klantnr = "'.$klantnr.'";');
+                                $row = mysqli_fetch_assoc($result);
+                                $receiver = $row['email'];
+                                
+                                $mail->From = 'from@example.com';
+                                $mail->FromName = 'Vos&Vos Tissue';
+                                $mail->addAddress($receiver);
+                                $mail->addReplyTo('info@example.com', 'Information');
+
+                                // haalt het bestelnr op
+                                $result = mysqli_query($link, 'SELECT bestelnr FROM bestelling WHERE transactieref = "' . $sTransactionReference . '";');
+                                $row = mysqli_fetch_assoc($result);
+                                $bestelnr = $row["bestelnr"];
+
+                                $filename = 'facturen/bestelling_' . $bestelnr . '.pdf';
                         
-                        //add boundary string and mime type specification 
-                        //read the atachment file contents into a string,
-                        //encode it with MIME base64,
-                        //and split it into smaller chunks
-                        $result = mysqli_query($link, 'SELECT bestelnr FROM bestelling WHERE transactieref = "' . $sTransactionReference . '";');
-                        $row = mysqli_fetch_assoc($result);
-                        $bestelnr = $row["bestelnr"];
+                                // maakt een factuur aan
+                                createFactuur('bestelling_' . $bestelnr . '.pdf', $bestelnr);
+                                
+                                // voegt een bijlage toe
+                                $mail->addAttachment($filename);
+                                $mail->isHTML(true);
 
-                        $filename = 'facturen/bestelling_' . $bestelnr . '.pdf';
-                        
-                        createFactuur('bestelling_' . $bestelnr . '.pdf', $bestelnr);
-                        $attachment = chunk_split(base64_encode(file_get_contents($filename)));
-                        
-                        $filename = substr($filename, 9, strlen($filename));
-                        //define the body of the message. 
-                        ob_start(); //Turn on output buffering 
-                        ?> 
-                        
-                        
-                        --PHP-mixed-<?php echo $random_hash; ?>  
-                        Content-Type: multipart/alternative; boundary="PHP-alt-<?php echo $random_hash; ?>" 
+                                $mail->Subject = 'Factuur Bestelling';
+                                $mail->Body = 'Uw bestelling is succesvol voltooid u vind een overzicht van uw bestelling in de vorm van een factuur in de <b>bijlage</b>';
+                                $mail->AltBody = 'Uw bestelling is succesvol voltooid u vind een overzicht van uw bestelling in de vorm van een factuur in de bijlage';
 
-                        --PHP-alt-<?php echo $random_hash; ?>  
-                        Content-Type: text/plain; charset="iso-8859-1" 
-                        Content-Transfer-Encoding: 7bit
+                                $mail->send();
+                                print($mail->ErrorInfo);
 
-                        Hello World!!! 
-                        This is simple text email message. 
-
-                        --PHP-alt-<?php echo $random_hash; ?>  
-                        Content-Type: text/html; charset="iso-8859-1" 
-                        Content-Transfer-Encoding: 7bit
-
-                        <h2>Hello World!</h2> 
-                        <p>This is something with <b>HTML</b> formatting.</p> 
-
-                        --PHP-alt-<?php echo $random_hash; ?>-- 
-
-                        --PHP-mixed-<?php echo $random_hash; ?>  
-                        Content-Type: application/pdf; name="<?php echo $filename ?>"
-                        Content-Transfer-Encoding: base64
-                        Content-Disposition: attachment; filename="<?php echo $filename ?>"
-
-                        <?php echo $attachment; ?> 
-                        --PHP-mixed-<?php echo $random_hash; ?>-- 
-
-                        <?php
-                        //copy current buffer contents into $message variable and delete current output buffer 
-                        $message = ob_get_clean();
-                        //send the email 
-                        $mail_sent = mail($to, $subject, $message, $headers);
-                        //if the message is sent successfully print "Mail sent". Otherwise print "Mail failed" 
-                        
                                 //print('<script>setTimeout( function(){window.location.href= "/index.php";},5000);</script>');
                             } elseif (strcmp($sTransactionStatus, 'PENDING') === 0) {
                                 $sHtml = '<h1 class="error">Uw betaling is in behandeling.<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/winkelmandje.php') . '" class="links">Nieuwe transactie starten.</a></h1>';
@@ -216,18 +181,18 @@ if (!existCookie($cookiename)) {
 
                     print($sHtml);
                     ?>
-                    
+
                 </div>
             </div>
 
             <div class="footer">
-                    <?php
-                    include "../footer.php";
-                    ?>
+<?php
+include "../footer.php";
+?>
             </div>
         </div>
     </body>
 </html>
-                    <?php
-                    mysqli_close($link);
-                    ?>
+<?php
+mysqli_close($link);
+?>
