@@ -21,19 +21,25 @@ if (validToken($link) != true) {
                 print('<p class="foutmelding">Je bent je email & wachtwoord vergeten');
             }
             if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
-                if (verifyPassword($email, $password, $link)) {
-                    if (!isset($_SESSION['initiated'])) {
-                        session_regenerate_id();
-                        $_SESSION['initiated'] = true;
+                if (!accountBlocked($email, $link)) {
+                    if (verifyPassword($email, $password, $link)) {
+                        if (!isset($_SESSION['initiated'])) {
+                            session_regenerate_id();
+                            $_SESSION['initiated'] = true;
+                        }
+                        $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "' . $email . '";');
+                        $row = mysqli_fetch_assoc($result);
+                        $klantnr = $row["klantnr"];
+
+                        createToken($klantnr, $link);
+                        mysqli_query($link, 'DELETE FROM geblokkeerd WHERE klantnr = "'.$klantnr.'";');
+                        header('Location: /');
+                    } else {
+                        print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
+                        print(accountBlockedCount($email, $link));
                     }
-					$result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "'.$email.'";');
-					$row = mysqli_fetch_assoc($result);
-					$klantnr = $row["klantnr"];
-					
-                    createToken($klantnr, $link);
-                    header('Location: http://localhost:8080/index.php');
                 } else {
-                    print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
+                    print('<p class="foutmelding">Dit account is geblokeerd kijk op uw email voor meer informatie</p>');
                 }
             }
         }
@@ -57,7 +63,7 @@ if (validToken($link) != true) {
         }
     }
     $klantnr = getKlantnr($link);
-    $result = mysqli_query($link, 'SELECT voornaam, achternaam FROM klant WHERE klantnr = "'.$klantnr.'" ');
+    $result = mysqli_query($link, 'SELECT voornaam, achternaam FROM klant WHERE klantnr = "' . $klantnr . '" ');
     $row = mysqli_fetch_assoc($result);
     print('<p>Welkom, ' . $row["voornaam"] . ' ' . $row["achternaam"] . '</p>');
     print('<div><form class="logout_button" method="POST" action=""><input type="submit" name="actie" value="Uitloggen"></form></div>');

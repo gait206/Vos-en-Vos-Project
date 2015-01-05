@@ -30,54 +30,60 @@ if (!existCookie($cookiename)) {
             </div>
 
             <?php
-            define('THIS_PAGE', 'Verzenden');
+            define('THIS_PAGE', 'Inloggen');
             include('../menu.php');
             ?>
 
             <div class="content">
                 <div class="body" id="main_content">
-                    <?php
-                    if (validToken($link) != true) {
-                        // kijken of alle invoervelden ingevuld zijn
-                        print('<div class="login_center">');
-                        if (isset($_POST["actie"]) && !empty($_POST["actie"])) {
-                            $actie = $_POST["actie"];
-                            if ($actie == "Login") {
-                                if (!(empty($_POST["email"]) && empty($_POST["wachtwoord"]))) {
-                                    if (!empty($_POST["email"])) {
-                                        $email = $_POST["email"];
-                                    } else {
-                                        print('<p class="foutmelding">Je bent je email vergeten');
-                                    }
-                                    if (!empty($_POST["wachtwoord"])) {
-                                        $password = $_POST["wachtwoord"];
-                                    } else {
-                                        print('<p class="foutmelding">Je bent je wachtwoord vergeten');
-                                    }
-                                } else {
-                                    print('<p class="foutmelding">Je bent je email & wachtwoord vergeten');
-                                }
-                                if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
-                                    if (verifyPassword($email, $password, $link)) {
-                                        if (!isset($_SESSION['initiated'])) {
-                                            session_regenerate_id();
-                                            $_SESSION['initiated'] = true;
+                    <div class="login_center">
+                        <?php
+                        if (validToken($link) != true) {
+                            // kijken of alle invoervelden ingevuld zijn
+                            if (isset($_POST["actie"]) && !empty($_POST["actie"])) {
+                                $actie = $_POST["actie"];
+                                if ($actie == "Login") {
+                                    if (!(empty($_POST["email"]) && empty($_POST["wachtwoord"]))) {
+                                        if (!empty($_POST["email"])) {
+                                            $email = $_POST["email"];
+                                        } else {
+                                            print('<p class="foutmelding">Je bent je email vergeten');
                                         }
-                                        $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "'.$email.'";');
-					$row = mysqli_fetch_assoc($result);
-					$klantnr = $row["klantnr"];
-                                        createToken($klantnr, $link);
-                                        header('Location: afrekenen.php');
+                                        if (!empty($_POST["wachtwoord"])) {
+                                            $password = $_POST["wachtwoord"];
+                                        } else {
+                                            print('<p class="foutmelding">Je bent je wachtwoord vergeten');
+                                        }
                                     } else {
-                                        print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
+                                        print('<p class="foutmelding">Je bent je email & wachtwoord vergeten');
+                                    }
+                                    if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
+                                        if (!accountBlocked($email, $link)) {
+                                            if (verifyPassword($email, $password, $link)) {
+                                                if (!isset($_SESSION['initiated'])) {
+                                                    session_regenerate_id();
+                                                    $_SESSION['initiated'] = true;
+                                                }
+                                                $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "' . $email . '";');
+                                                $row = mysqli_fetch_assoc($result);
+                                                $klantnr = $row["klantnr"];
+
+                                                createToken($klantnr, $link);
+                                                mysqli_query($link, 'DELETE FROM geblokkeerd WHERE klantnr = "' . $klantnr . '";');
+                                                header('Location: verzenden.php');
+                                            } else {
+                                                print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
+                                                print(accountBlockedCount($email, $link));
+                                            }
+                                        } else {
+                                            print('<p class="foutmelding">Dit account is geblokeerd kijk op uw email voor meer informatie</p>');
+                                        }
                                     }
                                 }
                             }
-                        }
 
 
-                        print('<h1 class="kop"> Log in om te kunnen afrekenen</h1>
-                            <form method="POST" action="" class="login_verzenden">
+                            print('<form method="POST" action="">
                         <table>
                             <tr><td></td></tr>
                             <tr><td>Email:</td><td><input class="gebruikersnaam" type="text" name="email" placeholder="email"><br></td></tr>
@@ -85,12 +91,11 @@ if (!existCookie($cookiename)) {
                             <tr><td><a class="wachtwoordvergeten_button" href="../login/wachtwoordvergeten.php">Wachtwoord vergeten?</a></td><td><a class="wachtwoordvergeten_button" href="../registratie/registreer.php">Registreren</a></td><td><input class="login_button" type="submit" name="actie" value="Login"></td></tr>
                         </table>
                     </form>');
-                        print('</div>');
-                    } else {
-                        header('Location: http://localhost:8080/betaling/afrekenen.php');
-                    }
-                    ?>
-                    <form method="POST" action="../winkelwagen.php"><input class="verzenden_knop_left" type="submit" name="terug" value="Terug naar winkelmandje"></form>
+                        } else {
+                            header('Location: http://localhost:8080/betaling/verzenden.php');
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
 

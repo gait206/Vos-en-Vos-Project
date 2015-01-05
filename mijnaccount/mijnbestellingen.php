@@ -54,8 +54,13 @@ $link = connectDB();
                         }
                     }
 
+                    // Stel de tijdzone in (vaak vereist in PHP5 bij gebruik van datum/tijd functies)
+                    if (function_exists('date_default_timezone_set')) {
+                        date_default_timezone_set('Europe/Amsterdam');
+                    }
+
                     $Klantnr = getKlantnr($link);
-                    $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '$Klantnr' AND status ='In behandeling'");
+                    $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '$Klantnr' AND status ='In behandeling' AND betaald = 'ja'");
                     $bestelling = mysqli_fetch_assoc($result);
 
                     print("<table class='tablebestellingen'><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th><th>Annuleren</th>");
@@ -65,8 +70,8 @@ $link = connectDB();
                         print("<tr>"
                                 . "<td><a href='bestelling.php?bestelnr=" . $bestelling["bestelnr"] . "' class='bestelnummer'>" . $bestelling["bestelnr"] . "</a></td>"
                                 . "<td>" . $bestelling["opmerking"] . "</td>"
-                                . "<td>" . $bestelling["besteldatum"] . "</td>"
-                                . "<td>" . $bestelling["bezorgdatum"] . "</td>"
+                                . "<td>" . date("d-m-Y", strtotime($bestelling["besteldatum"])) . "</td>"
+                                . "<td>" . date("d-m-Y", strtotime($bestelling["bezorgdatum"])) . "</td>"
                                 . "<td>" . $bestelling["status"] . "</td>"
                                 . '<td class="Tableannuleer"><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $bestelling["bestelnr"] . '"><input type="submit" name="actie" value="Bestelling annuleren" onClick="return checkDelete()"></form></td>'
                                 . "</tr>");

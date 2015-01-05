@@ -108,6 +108,6 @@ $pdf->Ln(10);
 $pdf->Cell(35, 10, 'Totaal Bedrag:');
 $pdf->Cell(35, 10, number_format($totaalBedragBTW,2));
 
-$pdf->Output($name ,'F /facturen');
+$pdf->Output('facturen/'.$name ,'F /facturen');
 
 }

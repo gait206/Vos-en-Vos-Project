@@ -75,19 +75,19 @@ div.omschrijving:after {
     background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
     background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
     background: linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
-	content:'...';
+//	content:'...';
 }
 
 td.productnaam a{
 	color:#344d8e;
 	vertical-align:top;
-	/* border:1px solid black; */ 
 	overflow:hidden;
 	display:block;
 //	padding-left: 10px;
 	width: 465px;
 //	border: 1pt solid black;
 	text-decoration: none;
+	margin-bottom:16px;
 }
 
 td.winkelm{
@@ -145,16 +145,16 @@ input.afbeeldingblock{
 }
 
 td.productnaamblock a{
-	font: normal 14px 'lucida sans unicode', arial, sans-serif;
+//	font: normal 14px 'lucida sans unicode', arial, sans-serif;
 	color:#344d8e;
 	width: 218px;
-	height: 60px;
+//	height: 40px;
 	vertical-align:top;
 //	border:1px solid black; 
 	overflow:hidden;
 	display:block;
 //	padding-left: 1px;
-	padding-top: 12px;
+//	padding-top: 12px;
 	padding-bottom:-5px;
 	line-height: 18px;
 	text-decoration: none;
@@ -172,14 +172,15 @@ div.omschrijvingblock{
     -webkit-box-orient: vertical;
 	width:100%;
 	max-width: 220px;
-	margin-top: -10px;
+	margin-top: 5px;
+	margin-bottom: -40px;
 }
 
 /*--non web-kit browsers--*/
 div.omschrijvingblock{
 //	border: 1px solid black;
     position:relative;
-    height:165px;
+//    height:165px;
 	letter-spacing: 0.1em;
 	line-height:18px;
 }
@@ -194,7 +195,7 @@ div.omschrijvingblock:after{
     background: -o-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
     background: -ms-linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
     background: linear-gradient(to right, rgba(255, 255, 255, 0), white 45%, white);
-	content:'...';
+//	content:'...';
 }
 
 td.winkelmblock{
@@ -207,17 +208,18 @@ td.winkelmblock form{
 //	border: 1px solid black;
 	vertical-align: bottom;
 	margin-bottom: 0px;
-	display:table-cell;
+//	display:table-cell;
 }
 
 td.prijsblock a{
 	color: #344d8e;
-	vertical-align: central;
+	vertical-align: bottom;
 	text-align: right;
-	height: 41px;
+//	height: 41px;
 //	border: 1px solid black;
 	display:block;
 	text-decoration:none;
+	margin-top:50px;
 }
 
 div.prijskleinblock{
@@ -226,6 +228,8 @@ div.prijskleinblock{
 //	border: 1px solid black;
 	display:block;
 	text-align: right;
+	vertical-align:bottom;
+	margin-top: 3px;
 }
 
 table.headerblock{
@@ -233,7 +237,7 @@ table.headerblock{
     border-width: 1px;
 	border-color: #BBB;
 	width: 230px;
-	height: 386px;
+	height: 300px;
 	display: inline-table;
 	margin: 5px;
 }
@@ -311,12 +315,12 @@ table.headerblock:hover{
 /* right */
 .tooltip-right:before,
 .tooltip-right:after {
-  bottom: 95%;
+  bottom: 120%;
   left: 100%;
 }
 
 .tooltip-right:before {
-  margin-bottom: 0;
+  margin-bottom: 0px;
   margin-left: -12px;
   border-top-color: transparent;
   border-right-color: #000;

@@ -43,18 +43,16 @@ $link = connectDB();
                     if (!validToken($link)) {
                         header('Location: ../index.php');
                     }
-                    $_GET['bestelnr'];
-                    
-                    
                     $Klantnr = getKlantnr($link);
                     $bestelnr = $_GET["bestelnr"];
                     $Klantnr = getKlantnr($link);
-                    $result = mysqli_query($link, "SELECT productnaam, B.productnr, aantal FROM bestelregel B JOIN product P ON B.productnr = P.productnr WHERE bestelnr='$bestelnr'");
+                    $result = mysqli_query($link, "SELECT bestelnr, productnaam, B.productnr, aantal FROM bestelregel B JOIN product P ON B.productnr = P.productnr WHERE bestelnr='$bestelnr'");
                     $bestelling = mysqli_fetch_assoc($result);
                     print('<p class="bestelregelheader"> Bestellling: ' . $bestelnr . '</p>');
-                    print("<table class='tablebestellingen'><th>productnaam</th><th>Productnummer</th><th>Aantal</th>");
+                    print("<table class='tablebestellingen'><th>Bestelnummer</th><th>productnaam</th><th>Productnummer</th><th>Aantal</th>");
                     while ($bestelling) {
                         print("<tr>"
+                                . "<td>" . $bestelling["bestelnr"] . "</td>"
                                 . "<td>" . $bestelling["productnaam"] . "</td>"
                                 . "<td>" . $bestelling["productnr"] . "</td>"
                                 . "<td>" . $bestelling["aantal"] . "</td>"

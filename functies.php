@@ -100,7 +100,7 @@ function removeCookieLine($name, $key) {
 function deleteCookie($name) {
     if (existCookie($name)) {
         unset($_COOKIE[$name]);
-        setcookie($name, null, time() + 1);
+        setcookie($name, null, time() + 1, '/', false);
         return true;
     } else {
         return "Deze cookie bestaat niet";
@@ -193,8 +193,9 @@ function filter_query_generate($query, $switch, array $checkbox) {
 
 function search_query_generate($search_term, $query) {
     $query .= 'AND (productnaam LIKE "%' . $search_term . '%" OR
-                        productnr = "' . $search_term . '" OR
-                        omschrijving LIKE "%' . $search_term . '%")';
+					inhoud LIKE "%' . $search_term . '%" OR
+                    productnr = "' . $search_term . '" OR
+                    omschrijving LIKE "%' . $search_term . '%")';
 
     return($query);
 }
@@ -214,7 +215,7 @@ function sort_query_generate($query, $switch) {
             break;
         case 4 : $query .= 'prijs DESC ';
             break;
-		case 5 : $query .= 'categorie ';
+        case 5 : $query .= 'categorie ';
             break;
         case 6 : $query .= 'categorie DESC ';
             break;
@@ -289,7 +290,6 @@ function validToken($link) {
     }
 }
 
-// maakt geen nieuw token aan wss
 function createToken($klantnr, $link) {
     $ip = $_SERVER["REMOTE_ADDR"];
     $size = 60;
@@ -416,7 +416,7 @@ function deleteToken($verwijderen, $link) {
 
 function restrictedPage($level, $link) {
     if (validToken($link) == true) {
-        if (userLevel(getKlantnr($link),$link) == $level) {
+        if (userLevel(getKlantnr($link), $link) == $level) {
             if (mysqli_connect_error($link)) {
                 return "Error: " . mysqli_connect_error($link);
             } else {
@@ -425,10 +425,12 @@ function restrictedPage($level, $link) {
             }
         } else {
             header('Location: ../index.php');
+            die();
             return false;
         }
     } else {
         header('Location: ../index.php');
+        die();
         return false;
     }
 }
@@ -455,20 +457,21 @@ function verifyPasswordForgot($email, $token2, $link) {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_bind_result($stmt, $token, $datum);
     mysqli_stmt_fetch($stmt);
-    
+
     // als de url 24 uur oud is word hij verwijderd
-    if(($datum - time()) > (60*60*24)) {
+    if (($datum - time()) > (60 * 60 * 24)) {
         deleteDatabaseToken($link);
     } else {
-    if ($token == $token2) {
-        return true;
-    } else {
-        return false;
-    }
+        if ($token == $token2) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
-function prijsformat($prijs){
-	return number_format($prijs,2,",",".");
+
+function prijsformat($prijs) {
+    return number_format($prijs, 2, ",", ".");
 }
 
 function prijsber($prijs) {
@@ -507,15 +510,14 @@ function prijsber($prijs) {
 //            )
 //    ;
 //}
-
 // Controleren voor geldig BTW nummer
 // een geldig btw nummer is: NL 1535.50.909.B02
 
 function checkBTW($btwnummer) {
-    $remove = str_replace(" ","", $btwnummer);
+    $remove = str_replace(" ", "", $btwnummer);
     $upper = strtoupper($remove);
 
-    if(preg_match("/^NL[0-9]{9}B[0-9]{2}$/",  $upper)) {
+    if (preg_match("/^NL[0-9]{9}B[0-9]{2}$/", $upper)) {
         return $upper;
     } else {
         return false;
@@ -523,35 +525,35 @@ function checkBTW($btwnummer) {
 }
 
 // Als de cookie niet bestaat werkt het niet
-function countItems($array){
-    if(isset($_COOKIE["winkelmandje"])){
-    $aantal = 0;
-    foreach($array as $key => $value){
-        $aantal = $aantal + $value;
-    }
-    return $aantal;
+function countItems($array) {
+    if (isset($_COOKIE["winkelmandje"])) {
+        $aantal = 0;
+        foreach ($array as $key => $value) {
+            $aantal = $aantal + $value;
+        }
+        return $aantal;
     } else {
         return 0;
     }
 }
-function PostcodeCheck($postcode)
-{
-    $remove = str_replace(" ","", $postcode);
+
+function PostcodeCheck($postcode) {
+    $remove = str_replace(" ", "", $postcode);
     $upper = strtoupper($remove);
 
-    if(preg_match("/^\W*[1-9]{1}[0-9]{3}\W*[a-zA-Z]{2}\W*$/",  $upper)) {
+    if (preg_match("/^\W*[1-9]{1}[0-9]{3}\W*[a-zA-Z]{2}\W*$/", $upper)) {
         return $upper;
     } else {
         return false;
     }
 }
 
-function CheckEmailExists($emailexists, $link){
+function CheckEmailExists($emailexists, $link) {
 
-$query = mysqli_query($link, "SELECT email FROM gebruiker WHERE email = '".$emailexists."'"); 
-$rows = mysqli_num_rows($query);
- 
-if($rows == 0) {
+    $query = mysqli_query($link, "SELECT email FROM gebruiker WHERE email = '" . $emailexists . "'");
+    $rows = mysqli_num_rows($query);
+
+    if ($rows == 0) {
         return true;
     } else {
         return false;
@@ -743,7 +745,4 @@ $pdf->Cell(35, 10, number_format($totaalBedragBTW,2));
 
 $pdf->Output('facturen/'.$name ,'F');
 
-} else {
-        return false;
-}
 }
