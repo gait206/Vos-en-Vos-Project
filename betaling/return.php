@@ -164,7 +164,7 @@ if (!existCookie($cookiename)) {
                                 $mail->send();
                                 print($mail->ErrorInfo);
 
-                                //print('<script>setTimeout( function(){window.location.href= "/index.php";},5000);</script>');
+                                print('<script>setTimeout( function(){window.location.href= "/index.php";},5000);</script>');
                             } elseif (strcmp($sTransactionStatus, 'PENDING') === 0) {
                                 $sHtml = '<h1 class="error">Uw betaling is in behandeling.<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/winkelmandje.php') . '" class="links">Nieuwe transactie starten.</a></h1>';
                             } elseif (strcmp($sTransactionStatus, 'CANCELLED') === 0) {
