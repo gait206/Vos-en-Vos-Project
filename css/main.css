@@ -296,15 +296,3 @@ div.menu{
     margin-top: calc(1% - 2px);
     float: left;
 }
-
-div.aantalzoek{
-	text-align:right;
-	float: right;
-	display:block; 
-	color: #344d8e; 
-	font-size:12px;
-	width: 1200px;
-	margin-right:10px;
-	margin-bottom:15px;
-	position: static;
-}

@@ -105,94 +105,45 @@ if (!existCookie($cookiename)) {
                             $sLogFile = $sLogPath . '/' . $sTransactionReference . '.return.' . time() . '.log';
 
                             if (is_dir($sLogPath) && is_writable($sLogPath)) {
-                                file_put_contents($sLogFile, $sLogData);
+                                @file_put_contents($sLogFile, $sLogData);
                             }
-
 
 
 
 
                             // Bepaal de transactie status, en bevestig deze aan de bezoeker
                             if (strcmp($sTransactionStatus, 'SUCCESS') === 0) {
-                                $sHtml = '<h1 class="error">Uw betaling is met succes ontvangen.<br>U word over 5 seconden doorgestuurd of<br><a href="/index.php">Klik hier om verder te gaan</a></h1>';
-                                // moet een mail naar de klant sturen
-                                // formaat van sTransactionReference aanpassen zodat deze overeen komt met de waarde in de database
-                                $sTransactionReference = substr($sTransactionReference, 0, 3) . '-' . substr($sTransactionReference, 3, strlen($sTransactionReference));
-                                mysqli_query($link, 'UPDATE bestelling SET betaald = "ja" WHERE transactieref = "' . $sTransactionReference . '"');
-
-                                // verwijderen van alle cookies
-                                deleteCookie('winkelmandje');
-                                deleteCookie('verzendadres');
-                                deleteCookie('opmerking');
-
-                                // verzenden factuur via email
-                                require 'phpmailer/PHPMailerAutoload.php';
-
-                                $mail = new PHPMailer;
-                                // zorgt dat de mail word verstuurd via de standaard php mail functie
-                                $mail->isMail();
-                                
-                                // zorgt ervoor dat het email adres opgehaald kan worden
-                                $klantnr = getKlantnr($link);
-                                $result = mysqli_query($link, 'SELECT email FROM gebruiker WHERE klantnr = "'.$klantnr.'";');
-                                $row = mysqli_fetch_assoc($result);
-                                $receiver = $row['email'];
-                                
-                                $mail->From = 'from@example.com';
-                                $mail->FromName = 'Vos&Vos Tissue';
-                                $mail->addAddress($receiver);
-                                $mail->addReplyTo('info@example.com', 'Information');
-
-                                // haalt het bestelnr op
-                                $result = mysqli_query($link, 'SELECT bestelnr FROM bestelling WHERE transactieref = "' . $sTransactionReference . '";');
-                                $row = mysqli_fetch_assoc($result);
-                                $bestelnr = $row["bestelnr"];
-
-                                $filename = 'facturen/bestelling_' . $bestelnr . '.pdf';
-                        
-                                // maakt een factuur aan
-                                createFactuur('bestelling_' . $bestelnr . '.pdf', $bestelnr);
-                                
-                                // voegt een bijlage toe
-                                $mail->addAttachment($filename);
-                                $mail->isHTML(true);
-
-                                $mail->Subject = 'Factuur Bestelling';
-                                $mail->Body = 'Uw bestelling is succesvol voltooid u vind een overzicht van uw bestelling in de vorm van een factuur in de <b>bijlage</b>';
-                                $mail->AltBody = 'Uw bestelling is succesvol voltooid u vind een overzicht van uw bestelling in de vorm van een factuur in de bijlage';
-
-                                $mail->send();
-                                print($mail->ErrorInfo);
-
-                                print('<script>setTimeout( function(){window.location.href= "/index.php";},5000);</script>');
+                                $sHtml = '<h1 class="error">Uw betaling is met succes ontvangen.<br>U word over 5 seconden doorgestuurd of<a href="' . htmlspecialchars($aSettings['website_url'] . '../verzenden.php') . '">Klik hier om verder te gaan</a></h1><form method="POST" action="afrekenen.php"><input class="verzenden_knop_left" type="submit" name="terug" value="Terug naar controle"></form><form method="POST" action=""><input class="verzenden_knop_right" type="submit" name="actie" value="Betalen" form="afleveradres"></form>';
+                                sleep(5);
+                                header('Location: ../verzenden.php');
                             } elseif (strcmp($sTransactionStatus, 'PENDING') === 0) {
-                                $sHtml = '<h1 class="error">Uw betaling is in behandeling.<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/winkelmandje.php') . '" class="links">Nieuwe transactie starten.</a></h1>';
+                                $sHtml = '<h1 class="error">Uw betaling is in behandeling.<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/start.php') . '" class="links">Nieuwe transactie starten.</a></h1>';
                             } elseif (strcmp($sTransactionStatus, 'CANCELLED') === 0) {
-                                $sHtml = '<h1 class="error">Uw betaling is geannuleerd.<br><a href="' . htmlspecialchars($aSettings['website_url'] . 'overzicht.php') . '" class="links">Probeer opnieuw te betalen.</a></h1>';
+                                $sHtml = '<h1 class="error">Uw betaling is geannuleerd.<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/start.php') . '" class="links">Probeer opnieuw te betalen.</a></h1>';
                             } elseif (strcmp($sTransactionStatus, 'EXPIRED') === 0) {
-                                $sHtml = '<h1 class="error">Uw betaling is mislukt.<br><a href="' . htmlspecialchars($aSettings['website_url'] . 'overzicht.php') . '" class="links">Probeer opnieuw te betalen.</a></h1>';
+                                $sHtml = '<h1 class="error">Uw betaling is mislukt.<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/start.php') . '" class="links">Probeer opnieuw te betalen.</a></h1>';
                             } else { // if(strcmp($sTransactionStatus, 'FAILURE') === 0)
-                                $sHtml = '<h1 class="error">Uw betaling is mislukt.<br><a href="' . htmlspecialchars($aSettings['website_url'] . 'overzicht.php') . '" class="links">Probeer opnieuw te betalen.</a></h1>';
+                                $sHtml = '<h1 class="error">Uw betaling is mislukt.<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/start.php') . '" class="links">Probeer opnieuw te betalen.</a></h1>';
                             }
                         } else {
-                            $sHtml = '<h1 class="error">Ongeldige Omnikassa Response (verkeerde beveiligingssleutel ingesteld?).<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/winkelmandje.php') . '" class="links">Nieuwe transactie starten.</a></h1>';
+                            $sHtml = '<h1 class="error">Ongeldige Omnikassa Response (verkeerde beveiligingssleutel ingesteld?).<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/start.php') . '" class="links">Nieuwe transactie starten.</a></h1>';
                         }
                     }
 
                     print($sHtml);
                     ?>
-
+                    
                 </div>
             </div>
 
             <div class="footer">
-<?php
-include "../footer.php";
-?>
+                    <?php
+                    include "../footer.php";
+                    ?>
             </div>
         </div>
     </body>
 </html>
-<?php
-mysqli_close($link);
-?>
+                    <?php
+                    mysqli_close($link);
+                    ?>

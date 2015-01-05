@@ -45,13 +45,9 @@ $link = connectDB();
                     }
                     $Klantnr = getKlantnr($link);
 
-                    // Stel de tijdzone in (vaak vereist in PHP5 bij gebruik van datum/tijd functies)
-                    if (function_exists('date_default_timezone_set')) {
-                        date_default_timezone_set('Europe/Amsterdam');
-                    }
 
                     $Klantnr = getKlantnr($link);
-                    $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '$Klantnr' AND status != 'In behandeling' AND betaald = 'ja'");
+                    $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '$Klantnr' AND status != 'In behandeling'");
                     $bestelling = mysqli_fetch_assoc($result);
 
                     print("<table class='tablebestellingen'><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th>");
@@ -61,8 +57,8 @@ $link = connectDB();
                         print("<tr>"
                                 . "<td><a href='bestelling.php?bestelnr=" . $bestelling["bestelnr"] . "' class='bestelnummer'>" . $bestelling["bestelnr"] . "</a></td>"
                                 . "<td>" . $bestelling["opmerking"] . "</td>"
-                                . "<td>" . date("d-m-Y", strtotime($bestelling["besteldatum"])) . "</td>"
-                                . "<td>" . date("d-m-Y", strtotime($bestelling["bezorgdatum"])) . "</td>"
+                                . "<td>" . $bestelling["besteldatum"] . "</td>"
+                                . "<td>" . $bestelling["bezorgdatum"] . "</td>"
                                 . "<td>" . $bestelling["status"] . "</td>"
                                 . "</tr>");
                         $bestelling = mysqli_fetch_assoc($result);
