@@ -81,7 +81,7 @@ $link = connectDB();
 						$value = 1;
 						print('<form action="" method="POST" >'
                                 . '<input  type="number" class="textbox" name="aanpassen" value="' . $value . '"> </td>'
-                                 . '<input  type="hidden" name="productnr" value="' . $row["productnr"] . '"></form>
+                                 . '<input  type="hidden" name="productnr" value="' . $productnr . '"></form>
 						
                         <form action="../winkelwagen.php" method="POST">
                         <input class="inwinkelwagen" type="submit" name="inwinkelwagen" value="In winkelwagen">

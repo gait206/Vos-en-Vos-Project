@@ -14,7 +14,7 @@
             
             <td>8004 DA  Zwolle</td>
             <td>Telefoonnummer: 038-4529329</td> 
-            <td>KvK nr.: xxxxxxxx</td>
+            <td>KvK nr.: 56645600 0000</td>
             <td class="tablelink"><a href="https://www.twitter.com/vosenvos.schoonmaakbedrijf" target="_blank">Volg ons op Twitter</td>
             </tr><tr>
             

@@ -122,7 +122,7 @@ addCookie($cookiename, array());
                         }
                         
                         print('<h1 class="kop">Opmerkingen</h1>');
-                        print('<div class="opmerking"><p>Voeg hier uw opmerkingen toe:</p><form method="POST" action=""><textarea name="opmerking" rows="10" cols="100" maxlength="300">'.$opmerking.'</textarea><input class="verzenden_knop_right" type="submit" name="actie" value="Verder"></form></div>');
+                        print('<div class="opmerking"><p>Voeg hier uw opmerkingen toe:</p><form method="POST" action=""><textarea name="opmerking" rows="10" cols="100" maxlength="400">'.$opmerking.'</textarea><input class="verzenden_knop_right" type="submit" name="actie" value="Verder"></form></div>');
                     }
                     ?>
                     <form method="POST" action="verzenden.php"><input class="verzenden_knop_left" type="submit" name="terug" value="Terug naar afleveradres"></form>

@@ -578,6 +578,7 @@ function accountBlocked($email, $link) {
     }
 }
 
+// telt het aantal foute loginpogingen op en blokkeert het account
 function accountBlockedCount($email, $link) {
     $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "'.$email.'";');
 
@@ -636,6 +637,7 @@ function decryptData($data){
         return $decrypted;
 }
 
+// maakt een factuur aan van een bestelling
 function createFactuur($name, $bestelnr) {
 require('fpdf/fpdf.php');
 
@@ -657,6 +659,7 @@ $result2 = mysqli_query($link, 'SELECT * FROM anderadres WHERE bestelnr = "' . $
 $result3 = mysqli_query($link, 'SELECT voornaam, achternaam, bedrijfsnaam, adres, plaats, postcode FROM klant AS k JOIN bestelling AS b ON k.klantnr = b.klantnr WHERE bestelnr = "' . $bestelnr . '";');
 $row3 = mysqli_fetch_assoc($result3);
 
+// print de bedrijfsgegevens
 $pdf->Ln(1);
 $pdf->Cell(42, 40, 'Bedrijf: ');
 $pdf->Cell(8, 40, $row3["bedrijfsnaam"]);
@@ -669,6 +672,7 @@ $pdf->Cell(25, 40, 'Afleveradres: ');
 
 $pdf->SetFont('Helvetica', 'B', 12);
 
+// print het afleveradres
 if (mysqli_num_rows($result2) == 1) {
 
     $row2 = mysqli_fetch_assoc($result2);
@@ -699,6 +703,7 @@ $row4 = mysqli_fetch_assoc($result4);
 
 $pdf->SetFont('Helvetica', 'B', 10);
 
+// print de kop
     $pdf->Ln(30);
     $pdf->Cell(20, 10, 'Productnr', 1);
     $pdf->Cell(110, 10, 'Productnaam', 1);
@@ -710,6 +715,7 @@ $pdf->SetFont('Helvetica', 'B', 10);
     $totaalBTW = 0;
     $totaalBedragBTW = 0;
     
+    // laat alle producten met hun prijzen zien
 while($row4){
     $pdf->Ln(10);
     $pdf->Cell(20, 10, $row4["productnr"], 1);
@@ -725,6 +731,7 @@ while($row4){
 $totaalBTW = $totaalBedrag * 0.21;
 $totaalBedragBTW = $totaalBTW + $totaalBedrag;
 
+// zorgt dat de totalen worden weergegeven
 $pdf->Ln(10);
 $pdf->SetLeftMargin(140);
 $pdf->Cell(35, 10, 'Totaal:');
