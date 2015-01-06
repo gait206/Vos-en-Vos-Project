@@ -198,7 +198,7 @@ $link = connectDB();
                     }
 
                     // toont resultaten
-                    $query = 'SELECT * FROM product ';
+                    $query = 'SELECT * FROM product WHERE 1=1 ';
 
                     // perpage deel
 
