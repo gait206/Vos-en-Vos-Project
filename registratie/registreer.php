@@ -166,6 +166,8 @@ $link = connectDB();
                                 $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> De wachtwoorden komen niet overeen<br>";
                             } elseif (strlen($_POST['wachtwoord']) < 6){
                                 $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> Het wachtwoord moet minimaal 6 tekens bevatten";
+                            } elseif (!preg_match_all('$\S*(?=\S{6,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$', $_POST['wachtwoord'])){
+                                $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> Wachtwoord moet minimaal 1 cijfer, 1 letter, 1 hoofdletter en 1 speciaal teken bevatten<br>";
                             } else {
                                 $error_wachtwoord = '';
                             }
