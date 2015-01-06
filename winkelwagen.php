@@ -11,7 +11,7 @@ if (!empty($_POST["actie"])) {
     if ($_POST["actie"] == "Verwijderen") {
         removeCookieLine($cookiename, $_POST["productnr"]);
         header('Location: winkelwagen.php');
-    } else if ($_POST["actie"] == "toevoegen") {
+    } else if ($_POST["actie"] == "toevoegen" || $_POST["actie"] == "in winkelmandje") {
         //print("1");
         if (array_key_exists($_POST["productnr"], getCookie($cookiename))) {
             //print("2");
