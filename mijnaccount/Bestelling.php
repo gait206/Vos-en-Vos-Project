@@ -42,22 +42,38 @@ $link = connectDB();
                     <?php
                     if (!validToken($link)) {
                         header('Location: ../index.php');
+                        die();
                     }
-                    $Klantnr = getKlantnr($link);
+
+                    $klantnr = getKlantnr($link);
                     $bestelnr = $_GET["bestelnr"];
-                    $Klantnr = getKlantnr($link);
-                    $result = mysqli_query($link, "SELECT bestelnr, productnaam, B.productnr, aantal FROM bestelregel B JOIN product P ON B.productnr = P.productnr WHERE bestelnr='$bestelnr'");
-                    $bestelling = mysqli_fetch_assoc($result);
-                    print('<p class="bestelregelheader"> Bestellling: ' . $bestelnr . '</p>');
-                    print("<table class='tablebestellingen'><th>Bestelnummer</th><th>productnaam</th><th>Productnummer</th><th>Aantal</th>");
-                    while ($bestelling) {
-                        print("<tr>"
-                                . "<td>" . $bestelling["bestelnr"] . "</td>"
-                                . "<td>" . $bestelling["productnaam"] . "</td>"
-                                . "<td>" . $bestelling["productnr"] . "</td>"
-                                . "<td>" . $bestelling["aantal"] . "</td>"
-                                . "</tr>");
-                        $bestelling = mysqli_fetch_assoc($result);
+                    
+                    $crosscheck = mysqli_query($link, "SELECT * FROM bestelling WHERE klantnr ='" .$klantnr."'AND bestelnr='".$bestelnr."';");
+                    $row = mysqli_fetch_assoc($crosscheck);
+                    if (mysqli_num_rows($crosscheck) == 0) {
+                        print("Er is geen bestelling gevonden met bestelnummer " . $bestelnr);
+                    } else {
+                        // prepare and bind
+                        mysqli_close($link);
+                        $link = connectDB();
+                    $stmt2 = mysqli_prepare($link, "SELECT productnaam, B.productnr, aantal FROM bestelregel B JOIN product P ON B.productnr = P.productnr WHERE bestelnr=?");
+                    mysqli_stmt_bind_param($stmt2, "i" , $bestelnr);
+                    mysqli_stmt_execute($stmt2);
+                    mysqli_stmt_bind_result($stmt2, $productnaam, $productnr, $aantal);
+
+                    $result = mysqli_stmt_fetch($stmt2);
+                    
+
+                        print('<p class="bestelregelheader"> Bestellling: ' . $bestelnr . '</p>');
+                        print("<table class='tablebestellingen'><th>productnaam</th><th>Productnummer</th><th>Aantal</th>");
+                        while($result){
+                            print("<tr>"
+                                    . "<td>" . $productnaam . "</td>"
+                                    . "<td>" . $productnr . "</td>"
+                                    . "<td>" . $aantal . "</td>"
+                                    . "</tr>");
+                            $result = mysqli_stmt_fetch($stmt2);
+                        }
                     }
 
 
