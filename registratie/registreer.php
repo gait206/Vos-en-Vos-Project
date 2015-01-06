@@ -43,42 +43,8 @@ $link = connectDB();
                     }
                     // nieuwe klant registreren
                     if (isset($_POST["registreer"])) {
-                                                
-                            //Contactpersoon
-                            $voornaam = $_POST["voornaam"];
-                            $achternaam = $_POST["achternaam"];
-                            $telnummer = $_POST["telnummer"];
-                            $mobnummer = $_POST["mobnummer"];
-                            //bedrijfsgegevens
-                            $bedrijfsnaam = $_POST["bedrijfsnaam"];
-                            $adres = $_POST["adres"];
-                            $postcode = $_POST["postcode"];
-                            $plaats = $_POST["plaats"];
-                            $kvknummer = $_POST["kvknummer"];
-                            $btwnummer = $_POST["btwnummer"]; 
-                            //inloggegevens
-                            $email = $_POST["email"];
-                            $wachtwoord = $_POST["wachtwoord"];
-                            $wachtwoord2 = $_POST['wachtwoord2'];
                             
-                            if (!empty($voornaam) && !empty($achternaam) && !empty($telnummer) && !empty($bedrijfsnaam) && !empty($adres) && !empty($postcode) && !empty($plaats) && !empty($btwnummer) && !empty($kvknummer)){
-                            if (!empty($wachtwoord) && ($_POST['wachtwoord'] == $_POST['wachtwoord2']) && !empty($email)) {
-                                
-                                $wachtwoord3 = encryptPassword($wachtwoord);
-                            
-                           
-                            mysqli_query($link, "INSERT INTO gebruiker(email,wachtwoord) VALUES('".$email."', '".$wachtwoord3."');");    
-                            mysqli_query($link, "INSERT INTO klant(voornaam,achternaam,telnummer,mobnummer,bedrijfsnaam,adres,postcode,plaats,kvknummer,btwnummer) "
-                            . "VALUES('".$voornaam."', '".$achternaam."', '".$telnummer."','". $mobnummer."', '".$bedrijfsnaam."', '".$adres."', '".$postcode."', '".$plaats."', '".$kvknummer."', '".$btwnummer."');"); 
-                            
-                            print(mysqli_error($link));
-                            
-                            header('Location: registratievoltooid.php');
-                            }
-                            }
-                            // Foutcontrole bij de contactgegevens
-                                 
-                            if (empty($_POST['voornaam'])){
+                        if (empty($_POST['voornaam'])){
                                 $error_voornaam = "<img width=15 height=15 src=\"fout.png\"> Er is geen voornaam ingevoerd<br>";
                                 } elseif (preg_match("/^- [A-z]+$/", $_POST['voornaam'])){
                                     $error_voornaam = "<img width=15 height=15 src=\"fout.png\"> Geen geldige invoer bij voornaam<br>";
@@ -100,6 +66,12 @@ $link = connectDB();
                                     $error_telnummer = "<img width=15 height=15 src=\"fout.png\"> Het telefoonnummer mag alleen getallen bevatten<br>";
                             } else {
                                 $error_telnummer = '';
+                            }
+                            
+                            if (!preg_match("/^[0-9]{10}+$/", $_POST['mobnummer'])){
+                                    $error_mobnummer = "<img width=15 height=15 src=\"fout.png\"> Het mobiele nummer mag alleen 10 getallen bevatten<br>";
+                            } else {
+                                $error_mobnummer = '';
                             }
                             // Foutcontrole bij bedrijfsgegevens
                             
@@ -129,7 +101,7 @@ $link = connectDB();
                             
                             if (empty($_POST['plaats'])){
                                 $error_plaats = "<img width=15 height=15 src=\"fout.png\"> Er is geen plaats ingevoerd<br>";
-                            } elseif (!preg_match("/^- [A-z]+$/", $_POST['plaats'])){
+                            } elseif (!preg_match("/^[A-z]+$/", $_POST['plaats'])){
                                 $error_plaats = "<img width=15 height=15 src=\"fout.png\"> Geen geldige invoer bij plaats<br>";
                             } else {
                                 $error_plaats = '';
@@ -171,11 +143,48 @@ $link = connectDB();
                             } else {
                                 $error_wachtwoord = '';
                             }
+                        
+                            //Contactpersoon
+                            $voornaam = $_POST["voornaam"];
+                            $achternaam = $_POST["achternaam"];
+                            $telnummer = $_POST["telnummer"];
+                            $mobnummer = $_POST["mobnummer"];
+                            //bedrijfsgegevens
+                            $bedrijfsnaam = $_POST["bedrijfsnaam"];
+                            $adres = $_POST["adres"];
+                            $postcode = $_POST["postcode"];
+                            $plaats = $_POST["plaats"];
+                            $kvknummer = $_POST["kvknummer"];
+                            $btwnummer = $_POST["btwnummer"]; 
+                            //inloggegevens
+                            $email = $_POST["email"];
+                            $wachtwoord = $_POST["wachtwoord"];
+                            $wachtwoord2 = $_POST['wachtwoord2'];
+                            
+                            if (!empty($voornaam) && !empty($achternaam) && !empty($telnummer) && !empty($bedrijfsnaam) && !empty($adres) && !empty($postcode) && !empty($plaats) && !empty($btwnummer) && !empty($kvknummer) && $error_voornaam == '' && $error_achternaam == '' && $error_telnummer == '' && $error_mobnummer == '' && $error_bedrijfsnaam == '' && $error_adres == '' && $error_postcode == '' && $error_plaats == '' && $error_btwnummer == '' && $error_kvknummer == ''){
+                            if (!empty($wachtwoord) && ($_POST['wachtwoord'] == $_POST['wachtwoord2']) && $error_wachtwoord == '' && !empty($email)) {
+                                
+                                $wachtwoord3 = encryptPassword($wachtwoord);
+                            
+                           
+                            mysqli_query($link, "INSERT INTO gebruiker(email,wachtwoord) VALUES('".$email."', '".$wachtwoord3."');");    
+                            mysqli_query($link, "INSERT INTO klant(voornaam,achternaam,telnummer,mobnummer,bedrijfsnaam,adres,postcode,plaats,kvknummer,btwnummer) "
+                            . "VALUES('".$voornaam."', '".$achternaam."', '".$telnummer."','". $mobnummer."', '".$bedrijfsnaam."', '".$adres."', '".$postcode."', '".$plaats."', '".$kvknummer."', '".$btwnummer."');"); 
+                            
+                            print(mysqli_error($link));
+                            
+                            header('Location: registratievoltooid.php');
+                            }
+                            }
+                            // Foutcontrole bij de contactgegevens
+                                 
+                            
                             
                         } else {
                             $error_voornaam = '';
                             $error_achternaam = '';
                             $error_telnummer = '';
+                            $error_mobnummer = '';
                             $error_bedrijfsnaam = '';
                             $error_adres = '';
                             $error_postcode = '';
