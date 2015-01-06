@@ -2,6 +2,7 @@
 session_start();
 include('../functies.php');
 $link = connectDB();
+
 ?>
 <html>
     <head>
@@ -67,7 +68,10 @@ $link = connectDB();
 						<p class="pronr">productnummer '. $productnr .'</p>
 						<p class="prijs">&euro; '. prijsformat($prijs) .'</p>
 						<p class="prijsklein">&euro; '. prijsber($prijs) .' incl 21% BTW</p>');
-						
+							print('<div class="bestelblok">
+						<p class="pronr">productnummer '. $productnr .'</p>
+						<p class="prijs">&euro; '. prijsformat($prijs) .'</p>
+						<p class="prijsklein">&euro; ');
 						//voorraad
                         if ($voorraad >20){
                             print('<p class="opvoorraad"> Op voorraad</p>');
@@ -79,13 +83,11 @@ $link = connectDB();
                             print('<p class="nietopvoorraad"> Niet op voorraad</p>');
                         }
 						$value = 1;
-						print('<form action="" method="POST" >'
-                                . '<input  type="number" class="textbox" name="aanpassen" value="' . $value . '"> </td>'
-                                 . '<input  type="hidden" name="productnr" value="' . $productnr . '"></form>
-						
-                        <form action="../winkelwagen.php" method="POST">
-                        <input class="inwinkelwagen" type="submit" name="inwinkelwagen" value="In winkelwagen">
-                        </form>');
+						print(    '<form action="../winkelwagen.php" method="POST">'
+                                . ' <input  type="number" class="textbox" name="aanpassen" value="' . $value . '"> </td>'
+                                . ' <input  type="hidden" name="productnr" value="' . $productnr . '">'
+                                . ' <input type="submit" class="inwinkelwagen" name="action" value="toevoegen">'
+                                . '</form>');
                         
                         
 						print('</div>');
