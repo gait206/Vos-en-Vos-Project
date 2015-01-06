@@ -47,15 +47,19 @@ $link = connectDB();
                     if (mysqli_connect_error($link)) {
                         print(mysqli_connect_error($link));
                     }
-					if(!validToken($link)){
-						header('Location: ../index.php');
-						die();
-					} else {
+			if(!validToken($link)){
+                            header('Location: ../index.php');
+				die();
+			} else {
+                    
                     $klantnr = getKlantnr($link);
 
                     if (isset($_POST["opslaan2"])) {
-                            
-                            if ($_POST['wachtwoord'] != $_POST['wachtwoord2']) {
+                        $wachtwoord3 = $_POST['wachtwoord3'];
+                        $result2 = mysqli_query($link, "SELECT email FROM gebruiker WHERE klantnr = '".$klantnr."';");
+                        $row2 = mysqli_fetch_assoc($result2);
+                        
+                        if ($_POST['wachtwoord'] != $_POST['wachtwoord2']) {
                                 $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> De wachtwoorden komen niet overeen<br>";
                             } elseif (strlen($_POST['wachtwoord']) < 6){
                                 $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> Het wachtwoord moet minimaal 6 tekens bevatten";
@@ -64,35 +68,40 @@ $link = connectDB();
                             } else {
                                 $error_wachtwoord = '';
                             }
- 
+                        
                             $wachtwoord = $_POST["wachtwoord"];
                             $wachtwoord2 = $_POST['wachtwoord2'];
                             
+                        if (verifyPassword($row2['email'], $wachtwoord3, $link)){
+ 
                             if (!empty($wachtwoord) && ($_POST['wachtwoord'] == $_POST['wachtwoord2']) && $error_wachtwoord == '') {
                                 
                                 $wachtwoord3 = encryptPassword($wachtwoord);
-                            
-                           
+
                             $stmt = mysqli_prepare($link, "UPDATE gebruiker SET wachtwoord = ? WHERE klantnr = '".$klantnr."';");    
-                                                        mysqli_stmt_bind_param($stmt, 's', $wachtwoord3);
-							mysqli_stmt_execute($stmt);
-							mysqli_stmt_close($stmt);
+                                mysqli_stmt_bind_param($stmt, 's', $wachtwoord3);
+				mysqli_stmt_execute($stmt);
+				mysqli_stmt_close($stmt);
                             
-                            print(mysqli_stmt_error($link));
+                                print(mysqli_stmt_error($link));
                             
                             header('Location: gegevensgewijzigd.php');
-                            }
+                        }
+                        } else {
+                            $error_wachtwoord3 = "<img width=15 height=15 src=\"fout.png\"> Het huidige wachtwoord klopt niet<br>";
+                        }
                     } else {
                             $error_wachtwoord = '';
                             $wachtwoord = '';
                             $wachtwoord2 = '';
                     }
+                    
                     if (isset($_POST["opslaan"])) {
                             
-                        if (empty($_POST['voornaam'])){
-                                $error_voornaam = "<img width=15 height=15 src=\"..\fout.png\"> Er is geen voornaam ingevoerd<br>";
+                            if (empty($_POST['voornaam'])){
+                                $error_voornaam = "<img width=15 height=15 src=\"fout.png\"> Er is geen voornaam ingevoerd<br>";
                                 } elseif (preg_match("/^- [A-z]+$/", $_POST['voornaam'])){
-                                    $error_voornaam = "<img width=15 height=15 src=\"..\fout.png\"> Geen geldige invoer bij voornaam<br>";
+                                    $error_voornaam = "<img width=15 height=15 src=\"fout.png\"> Geen geldige invoer bij voornaam<br>";
                             } else {
                                 $error_voornaam = '';
                             }
@@ -112,10 +121,11 @@ $link = connectDB();
                             } else {
                                 $error_telnummer = '';
                             }
-							if (empty($_POST['mobnummer'])){
-                                $error_mobnummer = "<img width=15 height=15 src=\"fout.png\"> Er is geen geldig mobiele nummer ingevoerd<br>";   
+                            
+                            if (empty($_POST['mobnummer'])){
+                                $error_mobnummer = "<img width=15 height=15 src=\"fout.png\"> Er is geen mobiele nummer ingevoerd<br>";   
                             } elseif (!preg_match("/^[0-9]+$/", $_POST['mobnummer'])){
-                                    $error_mobnummer = "<img width=15 height=15 src=\"fout.png\"> Het mobiele nummer mag alleen getallen bevatten<br>";
+                                    $error_mobnummer = "<img width=15 height=15 src=\"fout.png\"> Het mobiele nummer mag alleen 10 getallen bevatten<br>";
                             } else {
                                 $error_mobnummer = '';
                             }
@@ -188,7 +198,8 @@ $link = connectDB();
 							mysqli_stmt_bind_param($stmt, 'sssssssssi', $voornaam, $achternaam, $telnummer, $mobnummer, $bedrijfsnaam, $adres, $postcode, $plaats, $btwnummer, $kvknummer);
 							mysqli_stmt_execute($stmt);
 							mysqli_stmt_close($stmt);
-                                
+                                                        
+                                header('Location: gegevensgewijzigd.php');
                             }
                             
                         } else {
@@ -219,7 +230,6 @@ $link = connectDB();
                             $plaats = $row['plaats'];
                             $kvknummer = $row['kvknummer'];
                             $btwnummer = $row['btwnummer'];
-
                     }
                        
                     print('<div class="header_administratie">Mijn gegevens</div>');
@@ -243,7 +253,8 @@ $link = connectDB();
                     print('</form>');
                     // Inloggegevens
                     print('<form action="" method="POST"><tr><td><p class="p">Inloggegevens<p></td></tr>');
-                    print('<tr><td>Wachtwoord:</td><td><input class="input" type="password" name="wachtwoord" value="' .$wachtwoord. '"><td class="foutmelding">'.$error_wachtwoord.'</td></tr>');
+                    print('<tr><td>Huidig wachtwoord:</td><td><input class="input" type="password" name="wachtwoord3" value="' .$wachtwoord3. '"><td class="foutmelding">'.$error_wachtwoord3.'</td></tr>');
+                    print('<tr><td>Nieuw wachtwoord:</td><td><input class="input" type="password" name="wachtwoord" value="' .$wachtwoord. '"><td class="foutmelding">'.$error_wachtwoord.'</td></tr>');
                     print('<tr><td>Herhaal wachtwoord:</td><td><input class="input" type="password" name="wachtwoord2" value="' .$wachtwoord2. '"></tr>');
                     print('<tr><td></td><td><input type="submit" name="opslaan2" class="button" value="Wachtwoord wijzigen"></td></tr>');
                     print('</form>');
