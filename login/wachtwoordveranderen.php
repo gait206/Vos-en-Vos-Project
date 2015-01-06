@@ -36,7 +36,15 @@ $link = connectDB();
                     <div class="forgot_password">
                         <?php
                         if (!(empty($_GET["email"]) && empty($_GET["token"]))) {
-                            if (verifyPasswordForgot($_GET["email"], $_GET["token"], $link)) {
+                            $email = $_GET['email'];
+                            $stmt3 = mysqli_prepare($link, 'SELECT klantnr FROM gebruiker WHERE email = ?;');
+                            mysqli_stmt_bind_param($stmt3, 's', $email);
+                            mysqli_stmt_execute($stmt3);
+                            mysqli_stmt_bind_result($stmt3, $klantnr);
+                            $result2 = mysqli_stmt_fetch($stmt3);
+                            mysqli_stmt_close($stmt3);
+                            
+                            if (verifyPasswordForgot($klantnr, $_GET["token"], $link)) {
                                 print('<h1>Wachtwoord Veranderen</h1>');
                                 print('<p>Verander hier uw wachtwoord.</p>');
 
@@ -61,11 +69,13 @@ $link = connectDB();
                                             $hash = encryptPassword($wachtwoord);
                                             $stmt2 = mysqli_prepare($link, 'UPDATE gebruiker SET wachtwoord = ? WHERE email = ?;');
                                             mysqli_stmt_bind_param($stmt2, 'ss', $hash, $email);
-                                            mysqli_execute($stmt2);
+                                            mysqli_stmt_execute($stmt2);
+                                            mysqli_stmt_close($stmt2);
                                             
                                             $stmt = mysqli_prepare($link, 'DELETE FROM recovery WHERE email = ?;');
                                             mysqli_stmt_bind_param($stmt, 's', $email);
                                             mysqli_stmt_execute($stmt);
+                                            mysqli_stmt_close($stmt);
                                             header('Location: ../index.php');
                                         } else {
                                             print('<p class="foutmelding">Je wachtwoorden komen niet overeen!</p>');
