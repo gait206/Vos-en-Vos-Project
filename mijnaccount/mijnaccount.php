@@ -47,6 +47,8 @@ $link = connectDB();
                     if (mysqli_connect_error($link)) {
                         print(mysqli_connect_error($link));
                     }
+                    $klantnr = getKlantnr($link);
+                    
                     // nieuwe klant registreren
                     if (isset($_POST["registreer"])) {
                                                 
