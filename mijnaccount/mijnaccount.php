@@ -48,50 +48,43 @@ $link = connectDB();
                         print(mysqli_connect_error($link));
                     }
                     $klantnr = getKlantnr($link);
-                    
                     // nieuwe klant registreren
-                    if (isset($_POST["registreer"])) {
-                                                
-                            //Contactpersoon
-                            $voornaam = $_POST["voornaam"];
-                            $achternaam = $_POST["achternaam"];
-                            $telnummer = $_POST["telnummer"];
-                            $mobnummer = $_POST["mobnummer"];
-                            //bedrijfsgegevens
-                            $bedrijfsnaam = $_POST["bedrijfsnaam"];
-                            $adres = $_POST["adres"];
-                            $postcode = $_POST["postcode"];
-                            $plaats = $_POST["plaats"];
-                            $kvknummer = $_POST["kvknummer"];
-                            $btwnummer = $_POST["btwnummer"]; 
-                            //inloggegevens
+                    if (isset($_POST["opslaan2"])) {
+                            
+                            if ($_POST['wachtwoord'] != $_POST['wachtwoord2']) {
+                                $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> De wachtwoorden komen niet overeen<br>";
+                            } elseif (strlen($_POST['wachtwoord']) < 6){
+                                $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> Het wachtwoord moet minimaal 6 tekens bevatten";
+                            } else {
+                                $error_wachtwoord = '';
+                            }
+                            
                             $wachtwoord = $_POST["wachtwoord"];
                             $wachtwoord2 = $_POST['wachtwoord2'];
                             
-                            if (!empty($voornaam) && !empty($achternaam) && !empty($telnummer) && !empty($bedrijfsnaam) && !empty($adres) && !empty($postcode) && !empty($plaats) && !empty($btwnummer) && !empty($kvknummer)){
-                            mysqli_query($link, "UPDATE klant"
-                            . "SET('".$voornaam."', '".$achternaam."', '".$telnummer."','". $mobnummer."', '".$bedrijfsnaam."', '".$adres."', '".$postcode."', '".$plaats."', '".$kvknummer."', '".$btwnummer."');");
-                                
-                            }
-                            
-                            if (!empty($wachtwoord) && ($_POST['wachtwoord'] == $_POST['wachtwoord2']) && !empty($email)) {
+                            if (!empty($wachtwoord) && ($_POST['wachtwoord'] == $_POST['wachtwoord2'])) {
                                 
                                 $wachtwoord3 = encryptPassword($wachtwoord);
                             
                            
-                            mysqli_query($link, "INSERT INTO gebruiker(wachtwoord) VALUES('".$wachtwoord3."');");    
+                            mysqli_query($link, "UPDATE gebruiker(wachtwoord) SET('".$wachtwoord3."' WHERE klantnr = '".$klantnr."');");    
                              
                             
                             print(mysqli_error($link));
                             
                             header('Location: registratievoltooid.php');
                             }
-                            // Foutcontrole bij de contactgegevens
-                                 
-                            if (empty($_POST['voornaam'])){
-                                $error_voornaam = "<img width=15 height=15 src=\"fout.png\"> Er is geen voornaam ingevoerd<br>";
+                    } else {
+                            $error_wachtwoord = '';
+                            $wachtwoord = '';
+                            $wachtwoord2 = '';
+                    }
+                    if (isset($_POST["opslaan"])) {
+                            
+                        if (empty($_POST['voornaam'])){
+                                $error_voornaam = "<img width=15 height=15 src=\"..\fout.png\"> Er is geen voornaam ingevoerd<br>";
                                 } elseif (preg_match("/^- [A-z]+$/", $_POST['voornaam'])){
-                                    $error_voornaam = "<img width=15 height=15 src=\"fout.png\"> Geen geldige invoer bij voornaam<br>";
+                                    $error_voornaam = "<img width=15 height=15 src=\"..\fout.png\"> Geen geldige invoer bij voornaam<br>";
                             } else {
                                 $error_voornaam = '';
                             }
@@ -139,7 +132,7 @@ $link = connectDB();
                             
                             if (empty($_POST['plaats'])){
                                 $error_plaats = "<img width=15 height=15 src=\"fout.png\"> Er is geen plaats ingevoerd<br>";
-                            } elseif (!preg_match("/^- [A-z]+$/", $_POST['plaats'])){
+                            } elseif (!preg_match("/^[A-Za-z]+$/", $_POST['plaats'])){
                                 $error_plaats = "<img width=15 height=15 src=\"fout.png\"> Geen geldige invoer bij plaats<br>";
                             } else {
                                 $error_plaats = '';
@@ -160,13 +153,25 @@ $link = connectDB();
                             } else {
                                 $error_kvknummer = '';
                             }
+                        
+                            //Contactpersoon
+                            $voornaam = $_POST["voornaam"];
+                            $achternaam = $_POST["achternaam"];
+                            $telnummer = $_POST["telnummer"];
+                            $mobnummer = $_POST["mobnummer"];
+                            //bedrijfsgegevens
+                            $bedrijfsnaam = $_POST["bedrijfsnaam"];
+                            $adres = $_POST["adres"];
+                            $postcode = $_POST["postcode"];
+                            $plaats = $_POST["plaats"];
+                            $kvknummer = $_POST["kvknummer"];
+                            $btwnummer = $_POST["btwnummer"]; 
                             
-                            if ($_POST['wachtwoord'] != $_POST['wachtwoord2']) {
-                                $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> De wachtwoorden komen niet overeen<br>";
-                            } elseif (strlen($_POST['wachtwoord']) < 6){
-                                $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> Het wachtwoord moet minimaal 6 tekens bevatten";
-                            } else {
-                                $error_wachtwoord = '';
+                            if (!empty($voornaam) && !empty($achternaam) && !empty($telnummer) && !empty($bedrijfsnaam) && !empty($adres) && !empty($postcode) && !empty($plaats) && !empty($btwnummer) && !empty($kvknummer)){
+                            
+                            mysqli_query($link, "UPDATE klant"
+                            . "SET('".$voornaam."', '".$achternaam."', '".$telnummer."','". $mobnummer."', '".$bedrijfsnaam."', '".$adres."', '".$postcode."', '".$plaats."', '".$kvknummer."', '".$btwnummer."') WHERE klantnr = '".$klantnr."';");
+                                
                             }
                             
                         } else {
@@ -179,9 +184,8 @@ $link = connectDB();
                             $error_plaats = '';
                             $error_btwnummer = '';
                             $error_kvknummer = '';
-                            $error_wachtwoord = '';
                             
-                            $klantnr = getKlantnr($link);
+                            
                             $result = mysqli_query($link, 'SELECT * FROM klant WHERE klantnr = "'.$klantnr.'";');
                             $row = mysqli_fetch_assoc($result);
                             
@@ -197,9 +201,7 @@ $link = connectDB();
                             $plaats = $row['plaats'];
                             $kvknummer = $row['kvknummer'];
                             $btwnummer = $row['btwnummer'];
-                            //inloggegevens
-                            $wachtwoord = '';
-                            $wachtwoord2 = '';
+
                     }
                        
                     print('<div class="header_administratie">Mijn gegevens</div>');
