@@ -170,7 +170,7 @@ $link = connectDB();
                             if (!empty($voornaam) && !empty($achternaam) && !empty($telnummer) && !empty($bedrijfsnaam) && !empty($adres) && !empty($postcode) && !empty($plaats) && !empty($btwnummer) && !empty($kvknummer)){
                             
                             mysqli_query($link, "UPDATE klant"
-                            . "SET('".$voornaam."', '".$achternaam."', '".$telnummer."','". $mobnummer."', '".$bedrijfsnaam."', '".$adres."', '".$postcode."', '".$plaats."', '".$kvknummer."', '".$btwnummer."') WHERE klantnr = '".$klantnr."';");
+                            . "SET('voornaam=".$voornaam."', 'achternaam=".$achternaam."', 'telnummer=".$telnummer."','mobnummer=". $mobnummer."', 'bedrijfsnaam=".$bedrijfsnaam."', 'adres=".$adres."', 'postcode=".$postcode."', 'plaats=".$plaats."', 'kvknummer=".$kvknummer."', 'btwnummer=".$btwnummer."') WHERE klantnr = '".$klantnr."';");
                                 
                             }
                             
