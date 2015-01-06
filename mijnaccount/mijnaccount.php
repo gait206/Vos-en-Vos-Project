@@ -176,7 +176,7 @@ $link = connectDB();
                             $stmt = mysqli_prepare($link, 'UPDATE klant SET voornaam = ?, achternaam = ?, telnummer = ?,  mobnummer = ?, bedrijfsnaam = ?, adres = ?, postcode = ?, plaats = ?, btwnummer = ?, kvknummer = ?;');
 							mysqli_stmt_bind_param($stmt, 'ssssssssss', $voornaam, $achternaam, $telnummer, $mobnummer, $bedrijfsnaam, $adres, $postcode, $plaats, $btwnummer, $kvknummer);
 							mysqli_stmt_execute($stmt);
-							print(mysqli_stmt_error($stmt));
+							mysqli_stmt_close($stmt);
                                 
                             }
                             
