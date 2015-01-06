@@ -108,6 +108,13 @@ $link = connectDB();
                             } else {
                                 $error_telnummer = '';
                             }
+							if (empty($_POST['mobnummer'])){
+                                $error_mobnummer = "<img width=15 height=15 src=\"fout.png\"> Er is geen geldig mobiele nummer ingevoerd<br>";   
+                            } elseif (!preg_match("/^[0-9]+$/", $_POST['mobnummer'])){
+                                    $error_mobnummer = "<img width=15 height=15 src=\"fout.png\"> Het mobiele nummer mag alleen getallen bevatten<br>";
+                            } else {
+                                $error_mobnummer = '';
+                            }
                             // Foutcontrole bij bedrijfsgegevens
                             
                             if (empty($_POST['bedrijfsnaam'])){
@@ -174,7 +181,7 @@ $link = connectDB();
                             if (!empty($voornaam) && !empty($achternaam) && !empty($telnummer) && !empty($bedrijfsnaam) && !empty($adres) && !empty($postcode) && !empty($plaats) && !empty($btwnummer) && !empty($kvknummer)){
                             
                             $stmt = mysqli_prepare($link, 'UPDATE klant SET voornaam = ?, achternaam = ?, telnummer = ?,  mobnummer = ?, bedrijfsnaam = ?, adres = ?, postcode = ?, plaats = ?, btwnummer = ?, kvknummer = ?;');
-							mysqli_stmt_bind_param($stmt, 'ssssssssss', $voornaam, $achternaam, $telnummer, $mobnummer, $bedrijfsnaam, $adres, $postcode, $plaats, $btwnummer, $kvknummer);
+							mysqli_stmt_bind_param($stmt, 'sssssssssi', $voornaam, $achternaam, $telnummer, $mobnummer, $bedrijfsnaam, $adres, $postcode, $plaats, $btwnummer, $kvknummer);
 							mysqli_stmt_execute($stmt);
 							mysqli_stmt_close($stmt);
                                 
@@ -184,6 +191,7 @@ $link = connectDB();
                             $error_voornaam = '';
                             $error_achternaam = '';
                             $error_telnummer = '';
+							$error_mobnummer = '';
                             $error_bedrijfsnaam = '';
                             $error_adres = '';
                             $error_postcode = '';
@@ -218,7 +226,7 @@ $link = connectDB();
                     print('<tr><td>Voornaam:</td><td><input class="input" type="text" name="voornaam" value="' .$voornaam. '"><td class="foutmelding">'.$error_voornaam.'</td></tr>');
                     print('<tr><td>Achternaam:</td><td><input class="input" type="text" name="achternaam" value="' .$achternaam. '"><td class="foutmelding">'.$error_achternaam.'</td></tr>');
                     print('<tr><td>Telefoonnummer:</td><td><input class="input" type="text" name="telnummer" value="' .$telnummer. '"><td class="foutmelding">'.$error_telnummer.'</td></tr>');
-                    print('<tr><td>Mobielnummer:</td><td><input class="input" type="text" name="mobnummer" value="' .$mobnummer. '"></tr>');
+                    print('<tr><td>Mobielnummer:</td><td><input class="input" type="text" name="mobnummer" value="' .$mobnummer. '"><td class="foutmelding">'.$error_mobnummer.'</td></tr>');
                     // Bedrijfsgegevens
                     print('<tr><td><p class="p">Bedrijfsgegevens<p></td></tr>');
                     print('<tr><td>Bedrijfsnaam:</td><td><input class="input" type="text" name="bedrijfsnaam" value="' .$bedrijfsnaam. '"><td class="foutmelding">'.$error_bedrijfsnaam.'</td></tr>');
