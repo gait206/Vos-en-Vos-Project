@@ -86,14 +86,16 @@ $link = connectDB();
                                 print(mysqli_stmt_error($link));
                             
                             header('Location: gegevensgewijzigd.php');
-                        }
+                        } 
                         } else {
                             $error_wachtwoord3 = "<img width=15 height=15 src=\"fout.png\"> Het huidige wachtwoord klopt niet<br>";
                         }
                     } else {
                             $error_wachtwoord = '';
+                            $error_wachtwoord3 = '';
                             $wachtwoord = '';
                             $wachtwoord2 = '';
+                            $wachtwoord3 = '';
                     }
                     
                     if (isset($_POST["opslaan"])) {
