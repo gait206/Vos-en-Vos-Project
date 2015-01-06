@@ -61,7 +61,7 @@ $link = connectDB();
                             $wachtwoord = $_POST["wachtwoord"];
                             $wachtwoord2 = $_POST['wachtwoord2'];
                             
-                            if (!empty($voornaam) && !empty($achternaam) && !empty($telnummer) && !empty($bedrijfsnaam) && !empty($adres) && !empty($postcode) && !empty($plaats) && !empty($btwnummer) && !empty($kvknummer))
+                            if (!empty($voornaam) && !empty($achternaam) && !empty($telnummer) && !empty($bedrijfsnaam) && !empty($adres) && !empty($postcode) && !empty($plaats) && !empty($btwnummer) && !empty($kvknummer)){
                             if (!empty($wachtwoord) && ($_POST['wachtwoord'] == $_POST['wachtwoord2']) && !empty($email)) {
                                 
                                 $wachtwoord3 = encryptPassword($wachtwoord);
@@ -74,6 +74,7 @@ $link = connectDB();
                             print(mysqli_error($link));
                             
                             header('Location: registratievoltooid.php');
+                            }
                             }
                             // Foutcontrole bij de contactgegevens
                                  
