@@ -47,8 +47,12 @@ $link = connectDB();
                     if (mysqli_connect_error($link)) {
                         print(mysqli_connect_error($link));
                     }
+					if(!validToken($link)){
+						header('Location: ../index.php');
+						die();
+					} else {
                     $klantnr = getKlantnr($link);
-                    // nieuwe klant registreren
+
                     if (isset($_POST["opslaan2"])) {
                             
                             if ($_POST['wachtwoord'] != $_POST['wachtwoord2']) {
@@ -169,8 +173,10 @@ $link = connectDB();
                             
                             if (!empty($voornaam) && !empty($achternaam) && !empty($telnummer) && !empty($bedrijfsnaam) && !empty($adres) && !empty($postcode) && !empty($plaats) && !empty($btwnummer) && !empty($kvknummer)){
                             
-                            mysqli_query($link, "UPDATE klant"
-                            . "SET('voornaam=".$voornaam."', 'achternaam=".$achternaam."', 'telnummer=".$telnummer."','mobnummer=". $mobnummer."', 'bedrijfsnaam=".$bedrijfsnaam."', 'adres=".$adres."', 'postcode=".$postcode."', 'plaats=".$plaats."', 'kvknummer=".$kvknummer."', 'btwnummer=".$btwnummer."') WHERE klantnr = '".$klantnr."';");
+                            $stmt = mysqli_prepare($link, 'UPDATE klant SET voornaam = ?, achternaam = ?, telnummer = ?,  mobnummer = ?, bedrijfsnaam = ?, adres = ?, postcode = ?, plaats = ?, btwnummer = ?, kvknummer = ?;');
+							mysqli_stmt_bind_param($stmt, 'ssssssssss', $voornaam, $achternaam, $telnummer, $mobnummer, $bedrijfsnaam, $adres, $postcode, $plaats, $btwnummer, $kvknummer);
+							mysqli_stmt_execute($stmt);
+							print(mysqli_stmt_error($stmt));
                                 
                             }
                             
@@ -230,6 +236,7 @@ $link = connectDB();
                     print('<tr><td></td><td><input type="submit" name="opslaan2" class="button" value="Wachtwoord wijzigen"></td></tr>');
                     print('</form>');
                     print('</table>');
+					}
                     ?>
    
                 </div>
