@@ -68,19 +68,21 @@ $link = connectDB();
 						<p class="pronr">productnummer '. $productnr .'</p>
 						<p class="prijs">&euro; '. prijsformat($prijs) .'</p>
 						<p class="prijsklein">&euro; '. prijsber($prijs) .' incl 21% BTW</p>');
+							
+						//voorraad
                         if ($voorraad >20){
-                            print('<p class="opvoorraad"> Op voorraad</p>');
+                            print('<p class="opvoorraad"> Op voorraad</p><br>');
                         } 
 						if ($voorraad >0 && $voorraad <=20){
-							print('<p class="beperktopvoorraad"> Beperkt op voorraad</p>');
+							print('<p class="beperktopvoorraad"> Beperkt op voorraad</p><br>');
 						}
 						if ($voorraad ==0){
-                            print('<p class="nietopvoorraad"> Niet op voorraad</p><br><br>');
+                            print('<p class="nietopvoorraad"> Niet op voorraad</p><br>');
                         }
 						$value = 1;
 						print(    '<form action="../winkelwagen.php" method="POST">'
                                 . ' <input  type="hidden" name="productnr" value="' . $productnr . '">'
-                                . ' <input type="submit" class="inwinkelwagen" name="actie" value="toevoegen">'
+                                . ' <input type="submit" class="inwinkelwagen" name="actie" value="in winkelmandje">'
                                 . '</form>');
                         
                         
