@@ -68,11 +68,6 @@ $link = connectDB();
 						<p class="pronr">productnummer '. $productnr .'</p>
 						<p class="prijs">&euro; '. prijsformat($prijs) .'</p>
 						<p class="prijsklein">&euro; '. prijsber($prijs) .' incl 21% BTW</p>');
-							print('<div class="bestelblok">
-						<p class="pronr">productnummer '. $productnr .'</p>
-						<p class="prijs">&euro; '. prijsformat($prijs) .'</p>
-						<p class="prijsklein">&euro; ');
-						//voorraad
                         if ($voorraad >20){
                             print('<p class="opvoorraad"> Op voorraad</p>');
                         } 
@@ -80,13 +75,12 @@ $link = connectDB();
 							print('<p class="beperktopvoorraad"> Beperkt op voorraad</p>');
 						}
 						if ($voorraad ==0){
-                            print('<p class="nietopvoorraad"> Niet op voorraad</p>');
+                            print('<p class="nietopvoorraad"> Niet op voorraad</p><br><br>');
                         }
 						$value = 1;
 						print(    '<form action="../winkelwagen.php" method="POST">'
-                                . ' <input  type="number" class="textbox" name="aanpassen" value="' . $value . '"> </td>'
                                 . ' <input  type="hidden" name="productnr" value="' . $productnr . '">'
-                                . ' <input type="submit" class="inwinkelwagen" name="action" value="toevoegen">'
+                                . ' <input type="submit" class="inwinkelwagen" name="actie" value="toevoegen">'
                                 . '</form>');
                         
                         

@@ -93,13 +93,11 @@ p.nietopvoorraad{
     color: white;
     background-color: #344D8E;
     padding: 3px;
-    margine-top:5px;
-    margine-left:50px;
-    display:block;
-	height:29px;
-	font-size:14px;
-	margin-left: 80px;
-	margin-top:-46px;
+    display: block;
+    height: 29px;
+    font-size: 14px;
+    float: right;
+    margin-bottom: 15px;
 }
 
 div.omschrijving{
