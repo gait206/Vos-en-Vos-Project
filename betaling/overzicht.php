@@ -31,7 +31,7 @@ if (!existCookie($cookiename)) {
                             $actie = $_POST["actie"];
                             if ($actie == "Uitloggen") {
                                 deleteToken("true", $link);
-                                header('Location: http://localhost:8080/index.php');
+                                header('Location: ../index.php');
                             }
                         }
                         $klantnr = getKlantnr($link);
@@ -301,7 +301,7 @@ if (!existCookie($cookiename)) {
                         print('<div class="afrekenen_knop_right">' . $sHtml . '</div>');
                     }
                     ?>
-                    <form method="POST" action="verzenden.php"><input class="verzenden_knop_left" type="submit" name="terug" value="Terug naar afleveradres"></form>
+                    <form method="POST" action="opmerking.php"><input class="verzenden_knop_left" type="submit" name="terug" value="Terug naar opmerking"></form>
                 </div>
             </div>
 
