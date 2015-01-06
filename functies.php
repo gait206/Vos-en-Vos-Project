@@ -333,6 +333,7 @@ function getKlantnr($link) {
             return "Error: " . mysqli_stmt_error($stmt);
         } else {
             mysqli_stmt_fetch($stmt);
+            mysqli_stmt_close($stmt);
             return $klantnr;
         }
     } else {
