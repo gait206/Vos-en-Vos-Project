@@ -158,6 +158,8 @@ td.productnaamblock a{
 	padding-bottom:-5px;
 	line-height: 18px;
 	text-decoration: none;
+	height: 36px;
+	margin-top: 15px;
 }
 
 div.omschrijvingblock{
