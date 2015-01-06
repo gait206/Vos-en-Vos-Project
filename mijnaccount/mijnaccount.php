@@ -59,24 +59,28 @@ $link = connectDB();
                                 $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> De wachtwoorden komen niet overeen<br>";
                             } elseif (strlen($_POST['wachtwoord']) < 6){
                                 $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> Het wachtwoord moet minimaal 6 tekens bevatten";
+                            } elseif (!preg_match_all('$\S*(?=\S{6,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$', $_POST['wachtwoord'])){
+                                $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> Wachtwoord moet minimaal 1 cijfer, 1 letter, 1 hoofdletter en 1 speciaal teken bevatten<br>";
                             } else {
                                 $error_wachtwoord = '';
                             }
-                            
+ 
                             $wachtwoord = $_POST["wachtwoord"];
                             $wachtwoord2 = $_POST['wachtwoord2'];
                             
-                            if (!empty($wachtwoord) && ($_POST['wachtwoord'] == $_POST['wachtwoord2'])) {
+                            if (!empty($wachtwoord) && ($_POST['wachtwoord'] == $_POST['wachtwoord2']) && $error_wachtwoord == '') {
                                 
                                 $wachtwoord3 = encryptPassword($wachtwoord);
                             
                            
-                            mysqli_query($link, "UPDATE gebruiker(wachtwoord) SET('".$wachtwoord3."' WHERE klantnr = '".$klantnr."');");    
-                             
+                            $stmt = mysqli_prepare($link, "UPDATE gebruiker SET wachtwoord = ? WHERE klantnr = '".$klantnr."';");    
+                                                        mysqli_stmt_bind_param($stmt, 's', $wachtwoord3);
+							mysqli_stmt_execute($stmt);
+							mysqli_stmt_close($stmt);
                             
-                            print(mysqli_error($link));
+                            print(mysqli_stmt_error($link));
                             
-                            header('Location: registratievoltooid.php');
+                            header('Location: gegevensgewijzigd.php');
                             }
                     } else {
                             $error_wachtwoord = '';
@@ -191,7 +195,7 @@ $link = connectDB();
                             $error_voornaam = '';
                             $error_achternaam = '';
                             $error_telnummer = '';
-							$error_mobnummer = '';
+                            $error_mobnummer = '';
                             $error_bedrijfsnaam = '';
                             $error_adres = '';
                             $error_postcode = '';
