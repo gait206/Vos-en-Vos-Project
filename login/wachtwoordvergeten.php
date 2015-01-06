@@ -53,11 +53,22 @@ $link = connectDB();
                                     $salt = '$6$rounds=5000$';
                                     $salt .= strtr(base64_encode(mcrypt_create_iv($size)), '+', '.') . "$";
                                     $token = crypt($random, $salt);
-                                    
-                                    mysqli_query($link, 'INSERT recovery(email,token,datum) VALUES("'.$email.'","'.$token.'","'.time().'")');
-                                    
-                                    $url = 'http://localhost:8080/login/wachtwoordveranderen.php?email='.$email.'&token='.$token.'';
-                                    $url2 = 'http://localhost:8080/login/wachtwoordnietveranderen.php?email='.$email.'';
+
+                                    $stmt3 = mysqli_prepare($link, 'SELECT klantnr FROM gebruiker WHERE email = ?;');
+                                    mysqli_stmt_bind_param($stmt3, 's', $email);
+                                    mysqli_stmt_execute($stmt3);
+                                    mysqli_stmt_bind_result($stmt3, $klantnr);
+                                    $result2 = mysqli_stmt_fetch($stmt3);
+                                    mysqli_stmt_close($stmt3);
+
+                                    $stmt = mysqli_prepare($link, 'INSERT recovery(klantnr,token,datum) VALUES(?, ?, ?)');
+                                    mysqli_stmt_bind_param($stmt, 'ssi', $klantnr, $token, time());
+                                    mysqli_stmt_execute($stmt);
+                                    print(mysqli_stmt_error($stmt));
+                                    mysqli_stmt_close($stmt);
+
+                                    $url = 'http://localhost:8080/login/wachtwoordveranderen.php?email=' . $email . '&token=' . $token . '';
+                                    $url2 = 'http://localhost:8080/login/wachtwoordnietveranderen.php?email=' . $email . '';
                                     //
                                     //
                                     // email opmaken en mail fixen tijdelijke lokale server
@@ -66,13 +77,13 @@ $link = connectDB();
                                     
                                     
                                     
-                                    $message = '<html><head></head><body>Als je een nieuw wachtwoord wil aanmaken <a href="'.$url.'">Klik dan hier</a><br>Als je geen nieuw wachtwoord wil aanmaken <a href="'.$url2.'">Klik dan hier</a></body></html>';
-                                    
-             
+                                    $message = '<html><head></head><body>Als je een nieuw wachtwoord wil aanmaken <a href="' . $url . '">Klik dan hier</a><br>Als je geen nieuw wachtwoord wil aanmaken <a href="' . $url2 . '">Klik dan hier</a></body></html>';
+
+
 //    }
-            date_default_timezone_set("UTC");
-            mail($email, "wachtwoord vergeten", $message, "From:gertjan206@gmail.com");
-                                    
+                                    date_default_timezone_set("UTC");
+                                    mail($email, "wachtwoord vergeten", $message, "From:gertjan206@gmail.com");
+
 
                                     print("Er is een email verstuurd naar uw account");
                                 } else {
@@ -90,9 +101,9 @@ $link = connectDB();
             </div>
 
             <div class="footer">
-            <?php
-			include "../footer.php";
-			?>
+                <?php
+                include "../footer.php";
+                ?>
             </div>
 
         </div>
