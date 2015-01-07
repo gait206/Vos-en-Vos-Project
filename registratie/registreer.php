@@ -173,9 +173,9 @@ $link = connectDB();
                             
                             print(mysqli_error($link));
                             
-                            
-                            }
                             header('Location: registratievoltooid.php');
+                            }
+                            
                             }
                             // Foutcontrole bij de contactgegevens
                                  
