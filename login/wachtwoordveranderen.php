@@ -72,8 +72,8 @@ $link = connectDB();
                                             mysqli_stmt_execute($stmt2);
                                             mysqli_stmt_close($stmt2);
                                             
-                                            $stmt = mysqli_prepare($link, 'DELETE FROM recovery WHERE email = ?;');
-                                            mysqli_stmt_bind_param($stmt, 's', $email);
+                                            $stmt = mysqli_prepare($link, 'DELETE FROM recovery WHERE klantnr = ?;');
+                                            mysqli_stmt_bind_param($stmt, 'i', $klantnr);
                                             mysqli_stmt_execute($stmt);
                                             mysqli_stmt_close($stmt);
                                             header('Location: ../index.php');

@@ -61,8 +61,10 @@ $link = connectDB();
                                     $result2 = mysqli_stmt_fetch($stmt3);
                                     mysqli_stmt_close($stmt3);
 
+                                    $time = time();
                                     $stmt = mysqli_prepare($link, 'INSERT recovery(klantnr,token,datum) VALUES(?, ?, ?)');
-                                    mysqli_stmt_bind_param($stmt, 'ssi', $klantnr, $token, time());
+                                    mysqli_stmt_bind_param($stmt, 'isi', $klantnr, $token, $time);
+                                    print(mysqli_stmt_error($stmt));
                                     mysqli_stmt_execute($stmt);
                                     print(mysqli_stmt_error($stmt));
                                     mysqli_stmt_close($stmt);

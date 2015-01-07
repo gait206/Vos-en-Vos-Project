@@ -37,8 +37,16 @@ $link = connectDB();
                         <?php
                         if (!empty($_GET["email"])) {
                             $email = $_GET["email"];
-                            $stmt = mysqli_prepare($link, 'DELETE FROM recovery WHERE email = ?;');
-                            mysqli_stmt_bind_param($stmt, 's', $email);
+                            
+                            $stmt3 = mysqli_prepare($link, 'SELECT klantnr FROM gebruiker WHERE email = ?;');
+                                    mysqli_stmt_bind_param($stmt3, 's', $email);
+                                    mysqli_stmt_execute($stmt3);
+                                    mysqli_stmt_bind_result($stmt3, $klantnr);
+                                    $result2 = mysqli_stmt_fetch($stmt3);
+                                    mysqli_stmt_close($stmt3);
+                            
+                            $stmt = mysqli_prepare($link, 'DELETE FROM recovery WHERE klantnr = ?;');
+                            mysqli_stmt_bind_param($stmt, 'i', $klantnr);
                             mysqli_stmt_execute($stmt);
                             header('Location: ../index.php');
                         } else {
