@@ -14,7 +14,7 @@ addCookie($cookiename, array());
         <link rel="stylesheet" type="text/css" href="../css/main.css">
         <link rel="stylesheet" type="text/css" href="../css/opmerking.css">
         <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+        <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
     </head>
     <body>
         <div class="container">
