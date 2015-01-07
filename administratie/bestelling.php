@@ -116,9 +116,16 @@ $link = connectDB();
                     $result4 = mysqli_query($link, 'SELECT opmerking FROM bestelling WHERE bestelnr = "'.$bestelnr.'";');
                     $row4 = mysqli_fetch_assoc($result4);
                     
-                    print('<tr><td>Opmerking:</td><td>'.$row4["opmerking"].'</td></tr>'
-                            . '<tr><td></td><td><form action="" method="GET" class="table_administratie_button"><input type="hidden" name="bestelnr" value="'.$bestelnr.'"><input type="submit" name="actie" value="Product Toevoegen"></form></td></tr></table>');
+                    print('<tr><td>Opmerking:</td><td>'.$row4["opmerking"].'</td></tr>');
                     
+                    if(!empty($_GET["actie"])) {
+                        $actie = $_GET["actie"];
+                        if (!($actie == "Product Toevoegen")) {
+                    print('<tr><td></td><td><form action="" method="GET" class="table_administratie_button"><input type="hidden" name="bestelnr" value="'.$bestelnr.'"><input type="submit" name="actie" value="Product Toevoegen"></form></td></tr></table>');
+                        }
+                    } else {
+                        print('<tr><td></td><td><form action="" method="GET" class="table_administratie_button"><input type="hidden" name="bestelnr" value="'.$bestelnr.'"><input type="submit" name="actie" value="Product Toevoegen"></form></td></tr></table>');
+                    }
                     
                     
                     
