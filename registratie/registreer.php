@@ -68,7 +68,7 @@ $link = connectDB();
                                 $error_telnummer = '';
                             }
                             
-                            if (!preg_match("/^[0-9]{10}+$/", $_POST['mobnummer'])){
+                            if (!preg_match("/^[0-9]{0,10}+$/", $_POST['mobnummer'])){
                                     $error_mobnummer = "<img width=15 height=15 src=\"fout.png\"> Het mobiele nummer mag alleen 10 getallen bevatten<br>";
                             } else {
                                 $error_mobnummer = '';
