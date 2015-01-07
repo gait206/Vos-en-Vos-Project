@@ -173,8 +173,9 @@ $link = connectDB();
                             
                             print(mysqli_error($link));
                             
-                            header('Location: registratievoltooid.php');
+                            
                             }
+                            header('Location: registratievoltooid.php');
                             }
                             // Foutcontrole bij de contactgegevens
                                  
@@ -219,7 +220,7 @@ $link = connectDB();
                     print('<tr><td>Voornaam:</td><td><input class="input" type="text" name="voornaam" value="' .$voornaam. '"><td class="foutmelding">'.$error_voornaam.'</td></tr>');
                     print('<tr><td>Achternaam:</td><td><input class="input" type="text" name="achternaam" value="' .$achternaam. '"><td class="foutmelding">'.$error_achternaam.'</td></tr>');
                     print('<tr><td>Telefoonnummer:</td><td><input class="input" type="text" name="telnummer" value="' .$telnummer. '"><td class="foutmelding">'.$error_telnummer.'</td></tr>');
-                    print('<tr><td>Mobielnummer:</td><td><input class="input" type="text" name="mobnummer" value="' .$mobnummer. '"></tr>');
+                    print('<tr><td>Mobielnummer:</td><td><input class="input" type="text" name="mobnummer" value="' .$mobnummer. '"><td class="foutmelding">'.$error_mobnummer.'</td></tr>');
                     // Bedrijfsgegevens
                     print('<tr><td><p class="p">Bedrijfsgegevens<p></td></tr>');
                     print('<tr><td>Bedrijfsnaam:</td><td><input class="input" type="text" name="bedrijfsnaam" value="' .$bedrijfsnaam. '"><td class="foutmelding">'.$error_bedrijfsnaam.'</td></tr>');
