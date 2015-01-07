@@ -200,6 +200,26 @@ function search_query_generate($search_term, $query) {
     return($query);
 }
 
+function search_query_generate_bestelling($search_term, $query) {
+    $query .= 'where	 (klantnr = "' . $search_term . '" OR
+					transactieref LIKE "%' . $search_term . '%" OR
+                    bestelnr = "' . $search_term . '")';
+
+    return($query);
+}
+
+function search_query_generate_account($search_term, $query) {
+    $query .= ' AND	 (k.klantnr = "' . $search_term . '" OR
+					k.voornaam LIKE "%' . $search_term . '%" OR
+					k.achternaam LIKE "%' . $search_term . '%" OR
+					k.bedrijfsnaam LIKE "%' . $search_term . '%" OR
+					g.level LIKE "%' . $search_term . '%" OR
+					k.telnummer LIKE "%' . $search_term . '%" OR
+                    g.email LIKE "%' . $search_term . '%")';
+
+    return($query);
+}
+
 function sort_query_generate($query, $switch) {
     if ($switch > 0) {
         $query .= ' ORDER BY ';

@@ -178,9 +178,24 @@ $link = connectDB();
 //                     einde upload form
                     print('<tr><td colspan=2><input form="toevoegen" type="submit" name="actie" class="button" value="' . $waarde . '"></tr>');
                     //print('</form>');
-                    print('</table><br><br><form id="select" action="" method="GET"></form>');
+                    print('</table><br><br><form id="select"  action="" method="GET"></form>');
 
-
+					?>
+					<div class="header_administratie">Product zoeken</div>	
+						<table class="table">
+							<tr>
+								<form id="zoeken" method="get" action="">
+							</tr>
+							<tr>
+								<td>Zoeken : <input type="text" name="zoektext"	></td>
+								<td>E.g productnaam,productnummer of omschrijving</td>
+							</tr>
+							<tr>
+								<td><input form="zoeken" type="submit" class="button" name="zoeksubmit" value="Zoeken"></td>
+							</tr>
+						</form>
+					</table>
+					<?php
                     // afbeelding uploaden
 
 
@@ -199,7 +214,11 @@ $link = connectDB();
 
                     // toont resultaten
                     $query = 'SELECT * FROM product WHERE 1=1 ';
-
+					
+					if(isset($_GET["zoektext"])){
+						$query = search_query_generate($_GET["zoektext"], $query);
+					}	
+					
                     // perpage deel
 
                     if (!empty($_GET["perpage"])) {
@@ -221,21 +240,22 @@ $link = connectDB();
                         $pages = 0;
                     }
 
-                    if (!empty($_GET["action"])) {
-                        if ($_GET["action"] == "<") {
-                            if ($pages != 0) {
-                                $pages = $_GET["pages"] - $perpage;
-                            }
-                        } else {
-                            if (!($pages <= ($perpage * ($amount - 1)))) {
-                                $pages = $_GET["pages"] + $perpage;
-                            } else {
-                                $pages = $perpage;
-                            }
+                  if (!empty($_GET["action"])) {
+                    if ($_GET["action"] == "<") {
+                        if ($pages != 0) {
+                            $pages = $_GET["pages"] - $perpage;
+                        }
+                    }else {
+                        if (!(($pages / $perpage) >= $amount)){
+                            $pages = $_GET["pages"] + $perpage;
+                        }else{
+                            $pages = $perpage;
                         }
                     }
+                }
 
                     $query = limit_query_generate($pages, $query, $perpage);
+					
                     $result = mysqli_query($link, $query);
                     $row = mysqli_fetch_assoc($result);
                     ?>
@@ -287,27 +307,31 @@ $link = connectDB();
                     ?>
 
 
-                    <input type="submit" name="action" value="<" form="select">
-                    <select name="pages" onchange="this.form.submit()" form="select">
-                        <?php
-                        for ($i = 0; $i < $amount; $i++) {
-                            $x = $i + 1;
-                            if ($pages == ($i * $perpage)) {
-                                print('<option value="' . $i * $perpage . '" selected >' . $x . '</option>');
-                            } else {
-                                print('<option value="' . $i * $perpage . '" >' . $x . '</option>');
-                            }
-                        }
-                        ?>
-                    </select>
-                    <?php
-                    if (!empty($_GET["pages"])) {
-                        print "<input type='hidden' name='ref' value='" . $_GET["pages"] . "' form='select' >";
+                    <?php if(($pages / $perpage +1) !=1){ 
+			print('<input type="submit" name="action" value="<" form="select">');
+		} ?>	
+            <select name="pages" onchange="this.form.submit()" form="select">
+                <?php
+                for ($i = 0; $i < $amount; $i++) {
+                    $x = $i + 1;
+                    if ($pages == ($i * $perpage)) {
+                        print('<option value="' . $i * $perpage . '" selected >' . $x . '</option>');
                     } else {
-                        print "<input type='hidden' name='ref' value='0' form='select' >";
+                        print('<option value="' . $i * $perpage . '" >' . $x . '</option>');
                     }
-                    ?>
-                    <input type="submit" name="action" value=">" form="select">        
+                }
+                ?>
+            </select>
+            <?php
+            if (!empty($_GET["pages"])) {
+                print "<input type='hidden' name='ref' value='" . $_GET["pages"] . "' form='select' >";
+            } else {
+                print "<input type='hidden' name='ref' value='0' form='select' >";
+            }
+            ?>
+			<?php if(($pages / $perpage +1) != round($amount)){ 	
+				print('<input type="submit" name="action" value=">" form="select">');
+			 } ?>
 
                 </div>
 

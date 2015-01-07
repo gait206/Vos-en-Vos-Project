@@ -111,7 +111,7 @@ and open the template in the editor.
                             $pages = $_GET["pages"] - $perpage;
                         }
                     }else {
-                        if (!($pages <= ($perpage * ($amount -1)))){
+                        if (!(($pages / $perpage) >= $amount)){
                             $pages = $_GET["pages"] + $perpage;
                         }else{
                             $pages = $perpage;
@@ -202,7 +202,9 @@ and open the template in the editor.
                 print("<p class=\"geenres\">Geen resultaten gevonden</p>");
             }
             ?>
-            <input type="submit" name="action" value="<" form="select">
+           <?php if(($pages / $perpage +1) !=1){ 
+			print('<input type="submit" name="action" value="<" form="select">');
+		} ?>	
             <select name="pages" onchange="this.form.submit()" form="select">
                 <?php
                 for ($i = 0; $i < $amount; $i++) {
@@ -222,7 +224,9 @@ and open the template in the editor.
                 print "<input type='hidden' name='ref' value='0' form='select' >";
             }
             ?>
-            <input type="submit" name="action" value=">" form="select">
+			<?php if(($pages / $perpage +1) != round($amount)){ 	
+				print('<input type="submit" name="action" value=">" form="select">');
+			 } ?>
         </div>
 
     </body>
