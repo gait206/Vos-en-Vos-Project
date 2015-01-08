@@ -26,14 +26,19 @@ if (!existCookie($cookiename)) {
                 </div>
                 <div class="login">
                     <?php
+                    // word uitgevoerd als de gebruiker is ingelogd
                     if (validToken($link) == true) {
+                        // kijkt of er een actie moet worden uitgevoerd
                         if (isset($_POST["actie"]) && !empty($_POST["actie"])) {
                             $actie = $_POST["actie"];
+                            // kijkt of de gebruiker wil uitloggen
                             if ($actie == "Uitloggen") {
+                                // verwijderd het token
                                 deleteToken("true", $link);
-                                header('Location: ../index.php');
+                                header('Location: http://localhost:8080/index.php');
                             }
                         }
+                        // geeft de welkoms boodschap weer
                         $klantnr = getKlantnr($link);
                         $result = mysqli_query($link, 'SELECT voornaam, achternaam FROM klant WHERE klantnr = "' . $klantnr . '" ');
                         $row = mysqli_fetch_assoc($result);
@@ -58,6 +63,7 @@ if (!existCookie($cookiename)) {
                         if (isset($_POST["actie"]) && !empty($_POST["actie"])) {
                             $actie = $_POST["actie"];
                             if ($actie == "Login") {
+                                // zorgt ervoor dat foutmeldingen worden weergeven
                                 if (!(empty($_POST["email"]) && empty($_POST["wachtwoord"]))) {
                                     if (!empty($_POST["email"])) {
                                         $email = $_POST["email"];
@@ -72,25 +78,38 @@ if (!existCookie($cookiename)) {
                                 } else {
                                     print('<p class="foutmelding">Je bent je email & wachtwoord vergeten');
                                 }
+
                                 if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
-                                    if (verifyPassword($email, $password, $link)) {
-                                        if (!isset($_SESSION['initiated'])) {
-                                            session_regenerate_id();
-                                            $_SESSION['initiated'] = true;
+                                    // kijkt of het account geblokkeerd is of niet
+                                    if (!accountBlocked($email, $link)) {
+                                        // kijkt of het wachtwoord klopt
+                                        if (verifyPassword($email, $password, $link)) {
+                                            // regenereert het sessie id voor extra veiligheid
+                                            if (!isset($_SESSION['initiated'])) {
+                                                session_regenerate_id();
+                                                $_SESSION['initiated'] = true;
+                                            }
+                                            // haalt het klantnr van een gebruiker op uit de database
+                                            $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "' . $email . '";');
+                                            $row = mysqli_fetch_assoc($result);
+                                            $klantnr = $row["klantnr"];
+
+                                            // maakt een token aan
+                                            createToken($klantnr, $link);
+                                            mysqli_query($link, 'DELETE FROM geblokkeerd WHERE klantnr = "' . $klantnr . '";');
+                                            header('Location: /');
+                                        } else {
+                                            print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
+                                            print(accountBlockedCount($email, $link));
                                         }
-                                        $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "' . $email . '";');
-                                        $row = mysqli_fetch_assoc($result);
-                                        $klantnr = $row["klantnr"];
-                                        createToken($klantnr, $link);
-                                        header('Location: opmerking.php');
                                     } else {
-                                        print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
+                                        print('<p class="foutmelding">Dit account is geblokeerd kijk op uw email voor meer informatie</p>');
                                     }
                                 }
                             }
                         }
 
-
+                        // geeft het inlogscherm weer
                         print('<h1 class="kop"> Log in om te kunnen afrekenen</h1>
                             <form method="POST" action="" class="login_verzenden">
                         <table>

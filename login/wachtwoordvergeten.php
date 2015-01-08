@@ -35,25 +35,26 @@ $link = connectDB();
                 <div class="body" id="main_content">
                     <div class="forgot_password">
                         <?php
+                        // kijkt of de gebruiker niet ingelogd is
                         if (validToken($link)) {
                             header('Location: ../index.php');
                         } else {
                             print('<h1>Wachtwoord Vergeten</h1>');
                             print('<p>Als u al geregistreerd bent op onze website en u uw wachtwoord bent vergeten kan u die hier opvragen.</p>');
 
+                            // kijkt of het formulier is opgestuurd
                             if (!empty($_POST["actie"])) {
                                 if (!empty($_POST["email"])) {
                                     $email = $_POST["email"];
-                                    // Vraag wachtwoord op 
-                                    // gebruik dit bestand als referentie bestand
-                                    // http://www.w3schools.com/php/php_ref_mail.asp
 
+                                    // maakt een token aan
                                     $size = 60;
                                     $random = strtr(base64_encode(mcrypt_create_iv($size)), '+', '.');
                                     $salt = '$6$rounds=5000$';
                                     $salt .= strtr(base64_encode(mcrypt_create_iv($size)), '+', '.') . "$";
                                     $token = crypt($random, $salt);
 
+                                    // haalt het klantnr op uit de database
                                     $stmt3 = mysqli_prepare($link, 'SELECT klantnr FROM gebruiker WHERE email = ?;');
                                     mysqli_stmt_bind_param($stmt3, 's', $email);
                                     mysqli_stmt_execute($stmt3);
@@ -61,6 +62,7 @@ $link = connectDB();
                                     $result2 = mysqli_stmt_fetch($stmt3);
                                     mysqli_stmt_close($stmt3);
 
+                                    // voegt een nieuwe regel toe aan de tabel recovery
                                     $time = time();
                                     $stmt = mysqli_prepare($link, 'INSERT recovery(klantnr,token,datum) VALUES(?, ?, ?)');
                                     mysqli_stmt_bind_param($stmt, 'isi', $klantnr, $token, $time);
@@ -69,22 +71,20 @@ $link = connectDB();
                                     print(mysqli_stmt_error($stmt));
                                     mysqli_stmt_close($stmt);
 
+                                    // maakt 2 urls aan
                                     $url = 'http://localhost:8080/login/wachtwoordveranderen.php?email=' . $email . '&token=' . $token . '';
                                     $url2 = 'http://localhost:8080/login/wachtwoordnietveranderen.php?email=' . $email . '';
-                                    //
-                                    //
-                                    // email opmaken en mail fixen tijdelijke lokale server
-                                    //
-                                    //
+
                                     
                                     
-                                    
+                                    // bericht van de mail
                                     $message = '<html><head></head><body>Als je een nieuw wachtwoord wil aanmaken <a href="' . $url . '">Klik dan hier</a><br>Als je geen nieuw wachtwoord wil aanmaken <a href="' . $url2 . '">Klik dan hier</a></body></html>';
 
 
-//    }
+                                    // stelt een tijdzone in
                                     date_default_timezone_set("UTC");
-                                    mail($email, "wachtwoord vergeten", $message, "From:gertjan206@gmail.com");
+                                    // verstuurt de email
+                                    mail($email, "wachtwoord vergeten", $message, "From:test@vos-vostissue.nl");
 
 
                                     print("Er is een email verstuurd naar uw account");
@@ -93,6 +93,7 @@ $link = connectDB();
                                 }
                             }
 
+                            // weergeeft het formulier om een nieuw wachtwoord in te stellen
                             print('<form method="POST" action=""><input type="text" name="email" placeholder="Email"><input type="submit" class="forgot_button" name="actie" value="Wachtwoord Opvragen"></form>');
                         }
                         ?>

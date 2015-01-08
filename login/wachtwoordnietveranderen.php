@@ -35,9 +35,11 @@ $link = connectDB();
                 <div class="body" id="main_content">
                     <div class="forgot_password">
                         <?php
+                        // kijkt of de email is meegestuurd
                         if (!empty($_GET["email"])) {
                             $email = $_GET["email"];
                             
+                            // selecteert het klantnr uit de database
                             $stmt3 = mysqli_prepare($link, 'SELECT klantnr FROM gebruiker WHERE email = ?;');
                                     mysqli_stmt_bind_param($stmt3, 's', $email);
                                     mysqli_stmt_execute($stmt3);
@@ -45,6 +47,7 @@ $link = connectDB();
                                     $result2 = mysqli_stmt_fetch($stmt3);
                                     mysqli_stmt_close($stmt3);
                             
+                            // verwijderd de gebruiker uit de tabel recovery
                             $stmt = mysqli_prepare($link, 'DELETE FROM recovery WHERE klantnr = ?;');
                             mysqli_stmt_bind_param($stmt, 'i', $klantnr);
                             mysqli_stmt_execute($stmt);

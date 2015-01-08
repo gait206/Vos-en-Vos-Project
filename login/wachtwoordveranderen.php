@@ -35,8 +35,11 @@ $link = connectDB();
                 <div class="body" id="main_content">
                     <div class="forgot_password">
                         <?php
+                        // kijkt of alle variabelen zijn meegestuurd
                         if (!(empty($_GET["email"]) && empty($_GET["token"]))) {
                             $email = $_GET['email'];
+                            
+                            // selecteert het klantnr
                             $stmt3 = mysqli_prepare($link, 'SELECT klantnr FROM gebruiker WHERE email = ?;');
                             mysqli_stmt_bind_param($stmt3, 's', $email);
                             mysqli_stmt_execute($stmt3);
@@ -44,10 +47,12 @@ $link = connectDB();
                             $result2 = mysqli_stmt_fetch($stmt3);
                             mysqli_stmt_close($stmt3);
                             
+                            // kijkt of het token geldig is
                             if (verifyPasswordForgot($klantnr, $_GET["token"], $link)) {
                                 print('<h1>Wachtwoord Veranderen</h1>');
                                 print('<p>Verander hier uw wachtwoord.</p>');
 
+                                // kijkt of de wachtwoorden zijn ingevoerd
                                 if (!empty($_POST["actie"])) {
                                     if (!empty($_POST["wachtwoord"]) && !$_POST["wachtwoord2"]) {
                                         if (!empty($_POST["wachtwoord"])) {
@@ -64,14 +69,19 @@ $link = connectDB();
                                         $wachtwoord = $_POST["wachtwoord"];
                                         $wachtwoord2 = $_POST["wachtwoord2"];
                                         $email = $_GET["email"];
+                                        
+                                        // kijkt of de wachtwoorden overeen komen
                                         if ($wachtwoord = $wachtwoord2) {
-                                            // dingen die moeten gebeuren als de wachtwoorden hetzelfde zijn
+                                            // encrypt het nieuwe wachtwoord
                                             $hash = encryptPassword($wachtwoord);
+                                            
+                                            // update het wachtwoord in de database
                                             $stmt2 = mysqli_prepare($link, 'UPDATE gebruiker SET wachtwoord = ? WHERE email = ?;');
                                             mysqli_stmt_bind_param($stmt2, 'ss', $hash, $email);
                                             mysqli_stmt_execute($stmt2);
                                             mysqli_stmt_close($stmt2);
                                             
+                                            // verwijerderd de gebruiker uit de tabel recovery
                                             $stmt = mysqli_prepare($link, 'DELETE FROM recovery WHERE klantnr = ?;');
                                             mysqli_stmt_bind_param($stmt, 'i', $klantnr);
                                             mysqli_stmt_execute($stmt);
@@ -82,6 +92,7 @@ $link = connectDB();
                                         }
                                     }
                                 }
+                                // geeft de formulieren voor het veranderen van de wachtwoorden weer
                                 print('<form method="POST" action=""><input type="password" name="wachtwoord" placeholder="wachtwoord"><input type="password" name="wachtwoord2" placeholder="wachtwoord herhalen"><input type="submit" class="forgot_button" name="actie" value="Wachtwoord Veranderen"></form>');
                             } else {
                                 print('<h1>Deze link is niet geldig</h1>');

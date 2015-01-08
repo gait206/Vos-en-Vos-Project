@@ -35,9 +35,11 @@ $link = connectDB();
                 <div class="body" id="main_content">
                     <div class="forgot_password">
                         <?php
+                        // kijkt of alle variabelen meegestuurd zijn
                         if(!(empty($_GET["email"]) && empty($_GET["token"]))){
                             $klantnr = $_GET["klantnr"];
                             $token = $_GET["token"];
+                            // verwijderd de gebruiker uit de tabel geblokkeerd
                             mysqli_query($link, 'DELETE FROM geblokkeerd WHERE klantnr = "'.$klantnr.'" AND token = "'.$token.'";');
                             
                             print('<h1>Uw account is ongeblokkeerd u kunt nu weer inloggen');
