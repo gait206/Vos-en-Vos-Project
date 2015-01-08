@@ -132,6 +132,7 @@ function saveCookie($name, $array) {
     }
 }
 
+// de basis query maken waar de rest van de query opgebouwt zal worden
 function base_query_generate($switch) {
     $query = "SELECT * FROM product ";
 
@@ -148,7 +149,7 @@ function base_query_generate($switch) {
     }
     return $query;
 }
-
+// filter query word nu aan de query toe gevoegd
 function filter_query_generate($query, $switch, array $checkbox) {
     $count = count($checkbox);
 
@@ -190,7 +191,7 @@ function filter_query_generate($query, $switch, array $checkbox) {
 
     return($query);
 }
-
+// de zoek query toevoegen aan de rest van query
 function search_query_generate($search_term, $query) {
     $query .= 'AND (productnaam LIKE "%' . $search_term . '%" OR
 					inhoud LIKE "%' . $search_term . '%" OR
@@ -219,7 +220,7 @@ function search_query_generate_account($search_term, $query) {
 
     return($query);
 }
-
+// het sorteren van de items wordt aan de query toegevoegt
 function sort_query_generate($query, $switch) {
     if ($switch > 0) {
         $query .= ' ORDER BY ';
@@ -242,7 +243,7 @@ function sort_query_generate($query, $switch) {
     }
     return($query);
 }
-
+// rekend de hoeveel paginas uit
 function amount_per_page($result, $perpage) {
     $count = mysqli_num_rows($result);
     $amount = $count / $perpage;
@@ -254,7 +255,7 @@ function amount_per_page($result, $perpage) {
     }
     return $amount;
 }
-
+// limit de query op wat je terug moet krijgen voor een bepaalde pagina
 function limit_query_generate($page, $query, $perpage) {
     $query .= "LIMIT " . $page . "," . $perpage;
     return $query;
