@@ -1,0 +1,7 @@
+Admin account :
+	Gebruikersnaam/email :	admin@admin.nl
+	Wachtwoord :		Admin1!
+
+Gebruikers account :
+	Gebruikersnaam/email :	gebruiker@gebruiker.nl
+	Wachtwoord :		Gebruiker1!
