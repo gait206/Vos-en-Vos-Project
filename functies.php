@@ -279,6 +279,7 @@ function isin(array $x, $y) {
     return;
 }
 
+// kijkt of het token geldig is
 function validToken($link) {
     deleteDatabaseToken($link);
     // kijkt of gebruiker ingelogd is
@@ -310,6 +311,7 @@ function validToken($link) {
     }
 }
 
+// maakt een token aan
 function createToken($klantnr, $link) {
     $ip = $_SERVER["REMOTE_ADDR"];
     $size = 60;
@@ -322,6 +324,7 @@ function createToken($klantnr, $link) {
     $_SESSION["created"] = time();
     if ($link == true) {
 
+        // voegt het token toe
         mysqli_query($link, 'INSERT INTO token VALUES("' . $klantnr . '", "' . $token . '", "' . $ip . '");');
         if (mysqli_error($link)) {
             return "Error: " . mysqli_error($link);
@@ -332,7 +335,9 @@ function createToken($klantnr, $link) {
     }
 }
 
+// update het token
 function updateToken($link) {
+    // kijkt of het toekn geldig is
     if (validToken($link) == true) {
         $_SESSION["created"] = time();
         return true;
@@ -341,10 +346,13 @@ function updateToken($link) {
     }
 }
 
+// haalt het klantnr op uit de sessie
 function getKlantnr($link) {
+    // kijkt of het token bestaat
     if (isset($_SESSION["token"])) {
         $ip = $_SERVER["REMOTE_ADDR"];
         $token = $_SESSION["token"];
+        // haalt het klantnr op uit de database
         $stmt = mysqli_prepare($link, 'SELECT klantnr FROM token WHERE ip = ? AND token = ?;');
         mysqli_stmt_bind_param($stmt, 'ss', $ip, $token);
         mysqli_execute($stmt);
@@ -361,7 +369,9 @@ function getKlantnr($link) {
     }
 }
 
+// haalt het user level op
 function userLevel($klantnr, $link) {
+    // selecteert het level uit de database
     $stmt = mysqli_prepare($link, 'SELECT level FROM gebruiker WHERE klantnr = ?;');
     mysqli_stmt_bind_param($stmt, 'i', $klantnr);
     mysqli_execute($stmt);
@@ -374,17 +384,21 @@ function userLevel($klantnr, $link) {
     }
 }
 
+// ecnrypt het wachtwoord
 function encryptPassword($password) {
     $size = 60;
     $salt = '$6$rounds=5000$';
     // strtr() convert alle + tekens naar . tekens
+    // genereert een random salt
     $salt .= strtr(base64_encode(mcrypt_create_iv($size)), '+', '.') . "$";
     $hashed = crypt($password, $salt);
     return $hashed;
 }
 
+// kijkt of het wachtwoord geldig is
 function verifyPassword($email, $password, $link) {
     if ($link == true) {
+        // haalt het wachtwoord uit de database
         $stmt = mysqli_prepare($link, 'SELECT wachtwoord FROM gebruiker WHERE email = ?;');
         mysqli_stmt_bind_param($stmt, 's', $email);
         mysqli_stmt_execute($stmt);
@@ -393,8 +407,9 @@ function verifyPassword($email, $password, $link) {
             return "Error: " . mysqli_stmt_error($stmt);
         } else {
             mysqli_stmt_fetch($stmt);
+            // hasht het ingevoerde wachtwoord
             $password2 = crypt($password, $wachtwoord);
-            //print(encryptPassword("$password"));
+            // vergelijkt de wachtwoorden
             if ($wachtwoord == $password2) {
                 return true;
             } else {
@@ -404,6 +419,7 @@ function verifyPassword($email, $password, $link) {
     }
 }
 
+// maakt verbinding met de database
 function connectDB() {
     $host = "localhost";
     $user = "root";
@@ -419,13 +435,14 @@ function connectDB() {
     }
 }
 
-// geeft enorm veel errors als hij gebruik maakt van (time() - $_SESSION["created"] > 1800)
-// als je true gebruikt werkt hij wel dus het is een verloop error
+// verwijderd het token
 function deleteToken($verwijderen, $link) {
+    // kijkt of het token bestaat
     if (isset($_SESSION["token"])) {
+        // kijkt of het token is verlopen of moet worden verwijderd
         if ($verwijderen || (time() - $_SESSION["created"] > 1800)) {
-            // getEmail is het probleem
             $klantnr = getKlantnr($link);
+            // verwijderd het token
             $stmt = mysqli_prepare($link, 'DELETE FROM token WHERE klantnr = ?;');
             mysqli_stmt_bind_param($stmt, 'i', $klantnr);
             mysqli_execute($stmt);
@@ -435,8 +452,11 @@ function deleteToken($verwijderen, $link) {
     }
 }
 
+// geeft gebruikers met een bepaald level toegang tot een pagina
 function restrictedPage($level, $link) {
+    // kijkt of het token geldig is
     if (validToken($link) == true) {
+        // kijkt of het user level klopt
         if (userLevel(getKlantnr($link), $link) == $level) {
             if (mysqli_connect_error($link)) {
                 return "Error: " . mysqli_connect_error($link);
@@ -456,15 +476,20 @@ function restrictedPage($level, $link) {
     }
 }
 
+// verwijderd het database token van de vorige sessie
 function deleteDatabaseToken($link) {
+    // kijken of het token niet bestaat
     if (!isset($_SESSION["token"])) {
         $ip = $_SERVER["REMOTE_ADDR"];
+        // haalt data uit de database
         $result = mysqli_query($link, 'SELECT * FROM token WHERE ip = "' . $ip . '";');
         $row = mysqli_fetch_assoc($result);
+        // kijkt of het ip bestaat in de database
         if (mysqli_error($link) || $row["ip"]) {
             if (mysqli_error($link)) {
                 return "Error: " . mysqli_error($link);
             } else {
+                // verwijderd het token
                 mysqli_query($link, 'DELETE FROM token WHERE ip = "' . $ip . '";');
                 return true;
             }
@@ -472,7 +497,9 @@ function deleteDatabaseToken($link) {
     }
 }
 
+// kijkt of de link geldig is en niet verlopen
 function verifyPasswordForgot($klantnr, $token2, $link) {
+    // haalt het token op uit de database
     $stmt = mysqli_prepare($link, 'SELECT token, datum FROM recovery WHERE klantnr = ?;');
     mysqli_stmt_bind_param($stmt, 's', $klantnr);
     mysqli_stmt_execute($stmt);
@@ -484,6 +511,7 @@ function verifyPasswordForgot($klantnr, $token2, $link) {
     if (($datum - time()) > (60 * 60 * 24)) {
         deleteDatabaseToken($link);
     } else {
+        // kijkt of de tokens overeen komen
         if ($token == $token2) {
             return true;
         } else {
@@ -546,10 +574,12 @@ function checkBTW($btwnummer) {
     }
 }
 
-// Als de cookie niet bestaat werkt het niet
+// telt het aantal items in het winkelmandje
 function countItems($array) {
+    // kijkt of de cookie bestaat
     if (isset($_COOKIE["winkelmandje"])) {
         $aantal = 0;
+        // telt alle items bij elkaar op
         foreach ($array as $key => $value) {
             $aantal = $aantal + $value;
         }
@@ -582,16 +612,20 @@ function CheckEmailExists($emailexists, $link) {
     }
 }
 
+// kijkt of het account geblokkeerd is
 function accountBlocked($email, $link) {
+    // haalt het klantnr uit de database
     $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "' . $email . '";');
     if (mysqli_error($link)) {
         return mysqli_error($link);
     } else {
         $row = mysqli_fetch_assoc($result);
         $klantnr = $row["klantnr"];
+        // kijkt hoeveel pogingen er zijn gedaan
         $result2 = mysqli_query($link, 'SELECT poging FROM geblokkeerd WHERE klantnr = "' . $klantnr . '";');
         $row2 = mysqli_fetch_assoc($result2);
 
+        // als er 5 of meer pogingen zijn gedaan is het account geblokkeerd
         if ($row2["poging"] >= 5) {
             return true;
         } else {
@@ -602,6 +636,7 @@ function accountBlocked($email, $link) {
 
 // telt het aantal foute loginpogingen op en blokkeert het account
 function accountBlockedCount($email, $link) {
+    // haalt het klantnr uit de database
     $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "'.$email.'";');
 
     if (mysqli_error($link)) {
@@ -610,32 +645,40 @@ function accountBlockedCount($email, $link) {
         $row = mysqli_fetch_assoc($result);
         $klantnr = $row["klantnr"];
         
+        // kijkt hoeveel pogingen er zijn gedaan
         $result2 = mysqli_query($link, 'SELECT poging FROM geblokkeerd WHERE klantnr = "' . $klantnr . '";');
         $row2 = mysqli_fetch_assoc($result2);
         $rows = mysqli_num_rows($result2);
         print(mysqli_error($link));
 
+        // kijkt of er geupdate moet worden of worden toegevoegd
         if ($rows == 0) {
+            // voegt een regel toe
             mysqli_query($link, 'INSERT INTO geblokkeerd(klantnr,poging) VALUES("' . $klantnr . '",1)');
         } else {
+            // voegt een poging toe
             mysqli_query($link, 'UPDATE geblokkeerd SET poging=poging+1 WHERE klantnr = "' . $klantnr . '";');
 
-
-
+            // word uitgevoerd na 5 pogingen
             if ($row2["poging"] == 4) {
+                // maakt een token aan
                 $size = 60;
                 $random = strtr(base64_encode(mcrypt_create_iv($size)), '+', '.');
                 $salt = '$6$rounds=5000$';
                 $salt .= strtr(base64_encode(mcrypt_create_iv($size)), '+', '.') . "$";
                 $token = crypt($random, $salt);
 
+                // voegt een token toe aan de database
                 mysqli_query($link, 'UPDATE geblokkeerd SET token = "' . $token . '" WHERE klantnr = "' . $klantnr . '";');
                 
+                // maakt een url aan voor de email
                 $url = 'http://localhost:8080/login/onblokkeer.php?klantnr='.$klantnr.'&token='.$token;
                 $message = '<html><head></head><body>Iemand heeft vijf keer met een verkeerd wachtwoord ingelogd op uw account <a href="'.$url.'">Klik op deze link</a> om uw account te onblokkeren.</body></html>';
                 
+                // stelt de tijdzone in
                 date_default_timezone_set("UTC");
-                mail($email, 'Account geblokkeerd', $message, 'From:admin@gmail.com');
+                // verstuurt de email
+                mail($email, 'Account geblokkeerd', $message, 'From:admin@vos-vostissue.nl');
             }
         }
     }
