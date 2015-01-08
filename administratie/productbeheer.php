@@ -33,6 +33,7 @@ $link = connectDB();
 
             <div class="content">
                 <script>
+                    // Bevestiging voor het verwijderen van een product
                     function checkDelete() {
                         return confirm("Weet u zeker dat u dit product wilt verwijderen?");
                     }
@@ -40,8 +41,10 @@ $link = connectDB();
                 <div class="body" id="main_content">
 
                     <?php
+                    // Alleen een Admin user mag op deze pagina komen
                     restrictedPage("Admin", $link);
-
+                    
+                    // Haalt de ingevulde gegevens uit het formulier en voert deze uit in de SQL query
                     if (!empty($_POST["actie"])) {
                         $actie = $_POST["actie"];
                         if ($actie == "Toevoegen") {
@@ -64,18 +67,21 @@ $link = connectDB();
                             $inhoud = $_POST["inhoud"];
                             $verpakking = $_POST["verpakking"];
                             $certificaten = $_POST["certificaten"];
-
+                            
+                            // SQL query die de ingevulde waardes in de database zet
                             if (!empty($productnr)) {
                                 mysqli_query($link, "INSERT INTO product(productnr,productnaam,categorie,subcategorie,merk,omschrijving,voorraad,prijs,afbeelding,EAN,kleur,materiaal,hoogte,breedte,lengte,fabrikant,inhoud,verpakking,certificaten) VALUES('" . $productnr . "',' " . $productnaam . "', '" . $categorie . "', '" . $subcategorie . "', '" . $merk . "','" . $omschrijving . "', '" . $voorraad . "', '" . $prijs . "', '" . $afbeelding . "', '" . $EAN . "', '" . $kleur . "', '" . $materiaal . "', '" . $hoogte . "', '" . $breedte . "', '" . $lengte . "', '" . $fabrikant . "', '" . $inhoud . "', '" . $verpakking . "', '" . $certificaten . "');");
                                 print(mysqli_error($link));
                             }
                         }
-
+                        
+                        // SQL query die na goedkeuring een product uit de database verwijderd
                         if ($actie == "Verwijderen") {
                             $productnr = $_POST["productnr"];
                             mysqli_query($link, 'DELETE FROM product WHERE productnr = "' . $productnr . '";');
                         }
-
+                        
+                        // Haalt de aangepaste gegevens uit het formulier en voert deze uit in de SQL query
                         if ($actie == "Bijwerken") {
                             $productnr = $_POST["productnr"];
                             $productnaam = $_POST["productnaam"];
@@ -96,12 +102,14 @@ $link = connectDB();
                             $inhoud = $_POST["inhoud"];
                             $verpakking = $_POST["verpakking"];
                             $certificaten = $_POST["certificaten"];
-
+                            
+                            // SQL query die de aangepaste waardes in de database zet
                             mysqli_query($link, 'UPDATE product SET productnr = "' . $productnr . '", productnaam = "' . $productnaam . '", categorie = "' . $categorie . '", subcategorie = "' . $subcategorie . '", merk = "' . $merk . '", omschrijving = "' . $omschrijving . '", voorraad = "' . $voorraad . '", prijs = "' . $prijs . '", afbeelding = "' . $afbeelding . '", EAN = "' . $EAN . '", kleur = "' . $kleur . '", materiaal = "' . $materiaal . '", hoogte = "' . $hoogte . '", breedte = "' . $breedte . '", lengte = "' . $lengte . '", fabrikant = "' . $fabrikant . '", inhoud = "' . $inhoud . '", verpakking = "' . $verpakking . '", certificaten = "' . $certificaten . '"  WHERE productnaam = "' . $productnaam . '";');
                             print(mysqli_error($link));
                         }
                     }
-
+                    
+                    // Kijkt naar welke actie er uitgevoerd moet worden (Toevoegen, verwijderen of aanpassen)
                     if (!empty($_POST["actie"])) {
                         $actie = $_POST["actie"];
                     } else {
@@ -109,7 +117,8 @@ $link = connectDB();
                     }
 
 
-
+                    // Als de actie aanpassen is haalt die de gegevens uit de database met desbetreffende productnr
+                    // Zo niet dan laat hij de inputvelden leeg
                     if ($actie == "Aanpassen") {
                         $productnr = $_POST["productnr"];
                         $result = mysqli_query($link, 'SELECT * FROM product WHERE productnr ="' . $productnr . '";');
@@ -156,6 +165,8 @@ $link = connectDB();
                         $certificaten = "";
                         $waarde = "Toevoegen";
                     }
+                    
+                    // Formulier voor het toevoegen en aanpassen van producten
                     print('<div class="header_administratie">Product toevoegen</div>');
                     print('<table class="table">');
                     print('<form id="toevoegen" method="post" action=""');
@@ -167,7 +178,7 @@ $link = connectDB();
                     print('<tr><td>Voorraad:</td><td><input type="text" name="voorraad" value="' . $voorraad . '"><td></td>      <td>Lengte:</td><td><input type="text" name="lengte" value="' . $lengte . '"></tr>');
                     print('<tr><td>Prijs:</td><td><input type="text" name="prijs" value="' . $prijs . '"></td><td></td><td>EAN:</td><td><input type="text" name="EAN" value="' . $EAN . '"></td></tr>');
                     print('<tr><td>Afbeelding:</td><td><input type="text" name="afbeelding" value="../administratie/img/"' . $afbeelding . '"></form>');
-//                     upload form
+                    // upload form
                     print('<tr><table class="table">');
                     print('<form enctype="multipart/form-data" action"productbeheer.php" method="POST"');
                     print('<input type="hidden" name="MAX_FILE_SIZE" value="512000" />');
@@ -175,7 +186,7 @@ $link = connectDB();
                     print('<td><input type="submit" class="button" value"upload" /></td>');
                     print('</form>');
                     print('</table></tr>');
-//                     einde upload form
+                    // einde upload form
                     print('<tr><td colspan=2><input form="toevoegen" type="submit" name="actie" class="button" value="' . $waarde . '"></tr>');
                     //print('</form>');
                     print('</table><br><br><form id="select"  action="" method="GET"></form>');
@@ -198,13 +209,19 @@ $link = connectDB();
 					<?php
                     // afbeelding uploaden
 
+                    print('</table><br><br><form id="select" action="" method="GET"></form>');
 
+
+                  
+
+                    // afbeelding uploaden naar de map img/
                     if (isset($_FILES['uploadimg'])) {
                         $uploaddir = 'img/';
                         $uploadfile = $uploaddir . basename($_FILES['uploadimg']['name']);
 
                         echo "<p>";
-
+                        
+                        // geeft een melding of de afbeelding is geupload of niet
                         if (move_uploaded_file($_FILES['uploadimg']['tmp_name'], $uploadfile)) {
                             echo "Afbeelding is geupload.\n";
                         } else {
@@ -226,10 +243,11 @@ $link = connectDB();
                     } else {
                         $perpage = 20;
                     }
-
+                    
+                    // Limit functie voor maximaal aantal producten op 1 pagina
                     $resultcount = mysqli_query($link, $query);
                     $amount = amount_per_page($resultcount, $perpage);
-
+                    
                     if (!empty($_GET["pages"])) {
                         if ($_GET["pages"] == $_GET["ref"]) {
                             $pages = 0;
@@ -283,7 +301,10 @@ $link = connectDB();
                 ?>
                
                     </div>
+                    
+                    
                     <?php
+                    // Geeft alle producten die in de database staan weer op de pagina
                     print('<table class="table_administratie"><tr><th>productnr</th><th>productnaam</th><th>categorie</th><th>subcategorie</th><th>merk</th><th>EAN</th><th>voorraad</th><th>prijs</th><th>afbeelding</th><th>Verwijderen</th><th>Aanpassen</th></tr>');
                     while ($row) {
                         print('<tr><td>' . $row["productnr"] . '</td>'

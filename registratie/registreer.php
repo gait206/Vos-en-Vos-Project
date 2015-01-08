@@ -43,7 +43,7 @@ $link = connectDB();
                     }
                     // nieuwe klant registreren
                     if (isset($_POST["registreer"])) {
-                            
+                        // controleert of de voornaam niet leeg is en alleen uit letters bestaat ( een - mag )    
                         if (empty($_POST['voornaam'])){
                                 $error_voornaam = "<img width=15 height=15 src=\"fout.png\"> Er is geen voornaam ingevoerd<br>";
                                 } elseif (preg_match("/^- [A-z]+$/", $_POST['voornaam'])){
@@ -51,7 +51,7 @@ $link = connectDB();
                             } else {
                                 $error_voornaam = '';
                             }
-                                
+                            // controleert of de achternaam niet leeg is en alleen uit letters bestaat ( een - mag )    
                             if (empty($_POST['achternaam'])){
                                 $error_achternaam = "<img width=15 height=15 src=\"fout.png\"> Er is geen achternaam ingevoerd<br>";
                                 } elseif (preg_match("/^- [A-z]+$/", $_POST['achternaam'])){
@@ -59,7 +59,7 @@ $link = connectDB();
                             } else {
                                 $error_achternaam = '';
                             }
-                            
+                            // controleert of het input veld niet leeg is en of het telefoonnumer alleen uit cijfers bestaat
                             if (empty($_POST['telnummer'])){
                                 $error_telnummer = "<img width=15 height=15 src=\"fout.png\"> Er is geen telefoonnummer ingevoerd<br>";   
                             } elseif (!preg_match("/^[0-9]+$/", $_POST['telnummer'])){
@@ -67,14 +67,14 @@ $link = connectDB();
                             } else {
                                 $error_telnummer = '';
                             }
-                            
+                            // controleert of het mobiele nummer alleen uit cijfers bestaat
                             if (!preg_match("/^[0-9]{0,10}+$/", $_POST['mobnummer'])){
                                     $error_mobnummer = "<img width=15 height=15 src=\"fout.png\"> Het mobiele nummer mag alleen 10 getallen bevatten<br>";
                             } else {
                                 $error_mobnummer = '';
                             }
                             // Foutcontrole bij bedrijfsgegevens
-                            
+                            // controleert of de bedrijfsnaam niet leeg is en alleen uit letters bestaat
                             if (empty($_POST['bedrijfsnaam'])){
                                 $error_bedrijfsnaam = "<img width=15 height=15 src=\"fout.png\"> Er is geen bedrijfsnaam ingevoerd<br>";
                             } elseif (preg_match("/^- [A-z]+$/", $_POST['bedrijfsnaam'])){
@@ -82,7 +82,7 @@ $link = connectDB();
                             } else {
                                 $error_bedrijfsnaam = '';
                             }
-                            
+                            // controleert of het adres niet leeg is en alleen uit letters en cijfers bestaat
                             if (empty($_POST['adres'])){
                                 $error_adres= "<img width=15 height=15 src=\"fout.png\"> Er is geen adres ingevoerd<br>";
                             } elseif (preg_match("/^[A-z0-9]+$/", $_POST['adres'])){
@@ -90,7 +90,7 @@ $link = connectDB();
                             } else {
                                 $error_adres = '';
                             }    
-                            
+                            // controleert of de postcode niet leeg is en of het een geldig postcode is dmv Postcodecheck functie
                             if (empty($_POST['postcode'])){
                                 $error_postcode = "<img width=15 height=15 src=\"fout.png\"> Er is geen postcode ingevoerd<br>";
                             } elseif (!PostcodeCheck($_POST['postcode'])){
@@ -98,7 +98,7 @@ $link = connectDB();
                             } else {
                                 $error_postcode = '';
                             }    
-                            
+                            // controleert of de plaats niet leeg is en alleen bestaat uit letters
                             if (empty($_POST['plaats'])){
                                 $error_plaats = "<img width=15 height=15 src=\"fout.png\"> Er is geen plaats ingevoerd<br>";
                             } elseif (!preg_match("/^[A-z]+$/", $_POST['plaats'])){
@@ -106,7 +106,7 @@ $link = connectDB();
                             } else {
                                 $error_plaats = '';
                             }
-                            
+                            // controleert of btw nummer niet leeg is en het een geldig btw nummer is dmv de checkbtw functie
                             if (empty($_POST['btwnummer'])){
                                 $error_btwnummer = "<img width=15 height=15 src=\"fout.png\"> Geen btwnummer ingevoerd<br>";
                             } elseif (!checkBTW($_POST['btwnummer'])){
@@ -114,7 +114,7 @@ $link = connectDB();
                             } else {
                                 $error_btwnummer = '';
                             }
-                            
+                            // controleert of het kvknummer niet leeg is en alleen bestaat uit 8 cijfers
                             if (empty($_POST['kvknummer'])){
                                 $error_kvknummer = "<img width=15 height=15 src=\"fout.png\"> Geen kvknummer ingevoerd<br>";
                             } elseif (!preg_match("/^[0-9]{8}$/", $_POST['kvknummer'])) {
@@ -124,6 +124,8 @@ $link = connectDB();
                             }
                             
                             // Foutcontrole bij inloggegevens
+                            // controleert of het email niet leeg is gelaten, of het een geldig email adres is dmv de functie FILTER_VALIDATE_EMAIL
+                            // controleert of het email al geregistreerd staat in de database door de functie CheckEmailExists
                             if (empty($_POST['email'])){
                                 $error_email = "<img width=15 height=15 src=\"fout.png\"> Er is geen email ingevoerd<br>";
                             } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
@@ -133,7 +135,8 @@ $link = connectDB();
                             } else {
                                 $error_email = '';
                             }
-                            
+                            // controleert of de wachtwoorden overeenkomen
+                            // minimaal uit 6 tekens bestaat, 1 hoofdletter, 1 kleine letter en 1 speciaal teken
                             if ($_POST['wachtwoord'] != $_POST['wachtwoord2']) {
                                 $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> De wachtwoorden komen niet overeen<br>";
                             } elseif (strlen($_POST['wachtwoord']) < 6){
@@ -161,9 +164,11 @@ $link = connectDB();
                             $wachtwoord = $_POST["wachtwoord"];
                             $wachtwoord2 = $_POST['wachtwoord2'];
                             
+                            // voert de querys alleen uit als de verplichte velden zijn ingevuld en de wachtwoorden overeenkomen
                             if (!empty($voornaam) && !empty($achternaam) && !empty($telnummer) && !empty($bedrijfsnaam) && !empty($adres) && !empty($postcode) && !empty($plaats) && !empty($btwnummer) && !empty($kvknummer) && $error_voornaam == '' && $error_achternaam == '' && $error_telnummer == '' && $error_mobnummer == '' && $error_bedrijfsnaam == '' && $error_adres == '' && $error_postcode == '' && $error_plaats == '' && $error_btwnummer == '' && $error_kvknummer == ''){
                             if (!empty($wachtwoord) && ($_POST['wachtwoord'] == $_POST['wachtwoord2']) && $error_wachtwoord == '' && !empty($email)) {
                                 
+                                // encrypt het wachtwoord voordat het in de database wordt opgeslagen
                                 $wachtwoord3 = encryptPassword($wachtwoord);
                             
                            
@@ -173,15 +178,14 @@ $link = connectDB();
                             
                             print(mysqli_error($link));
                             
+                            // als je je met succes hebt geregistreerd worde je doorverwezen naar registratievoltooid.php
                             header('Location: registratievoltooid.php');
                             }
                             
                             }
-                            // Foutcontrole bij de contactgegevens
-                                 
-                            
                             
                         } else {
+                            // errormeldingen leeg laten als er geen error is
                             $error_voornaam = '';
                             $error_achternaam = '';
                             $error_telnummer = '';
@@ -194,7 +198,7 @@ $link = connectDB();
                             $error_kvknummer = '';
                             $error_email = '';
                             $error_wachtwoord = '';
-                            
+                            // contactgegevens
                             $voornaam = '';
                             $achternaam = '';
                             $telnummer = '';
@@ -211,7 +215,7 @@ $link = connectDB();
                             $wachtwoord = '';
                             $wachtwoord2 = '';
                     }
-                       
+                    // formulier voor het registreren   
                     print('<div class="header_administratie">Registreren</div>');
                     print('<table class="table">');
                     print('<form id="registreren" method="post" action="registreer.php"');

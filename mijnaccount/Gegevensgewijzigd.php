@@ -42,6 +42,8 @@ if (!existCookie($cookiename)) {
                 <div class="body" id="main_content">
                     <div class="registratievoltooid">
                 <?php
+                // Als er gegevens zijn gewijzigd in mijnaccount.php word er doorverwezen naar deze pagina als dit gelukt is
+                // Na 5 seconden word je doorverwezen naar index.php
                 print("U heeft uw gegevens met succes gewijzigd<br>");
                 
                 print("U word binnen 5 seconden doorverwezen naar de hoofdpagina");

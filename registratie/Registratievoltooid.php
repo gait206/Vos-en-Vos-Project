@@ -42,6 +42,8 @@ if (!existCookie($cookiename)) {
                 <div class="body" id="main_content">
                     <div class="registratievoltooid">
                 <?php
+                // Als de registratie met succes is afgerond word er doorverwezen naar deze pagina
+                // Na 5 seconden word je doorverwezen naar index.php
                 print("U heeft zich succesvol geregistreerd<br>");
                 
                 print("U word binnen 5 seconden doorverwezen naar de hoofdpagina");

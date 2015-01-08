@@ -53,12 +53,16 @@ $link = connectDB();
 			} else {
                     
                     $klantnr = getKlantnr($link);
-
+                    
+                    // als het wachtwoord gewijzigd wordt via het formulier word deze gewijzigd in de database
                     if (isset($_POST["opslaan2"])) {
                         $wachtwoord3 = $_POST['wachtwoord3'];
                         $result2 = mysqli_query($link, "SELECT email FROM gebruiker WHERE klantnr = '".$klantnr."';");
                         $row2 = mysqli_fetch_assoc($result2);
                         
+                        // controleert of het wachtwoord gelijk is met het wachtwoord dat herhaalt word
+                        // controleert of het wachtwoord voldoet aan de eisen:
+                        // minimaal 6 tekens, 1 hoofdletter, 1 kleine letter en 1 special teken
                         if ($_POST['wachtwoord'] != $_POST['wachtwoord2']) {
                                 $error_wachtwoord = "<img width=15 height=15 src=\"fout.png\"> De wachtwoorden komen niet overeen<br>";
                             } elseif (strlen($_POST['wachtwoord']) < 6){
@@ -71,13 +75,17 @@ $link = connectDB();
                         
                             $wachtwoord = $_POST["wachtwoord"];
                             $wachtwoord2 = $_POST['wachtwoord2'];
-                            
+                        
+                            // controleert of het huidige wachtwoord klopt voordat het nieuwe wachtwoord kan worden opgeslagen
                         if (verifyPassword($row2['email'], $wachtwoord3, $link)){
- 
+                            
+                            // controleert of er geen velden leeg zijn gelaten en of de nieuwe wachtwoorden overeenkomen
                             if (!empty($wachtwoord) && ($_POST['wachtwoord'] == $_POST['wachtwoord2']) && $error_wachtwoord == '') {
                                 
+                                // zorgt voor de encryptie van het wachtwoord
                                 $wachtwoord3 = encryptPassword($wachtwoord);
-
+                                
+                                // update het wachtwoord in de database
                             $stmt = mysqli_prepare($link, "UPDATE gebruiker SET wachtwoord = ? WHERE klantnr = '".$klantnr."';");    
                                 mysqli_stmt_bind_param($stmt, 's', $wachtwoord3);
 				mysqli_stmt_execute($stmt);
@@ -85,12 +93,16 @@ $link = connectDB();
                             
                                 print(mysqli_stmt_error($link));
                             
+                                // Verwijst door naar de pagina dat de wijziging is gelukt
                             header('Location: gegevensgewijzigd.php');
                         } 
                         } else {
+                            // Error weergeven als het huidige wachtwoord niet klopt
                             $error_wachtwoord3 = "<img width=15 height=15 src=\"fout.png\"> Het huidige wachtwoord klopt niet<br>";
                         }
                     } else {
+                            // zorgt dat er geen foutmelding te zien zijn als de pagina wordt geopend
+                            // en dat de velden leeg zijn als de pagina wordt geopend
                             $error_wachtwoord = '';
                             $error_wachtwoord3 = '';
                             $wachtwoord = '';
@@ -100,6 +112,8 @@ $link = connectDB();
                     
                     if (isset($_POST["opslaan"])) {
                             
+                            // Foutcontrole contactgegevens
+                            // controleert of de voornaam niet leeg is en alleen uit letters bestaat ( een - mag )
                             if (empty($_POST['voornaam'])){
                                 $error_voornaam = "<img width=15 height=15 src=\"fout.png\"> Er is geen voornaam ingevoerd<br>";
                                 } elseif (preg_match("/^- [A-z]+$/", $_POST['voornaam'])){
@@ -107,7 +121,8 @@ $link = connectDB();
                             } else {
                                 $error_voornaam = '';
                             }
-                                
+                            
+                            // controleert of de achternaam niet leeg is en alleen uit letters bestaat ( een - mag )
                             if (empty($_POST['achternaam'])){
                                 $error_achternaam = "<img width=15 height=15 src=\"fout.png\"> Er is geen achternaam ingevoerd<br>";
                                 } elseif (preg_match("/^- [A-z]+$/", $_POST['achternaam'])){
@@ -116,6 +131,7 @@ $link = connectDB();
                                 $error_achternaam = '';
                             }
                             
+                            // controleert of het input veld niet leeg is en of het telefoonnumer alleen uit cijfers bestaat
                             if (empty($_POST['telnummer'])){
                                 $error_telnummer = "<img width=15 height=15 src=\"fout.png\"> Er is geen telefoonnummer ingevoerd<br>";   
                             } elseif (!preg_match("/^[0-9]+$/", $_POST['telnummer'])){
@@ -124,6 +140,7 @@ $link = connectDB();
                                 $error_telnummer = '';
                             }
                             
+                            // controleert of het mobiele nummer alleen uit cijfers bestaat
                             if (empty($_POST['mobnummer'])){
                                 $error_mobnummer = "<img width=15 height=15 src=\"fout.png\"> Er is geen mobiele nummer ingevoerd<br>";   
                             } elseif (!preg_match("/^[0-9]+$/", $_POST['mobnummer'])){
@@ -132,7 +149,7 @@ $link = connectDB();
                                 $error_mobnummer = '';
                             }
                             // Foutcontrole bij bedrijfsgegevens
-                            
+                            // controleert of de bedrijfsnaam niet leeg is en alleen uit letters bestaat
                             if (empty($_POST['bedrijfsnaam'])){
                                 $error_bedrijfsnaam = "<img width=15 height=15 src=\"fout.png\"> Er is geen bedrijfsnaam ingevoerd<br>";
                             } elseif (preg_match("/^- [A-z]+$/", $_POST['bedrijfsnaam'])){
@@ -140,7 +157,7 @@ $link = connectDB();
                             } else {
                                 $error_bedrijfsnaam = '';
                             }
-                            
+                            // controleert of het adres niet leeg is en alleen uit letters en cijfers bestaat
                             if (empty($_POST['adres'])){
                                 $error_adres= "<img width=15 height=15 src=\"fout.png\"> Er is geen adres ingevoerd<br>";
                             } elseif (preg_match("/^[A-z0-9]+$/", $_POST['adres'])){
@@ -148,7 +165,7 @@ $link = connectDB();
                             } else {
                                 $error_adres = '';
                             }    
-                            
+                            // controleert of de postcode niet leeg is en of het een geldig postcode is dmv Postcodecheck functie
                             if (empty($_POST['postcode'])){
                                 $error_postcode = "<img width=15 height=15 src=\"fout.png\"> Er is geen postcode ingevoerd<br>";
                             } elseif (!PostcodeCheck($_POST['postcode'])){
@@ -156,7 +173,7 @@ $link = connectDB();
                             } else {
                                 $error_postcode = '';
                             }    
-                            
+                            // controleert of de plaats niet leeg is en alleen bestaat uit letters
                             if (empty($_POST['plaats'])){
                                 $error_plaats = "<img width=15 height=15 src=\"fout.png\"> Er is geen plaats ingevoerd<br>";
                             } elseif (!preg_match("/^[A-Za-z]+$/", $_POST['plaats'])){
@@ -164,7 +181,7 @@ $link = connectDB();
                             } else {
                                 $error_plaats = '';
                             }
-                            
+                            // controleert of btw nummer niet leeg is en het een geldig btw nummer is dmv de checkbtw functie
                             if (empty($_POST['btwnummer'])){
                                 $error_btwnummer = "<img width=15 height=15 src=\"fout.png\"> Geen btwnummer ingevoerd<br>";
                             } elseif (!checkBTW($_POST['btwnummer'])){
@@ -172,7 +189,7 @@ $link = connectDB();
                             } else {
                                 $error_btwnummer = '';
                             }
-                            
+                            // controleert of het kvknummer niet leeg is en alleen bestaat uit 8 cijfers
                             if (empty($_POST['kvknummer'])){
                                 $error_kvknummer = "<img width=15 height=15 src=\"fout.png\"> Geen kvknummer ingevoerd<br>";
                             } elseif (!preg_match("/^[0-9]{8}$/", $_POST['kvknummer'])) {
@@ -194,13 +211,14 @@ $link = connectDB();
                             $kvknummer = $_POST["kvknummer"];
                             $btwnummer = $_POST["btwnummer"]; 
                             
+                            // voert de query alleen uit als deze gegevens ingevuld zijn
                             if (!empty($voornaam) && !empty($achternaam) && !empty($telnummer) && !empty($bedrijfsnaam) && !empty($adres) && !empty($postcode) && !empty($plaats) && !empty($btwnummer) && !empty($kvknummer)){
                             
                             $stmt = mysqli_prepare($link, 'UPDATE klant SET voornaam = ?, achternaam = ?, telnummer = ?,  mobnummer = ?, bedrijfsnaam = ?, adres = ?, postcode = ?, plaats = ?, btwnummer = ?, kvknummer = ?;');
 							mysqli_stmt_bind_param($stmt, 'sssssssssi', $voornaam, $achternaam, $telnummer, $mobnummer, $bedrijfsnaam, $adres, $postcode, $plaats, $btwnummer, $kvknummer);
 							mysqli_stmt_execute($stmt);
 							mysqli_stmt_close($stmt);
-                                                        
+                                // als de gegevens met succes zijn gewijzigd wordt er doorverwezen naar gegevensgewijzigd.php                        
                                 header('Location: gegevensgewijzigd.php');
                             }
                             
@@ -216,7 +234,7 @@ $link = connectDB();
                             $error_btwnummer = '';
                             $error_kvknummer = '';
                             
-                            
+                            // zoekt in de database naar het klantnummer en haalt de klantgegevens uit de database
                             $result = mysqli_query($link, 'SELECT * FROM klant WHERE klantnr = "'.$klantnr.'";');
                             $row = mysqli_fetch_assoc($result);
                             
@@ -233,7 +251,8 @@ $link = connectDB();
                             $kvknummer = $row['kvknummer'];
                             $btwnummer = $row['btwnummer'];
                     }
-                       
+                    
+                    // formulier voor het aanpassen van gegevens of wachtwoord
                     print('<div class="header_administratie">Mijn gegevens</div>');
                     print('<table class="table">');
                     print('<form id="registreren" method="post" action=""');
