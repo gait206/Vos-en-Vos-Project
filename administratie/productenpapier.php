@@ -14,7 +14,9 @@ and open the template in the editor.
     </head>
     <body>
         <?php
+		// maakt connectie met de database
         $conn = connectDB();
+		// Code zorgt ervoor dat er kan worden gefiltert op subcategorie
         if (isset($_GET["subcategorie"])) {
             $subcategorie = $_GET["subcategorie"];
         } else {
@@ -27,19 +29,23 @@ and open the template in the editor.
             <div class="navigatie">
                 <form action="" method="get" id="select">
                     <input class="zoekinput" type="text" placeholder="Zoek" name="zoekbalk" <?php
-                    if (isset($_GET['zoekbalk'])) {
+                    // zorgt ervoor dat er de waarde van de zoekbalk in de query wordt geprint
+					if (isset($_GET['zoekbalk'])) {
                         print('value="' . $_GET['zoekbalk'] . '"');
                     }
                     ?>>
                     <input class="zoeksubmit" type="submit" value="Zoek" name="zoekknop"><br><br>
                     <h4>Selecteer subcategorie:</h4>
-                    <input type="checkbox"  name="subcategorie[]"  value="Handdoekrollen" <?php if (in_array("Handdoekrollen", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Handdoekrollen<br>
+                    <input type="checkbox"  name="subcategorie[]"  value="Handdoekrollen" <?php 
+					// houdt de checkbox gechecked, ook nadat de pagina is herladen
+					if (in_array("Handdoekrollen", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Handdoekrollen<br>
                     <input type="checkbox"  name="subcategorie[]"  value="Keukenrollen" <?php if (in_array("Keukenrollen", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Keukenrollen<br>
                     <input type="checkbox"  name="subcategorie[]"  value="Poetsrollen" <?php if (in_array("Poetsrollen", $subcategorie)) echo "checked ='checked'"; ?>onclick="this.form.submit()";>Poetsrollen<br>
                     <input type="checkbox"  name="subcategorie[]"  value="Servetten" <?php if (in_array("Servetten", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Servetten<br>
                     <input type="checkbox"  name="subcategorie[]"  value="Toiletpapier" <?php if (in_array("Toiletpapier", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Toiletpapier<br>
                     <input type="checkbox"  name="subcategorie[]"  value="Vouwhanddoeken" <?php if (in_array("Vouwhanddoeken", $subcategorie)) echo "checked ='checked'"; ?> onclick="this.form.submit()";>Vouwhanddoeken<br><br>
                     <h4>Selecteer prijscategorie:</h4>
+					<?php // Zorgt ervoor dat de klant op prijscategorie kan filteren en dat de gekozen prijs geselecteerd blijft, ook nadat de pagina is herladen ?>
                     <select name="prijs" form="select" onchange="this.form.submit()">
                         <option value=0 <?php if (isset($_GET['prijs']) && $_GET["prijs"] == 0) echo "selected"; ?>>Selecteer prijs </option>
                         <option value=1 <?php if (isset($_GET['prijs']) && $_GET["prijs"] == 1) echo "selected"; ?>>< 10.00</option>
@@ -52,6 +58,7 @@ and open the template in the editor.
                         <option value=8 <?php if (isset($_GET['prijs']) && $_GET["prijs"] == 8) echo "selected"; ?>>> 200.00</option>
                     </select><br><br>
                     <h4>Sorteer op:</h4>
+                    <?php // Zorgt ervoor dat de klant kan sorteren en dat de gekozen waarde geselecteerd blijft, ook nadat de pagina is herladen ?>
                     <select name="sort" form="select" onchange="this.form.submit()">
                         <option value=0 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 0) echo "selected"; ?>>Niet gesorteerd</option>
                         <option value=1 <?php if (isset($_GET['prijs']) && $_GET["sort"] == 1) echo "selected"; ?>>subcategorie (oplopend)</option>
@@ -62,7 +69,7 @@ and open the template in the editor.
                 </form>
 
                 <?php
-                // code to get the right variables into the right place in the functions and such
+                // code om de goede waardes met de juiste functie te laten functioneren
                 switch (THIS_PAGE) {
                     case 'Papier' : $switch = 0;
                         break;
@@ -76,7 +83,7 @@ and open the template in the editor.
                 }
 
                 $query = base_query_generate($switch);
-
+				// code zorgt dat de query goed wordt opgebouwd. Dat er bijvoorbeeld niet 2 keer where in de query komt
                 if (isset($_GET['subcategorie']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop'])) {
 
                     if (isset($_GET['subcategorie'])) {
@@ -95,6 +102,7 @@ and open the template in the editor.
                     $query = sort_query_generate($query, $sort);
                 }
 
+				// de default waarde is dat er 20 producten op een pagina komen te staan
                 if (!empty($_GET["perpage"])) {
                     $perpage = $_GET["perpage"];
                 } else {
@@ -135,13 +143,6 @@ and open the template in the editor.
 
         <div class="body" id="main_content">
             <?php
-// Create connection
-//            if (!(isset($_GET['subcategorie']) || isset($_GET['prijs']) || isset($_GET['sort']) || isset($_GET['zoekknop']))) {
-//                if ($query == "") {
-//
-//                    $query = "SELECT * FROM product";
-//                }
-//            }
             $result = mysqli_query($conn, $query);
             $row = mysqli_fetch_assoc($result);
             ?>
@@ -158,6 +159,7 @@ and open the template in the editor.
             <p class="aantalzoek">
                 <?php
                 if (!mysqli_num_rows($resultcount) == 0) {
+					// geeft het aantal zoekresulataten weer
                     print("Aantal resultaten: " . mysqli_num_rows($resultcount));
                 }
                 ?>
