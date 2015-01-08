@@ -26,14 +26,19 @@ if (!existCookie($cookiename)) {
                 </div>
                 <div class="login">
                     <?php
-                    if (validToken($link)) {
+                    // word uitgevoerd als de gebruiker is ingelogd
+                    if (validToken($link) == true) {
+                        // kijkt of er een actie moet worden uitgevoerd
                         if (isset($_POST["actie"]) && !empty($_POST["actie"])) {
                             $actie = $_POST["actie"];
+                            // kijkt of de gebruiker wil uitloggen
                             if ($actie == "Uitloggen") {
+                                // verwijderd het token
                                 deleteToken("true", $link);
                                 header('Location: http://localhost:8080/index.php');
                             }
                         }
+                        // geeft de welkoms boodschap weer
                         $klantnr = getKlantnr($link);
                         $result = mysqli_query($link, 'SELECT voornaam, achternaam FROM klant WHERE klantnr = "' . $klantnr . '" ');
                         $row = mysqli_fetch_assoc($result);
@@ -58,6 +63,7 @@ if (!existCookie($cookiename)) {
                         if (isset($_POST["actie"]) && !empty($_POST["actie"])) {
                             $actie = $_POST["actie"];
                             if ($actie == "Login") {
+                                // zorgt ervoor dat foutmeldingen worden weergeven
                                 if (!(empty($_POST["email"]) && empty($_POST["wachtwoord"]))) {
                                     if (!empty($_POST["email"])) {
                                         $email = $_POST["email"];
@@ -72,20 +78,26 @@ if (!existCookie($cookiename)) {
                                 } else {
                                     print('<p class="foutmelding">Je bent je email & wachtwoord vergeten');
                                 }
+
                                 if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
+                                    // kijkt of het account geblokkeerd is of niet
                                     if (!accountBlocked($email, $link)) {
+                                        // kijkt of het wachtwoord klopt
                                         if (verifyPassword($email, $password, $link)) {
+                                            // regenereert het sessie id voor extra veiligheid
                                             if (!isset($_SESSION['initiated'])) {
                                                 session_regenerate_id();
                                                 $_SESSION['initiated'] = true;
                                             }
+                                            // haalt het klantnr van een gebruiker op uit de database
                                             $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "' . $email . '";');
                                             $row = mysqli_fetch_assoc($result);
                                             $klantnr = $row["klantnr"];
 
+                                            // maakt een token aan
                                             createToken($klantnr, $link);
                                             mysqli_query($link, 'DELETE FROM geblokkeerd WHERE klantnr = "' . $klantnr . '";');
-                                            header('Location: verzenden.php');
+                                            header('Location: /');
                                         } else {
                                             print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
                                             print(accountBlockedCount($email, $link));
@@ -97,7 +109,7 @@ if (!existCookie($cookiename)) {
                             }
                         }
 
-
+                        // geeft het inlogscherm weer
                         print('<form method="POST" action="">
                         <table>
                             <tr><td></td></tr>
@@ -113,6 +125,7 @@ if (!existCookie($cookiename)) {
                         if(existCookie('verzendadres')){
                             $cookie = getCookie('verzendadres');
                             
+                            // decrypt alle data en haalt de padding weg
                             $plaats = rtrim(decryptData($cookie['plaats']));
                             $adres = rtrim(decryptData($cookie['adres']));
                             $postcode = rtrim(decryptData($cookie['postcode']));
@@ -123,8 +136,11 @@ if (!existCookie($cookiename)) {
                         $postcode = "";
                         }
                         
+                        // kijkt of de gebruik verder wil gaan
                         if (!empty($_POST["actie"]) && $_POST["actie"] == "Verder") {
+                            // kijkt of er een verzendadres is geselecteerd
                             if (!empty($_POST["verzendadres"])) {
+                                // kijkt of het normale adres niet word gebruikt
                                 if ($_POST["verzendadres"] != "adres") {
                                     if (!empty($_POST["plaats"]) && !empty($_POST["adres"]) && !empty($_POST["postcode"])) {
                                         // word uitgevoerd als er een ander adres word gekozen
@@ -139,6 +155,7 @@ if (!existCookie($cookiename)) {
                                         $cookie['adres'] = $adres;
                                         $cookie['postcode'] = $postcode;
                                         
+                                        // maakt een cookie aan
                                         addCookie('verzendadres', $cookie);
                                         
                                         
@@ -156,23 +173,24 @@ if (!existCookie($cookiename)) {
                             }
                         }
 
-
+                        // zorgt dat de keuze geselecteert blijft
                         if(existCookie('verzendadres')){
                             $checked = 'checked';
                         } else {
                             $checked = '';
                         }
                         
-                        // kolom1 adres
-
+                        // weergeeft het normale adres
                         print('<form method="POST" action="" id="afleveradres"><div class="kolom1"><table><tr><td><input type="radio" name="verzendadres" value="adres" checked>Bedrijfs afleveradres</td></tr>');
 
+                        // haalt het verzendadres uit de database
                         $result = mysqli_query($link, 'SELECT adres, plaats, postcode FROM klant WHERE klantnr ="' . getKlantnr($link) . '";');
                         $row = mysqli_fetch_assoc($result);
 
+                        // weergeeft de data
                         print('<tr><td>Plaats: </td><td>' . $row["plaats"] . '</td></tr><tr><td>Adres: </td><td>' . $row["adres"] . '</td></tr><tr><td>Postcode: </td><td>' . $row["postcode"] . '</td></tr></table></div>');
 
-                        // kolom2 ander adres
+                        // weergeeft het formulier met het alternatieve adres
                         print('<div class="kolom2" id="kolom2"><table><tr><td><input type="radio" name="verzendadres" value="anderadres" '.$checked.'>Ander afleveradres</td></tr>'
                                 . '<tr><td>Plaats: </td><td><input type=text" name="plaats" placeholder="plaats" value="' . $plaats . '"></td></tr>'
                                 . '<tr><td>Adres: </td><td><input type=text" name="adres" placeholder="adres" value="' . $adres . '"></td></tr>'

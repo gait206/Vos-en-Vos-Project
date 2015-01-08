@@ -114,6 +114,51 @@ if (!existCookie($cookiename)) {
                                 // formaat van sTransactionReference aanpassen zodat deze overeen komt met de waarde in de database
                                 $sTransactionReference = substr($sTransactionReference, 0, 3) . '-' . substr($sTransactionReference, 3, strlen($sTransactionReference));
                                 mysqli_query($link, 'UPDATE bestelling SET betaald = "ja" WHERE transactieref = "' . $sTransactionReference . '"');
+
+                                // verwijderen van alle cookies
+                                deleteCookie('winkelmandje');
+                                deleteCookie('verzendadres');
+                                deleteCookie('opmerking');
+
+                                // verzenden factuur via email
+                                require 'phpmailer/PHPMailerAutoload.php';
+
+                                $mail = new PHPMailer;
+                                // zorgt dat de mail word verstuurd via de standaard php mail functie
+                                $mail->isMail();
+                                
+                                // zorgt ervoor dat het email adres opgehaald kan worden
+                                $klantnr = getKlantnr($link);
+                                $result = mysqli_query($link, 'SELECT email FROM gebruiker WHERE klantnr = "'.$klantnr.'";');
+                                $row = mysqli_fetch_assoc($result);
+                                $receiver = $row['email'];
+                                
+                                $mail->From = 'from@example.com';
+                                $mail->FromName = 'Vos&Vos Tissue';
+                                $mail->addAddress($receiver);
+                                $mail->addReplyTo('info@example.com', 'Information');
+
+                                // haalt het bestelnr op
+                                $result = mysqli_query($link, 'SELECT bestelnr FROM bestelling WHERE transactieref = "' . $sTransactionReference . '";');
+                                $row = mysqli_fetch_assoc($result);
+                                $bestelnr = $row["bestelnr"];
+
+                                $filename = 'facturen/bestelling_' . $bestelnr . '.pdf';
+                        
+                                // maakt een factuur aan
+                                createFactuur('bestelling_' . $bestelnr . '.pdf', $bestelnr);
+                                
+                                // voegt een bijlage toe
+                                $mail->addAttachment($filename);
+                                $mail->isHTML(true);
+
+                                $mail->Subject = 'Factuur Bestelling';
+                                $mail->Body = 'Uw bestelling is succesvol voltooid u vind een overzicht van uw bestelling in de vorm van een factuur in de <b>bijlage</b>';
+                                $mail->AltBody = 'Uw bestelling is succesvol voltooid u vind een overzicht van uw bestelling in de vorm van een factuur in de bijlage';
+
+                                $mail->send();
+                                print($mail->ErrorInfo);
+
                                 print('<script>setTimeout( function(){window.location.href= "/index.php";},5000);</script>');
                             } elseif (strcmp($sTransactionStatus, 'PENDING') === 0) {
                                 $sHtml = '<h1 class="error">Uw betaling is in behandeling.<br><a href="' . htmlspecialchars($aSettings['website_url'] . '/winkelmandje.php') . '" class="links">Nieuwe transactie starten.</a></h1>';

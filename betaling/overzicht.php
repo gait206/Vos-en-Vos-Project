@@ -121,14 +121,17 @@ if (!existCookie($cookiename)) {
                     </form>');
                         print('</div>');
                     } else {
-                        // word uitgevoerd als de gebruiker is ingelogd
+                        // kijkt of de cookie bestaat
                         if (existCookie('verzendadres')) {
+                            // haalt de cookie op
                             $verzendadres = getCookie('verzendadres');
 
+                            // decrypt alle data
                             $plaats = decryptData($verzendadres['plaats']);
                             $adres = decryptData($verzendadres['adres']);
                             $postcode = decryptData($verzendadres['postcode']);
                         } else {
+                            // haalt de plaats, adres en de postcode op
                             $klantnr = getKlantnr($link);
                             $result = mysqli_query($link, 'SELECT plaats, adres, postcode FROM klant WHERE klantnr = "' . $klantnr . '";');
                             $row = mysqli_fetch_assoc($result);
@@ -138,19 +141,25 @@ if (!existCookie($cookiename)) {
                             $postcode = $row['postcode'];
                         }
 
+                        // kijkt of de cookie bestaat
                         if (existCookie('opmerking')) {
+                            // haalt de cookie op
                             $cookie = getCookie('opmerking');
+                            // decrypt de cookie
                             $opmerking = decryptData($cookie['opmerking']);
                         } else {
                             $opmerking = 'N.V.T.';
                         }
 
+                        // weergeeft het aflveradres
                         print('<div class="overzicht"><table><tr><td colspan=2><h1>Afleveradres</h1></td></tr>'
                                 . '<tr><td>Plaats:</td><td>' . $plaats . '</td></tr>'
                                 . '<tr><td>Adres:</td><td>' . $adres . '</td></tr>'
                                 . '<tr><td>Postcode:</td><td>' . $postcode . '</td></tr>');
 
+                        // kijkt of er een opmerking is toegevoegd
                         if (existCookie('opmerking')) {
+                            // geeft de opmerking weer
                             print('<tr><td colspan=2><h1>Opmerkingen</h1></td></tr></table>');
                             print('<p>' . $opmerking . '</p>');
                         } else {
@@ -292,6 +301,7 @@ if (!existCookie($cookiename)) {
                             mysqli_execute($stmt2);
                         }
 
+                        // voegt de producten toe aan de bestelling
                         foreach ($cookie as $key => $value) {
                             $stmt3 = mysqli_prepare($link, 'INSERT INTO bestelregel VALUES(?,?,?);');
                             mysqli_stmt_bind_param($stmt3, 'iii', $bestelnr, $key, $value);
