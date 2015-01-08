@@ -213,11 +213,14 @@ and open the template in the editor.
                 print("<p class=\"geenres\">Geen resultaten gevonden</p>");
             }
             ?>
-           <?php if(($pages / $perpage +1) !=1){ 
+           <?php 
+           // zorg er voor dat als op de eerste pagina staat je de terug knop niet krijgt te zien
+           if(($pages / $perpage +1) !=1){ 
 			print('<input type="submit" name="action" value="<" form="select">');
 		} ?>	
             <select name="pages" onchange="this.form.submit()" form="select">
                 <?php
+                //de code die voor het printen van de select voor de verschillende paginas laat selecteren
                 for ($i = 0; $i < $amount; $i++) {
                     $x = $i + 1;
                     if ($pages == ($i * $perpage)) {
@@ -229,13 +232,16 @@ and open the template in the editor.
                 ?>
             </select>
             <?php
+            // print een hidden die de vorige pagina onthoud
             if (!empty($_GET["pages"])) {
                 print "<input type='hidden' name='ref' value='" . $_GET["pages"] . "' form='select' >";
             } else {
                 print "<input type='hidden' name='ref' value='0' form='select' >";
             }
             ?>
-			<?php if(($pages / $perpage +1) != round($amount)){ 
+			<?php 
+            // de code die ervoor zorgt dat als je op de laatste pagina zit je de vooruit knop niet ziet
+            if(($pages / $perpage +1) != round($amount)){ 
 				print('<input type="submit" name="action" value=">" form="select">');
 			 } ?>
         </div>
