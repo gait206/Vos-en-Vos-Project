@@ -561,9 +561,10 @@ function prijsber($prijs) {
 //            )
 //    ;
 //}
+
+
 // Controleren voor geldig BTW nummer
 // een geldig btw nummer is: NL 1535.50.909.B02
-
 function checkBTW($btwnummer) {
     $remove = str_replace(" ", "", $btwnummer);
     $upper = strtoupper($remove);
@@ -590,6 +591,7 @@ function countItems($array) {
     }
 }
 
+// controleert of het een geldig postcode is
 function PostcodeCheck($postcode) {
     $remove = str_replace(" ", "", $postcode);
     $upper = strtoupper($remove);
@@ -601,6 +603,7 @@ function PostcodeCheck($postcode) {
     }
 }
 
+// controleert of het email adres al bestaat in de database
 function CheckEmailExists($emailexists, $link) {
 
     $query = mysqli_query($link, "SELECT email FROM gebruiker WHERE email = '" . $emailexists . "'");
