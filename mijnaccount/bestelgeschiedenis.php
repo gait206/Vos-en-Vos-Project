@@ -49,16 +49,17 @@ $link = connectDB();
                     if (function_exists('date_default_timezone_set')) {
                         date_default_timezone_set('Europe/Amsterdam');
                     }
-
+                    // de code hieronder haalt alle bestelling op die niet "in behandeling" zijn.
                     $Klantnr = getKlantnr($link);
                     $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '$Klantnr' AND status != 'In behandeling' AND betaald = 'ja'");
                     $bestelling = mysqli_fetch_assoc($result);
-
+                   // de code hieronder print te tabel met bestellingen.
                     print("<table class='tablebestellingen'><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th>");
                     while ($bestelling) {
                         if (empty($bestelling["opmerking"]))
                             $bestelling["opmerking"] = "N.V.T";
                         print("<tr>"
+                                //de eerste TD neemt het bestelnummer mee in de url, voor bestelling.php
                                 . "<td><a href='bestelling.php?bestelnr=" . $bestelling["bestelnr"] . "' class='bestelnummer'>" . $bestelling["bestelnr"] . "</a></td>"
                                 . "<td>" . $bestelling["opmerking"] . "</td>"
                                 . "<td>" . date("d-m-Y", strtotime($bestelling["besteldatum"])) . "</td>"

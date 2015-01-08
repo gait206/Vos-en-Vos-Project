@@ -44,29 +44,30 @@ $link = connectDB();
                         header('Location: ../index.php');
                         die();
                     }
-
+                    //de code hieronder zorgt ervoor dat een klant niet in de url het bestelnummer kan aanpassen.
                     $klantnr = getKlantnr($link);
                     $bestelnr = $_GET["bestelnr"];
-                    
-                    $crosscheck = mysqli_query($link, "SELECT * FROM bestelling WHERE klantnr ='" .$klantnr."'AND bestelnr='".$bestelnr."';");
+
+                    $crosscheck = mysqli_query($link, "SELECT * FROM bestelling WHERE klantnr ='" . $klantnr . "'AND bestelnr='" . $bestelnr . "';");
                     $row = mysqli_fetch_assoc($crosscheck);
                     if (mysqli_num_rows($crosscheck) == 0) {
                         print("Er is geen bestelling gevonden met bestelnummer " . $bestelnr);
                     } else {
+                        // hieronder worden de bestelregels opgheaald aan de hand van het bestelnummer.
                         // prepare and bind
                         mysqli_close($link);
                         $link = connectDB();
-                    $stmt2 = mysqli_prepare($link, "SELECT productnaam, B.productnr, aantal FROM bestelregel B JOIN product P ON B.productnr = P.productnr WHERE bestelnr=?");
-                    mysqli_stmt_bind_param($stmt2, "i" , $bestelnr);
-                    mysqli_stmt_execute($stmt2);
-                    mysqli_stmt_bind_result($stmt2, $productnaam, $productnr, $aantal);
+                        $stmt2 = mysqli_prepare($link, "SELECT productnaam, B.productnr, aantal FROM bestelregel B JOIN product P ON B.productnr = P.productnr WHERE bestelnr=?");
+                        mysqli_stmt_bind_param($stmt2, "i", $bestelnr);
+                        mysqli_stmt_execute($stmt2);
+                        mysqli_stmt_bind_result($stmt2, $productnaam, $productnr, $aantal);
 
-                    $result = mysqli_stmt_fetch($stmt2);
-                    
+                        $result = mysqli_stmt_fetch($stmt2);
 
+                        //deze code print de tabel met bestelregels.
                         print('<p class="bestelregelheader"> Bestellling: ' . $bestelnr . '</p>');
                         print("<table class='tablebestellingen'><th>productnaam</th><th>Productnummer</th><th>Aantal</th>");
-                        while($result){
+                        while ($result) {
                             print("<tr>"
                                     . "<td>" . $productnaam . "</td>"
                                     . "<td>" . $productnr . "</td>"

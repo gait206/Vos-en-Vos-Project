@@ -36,6 +36,9 @@ $link = connectDB();
             <div class="content" id="main_content">
                 <!--kijken of de login klopt-->
                 <script>
+                    
+    
+    //deze code zorgt voor een waarschuw scherm bij annulering.
                     function checkDelete() {
                         return confirm("Weet u zeker dat u deze besteling wilt annuleren?");
                     }
@@ -45,6 +48,7 @@ $link = connectDB();
                     if (!validToken($link)) {
                         header('Location: ../index.php');
                     }
+
                     $Klantnr = getKlantnr($link);
                     if (!empty($_POST["actie"])) {
                         $actie = $_POST["actie"];
@@ -58,16 +62,17 @@ $link = connectDB();
                     if (function_exists('date_default_timezone_set')) {
                         date_default_timezone_set('Europe/Amsterdam');
                     }
-
+                    //de code hieronder print alle bestellingen die "in behandeling" zijn.
                     $Klantnr = getKlantnr($link);
                     $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '$Klantnr' AND status ='In behandeling' AND betaald = 'ja'");
                     $bestelling = mysqli_fetch_assoc($result);
-
+                    // deze code print de tabel zelf.
                     print("<table class='tablebestellingen'><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th><th>Annuleren</th>");
                     while ($bestelling) {
                         if (empty($bestelling["opmerking"]))
                             $bestelling["opmerking"] = 'N.V.T';
                         print("<tr>"
+                                //de eerste td neemt het bestelnummer mee in de url.
                                 . "<td><a href='bestelling.php?bestelnr=" . $bestelling["bestelnr"] . "' class='bestelnummer'>" . $bestelling["bestelnr"] . "</a></td>"
                                 . "<td>" . $bestelling["opmerking"] . "</td>"
                                 . "<td>" . date("d-m-Y", strtotime($bestelling["besteldatum"])) . "</td>"
