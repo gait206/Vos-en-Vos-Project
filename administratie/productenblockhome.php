@@ -179,7 +179,7 @@ and open the template in the editor.
 			  </tr><tr>
 			  <td colspan=2\">
               <div class=\"omschrijvingblock\">
-			  Subcat: " . $row['subcategorie'] . "<br>
+			  Sub: " . $row['subcategorie'] . "<br>
 			  Merk: " . $row['merk'] . "<br>
 			  Inhoud: " . $row['inhoud'] . "<br>
 			  Kleur: " . $row['kleur']."
