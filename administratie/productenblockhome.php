@@ -98,7 +98,7 @@ and open the template in the editor.
 				if (!empty($_GET["perpage"])) {
                     $perpage = $_GET["perpage"];
                 } else {
-                    $perpage = 20;
+                    $perpage = 28;
                 }
 
                 $resultcount = mysqli_query($conn, $query);
@@ -230,8 +230,9 @@ and open the template in the editor.
             } else {
                 print "<input type='hidden' name='ref' value='0' form='select' >";
             }
-            ?>
-			<?php if(($pages / $perpage +1) != round($amount)){ 	
+			?>
+			<?php if(($pages / $perpage +1) != ceil($amount)){ 	
+				
 				print('<input type="submit" name="action" value=">" form="select">');
 			 } ?>
     </div>

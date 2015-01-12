@@ -241,7 +241,7 @@ and open the template in the editor.
             ?>
 			<?php 
             // de code die ervoor zorgt dat als je op de laatste pagina zit je de vooruit knop niet ziet
-            if(($pages / $perpage +1) != round($amount)){ 
+            if(($pages / $perpage +1) != ceil($amount)){ 
 				print('<input type="submit" name="action" value=">" form="select">');
 			 } ?>
         </div>
