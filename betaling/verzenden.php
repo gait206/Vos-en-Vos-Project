@@ -43,7 +43,7 @@ if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
                                 }
 }
 
-if (isset($_POST["verzendadres"]) && $_POST["verzendadres"] == "adres") {
+if (!empty($_POST["verzendadres"]) && $_POST["verzendadres"] == "adres") {
                                     // word uitgevoerd als het normale adres word gebruikt
                                     deleteCookie('verzendadres');
                                     header('Location: opmerking.php');
