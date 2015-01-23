@@ -2,6 +2,9 @@
 session_start();
 include('../functies.php');
 $link = connectDB();
+if (!validToken($link)) {
+    header('Location: ../index.php');
+}
 ?>
 <html>
     <head>
@@ -36,19 +39,15 @@ $link = connectDB();
             <div class="content" id="main_content">
                 <!--kijken of de login klopt-->
                 <script>
-                    
-    
-    //deze code zorgt voor een waarschuw scherm bij annulering.
+
+
+                    //deze code zorgt voor een waarschuw scherm bij annulering.
                     function checkDelete() {
                         return confirm("Weet u zeker dat u deze besteling wilt annuleren?");
                     }
                 </script>
                 <div class="body" id="main_content">
                     <?php
-                    if (!validToken($link)) {
-                        header('Location: ../index.php');
-                    }
-
                     $Klantnr = getKlantnr($link);
                     if (!empty($_POST["actie"])) {
                         $actie = $_POST["actie"];
@@ -93,9 +92,9 @@ $link = connectDB();
                 <form class="margin" action="bestelgeschiedenis.php" method="POST"><input class="bestelgeschiedenis" type="submit" name="mijn bestellingen" value="Bestelgeschiedenis"></form>
             </div>
             <div class="footer">
-                <?php
-                include "../footer.php";
-                ?>
+<?php
+include "../footer.php";
+?>
             </div>
         </div>
     </body>

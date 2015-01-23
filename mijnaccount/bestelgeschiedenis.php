@@ -2,6 +2,9 @@
 session_start();
 include('../functies.php');
 $link = connectDB();
+if (!validToken($link)) {
+    header('Location: ../index.php');
+}
 ?>
 <html>
     <head>
@@ -40,9 +43,6 @@ $link = connectDB();
                 </script>
                 <div class="body" id="main_content">
                     <?php
-                    if (!validToken($link)) {
-                        header('Location: ../index.php');
-                    }
                     $Klantnr = getKlantnr($link);
 
                     // Stel de tijdzone in (vaak vereist in PHP5 bij gebruik van datum/tijd functies)
@@ -53,7 +53,7 @@ $link = connectDB();
                     $Klantnr = getKlantnr($link);
                     $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '$Klantnr' AND status != 'In behandeling' AND betaald = 'ja'");
                     $bestelling = mysqli_fetch_assoc($result);
-                   // de code hieronder print te tabel met bestellingen.
+                    // de code hieronder print te tabel met bestellingen.
                     print("<table class='tablebestellingen'><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th>");
                     while ($bestelling) {
                         if (empty($bestelling["opmerking"]))
