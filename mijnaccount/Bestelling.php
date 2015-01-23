@@ -21,7 +21,7 @@ include('../login/loginscherm.php');
             <div class="header">
 
                 <div class="logo">
-                    <a href="/v/index.php"><img class="logo" src="../plaatjes/logo.png"></a>
+                    <a href="../index.php"><img class="logo" src="../plaatjes/logo.png"></a>
                 </div>
                 <div class="login">
                     <?php

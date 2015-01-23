@@ -148,7 +148,7 @@ if (!existCookie($cookiename)) {
                                 $row = mysqli_fetch_assoc($result);
                                 $bestelnr = $row["bestelnr"];
 
-                                $filename = 'facturen/bestelling_' . $bestelnr . '.pdf';
+                                $filename = './facturen/bestelling_' . $bestelnr . '.pdf';
                         
                                 // maakt een factuur aan
                                 createFactuur('bestelling_' . $bestelnr . '.pdf', $bestelnr);
