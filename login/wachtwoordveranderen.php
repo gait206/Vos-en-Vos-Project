@@ -2,6 +2,34 @@
 session_start();
 include('../functies.php');
 $link = connectDB();
+
+if (!empty($_POST["actie"])) {
+if (empty($_POST["wachtwoord"]) || $_POST["wachtwoord2"]) {
+                                        $wachtwoord = $_POST["wachtwoord"];
+                                        $wachtwoord2 = $_POST["wachtwoord2"];
+                                        $email = $_GET["email"];
+                                        
+                                        // kijkt of de wachtwoorden overeen komen
+                                        if ($wachtwoord = $wachtwoord2) {
+                                            // encrypt het nieuwe wachtwoord
+                                            $hash = encryptPassword($wachtwoord);
+                                            
+                                            // update het wachtwoord in de database
+                                            $stmt2 = mysqli_prepare($link, 'UPDATE gebruiker SET wachtwoord = ? WHERE email = ?;');
+                                            mysqli_stmt_bind_param($stmt2, 'ss', $hash, $email);
+                                            mysqli_stmt_execute($stmt2);
+                                            mysqli_stmt_close($stmt2);
+                                            
+                                            // verwijerderd de gebruiker uit de tabel recovery
+                                            $stmt = mysqli_prepare($link, 'DELETE FROM recovery WHERE klantnr = ?;');
+                                            mysqli_stmt_bind_param($stmt, 'i', $klantnr);
+                                            mysqli_stmt_execute($stmt);
+                                            mysqli_stmt_close($stmt);
+                                            header('Location: ../index.php');
+                                        }
+                                    }
+}
+
 ?>
 <html>
     <head>
@@ -66,31 +94,8 @@ $link = connectDB();
                                             print('<p class="foutmelding">Je moet het veld wachtwoord herhalen invullen!</p>');
                                         }
                                     } else {
-                                        $wachtwoord = $_POST["wachtwoord"];
-                                        $wachtwoord2 = $_POST["wachtwoord2"];
-                                        $email = $_GET["email"];
-                                        
-                                        // kijkt of de wachtwoorden overeen komen
-                                        if ($wachtwoord = $wachtwoord2) {
-                                            // encrypt het nieuwe wachtwoord
-                                            $hash = encryptPassword($wachtwoord);
-                                            
-                                            // update het wachtwoord in de database
-                                            $stmt2 = mysqli_prepare($link, 'UPDATE gebruiker SET wachtwoord = ? WHERE email = ?;');
-                                            mysqli_stmt_bind_param($stmt2, 'ss', $hash, $email);
-                                            mysqli_stmt_execute($stmt2);
-                                            mysqli_stmt_close($stmt2);
-                                            
-                                            // verwijerderd de gebruiker uit de tabel recovery
-                                            $stmt = mysqli_prepare($link, 'DELETE FROM recovery WHERE klantnr = ?;');
-                                            mysqli_stmt_bind_param($stmt, 'i', $klantnr);
-                                            mysqli_stmt_execute($stmt);
-                                            mysqli_stmt_close($stmt);
-                                            header('Location: ../index.php');
-                                        } else {
                                             print('<p class="foutmelding">Je wachtwoorden komen niet overeen!</p>');
                                         }
-                                    }
                                 }
                                 // geeft de formulieren voor het veranderen van de wachtwoorden weer
                                 print('<form method="POST" action=""><input type="password" name="wachtwoord" placeholder="wachtwoord"><input type="password" name="wachtwoord2" placeholder="wachtwoord herhalen"><input type="submit" class="forgot_button" name="actie" value="Wachtwoord Veranderen"></form>');

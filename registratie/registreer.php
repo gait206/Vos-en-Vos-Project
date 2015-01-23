@@ -2,46 +2,7 @@
 session_start();
 include('../functies.php');
 $link = connectDB();
-?>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-        <link rel="stylesheet" type="text/css" href="../css/main.css">
-        <link rel="stylesheet" type="text/css" href="../css/admin.css">
-        <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-    </head>
-    <body>
-        <div class="container">
 
-            <div class="header">
-
-                <div class="logo">
-                    <img class="logo" src="../plaatjes/logo.png">
-                </div>
-                <div class="login">
-                    <?php
-                    include('../login/loginscherm.php');
-                    ?>
-                </div>
-            </div>
-
-            <?php
-			define('THIS_PAGE', 'Registreren');
-			include('../menu.php');
-			?>
-
-            <div class="content">
-
-                
-
-                <div class="body">
-                    <?php
-                    $link = connectDB();
-                    if (mysqli_connect_error($link)) {
-                        print(mysqli_connect_error($link));
-                    }
-                    // nieuwe klant registreren
                     if (isset($_POST["registreer"])) {
                         // controleert of de voornaam niet leeg is en alleen uit letters bestaat ( een - mag )    
                         if (empty($_POST['voornaam'])){
@@ -179,12 +140,54 @@ $link = connectDB();
                             print(mysqli_error($link));
                             
                             // als je je met succes hebt geregistreerd worde je doorverwezen naar registratievoltooid.php
-                            header('Location: registratievoltooid.php');
-                            }
                             
                             }
                             
-                        } else {
+                            }
+                            
+                        }
+
+?>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="../css/main.css">
+        <link rel="stylesheet" type="text/css" href="../css/admin.css">
+        <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+        <div class="container">
+
+            <div class="header">
+
+                <div class="logo">
+                    <img class="logo" src="../plaatjes/logo.png">
+                </div>
+                <div class="login">
+                    <?php
+                    include('../login/loginscherm.php');
+                    ?>
+                </div>
+            </div>
+
+            <?php
+			define('THIS_PAGE', 'Registreren');
+			include('../menu.php');
+			?>
+
+            <div class="content">
+
+                
+
+                <div class="body">
+                    <?php
+                    $link = connectDB();
+                    if (mysqli_connect_error($link)) {
+                        print(mysqli_connect_error($link));
+                    }
+                    // nieuwe klant registreren
+ if (!isset($_POST["registreer"])) {
                             // errormeldingen leeg laten als er geen error is
                             $error_voornaam = '';
                             $error_achternaam = '';

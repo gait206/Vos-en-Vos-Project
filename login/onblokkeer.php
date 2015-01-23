@@ -43,7 +43,7 @@ $link = connectDB();
                             mysqli_query($link, 'DELETE FROM geblokkeerd WHERE klantnr = "'.$klantnr.'" AND token = "'.$token.'";');
                             
                             print('<h1>Uw account is ongeblokkeerd u kunt nu weer inloggen');
-                            print('<br><a href="../index.php">Klik hier om terug te gaan naar de hoofdpagina</a>');
+                            print('<br><a href="index.php">Klik hier om terug te gaan naar de hoofdpagina</a>');
                         } else {
                             print('<h1>Deze link is niet geldig</h1>');
                         }
