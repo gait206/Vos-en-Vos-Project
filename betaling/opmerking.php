@@ -15,7 +15,7 @@ if(validToken($link) == true) {
                             if ($actie == "Uitloggen") {
                                 // verwijderd het token
                                 deleteToken("true", $link);
-                                header('Location: index.php');
+                                header('Location: ../index.php');
                             }
                         }
 }

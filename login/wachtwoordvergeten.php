@@ -72,8 +72,8 @@ $link = connectDB();
                                     mysqli_stmt_close($stmt);
 
                                     // maakt 2 urls aan
-                                    $url = 'http://localhost:8080/login/wachtwoordveranderen.php?email=' . $email . '&token=' . $token . '';
-                                    $url2 = 'http://localhost:8080/login/wachtwoordnietveranderen.php?email=' . $email . '';
+                                    $url = '../login/wachtwoordveranderen.php?email=' . $email . '&token=' . $token . '';
+                                    $url2 = '../login/wachtwoordnietveranderen.php?email=' . $email . '';
 
                                     
                                     

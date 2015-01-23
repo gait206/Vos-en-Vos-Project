@@ -676,7 +676,7 @@ function accountBlockedCount($email, $link) {
                 mysqli_query($link, 'UPDATE geblokkeerd SET token = "' . $token . '" WHERE klantnr = "' . $klantnr . '";');
                 
                 // maakt een url aan voor de email
-                $url = 'http://localhost:8080/login/onblokkeer.php?klantnr='.$klantnr.'&token='.$token;
+                $url = '../login/onblokkeer.php?klantnr='.$klantnr.'&token='.$token;
                 $message = '<html><head></head><body>Iemand heeft vijf keer met een verkeerd wachtwoord ingelogd op uw account <a href="'.$url.'">Klik op deze link</a> om uw account te onblokkeren.</body></html>';
                 
                 // stelt de tijdzone in

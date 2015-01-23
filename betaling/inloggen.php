@@ -99,7 +99,7 @@ if (!existCookie($cookiename)) {
                         </table>
                     </form>');
                         } else {
-                            header('Location: http://localhost:8080/betaling/verzenden.php');
+                            header('Location: ../betaling/verzenden.php');
                         }
                         ?>
                     </div>
