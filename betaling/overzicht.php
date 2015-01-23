@@ -6,6 +6,49 @@ $cookiename = 'winkelmandje';
 if (!existCookie($cookiename)) {
     addCookie($cookiename, array());
 }
+
+if (validToken($link) == true) {
+                        // kijkt of er een actie moet worden uitgevoerd
+                        if (isset($_POST["actie"]) && !empty($_POST["actie"])) {
+                            $actie = $_POST["actie"];
+                            // kijkt of de gebruiker wil uitloggen
+                            if ($actie == "Uitloggen") {
+                                // verwijderd het token
+                                deleteToken("true", $link);
+                                header('Location: http://localhost:8080/index.php');
+                            }
+                        }
+}
+if (validToken($link) != true) {
+                        
+                        if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
+                                    // kijkt of het account geblokkeerd is of niet
+                                    if (!accountBlocked($email, $link)) {
+                                        // kijkt of het wachtwoord klopt
+                                        if (verifyPassword($email, $password, $link)) {
+                                            // regenereert het sessie id voor extra veiligheid
+                                            if (!isset($_SESSION['initiated'])) {
+                                                session_regenerate_id();
+                                                $_SESSION['initiated'] = true;
+                                            }
+                                            // haalt het klantnr van een gebruiker op uit de database
+                                            $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "' . $email . '";');
+                                            $row = mysqli_fetch_assoc($result);
+                                            $klantnr = $row["klantnr"];
+
+                                            // maakt een token aan
+                                            createToken($klantnr, $link);
+                                            mysqli_query($link, 'DELETE FROM geblokkeerd WHERE klantnr = "' . $klantnr . '";');
+                                            header('Location: /');
+                                        } else {
+                                            print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
+                                            print(accountBlockedCount($email, $link));
+                                        }
+                                    } else {
+                                        print('<p class="foutmelding">Dit account is geblokeerd kijk op uw email voor meer informatie</p>');
+                                    }
+                                }
+}
 ?>
 <html>
     <head>
@@ -28,16 +71,6 @@ if (!existCookie($cookiename)) {
                     <?php
                     // word uitgevoerd als de gebruiker is ingelogd
                     if (validToken($link) == true) {
-                        // kijkt of er een actie moet worden uitgevoerd
-                        if (isset($_POST["actie"]) && !empty($_POST["actie"])) {
-                            $actie = $_POST["actie"];
-                            // kijkt of de gebruiker wil uitloggen
-                            if ($actie == "Uitloggen") {
-                                // verwijderd het token
-                                deleteToken("true", $link);
-                                header('Location: http://localhost:8080/index.php');
-                            }
-                        }
                         // geeft de welkoms boodschap weer
                         $klantnr = getKlantnr($link);
                         $result = mysqli_query($link, 'SELECT voornaam, achternaam FROM klant WHERE klantnr = "' . $klantnr . '" ');
@@ -79,33 +112,6 @@ if (!existCookie($cookiename)) {
                                     print('<p class="foutmelding">Je bent je email & wachtwoord vergeten');
                                 }
 
-                                if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
-                                    // kijkt of het account geblokkeerd is of niet
-                                    if (!accountBlocked($email, $link)) {
-                                        // kijkt of het wachtwoord klopt
-                                        if (verifyPassword($email, $password, $link)) {
-                                            // regenereert het sessie id voor extra veiligheid
-                                            if (!isset($_SESSION['initiated'])) {
-                                                session_regenerate_id();
-                                                $_SESSION['initiated'] = true;
-                                            }
-                                            // haalt het klantnr van een gebruiker op uit de database
-                                            $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "' . $email . '";');
-                                            $row = mysqli_fetch_assoc($result);
-                                            $klantnr = $row["klantnr"];
-
-                                            // maakt een token aan
-                                            createToken($klantnr, $link);
-                                            mysqli_query($link, 'DELETE FROM geblokkeerd WHERE klantnr = "' . $klantnr . '";');
-                                            header('Location: /');
-                                        } else {
-                                            print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
-                                            print(accountBlockedCount($email, $link));
-                                        }
-                                    } else {
-                                        print('<p class="foutmelding">Dit account is geblokeerd kijk op uw email voor meer informatie</p>');
-                                    }
-                                }
                             }
                         }
 

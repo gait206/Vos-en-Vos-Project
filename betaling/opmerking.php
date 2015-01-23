@@ -6,6 +6,47 @@ $cookiename = 'winkelmandje';
 if (!existCookie($cookiename)) {
     addCookie($cookiename, array());
 }
+
+// word uitgevoerd als de gebruiker is ingelogd
+                    if (validToken($link) == true) {
+                        // kijkt of er een actie moet worden uitgevoerd
+                        if (isset($_POST["actie"]) && !empty($_POST["actie"])) {
+                            $actie = $_POST["actie"];
+                            // kijkt of de gebruiker wil uitloggen
+                            if ($actie == "Uitloggen") {
+                                // verwijderd het token
+                                deleteToken("true", $link);
+                                header('Location: http://localhost:8080/index.php');
+                            }
+                        }
+                    }
+                    
+                    if (validToken($link) == true) {
+                        // kijkt of de gebruik verder wil gaan
+                        if (!empty($_POST['actie']) && $_POST['actie'] == 'Verder') {
+                            // kijkt er een opmerking is ingevoerd
+                            if (!empty($_POST['opmerking'])) {
+                                $opmerking = $_POST['opmerking'];
+                                $cookie = array();
+                                // encrypt de opmerking
+                                $cookie['opmerking'] = encryptData($opmerking);
+                                // voegt een cookie toe
+                                addCookie('opmerking', $cookie);
+                            }
+                            header('Location: overzicht.php');
+                        }
+
+                        // kijkt of de cookie bestaat
+                        if (existCookie('opmerking')) {
+                            // haalt de cookie op als hij bestaat
+                            $cookie = getCookie('opmerking');
+                            // decrypt de cookie
+                            $opmerking = decryptData($cookie['opmerking']);
+                        } else {
+                            $opmerking = '';
+                        }
+                    
+                    }
 ?>
 <html>
     <head>
@@ -28,16 +69,6 @@ if (!existCookie($cookiename)) {
                     <?php
                     // word uitgevoerd als de gebruiker is ingelogd
                     if (validToken($link) == true) {
-                        // kijkt of er een actie moet worden uitgevoerd
-                        if (isset($_POST["actie"]) && !empty($_POST["actie"])) {
-                            $actie = $_POST["actie"];
-                            // kijkt of de gebruiker wil uitloggen
-                            if ($actie == "Uitloggen") {
-                                // verwijderd het token
-                                deleteToken("true", $link);
-                                header('Location: http://localhost:8080/index.php');
-                            }
-                        }
                         // geeft de welkoms boodschap weer
                         $klantnr = getKlantnr($link);
                         $result = mysqli_query($link, 'SELECT voornaam, achternaam FROM klant WHERE klantnr = "' . $klantnr . '" ');
@@ -121,30 +152,6 @@ if (!existCookie($cookiename)) {
                     </form>');
                         print('</div>');
                     } else {
-                        // kijkt of de gebruik verder wil gaan
-                        if (!empty($_POST['actie']) && $_POST['actie'] == 'Verder') {
-                            // kijkt er een opmerking is ingevoerd
-                            if (!empty($_POST['opmerking'])) {
-                                $opmerking = $_POST['opmerking'];
-                                $cookie = array();
-                                // encrypt de opmerking
-                                $cookie['opmerking'] = encryptData($opmerking);
-                                // voegt een cookie toe
-                                addCookie('opmerking', $cookie);
-                            }
-                            header('Location: overzicht.php');
-                        }
-
-                        // kijkt of de cookie bestaat
-                        if (existCookie('opmerking')) {
-                            // haalt de cookie op als hij bestaat
-                            $cookie = getCookie('opmerking');
-                            // decrypt de cookie
-                            $opmerking = decryptData($cookie['opmerking']);
-                        } else {
-                            $opmerking = '';
-                        }
-
                         // weergeeft het opmerkings formulier
                         print('<h1 class="kop">Opmerkingen</h1>');
                         print('<div class="opmerking"><p>Voeg hier uw opmerkingen toe:</p><form method="POST" action=""><textarea name="opmerking" rows="10" cols="100" maxlength="400">' . $opmerking . '</textarea><input class="verzenden_knop_right" type="submit" name="actie" value="Verder"></form></div>');
