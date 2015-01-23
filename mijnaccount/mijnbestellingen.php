@@ -56,7 +56,7 @@ include('../login/loginscherm.php');
                         $actie = $_POST["actie"];
 						$bestelnummer = $_POST["bestelnr"];
                         if ($actie == "Bestelling annuleren") {
-                            mysqli_query($link, 'UPDATE Bestelling SET status = "Geannuleerd", bezorgdatum = NULL WHERE bestelnr = "' . $bestelnummer . '";');
+                            mysqli_query($link, 'UPDATE Bestelling SET status = "Geannuleerd", bezorgdatum = "00-00-0000" WHERE bestelnr = "' . $bestelnummer . '";');
                         }
                     }
 
