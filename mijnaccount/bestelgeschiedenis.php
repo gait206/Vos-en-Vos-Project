@@ -2,8 +2,9 @@
 session_start();
 include('../functies.php');
 $link = connectDB();
-
-include('../login/loginscherm.php');
+if (!validToken($link)) {
+    header('Location: ../index.php');
+}
 ?>
 <html>
     <head>
@@ -25,7 +26,7 @@ include('../login/loginscherm.php');
                 </div>
                 <div class="login">
                     <?php
-                    include('../login/loginscherm2.php');
+                    include('../login/loginscherm.php');
                     ?>
                 </div>
             </div>
@@ -42,9 +43,6 @@ include('../login/loginscherm.php');
                 </script>
                 <div class="body" id="main_content">
                     <?php
-                    if (!validToken($link)) {
-                        header('Location: ../index.php');
-                    }
                     $Klantnr = getKlantnr($link);
 
                     // Stel de tijdzone in (vaak vereist in PHP5 bij gebruik van datum/tijd functies)
@@ -53,9 +51,9 @@ include('../login/loginscherm.php');
                     }
                     // de code hieronder haalt alle bestelling op die niet "in behandeling" zijn.
                     $Klantnr = getKlantnr($link);
-                    $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '$Klantnr' AND status != 'In behandeling' AND betaald = 'ja'");
+                    $result = mysqli_query($link, 'SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '.$Klantnr.' AND status != "In behandeling" AND betaald = "ja"');
                     $bestelling = mysqli_fetch_assoc($result);
-                   // de code hieronder print te tabel met bestellingen.
+                    // de code hieronder print te tabel met bestellingen.
                     print("<table class='tablebestellingen'><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th>");
                     while ($bestelling) {
                         if (empty($bestelling["opmerking"]))

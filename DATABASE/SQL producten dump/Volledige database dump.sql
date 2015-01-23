@@ -1,5 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `vvtissue` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `vvtissue`;
+CREATE DATABASE  IF NOT EXISTS `gertjen149_vv` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `gertjen149_vv`;
 -- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
 -- Host: localhost    Database: vvtissue

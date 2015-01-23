@@ -1,4 +1,3 @@
-
 <?php
 if (validToken($link) != true) {
     // kijken of alle invoervelden ingevuld zijn
@@ -50,7 +49,6 @@ if (validToken($link) == true) {
             // verwijderd het token
             deleteToken("true", $link);
             header('Location: ../index.php');
-            header('Location: index.php');
         }
     }
 }

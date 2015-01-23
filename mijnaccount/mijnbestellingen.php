@@ -2,8 +2,9 @@
 session_start();
 include('../functies.php');
 $link = connectDB();
-
-include('../login/loginscherm.php');
+if (!validToken($link)) {
+    header('Location: ../index.php');
+}
 ?>
 <html>
     <head>
@@ -25,7 +26,7 @@ include('../login/loginscherm.php');
                 </div>
                 <div class="login">
                     <?php
-                    include('../login/loginscherm2.php');
+                    include('../login/loginscherm.php');
                     ?>
                 </div>
             </div>
@@ -38,25 +39,22 @@ include('../login/loginscherm.php');
             <div class="content" id="main_content">
                 <!--kijken of de login klopt-->
                 <script>
-                    
-    
-    //deze code zorgt voor een waarschuw scherm bij annulering.
+
+
+                    //deze code zorgt voor een waarschuw scherm bij annulering.
                     function checkDelete() {
                         return confirm("Weet u zeker dat u deze besteling wilt annuleren?");
                     }
                 </script>
                 <div class="body" id="main_content">
                     <?php
-                    if (!validToken($link)) {
-                        header('Location: ../index.php');
-                    }
-
                     $Klantnr = getKlantnr($link);
                     if (!empty($_POST["actie"])) {
                         $actie = $_POST["actie"];
-						$bestelnummer = $_POST["bestelnr"];
                         if ($actie == "Bestelling annuleren") {
                             mysqli_query($link, 'UPDATE Bestelling SET status = "Geannuleerd", bezorgdatum = "00-00-0000" WHERE bestelnr = "' . $bestelnummer . '";');
+                            $bestelnummer = $_POST["bestelnr"];
+                            mysqli_query($link, 'UPDATE bestelling SET status = "Geannuleerd", bezorgdatum = NULL WHERE bestelnr = "' . $bestelnummer . '";');
                         }
                     }
 
@@ -66,7 +64,7 @@ include('../login/loginscherm.php');
                     }
                     //de code hieronder print alle bestellingen die "in behandeling" zijn.
                     $Klantnr = getKlantnr($link);
-                    $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking,  status FROM Bestelling WHERE klantnr = '$Klantnr' AND status ='In behandeling' AND betaald = 'ja'");
+                    $result = mysqli_query($link, "SELECT bestelnr, besteldatum, bezorgdatum, opmerking, status FROM Bestelling WHERE klantnr = ".$Klantnr." AND status ='In behandeling' AND betaald = 'ja'");
                     $bestelling = mysqli_fetch_assoc($result);
                     // deze code print de tabel zelf.
                     print("<table class='tablebestellingen'><th>Bestelnummer</th><th>Opmerking</th><th>Besteldatum</th><th>Bezorgdatum</th><th>Status</th><th>Annuleren</th>");
@@ -80,13 +78,8 @@ include('../login/loginscherm.php');
                                 . "<td>" . date("d-m-Y", strtotime($bestelling["besteldatum"])) . "</td>"
                                 . "<td>" . date("d-m-Y", strtotime($bestelling["bezorgdatum"])) . "</td>"
                                 . "<td>" . $bestelling["status"] . "</td>"
-                                . '<td class="Tableannuleer">
-								<form action="" method="POST" class="table_administratie_button">
-								<input type="hidden" name="bestelnr" value="' . $bestelling["bestelnr"] . '">
-								<input type="submit" name="actie" value="Bestelling annuleren" onclick="return checkDelete()">
-								</form>
-								</td>
-								</tr>');
+                                . '<td class="Tableannuleer"><form action="" method="POST" class="table_administratie_button" ><input type="hidden" name="bestelnr" value="' . $bestelling["bestelnr"] . '"><input type="submit" name="actie" value="Bestelling annuleren" onClick="return checkDelete()"></form></td>'
+                                . "</tr>");
                         $bestelling = mysqli_fetch_assoc($result);
                     }
 
@@ -100,9 +93,9 @@ include('../login/loginscherm.php');
                 <form class="margin" action="bestelgeschiedenis.php" method="POST"><input class="bestelgeschiedenis" type="submit" name="mijn bestellingen" value="Bestelgeschiedenis"></form>
             </div>
             <div class="footer">
-                <?php
-                include "../footer.php";
-                ?>
+<?php
+include "../footer.php";
+?>
             </div>
         </div>
     </body>

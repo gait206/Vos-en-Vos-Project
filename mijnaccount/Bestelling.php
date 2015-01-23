@@ -2,8 +2,10 @@
 session_start();
 include('../functies.php');
 $link = connectDB();
-
-include('../login/loginscherm.php');
+if (!validToken($link)) {
+    header('Location: ../index.php');
+    die();
+}
 ?>
 <html>
     <head>
@@ -25,7 +27,7 @@ include('../login/loginscherm.php');
                 </div>
                 <div class="login">
                     <?php
-                    include('../login/loginscherm2.php');
+                    include('../login/loginscherm.php');
                     ?>
                 </div>
             </div>
@@ -42,10 +44,6 @@ include('../login/loginscherm.php');
                 </script>
                 <div class="body" id="main_content">
                     <?php
-                    if (!validToken($link)) {
-                        header('Location: ../index.php');
-                        die();
-                    }
                     //de code hieronder zorgt ervoor dat een klant niet in de url het bestelnummer kan aanpassen.
                     $klantnr = getKlantnr($link);
                     $bestelnr = $_GET["bestelnr"];

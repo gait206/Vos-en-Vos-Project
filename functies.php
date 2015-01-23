@@ -318,7 +318,7 @@ function createToken($klantnr, $link) {
     $size = 60;
     $random = $_SERVER['HTTP_USER_AGENT'];
     $salt = '$6$rounds=5000$';
-    $salt .= strtr(base64_encode(mcrypt_create_iv($size)), '+', '.') . "$";
+    $salt .= strtr(base64_encode(mcrypt_create_iv($size, MCRYPT_DEV_URANDOM)), '+', '.') . "$";
     $token = crypt($random, $salt);
 
     $_SESSION["token"] = $token;
@@ -391,7 +391,7 @@ function encryptPassword($password) {
     $salt = '$6$rounds=5000$';
     // strtr() convert alle + tekens naar . tekens
     // genereert een random salt
-    $salt .= strtr(base64_encode(mcrypt_create_iv($size)), '+', '.') . "$";
+    $salt .= strtr(base64_encode(mcrypt_create_iv($size, MCRYPT_DEV_URANDOM)), '+', '.') . "$";
     $hashed = crypt($password, $salt);
     return $hashed;
 }
@@ -423,10 +423,10 @@ function verifyPassword($email, $password, $link) {
 // maakt verbinding met de database
 function connectDB() {
     $host = "localhost";
-    $user = "root";
-    $password = "usbw";
-    $database = "vvtissue";
-    $port = 3307;
+    $user = "gertjen149_vva";
+    $password = "vvtissue";
+    $database = "gertjen149_vv";
+    $port = 3306;
 
     $link = mysqli_connect($host, $user, $password, $database, $port);
     if (mysqli_connect_error()) {
@@ -561,10 +561,9 @@ function prijsber($prijs) {
 //            )
 //    ;
 //}
-
-
 // Controleren voor geldig BTW nummer
 // een geldig btw nummer is: NL 1535.50.909.B02
+
 function checkBTW($btwnummer) {
     $remove = str_replace(" ", "", $btwnummer);
     $upper = strtoupper($remove);
@@ -591,7 +590,6 @@ function countItems($array) {
     }
 }
 
-// controleert of het een geldig postcode is
 function PostcodeCheck($postcode) {
     $remove = str_replace(" ", "", $postcode);
     $upper = strtoupper($remove);
@@ -603,7 +601,6 @@ function PostcodeCheck($postcode) {
     }
 }
 
-// controleert of het email adres al bestaat in de database
 function CheckEmailExists($emailexists, $link) {
 
     $query = mysqli_query($link, "SELECT email FROM gebruiker WHERE email = '" . $emailexists . "'");
@@ -676,7 +673,7 @@ function accountBlockedCount($email, $link) {
                 mysqli_query($link, 'UPDATE geblokkeerd SET token = "' . $token . '" WHERE klantnr = "' . $klantnr . '";');
                 
                 // maakt een url aan voor de email
-                $url = '../login/onblokkeer.php?klantnr='.$klantnr.'&token='.$token;
+                $url = 'http://localhost:8080/login/onblokkeer.php?klantnr='.$klantnr.'&token='.$token;
                 $message = '<html><head></head><body>Iemand heeft vijf keer met een verkeerd wachtwoord ingelogd op uw account <a href="'.$url.'">Klik op deze link</a> om uw account te onblokkeren.</body></html>';
                 
                 // stelt de tijdzone in
