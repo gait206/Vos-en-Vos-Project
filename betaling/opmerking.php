@@ -15,7 +15,7 @@ if(validToken($link) == true) {
                             if ($actie == "Uitloggen") {
                                 // verwijderd het token
                                 deleteToken("true", $link);
-                                header('Location: http://localhost:8080/index.php');
+                                header('Location: index.php');
                             }
                         }
 }
@@ -39,7 +39,7 @@ if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
                                             // maakt een token aan
                                             createToken($klantnr, $link);
                                             mysqli_query($link, 'DELETE FROM geblokkeerd WHERE klantnr = "' . $klantnr . '";');
-                                            header('Location: /');
+                                            header('Location: index.php');
                                         }
                                 }
 }
@@ -53,6 +53,20 @@ if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
                             $opmerking = decryptData($cookie['opmerking']);
                         } else {
                             $opmerking = '';
+                        }
+                        
+                        if(isset($_POST['actie'])) {
+                            $actie = $_POST['actie'];
+                            
+                            $opmerking = $_POST['opmerking'];
+                            
+                            $opmerking = encryptData($opmerking);
+                            
+                            $array = array();
+                            $array['opmerking'] = $opmerking;
+                            
+                            addCookie('opmerking', $array);
+                            header('Location: overzicht.php');
                         }
                     
 ?>
