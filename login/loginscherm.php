@@ -40,7 +40,7 @@ if (validToken($link) != true) {
                         // maakt een token aan
                         createToken($klantnr, $link);
                         mysqli_query($link, 'DELETE FROM geblokkeerd WHERE klantnr = "'.$klantnr.'";');
-                        header('Location: /');
+                        header('Location: index.php');
                     } else {
                         print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
                         print(accountBlockedCount($email, $link));
@@ -58,7 +58,7 @@ if (validToken($link) != true) {
                             <tr><td></td></tr>
                             <tr><td>Email:</td><td><input class="gebruikersnaam" type="text" name="email" placeholder="email"><br></td></tr>
                             <tr><td>Wachtwoord:</td><td><input class="wachtwoord" type="password" name="wachtwoord" placeholder="wachtwoord"></td></tr>
-                            <tr><td><a class="wachtwoordvergeten_button" href="../login/wachtwoordvergeten.php">Wachtwoord vergeten?</a></td><td><a class="wachtwoordvergeten_button" href="../registratie/registreer.php">Registreren</a></td><td><input class="login_button" type="submit" name="actie" value="Login"></td></tr>
+                            <tr><td><a class="wachtwoordvergeten_button" href="/v/login/wachtwoordvergeten.php">Wachtwoord vergeten?</a></td><td><a class="wachtwoordvergeten_button" href="../registratie/registreer.php">Registreren</a></td><td><input class="login_button" type="submit" name="actie" value="Login"></td></tr>
                         </table>
                     </form>');
 } else {
@@ -68,7 +68,7 @@ if (validToken($link) != true) {
         if ($actie == "Uitloggen") {
             // verwijderd het token
             deleteToken("true", $link);
-            header('Location: http://localhost:8080/index.php');
+            header('Location: index.php');
         }
     }
     // geeft de welkoms boodschap weer
