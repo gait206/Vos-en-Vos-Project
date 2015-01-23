@@ -98,7 +98,7 @@ if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
                             if ($actie == "Uitloggen") {
                                 // verwijderd het token
                                 deleteToken("true", $link);
-                                header('Location: http://localhost:8080/index.php');
+                                header('Location: ../index.php');
                             }
                         }
                         // geeft de welkoms boodschap weer
