@@ -7,8 +7,8 @@ if (!existCookie($cookiename)) {
     addCookie($cookiename, array());
 }
 
-if (validToken($link) == true) {
-                        // kijkt of er een actie moet worden uitgevoerd
+if(validToken($link) == true) {
+    // kijkt of er een actie moet worden uitgevoerd
                         if (isset($_POST["actie"]) && !empty($_POST["actie"])) {
                             $actie = $_POST["actie"];
                             // kijkt of de gebruiker wil uitloggen
@@ -19,9 +19,9 @@ if (validToken($link) == true) {
                             }
                         }
 }
+
 if (validToken($link) != true) {
-                        
-                        if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
+if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
                                     // kijkt of het account geblokkeerd is of niet
                                     if (!accountBlocked($email, $link)) {
                                         // kijkt of het wachtwoord klopt
@@ -40,14 +40,9 @@ if (validToken($link) != true) {
                                             createToken($klantnr, $link);
                                             mysqli_query($link, 'DELETE FROM geblokkeerd WHERE klantnr = "' . $klantnr . '";');
                                             header('Location: /');
-                                        } else {
-                                            print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
-                                            print(accountBlockedCount($email, $link));
                                         }
-                                    } else {
-                                        print('<p class="foutmelding">Dit account is geblokeerd kijk op uw email voor meer informatie</p>');
-                                    }
                                 }
+}
 }
 ?>
 <html>
@@ -112,6 +107,17 @@ if (validToken($link) != true) {
                                     print('<p class="foutmelding">Je bent je email & wachtwoord vergeten');
                                 }
 
+                                if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
+                                    // kijkt of het account geblokkeerd is of niet
+                                    if (accountBlocked($email, $link)) {
+                                        // kijkt of het wachtwoord klopt
+                                        if (!verifyPassword($email, $password, $link)) {
+                                            print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
+                                            print(accountBlockedCount($email, $link));
+                                        }
+                                        print('<p class="foutmelding">Dit account is geblokeerd kijk op uw email voor meer informatie</p>');
+                                    }
+                                }
                             }
                         }
 

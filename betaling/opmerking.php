@@ -7,9 +7,8 @@ if (!existCookie($cookiename)) {
     addCookie($cookiename, array());
 }
 
-// word uitgevoerd als de gebruiker is ingelogd
-                    if (validToken($link) == true) {
-                        // kijkt of er een actie moet worden uitgevoerd
+if(validToken($link) == true) {
+    // kijkt of er een actie moet worden uitgevoerd
                         if (isset($_POST["actie"]) && !empty($_POST["actie"])) {
                             $actie = $_POST["actie"];
                             // kijkt of de gebruiker wil uitloggen
@@ -19,22 +18,32 @@ if (!existCookie($cookiename)) {
                                 header('Location: http://localhost:8080/index.php');
                             }
                         }
-                    }
-                    
-                    if (validToken($link) == true) {
-                        // kijkt of de gebruik verder wil gaan
-                        if (!empty($_POST['actie']) && $_POST['actie'] == 'Verder') {
-                            // kijkt er een opmerking is ingevoerd
-                            if (!empty($_POST['opmerking'])) {
-                                $opmerking = $_POST['opmerking'];
-                                $cookie = array();
-                                // encrypt de opmerking
-                                $cookie['opmerking'] = encryptData($opmerking);
-                                // voegt een cookie toe
-                                addCookie('opmerking', $cookie);
-                            }
-                            header('Location: overzicht.php');
-                        }
+}
+
+if(validToken($link) != true) {
+if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
+                                    // kijkt of het account geblokkeerd is of niet
+                                    if (!accountBlocked($email, $link)) {
+                                        // kijkt of het wachtwoord klopt
+                                        if (verifyPassword($email, $password, $link)) {
+                                            // regenereert het sessie id voor extra veiligheid
+                                            if (!isset($_SESSION['initiated'])) {
+                                                session_regenerate_id();
+                                                $_SESSION['initiated'] = true;
+                                            }
+                                            // haalt het klantnr van een gebruiker op uit de database
+                                            $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "' . $email . '";');
+                                            $row = mysqli_fetch_assoc($result);
+                                            $klantnr = $row["klantnr"];
+
+                                            // maakt een token aan
+                                            createToken($klantnr, $link);
+                                            mysqli_query($link, 'DELETE FROM geblokkeerd WHERE klantnr = "' . $klantnr . '";');
+                                            header('Location: /');
+                                        }
+                                }
+}
+}
 
                         // kijkt of de cookie bestaat
                         if (existCookie('opmerking')) {
@@ -46,7 +55,6 @@ if (!existCookie($cookiename)) {
                             $opmerking = '';
                         }
                     
-                    }
 ?>
 <html>
     <head>
@@ -112,28 +120,12 @@ if (!existCookie($cookiename)) {
 
                                 if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
                                     // kijkt of het account geblokkeerd is of niet
-                                    if (!accountBlocked($email, $link)) {
+                                    if (accountBlocked($email, $link)) {
                                         // kijkt of het wachtwoord klopt
-                                        if (verifyPassword($email, $password, $link)) {
-                                            // regenereert het sessie id voor extra veiligheid
-                                            if (!isset($_SESSION['initiated'])) {
-                                                session_regenerate_id();
-                                                $_SESSION['initiated'] = true;
-                                            }
-                                            // haalt het klantnr van een gebruiker op uit de database
-                                            $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "' . $email . '";');
-                                            $row = mysqli_fetch_assoc($result);
-                                            $klantnr = $row["klantnr"];
-
-                                            // maakt een token aan
-                                            createToken($klantnr, $link);
-                                            mysqli_query($link, 'DELETE FROM geblokkeerd WHERE klantnr = "' . $klantnr . '";');
-                                            header('Location: /');
-                                        } else {
+                                        if (!verifyPassword($email, $password, $link)) {
                                             print('<p class="foutmelding">Wachtwoord Incorrect!</p>');
                                             print(accountBlockedCount($email, $link));
                                         }
-                                    } else {
                                         print('<p class="foutmelding">Dit account is geblokeerd kijk op uw email voor meer informatie</p>');
                                     }
                                 }
