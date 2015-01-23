@@ -13,15 +13,15 @@ $(document).ready(function(){
 <?php
 //define('THIS_PAGE', 'pagename');
  
-$menuitem1 = '<a href="/index.php">Home</a>';
-$menuitem2 = '<a href="/papier.php">Papier</a>';
-$menuitem3 = '<a href="/dispensers.php">Dispensers</a>';
-$menuitem4 = '<a href="/reinigingsmiddelen.php">Reinigingsmiddelen</a>';
-$menuitem5 = '<a href="/schoonmaakmateriaal.php">Schoonmaakmateriaal</a>';
-$menuitem6 = '<a href="/winkelwagen.php" class="button2">( '.countItems(getCookie("winkelmandje")).' ) 
-<img height="20px" src="/plaatjes/winkelmandje-menu.png"></a>';
-$menuitem7 = '<a href="/administratie/productbeheer.php">Admin</a>';
-$menuitem8 = '<a href="/mijnaccount/mijnaccount.php">Mijn account</a>';
+$menuitem1 = '<a href="/v/index.php">Home</a>';
+$menuitem2 = '<a href="/v/papier.php">Papier</a>';
+$menuitem3 = '<a href="/v/dispensers.php">Dispensers</a>';
+$menuitem4 = '<a href="/v/reinigingsmiddelen.php">Reinigingsmiddelen</a>';
+$menuitem5 = '<a href="/v/schoonmaakmateriaal.php">Schoonmaakmateriaal</a>';
+$menuitem6 = '<a href="/v/winkelwagen.php" class="button2">( '.countItems(getCookie("winkelmandje")).' ) 
+<img height="20px" src="/v/plaatjes/winkelmandje-menu.png"></a>';
+$menuitem7 = '<a href="/v/administratie/productbeheer.php">Admin</a>';
+$menuitem8 = '<a href="/v/mijnaccount/mijnaccount.php">Mijn account</a>';
  
 switch (THIS_PAGE) {
  
@@ -87,15 +87,15 @@ print( '<ul class="dropdown">
 if(validToken($link)){
 if(userLevel(getKlantnr($link), $link) == "Admin") {
 print('<li>'.$menuitem7.'<ul>'
-        . '<li style="width:auto; border-right:none;"><a href="/administratie/productbeheer.php">Productbeheer</a></li>'
-        . '<li style="width:auto; border-right:none;"><a href="/administratie/bestellingbeheer.php">Bestellingbeheer</a></li>'
-	. '<li style="width:auto; border-right:none;"><a href="/administratie/accountbeheer.php">Accountbeheer</a></li>'
-        . '<li style="width:auto; border-right:none;"><a href="/mijnaccount/mijnaccount.php">Mijn gegevens</a></li></ul></li>');
+        . '<li style="width:auto; border-right:none;"><a href="/v/administratie/productbeheer.php">Productbeheer</a></li>'
+        . '<li style="width:auto; border-right:none;"><a href="/v/administratie/bestellingbeheer.php">Bestellingbeheer</a></li>'
+	. '<li style="width:auto; border-right:none;"><a href="/v/administratie/accountbeheer.php">Accountbeheer</a></li>'
+        . '<li style="width:auto; border-right:none;"><a href="/v/mijnaccount/mijnaccount.php">Mijn gegevens</a></li></ul></li>');
 } else {
     print('<li>'.$menuitem8.'<ul>'
-        . '<li style="width:auto; border-right:none;"><a href="/mijnaccount/mijnaccount.php">Mijn gegevens</a></li>'
-        . '<li style="width:auto; border-right:none;"><a href="/mijnaccount/mijnbestellingen.php">Mijn bestellingen</a></li>'
-        . '<li style="width:auto; border-right:none;"><a href="/mijnaccount/bestelgeschiedenis.php">Bestelgeschiedenis</a></li></ul></li>');
+        . '<li style="width:auto; border-right:none;"><a href="/v/mijnaccount/mijnaccount.php">Mijn gegevens</a></li>'
+        . '<li style="width:auto; border-right:none;"><a href="/v/mijnaccount/mijnbestellingen.php">Mijn bestellingen</a></li>'
+        . '<li style="width:auto; border-right:none;"><a href="/v/mijnaccount/bestelgeschiedenis.php">Bestelgeschiedenis</a></li></ul></li>');
 }
 }
 print('<li style="border-right:none;">'.$menuitem6.'</li>');

@@ -14,8 +14,11 @@ if (!empty($_POST["actie"])) {
     } else if ($_POST["actie"] == "toevoegen" || $_POST["actie"] == "in winkelmandje") {
         //print("1");
         if (array_key_exists($_POST["productnr"], getCookie($cookiename))) {
+            $cookie = getCookie($cookiename);
+            $productnr = $_POST['productnr'];
+            $aantal = $cookie[$productnr];
             //print("2");
-            modifyCookieLine($cookiename, $_POST["productnr"], getCookie($cookiename)[$_POST["productnr"]] + 1);
+            modifyCookieLine($cookiename, $_POST["productnr"], $aantal + 1);
             header('Location: winkelwagen.php');
         } else {
             //print("3");
@@ -30,6 +33,8 @@ if (!empty($_POST["aanpassen"])) {
         header('Location: winkelwagen.php');
     }
 }
+
+include('login/loginscherm.php');
 ?>
 <html>
     <head>
@@ -51,7 +56,7 @@ if (!empty($_POST["aanpassen"])) {
                 </div>
                 <div class="login">
                     <?php
-                    include('login/loginscherm.php');
+                    include('login/loginscherm2.php');
                     ?>
                 </div>
             </div>

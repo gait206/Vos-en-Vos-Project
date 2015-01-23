@@ -6,6 +6,8 @@ $cookiename = 'winkelmandje';
 if (!existCookie($cookiename)) {
     addCookie($cookiename, array());
 }
+
+include('login/loginscherm.php');
 ?>
 <html>
     <head>
@@ -24,7 +26,7 @@ if (!existCookie($cookiename)) {
                 </div>
                 <div class="login">
                    <?php
-                    include('login/loginscherm.php');
+                    include('login/loginscherm2.php');
                     ?>
                 </div>
             </div>

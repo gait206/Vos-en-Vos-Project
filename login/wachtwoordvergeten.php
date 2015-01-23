@@ -2,6 +2,11 @@
 session_start();
 include('../functies.php');
 $link = connectDB();
+
+// kijkt of de gebruiker niet ingelogd is
+                        if (validToken($link)) {
+                            header('Location: index.php');
+                        } 
 ?>
 <html>
     <head>
@@ -35,10 +40,8 @@ $link = connectDB();
                 <div class="body" id="main_content">
                     <div class="forgot_password">
                         <?php
-                        // kijkt of de gebruiker niet ingelogd is
-                        if (validToken($link)) {
-                            header('Location: ../index.php');
-                        } else {
+                        
+                        if (!validToken($link)) {
                             print('<h1>Wachtwoord Vergeten</h1>');
                             print('<p>Als u al geregistreerd bent op onze website en u uw wachtwoord bent vergeten kan u die hier opvragen.</p>');
 
@@ -49,9 +52,9 @@ $link = connectDB();
 
                                     // maakt een token aan
                                     $size = 60;
-                                    $random = strtr(base64_encode(mcrypt_create_iv($size)), '+', '.');
+                                    $random = strtr(base64_encode(mcrypt_create_iv($size, MCRYPT_DEV_URANDOM)), '+', '.');
                                     $salt = '$6$rounds=5000$';
-                                    $salt .= strtr(base64_encode(mcrypt_create_iv($size)), '+', '.') . "$";
+                                    $salt .= strtr(base64_encode(mcrypt_create_iv($size, MCRYPT_DEV_URANDOM)), '+', '.') . "$";
                                     $token = crypt($random, $salt);
 
                                     // haalt het klantnr op uit de database

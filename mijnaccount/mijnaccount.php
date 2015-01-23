@@ -2,6 +2,8 @@
 session_start();
 include('../functies.php');
 $link = connectDB();
+
+include('../login/loginscherm.php');
 ?>
 <html>
     <head>
@@ -21,7 +23,7 @@ $link = connectDB();
                 </div>
                 <div class="login">
                     <?php
-                    include('../login/loginscherm.php');
+                    include('../login/loginscherm2.php');
                     ?>
                 </div>
             </div>
