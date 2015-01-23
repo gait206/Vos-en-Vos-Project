@@ -6,6 +6,69 @@ $cookiename = 'winkelmandje';
 if (!existCookie($cookiename)) {
     addCookie($cookiename, array());
 }
+
+if(validToken($link) == true) {
+    // kijkt of er een actie moet worden uitgevoerd
+                        if (isset($_POST["actie"]) && !empty($_POST["actie"])) {
+                            $actie = $_POST["actie"];
+                            // kijkt of de gebruiker wil uitloggen
+                            if ($actie == "Uitloggen") {
+                                // verwijderd het token
+                                deleteToken("true", $link);
+                                header('Location: index.php');
+                            }
+                        }
+}
+
+if(validToken($link) != true) {
+if (!empty($_POST["email"]) && !empty($_POST["wachtwoord"])) {
+                                    // kijkt of het account geblokkeerd is of niet
+                                    if (!accountBlocked($email, $link)) {
+                                        // kijkt of het wachtwoord klopt
+                                        if (verifyPassword($email, $password, $link)) {
+                                            // regenereert het sessie id voor extra veiligheid
+                                            if (!isset($_SESSION['initiated'])) {
+                                                session_regenerate_id();
+                                                $_SESSION['initiated'] = true;
+                                            }
+                                            // haalt het klantnr van een gebruiker op uit de database
+                                            $result = mysqli_query($link, 'SELECT klantnr FROM gebruiker WHERE email = "' . $email . '";');
+                                            $row = mysqli_fetch_assoc($result);
+                                            $klantnr = $row["klantnr"];
+
+                                            // maakt een token aan
+                                            createToken($klantnr, $link);
+                                            mysqli_query($link, 'DELETE FROM geblokkeerd WHERE klantnr = "' . $klantnr . '";');
+                                            header('Location: index.php');
+                                        }
+                                }
+}
+}
+
+                        // kijkt of de cookie bestaat
+                        if (existCookie('opmerking')) {
+                            // haalt de cookie op als hij bestaat
+                            $cookie = getCookie('opmerking');
+                            // decrypt de cookie
+                            $opmerking = decryptData($cookie['opmerking']);
+                        } else {
+                            $opmerking = '';
+                        }
+                        
+                        if(isset($_POST['actie'])) {
+                            $actie = $_POST['actie'];
+                            
+                            $opmerking = $_POST['opmerking'];
+                            
+                            $opmerking = encryptData($opmerking);
+                            
+                            $array = array();
+                            $array['opmerking'] = $opmerking;
+                            
+                            addCookie('opmerking', $array);
+                            header('Location: overzicht.php');
+                        }
+                    
 ?>
 <html>
     <head>
