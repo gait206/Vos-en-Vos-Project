@@ -2,6 +2,9 @@
 session_start();
 include('../functies.php');
 $link = connectDB();
+
+// Alleen een Admin user mag op deze pagina komen
+                    restrictedPage("Admin", $link);
 ?>
 <html>
     <head>
@@ -41,9 +44,6 @@ $link = connectDB();
                 <div class="body" id="main_content">
 
                     <?php
-                    // Alleen een Admin user mag op deze pagina komen
-                    restrictedPage("Admin", $link);
-                    
                     // Haalt de ingevulde gegevens uit het formulier en voert deze uit in de SQL query
                     if (!empty($_POST["actie"])) {
                         $actie = $_POST["actie"];

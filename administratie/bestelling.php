@@ -2,6 +2,9 @@
 session_start();
 include('../functies.php');
 $link = connectDB();
+
+// zorgt ervoor dat alleen de Admin op de pagina mag komen
+                    restrictedPage("Admin", $link);
 ?>
 <html>
     <head>
@@ -34,10 +37,7 @@ $link = connectDB();
             <div class="content">
                 <div class="body" id="main_content">
                     <?php
-                    // zorgt ervoor dat alleen de Admin op de pagina mag komen
-                    restrictedPage("Admin", $link);
 
-                    
                     // kijkt of er een actie moet worden uitgevoerd
                     if (!empty($_GET["actie"])) {
                         $actie = $_GET["actie"];

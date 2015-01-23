@@ -2,6 +2,9 @@
 session_start();
 include('../functies.php');
 $link = connectDB();
+
+// zorgt ervoor dat alleen de Admin op de pagina mag komen
+                    restrictedPage("Admin", $link);
 ?>
 <html>
     <head>
@@ -39,9 +42,6 @@ $link = connectDB();
                 </script>
                 <div class="body" id="main_content">
                     <?php
-                    // zorgt ervoor dat alleen de Admin op de pagina mag komen
-                    restrictedPage("Admin", $link);
-
                     // word uitgevoerd als er een bestelling verwijderd moet worden
                     if (!empty($_POST["actie"])) {
                         $actie = $_POST["actie"];

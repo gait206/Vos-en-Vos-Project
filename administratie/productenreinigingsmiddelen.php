@@ -230,7 +230,7 @@ and open the template in the editor.
                 print "<input type='hidden' name='ref' value='0' form='select' >";
             }
             ?>
-			<?php if(($pages / $perpage +1) != ceile($amount)){ 	
+			<?php if(($pages / $perpage +1) != ceil($amount)){ 	
 				print('<input type="submit" name="action" value=">" form="select">');
 			 } ?>
         </div>
