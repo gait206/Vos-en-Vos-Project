@@ -2,11 +2,6 @@
 session_start();
 include('../functies.php');
 $link = connectDB();
-
-if (!validToken($link)) {
-    header('Location: ../index.php');
-    die();
-}
 ?>
 <html>
     <head>
@@ -45,6 +40,10 @@ if (!validToken($link)) {
                 </script>
                 <div class="body" id="main_content">
                     <?php
+                    if (!validToken($link)) {
+                        header('Location: ../index.php');
+                        die();
+                    }
                     //de code hieronder zorgt ervoor dat een klant niet in de url het bestelnummer kan aanpassen.
                     $klantnr = getKlantnr($link);
                     $bestelnr = $_GET["bestelnr"];
