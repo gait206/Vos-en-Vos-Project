@@ -677,7 +677,7 @@ function accountBlockedCount($email, $link) {
                 $message = '<html><head></head><body>Iemand heeft vijf keer met een verkeerd wachtwoord ingelogd op uw account <a href="'.$url.'">Klik op deze link</a> om uw account te onblokkeren.</body></html>';
                 
                 // stelt de tijdzone in
-                date_default_timezone_set("UTC");
+                \date_default_timezone_set("UTC");
                 // verstuurt de email
                 mail($email, 'Account geblokkeerd', $message, 'From:admin@vos-vostissue.nl');
             }

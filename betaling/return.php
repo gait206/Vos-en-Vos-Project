@@ -130,7 +130,13 @@ if (!existCookie($cookiename)) {
 
                                 $mail = new PHPMailer;
                                 // zorgt dat de mail word verstuurd via de standaard php mail functie
-                                $mail->isMail();
+                                                                      // Set mailer to use SMTP
+                                $mail->Host = 'mail.vos-vostissue.nl';  // Specify main and backup SMTP servers
+                                $mail->SMTPAuth = true;                               // Enable SMTP authentication
+                                $mail->Username = 'info@vos-vostissue.nl';                 // SMTP username
+                                $mail->Password = 'fDbF8RqtmuT9i2xbhlJM';                           // SMTP password
+                                $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+                                $mail->Port = 587;
                                 
                                 // zorgt ervoor dat het email adres opgehaald kan worden
                                 $klantnr = getKlantnr($link);
@@ -138,10 +144,10 @@ if (!existCookie($cookiename)) {
                                 $row = mysqli_fetch_assoc($result);
                                 $receiver = $row['email'];
                                 
-                                $mail->From = 'from@example.com';
+                                $mail->From = 'info@vos-vostissue.nl';
                                 $mail->FromName = 'Vos&Vos Tissue';
                                 $mail->addAddress($receiver);
-                                $mail->addReplyTo('info@example.com', 'Information');
+                                $mail->addReplyTo('info@vos-vostissue.nl', 'Information');
 
                                 // haalt het bestelnr op
                                 $result = mysqli_query($link, 'SELECT bestelnr FROM bestelling WHERE transactieref = "' . $sTransactionReference . '";');
